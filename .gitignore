@@ -1,0 +1,4 @@
+inst/application/_settings/
+.Rhistory
+*.Rproj
+.Rproj*

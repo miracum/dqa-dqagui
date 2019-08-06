@@ -1,0 +1,110 @@
+shiny::shinyServer(function(input, output, session) {
+
+    # define reactive values here
+    rv <- shiny::reactiveValues()
+
+    # TODO remove later, when we have more input source
+    rv$db_source <- "csv"
+
+    # run onStart here
+    onStart(session, rv, input, output)
+
+    # handle reset
+    shiny::observeEvent(input$reset, {
+        shinyjs::js$reset()
+    })
+
+    # ########################
+    # # tab_config
+    # ########################
+
+    shiny::callModule(moduleConfigServer, "moduleConfig", rv, input_re=shiny::reactive({input}))
+
+    shiny::observe({
+
+        # first call (rv$target_getdata = TRUE and rv$source_getdata = TRUE), when load-data-button quality checks in moduleDashboard are passed
+        if (!is.null(rv$getdata_target) && !is.null(rv$getdata_source)){
+
+            # hide load data button
+            shinyjs::hide("moduleDashboard-dash_load_btn")
+
+            # disable config page
+            shinyjs::disable("moduleConfig-config_targetdb_rad")
+            shinyjs::disable("moduleConfig-config_targetdb_dbname")
+            shinyjs::disable("moduleConfig-config_targetdb_host")
+            shinyjs::disable("moduleConfig-config_targetdb_port")
+            shinyjs::disable("moduleConfig-config_targetdb_user")
+            shinyjs::disable("moduleConfig-config_targetdb_password")
+            shinyjs::disable("moduleConfig-config_targetdb_save_btn")
+            shinyjs::disable("moduleConfig-config_targetdb_test_btn")
+            shinyjs::disable("moduleConfig-config_sitename")
+            shinyjs::disable("moduleConfig-config_sourcedir_in")
+
+            rv$start <- TRUE
+        }
+    })
+
+    shiny::observe({
+        req(rv$mdr)
+        output$mdr <- shinydashboard::renderMenu({
+            shinydashboard::sidebarMenu(
+                shinydashboard::menuItem("DQ MDR", tabName = "tab_mdr", icon = icon("database"))
+            )
+        })
+    })
+
+    shiny::observe({
+        shiny::req(rv$report_created)
+
+        # set end.time
+        rv$end.time <- format(Sys.time(), usetz = T, tz = "CET")
+        # calc time-diff
+        rv$duration <- difftime(rv$end.time, rv$start.time, units = "mins")
+
+        # render menu
+        output$menu <- shinydashboard::renderMenu({
+            shinydashboard::sidebarMenu(
+                #shinydashboard::menuItem("Review raw data", tabName = "tab_rawdata1", icon = icon("table")),
+                shinydashboard::menuItem("Descriptive Results", tabName = "tab_descriptive", icon = icon("table")),
+                shinydashboard::menuItem("Plausibility Checks", tabName = "tab_plausibility", icon = icon("check-circle"),
+                                         shinydashboard::menuSubItem("Atemporal Plausibility", tabName = "tab_atemp_plausibility"),
+                                         shinydashboard::menuSubItem("Uniqueness Plausibility", tabName = "tab_unique_plausibility")),
+                shinydashboard::menuItem("Visualizations", tabName = "tab_visualizations", icon = icon("chart-line")),
+                shinydashboard::menuItem("Reporting", tabName = "tab_report", icon = icon("file-alt"))
+            )
+        })
+        shinydashboard::updateTabItems(session, "tabs", "tab_dashboard")
+    })
+
+    ########################
+    # tab_dashboard
+    ########################
+    shiny::callModule(moduleDashboardServer, "moduleDashboard", rv, input_re=reactive({input}))
+
+    ########################
+    # tab_descriptive
+    ########################
+    shiny::callModule(moduleDescriptiveServer, "moduleDescriptive", rv, input_re=reactive({input}))
+
+    ########################
+    # tab_plausibility
+    ########################
+    shiny::callModule(moduleAtempPlausibilityServer, "moduleAtempPlausibility", rv, input_re=reactive({input}))
+    shiny::callModule(moduleUniquePlausibilityServer, "moduleUniquePlausibility", rv, input_re=reactive({input}))
+
+    ########################
+    # tab_visualization
+    ########################
+    shiny::callModule(moduleVisualizationsServer, "moduleVisulizations", rv, input_re=reactive({input}))
+
+    ########################
+    # tab_report
+    ########################
+    shiny::callModule(moduleReportServer, "moduleReport", rv, input_re=reactive({input}))
+
+    ########################
+    # tab_mdr
+    ########################
+    shiny::callModule(moduleMDRServer, "moduleMDR", rv, input_re=reactive({input}))
+
+})
