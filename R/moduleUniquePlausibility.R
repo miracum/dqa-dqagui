@@ -1,5 +1,5 @@
-# miRacumDQA - The MIRACUM consortium's data quality assessment tool.
-# Copyright (C) 2019 MIRACUM - Medical Informatics in Research and Medicine
+# DQAgui - A graphical user interface (GUI) to the functions implemented in the R package 'DQAstats'.
+# Copyright (C) 2019 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -13,6 +13,8 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
 
 #' @title moduleUniquePlausibilityServer
 #'
