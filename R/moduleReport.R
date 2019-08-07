@@ -16,7 +16,7 @@ moduleReportServer <- function(input, output, session, rv, input_re){
     req(rv$create_report)
 
     if (is.null(rv$report_created)){
-      DQAstats::createMarkdown_(rv = rv, utils = utils, outdir = tempdir(), headless = headless)
+      DQAstats::createMarkdown_(rv = rv, utils = rv$utilspath, outdir = tempdir(), headless = rv$headless)
       rv$report_created <- TRUE
     }
   })

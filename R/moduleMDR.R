@@ -13,12 +13,7 @@ moduleMDRServer <- function(input, output, session, rv, input_re){
 
   # read mdr
   observe({
-    req(rv$db_target)
-    if (is.null(rv$mdr)){
-      cat("\nRead MDR\n")
-      # read MDR
-      rv$mdr <- DQAstats::readMDR_(utils)
-    }
+    req(rv$mdr)
 
     if (rv$db_target %in% rv$mdr[,unique(get("source_system"))]){
 

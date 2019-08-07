@@ -11,6 +11,21 @@
 # moduleConfigServer
 moduleConfigServer <- function(input, output, session, rv, input_re){
 
+  # load mdr
+  observeEvent(input_re()[["moduleConfig-config_load_mdr"]], {
+    if (is.null(rv$mdr)){
+      cat("\nRead MDR\n")
+      # read MDR
+      rv$mdr <- DQAstats::readMDR_(rv$utilspath)
+
+      # workaround to tell ui, that db_connection is there
+      output$mdr_present <- reactive({
+        return(TRUE)
+      })
+      outputOptions(output, 'mdr_present', suspendWhenHidden=FALSE)
+    }
+  })
+
   # root-folder of shinyFiles::shinyDirChoose
   roots = c(home="/home/")
   shinyFiles::shinyDirChoose(input, "config_sourcedir_in", updateFreq = 0, session = session, defaultPath = "", roots = roots, defaultRoot = "home")
@@ -48,7 +63,7 @@ moduleConfigServer <- function(input, output, session, rv, input_re){
       # try to read default settings -> possible, if "utils" is defined and "settings_default.yml" exist:
       tryCatch({
       cat("\nReading default settings\n")
-      rv$settings_target <- config::get(input_re()[["moduleConfig-config_targetdb_rad"]], file = paste0(utils, "/settings_default.yml"))
+      rv$settings_target <- config::get(input_re()[["moduleConfig-config_targetdb_rad"]], file = paste0(rv$utilspath, "/settings_default.yml"))
 
       showModal(modalDialog(
         "Loading default configuration.",
@@ -93,7 +108,7 @@ moduleConfigServer <- function(input, output, session, rv, input_re){
 
     if (!is.null(rv$settings_target)){
 
-      rv$db_con_target <- DQAstats::testTargetDB_(target_settings = rv$settings_target, headless = headless)
+      rv$db_con_target <- DQAstats::testTargetDB_(target_settings = rv$settings_target, headless = rv$headless)
 
       if (!is.null(rv$db_con_target)){
         cat("\nDB connection successfully established\n")
@@ -110,7 +125,7 @@ moduleConfigServer <- function(input, output, session, rv, input_re){
     req(rv$db_con_target)
 
     if (is.null(rv$sql_target)){
-      rv$sql_target <- DQAstats::loadSQLs_(utils = utils, db = rv$db_target)
+      rv$sql_target <- DQAstats::loadSQLs_(utils = rv$utilspath, db = rv$db_target)
     }
   })
 
@@ -125,7 +140,7 @@ moduleConfigServer <- function(input, output, session, rv, input_re){
 
   observe({
     if (is.null(rv$sitenames)){
-      rv$sitenames <- jsonlite::fromJSON(paste0(utils, "/MISC/sitenames.JSON"))
+      rv$sitenames <- jsonlite::fromJSON(paste0(rv$utilspath, "/MISC/sitenames.JSON"))
 
       updateSelectInput(session, "config_sitename", choices = rv$sitenames,
                         selected = ifelse(!is.null(rv$sitename), rv$sitename, character(0)))
@@ -145,49 +160,60 @@ moduleConfigUI <- function(id){
 
   tagList(
     fluidRow(
-      column(6,
-             box(
-               title = "Target Database Configuration",
-                radioButtons(inputId = ns("config_targetdb_rad"),
-                             label = "Please select the target database",
-                             choices = list("i2b2" = "i2b2",
-                                            "OMOP" = "omop"),
-                             selected = NULL,
-                             inline = TRUE),
-                textInput(ns("config_targetdb_dbname"), label = "Database name"),
-                textInput(ns("config_targetdb_host"), label = "Host name"),
-                textInput(ns("config_targetdb_port"), label = "Port"),
-                textInput(ns("config_targetdb_user"), label = "Username"),
-                passwordInput(ns("config_targetdb_password"), label = "Password"),
-                div(class = "row", style = "text-align: center;",
-                    actionButton(ns("config_targetdb_save_btn"), "Save settings"),
-                    actionButton(ns("config_targetdb_test_btn"), "Test connection")),
-               width = 12
-             )),
-      column(6,
+      conditionalPanel(
+        condition = "typeof output['moduleConfig-mdr_present'] == 'undefined'",
+        box(
+          title = "Load Metadata Repository",
+          actionButton(ns("config_load_mdr"), "Load MDR"),
+          width = 6
+        )
+      ),
+      conditionalPanel(
+        condition = "output['moduleConfig-mdr_present']",
+        column(6,
+               box(
+                 title = "Target Database Configuration",
+                 radioButtons(inputId = ns("config_targetdb_rad"),
+                              label = "Please select the target database",
+                              choices = list("i2b2" = "i2b2",
+                                             "OMOP" = "omop"),
+                              selected = NULL,
+                              inline = TRUE),
+                 textInput(ns("config_targetdb_dbname"), label = "Database name"),
+                 textInput(ns("config_targetdb_host"), label = "Host name"),
+                 textInput(ns("config_targetdb_port"), label = "Port"),
+                 textInput(ns("config_targetdb_user"), label = "Username"),
+                 passwordInput(ns("config_targetdb_password"), label = "Password"),
+                 div(class = "row", style = "text-align: center;",
+                     actionButton(ns("config_targetdb_save_btn"), "Save settings"),
+                     actionButton(ns("config_targetdb_test_btn"), "Test connection")),
+                 width = 12
+               )),
+        column(6,
 
-             box(title = "Sitename",
-                 div(class = "row",
-                     div(class = "col-sm-8", selectInput(ns("config_sitename"), "Please enter the name of your site",
-                                                         selected = F, choices = NULL, multiple = F)),
-                     div(class = "col-sm-4")
-                 ),
-                 width = 12
-             ),
-             box(title = "Source File Directory",
-                 h5(tags$b(paste("Please choose the directory of your", "\u00A7", "21 source data in csv format (default: '/home/i2b2/start/Input')."))),
-                 div(class = "row",
-                     div(class="col-sm-3", shinyFiles::shinyDirButton(ns("config_sourcedir_in"),
-                                                          "Source Dir",
-                                                          "Please select the source file directory",
-                                                          buttonType = "default",
-                                                          class = NULL,
-                                                          icon = NULL,
-                                                          style = NULL)),
-                     div(class = "col-sm-9", verbatimTextOutput(ns("config_sourcedir_out")))
-                 ),
-                 width = 12
-             )
+               box(title = "Sitename",
+                   div(class = "row",
+                       div(class = "col-sm-8", selectInput(ns("config_sitename"), "Please enter the name of your site",
+                                                           selected = F, choices = NULL, multiple = F)),
+                       div(class = "col-sm-4")
+                   ),
+                   width = 12
+               ),
+               box(title = "Source File Directory",
+                   h5(tags$b(paste("Please choose the directory of your", "\u00A7", "21 source data in csv format (default: '/home/i2b2/start/Input')."))),
+                   div(class = "row",
+                       div(class="col-sm-3", shinyFiles::shinyDirButton(ns("config_sourcedir_in"),
+                                                                        "Source Dir",
+                                                                        "Please select the source file directory",
+                                                                        buttonType = "default",
+                                                                        class = NULL,
+                                                                        icon = NULL,
+                                                                        style = NULL)),
+                       div(class = "col-sm-9", verbatimTextOutput(ns("config_sourcedir_out")))
+                   ),
+                   width = 12
+               )
+        )
       )
     )
   )

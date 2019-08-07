@@ -3,6 +3,12 @@ shiny::shinyServer(function(input, output, session) {
     # define reactive values here
     rv <- shiny::reactiveValues()
 
+    # set headless
+    rv$headless <- FALSE
+
+    # TODO remove utils path (this is for debugging only and needs to be replaced by a user customization)
+    rv$utilspath <- DQAstats::cleanPathName_(system.file("application/_utilities", package = "miRacumDQA"))
+
     # TODO remove later, when we have more input source
     rv$db_source <- "csv"
 
@@ -46,11 +52,14 @@ shiny::shinyServer(function(input, output, session) {
 
     shiny::observe({
         req(rv$mdr)
+        shinyjs::disable("moduleConfig-config_load_mdr")
+
         output$mdr <- shinydashboard::renderMenu({
             shinydashboard::sidebarMenu(
                 shinydashboard::menuItem("DQ MDR", tabName = "tab_mdr", icon = icon("database"))
             )
         })
+        shinydashboard::updateTabItems(session, "tabs", selected = "tab_config")
     })
 
     shiny::observe({

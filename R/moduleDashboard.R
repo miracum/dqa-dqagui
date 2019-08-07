@@ -12,7 +12,7 @@
 moduleDashboardServer <- function(input, output, session, rv, input_re){
 
   output$dash_instruction <- renderText({
-    paste0("Please configure and test your database connection in the settings tab.\nThen return here in order to load the data.")
+    paste0("Please load your metadata repository first and then configure and test your database connection in the settings tab.\nReturn here to load the data.")
   })
 
   observeEvent(input_re()[["moduleDashboard-dash_load_btn"]], {
@@ -52,7 +52,7 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
           # valid sourcepath is present
         } else {
 
-          test_source <- DQAstats::testSourceDB_(source_settings = list(dir = rv$sourcefiledir), source_db = rv$db_source, headless = headless)
+          test_source <- DQAstats::testSourceDB_(source_settings = list(dir = rv$sourcefiledir), source_db = rv$db_source, headless = rv$headless)
 
           if (is.null(test_source)){
             # reset sql
@@ -95,23 +95,23 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
     rv$start.time <- format(Sys.time(), usetz = T, tz = "CET")
 
     # load source data
-    rv$data_source <- DQAstats::loadSource_(rv = rv, keys_to_test = rv$keys_source, headless = headless)
+    rv$data_source <- DQAstats::loadSource_(rv = rv, keys_to_test = rv$keys_source, headless = rv$headless)
 
     # load target data
-    rv$data_target <- DQAstats::loadTarget_(rv = rv, keys_to_test = rv$keys_target, headless = headless)
+    rv$data_target <- DQAstats::loadTarget_(rv = rv, keys_to_test = rv$keys_target, headless = rv$headless)
 
     # calculate descriptive results
-    rv$results_descriptive <- DQAstats::descriptiveResults_(rv = rv, source_db = rv$db_source, headless = headless)
+    rv$results_descriptive <- DQAstats::descriptiveResults_(rv = rv, source_db = rv$db_source, headless = rv$headless)
 
     # get time_interval
     rv$time_interval <- DQAstats::timeInterval_(rv$results_descriptive$EpisodeOfCare_period_end)
 
     # calculate plausibilites
-    rv$results_plausibility_atemporal <- DQAstats::atempPausiResults_(rv = rv, source_db = rv$db_source, headless = headless)
+    rv$results_plausibility_atemporal <- DQAstats::atempPausiResults_(rv = rv, source_db = rv$db_source, headless = rv$headless)
 
     # conformance
-    rv$conformance$value_conformance <- DQAstats::valueConformance_(rv$results_descriptive, headless = headless)
-    value_conformance <- DQAstats::valueConformance_(rv$results_plausibility_atemporal, headless = headless)
+    rv$conformance$value_conformance <- DQAstats::valueConformance_(rv$results_descriptive, headless = rv$headless)
+    value_conformance <- DQAstats::valueConformance_(rv$results_plausibility_atemporal, headless = rv$headless)
 
     # workaround, to keep "rv" an reactiveValues object in shiny app
     for (i in names(value_conformance)){
@@ -202,25 +202,23 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
              "\nDuration: ", round(rv$duration, 2), " min.")
     })
     shinyjs::show("dash_instruction")
-  })
 
+    # render mail button
+    output$dash_mail_button <- renderUI({
 
-
-  # render mail button
-  output$dash_mail_button <- renderUI({
-
-    tags$a(actionButton("moduleDashboard-dash_send_datamap", "Send Data Map", icon = icon("envelope", lib = "font-awesome")),
-           # https://stackoverflow.com/questions/27650331/adding-an-email-button-in-shiny-using-tabletools-or-otherwise
-           # https://stackoverflow.com/questions/37795760/r-shiny-add-weblink-to-actionbutton
-           # https://stackoverflow.com/questions/45880437/r-shiny-use-onclick-option-of-actionbutton-on-the-server-side
-           # https://stackoverflow.com/questions/45376976/use-actionbutton-to-send-email-in-rshiny
-           href = paste0("mailto:imi-miracum-diz-projektanfragen@lists.fau.de?",
-                         "body=",
-                         utils::URLencode(paste0("This is an automatically created Email.\n\n\nData Map\n\nSite name: ", rv$sitename,
-                                                 "\n\nR-Package version 'miRacumDQA': ", utils::packageVersion("DQAgui"),
-                                                 "\n\nLast run: ", rv$end.time,
-                                                 "\nRun duration: ", round(rv$duration,2), " min.")),
-                         "&subject=", paste0("'Data Map - '", rv$sitename)))
+      tags$a(actionButton("moduleDashboard-dash_send_datamap", "Send Data Map", icon = icon("envelope", lib = "font-awesome")),
+             # https://stackoverflow.com/questions/27650331/adding-an-email-button-in-shiny-using-tabletools-or-otherwise
+             # https://stackoverflow.com/questions/37795760/r-shiny-add-weblink-to-actionbutton
+             # https://stackoverflow.com/questions/45880437/r-shiny-use-onclick-option-of-actionbutton-on-the-server-side
+             # https://stackoverflow.com/questions/45376976/use-actionbutton-to-send-email-in-rshiny
+             href = paste0("mailto:imi-miracum-diz-projektanfragen@lists.fau.de?",
+                           "body=",
+                           utils::URLencode(paste0("This is an automatically created Email.\n\n\nData Map\n\nSite name: ", rv$sitename,
+                                                   "\n\nR-Package version 'miRacumDQA': ", utils::packageVersion("DQAgui"),
+                                                   "\n\nLast run: ", rv$end.time,
+                                                   "\nRun duration: ", round(rv$duration,2), " min.")),
+                           "&subject=", paste0("'Data Map - '", rv$sitename)))
+    })
   })
 
 

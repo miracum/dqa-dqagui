@@ -7,7 +7,9 @@ shiny::shinyUI(shinydashboard::dashboardPage(skin = "black",
 
                         # Include shinyjs in the UI Sidebar
                         shinyjs::useShinyjs(),
-                        shinyjs::extendShinyjs(script = "reset.js", functions = "reset"), # Add the js code to the page
+                        # js reset function
+                        # https://stackoverflow.com/questions/25062422/restart-shiny-session
+                        shinyjs::extendShinyjs(script = system.file("application/reset.js", package = "DQAgui"), functions = "reset"), # Add the js code to the page
 
                         #Sidebar Panel
                         shinydashboard::sidebarMenu(id = "tabs",
@@ -23,10 +25,6 @@ shiny::shinyUI(shinydashboard::dashboardPage(skin = "black",
 
                         # Include shinyjs in the UI Body
                         shinyjs::useShinyjs(),
-
-                        # js reset function
-                        # https://stackoverflow.com/questions/25062422/restart-shiny-session
-                        shinyjs::extendShinyjs(script = "reset.js", functions = "reset"), # Add the js code to the page
 
                         shinydashboard::tabItems(
                           shinydashboard::tabItem(tabName = "tab_dashboard",
