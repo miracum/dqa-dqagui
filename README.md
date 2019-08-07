@@ -8,7 +8,8 @@ You can install the development version of DQAgui with:
 
 ``` r
 install.packages("devtools")
-devtools::install_git("https://gitlab.miracum.org/miracum-dqa/dqagui.git")
+devtools::install_git("https://gitlab.miracum.org/miracum-dqa/dqastats.git", credentials = git2r::cred_user_pass(rstudioapi::askForPassword(prompt = "Username"), rstudioapi::askForPassword()))
+devtools::install_git("https://gitlab.miracum.org/miracum-dqa/dqagui.git", credentials = git2r::cred_user_pass(rstudioapi::askForPassword(prompt = "Username"), rstudioapi::askForPassword()))
 ```
 
 ## Example

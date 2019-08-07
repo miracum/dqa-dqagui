@@ -91,50 +91,52 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
     req(rv$start)
 
     # load all data here
-    # set start.time, when clicking the button
-    rv$start.time <- format(Sys.time(), usetz = T, tz = "CET")
+    if (isTRUE(rv$getdata_target) && isTRUE(rv$getdata_source)){
+      # set start.time, when clicking the button
+      rv$start.time <- format(Sys.time(), usetz = T, tz = "CET")
 
-    # load source data
-    rv$data_source <- DQAstats::loadSource_(rv = rv, keys_to_test = rv$keys_source, headless = rv$headless)
+      # load source data
+      rv$data_source <- DQAstats::loadSource_(rv = rv, keys_to_test = rv$keys_source, headless = rv$headless)
 
-    # load target data
-    rv$data_target <- DQAstats::loadTarget_(rv = rv, keys_to_test = rv$keys_target, headless = rv$headless)
+      # load target data
+      rv$data_target <- DQAstats::loadTarget_(rv = rv, keys_to_test = rv$keys_target, headless = rv$headless)
 
-    # calculate descriptive results
-    rv$results_descriptive <- DQAstats::descriptiveResults_(rv = rv, source_db = rv$db_source, headless = rv$headless)
+      # calculate descriptive results
+      rv$results_descriptive <- DQAstats::descriptiveResults_(rv = rv, source_db = rv$db_source, headless = rv$headless)
 
-    # get time_interval
-    rv$time_interval <- DQAstats::timeInterval_(rv$results_descriptive$EpisodeOfCare_period_end)
+      # get time_interval
+      rv$time_interval <- DQAstats::timeInterval_(rv$results_descriptive$EpisodeOfCare_period_end)
 
-    # calculate plausibilites
-    rv$results_plausibility_atemporal <- DQAstats::atempPausiResults_(rv = rv, source_db = rv$db_source, headless = rv$headless)
+      # calculate plausibilites
+      rv$results_plausibility_atemporal <- DQAstats::atempPausiResults_(rv = rv, source_db = rv$db_source, headless = rv$headless)
 
-    # conformance
-    rv$conformance$value_conformance <- DQAstats::valueConformance_(rv$results_descriptive, headless = rv$headless)
-    value_conformance <- DQAstats::valueConformance_(rv$results_plausibility_atemporal, headless = rv$headless)
+      # conformance
+      rv$conformance$value_conformance <- DQAstats::valueConformance_(rv$results_descriptive, headless = rv$headless)
+      value_conformance <- DQAstats::valueConformance_(rv$results_plausibility_atemporal, headless = rv$headless)
 
-    # workaround, to keep "rv" an reactiveValues object in shiny app
-    for (i in names(value_conformance)){
-      rv$conformance$value_conformance[[i]] <- value_conformance[[i]]
+      # workaround, to keep "rv" an reactiveValues object in shiny app
+      for (i in names(value_conformance)){
+        rv$conformance$value_conformance[[i]] <- value_conformance[[i]]
+      }
+
+      # checks$value_conformance
+      rv$checks$value_conformance <- DQAstats::valueConformanceChecks_(rv$conformance$value_conformance)
+
+      # checks$etl
+      rv$checks$etl <- DQAstats::etlChecks_(rv$results_descriptive)
+
+      # delete raw data
+      rv$data_source <- NULL
+      rv$data_target <- NULL
+      gc()
+
+      # set flag that we have all data
+      rv$getdata_target <- FALSE
+      rv$getdata_source <- FALSE
+
+      # set flag to create report here
+      rv$create_report <- TRUE
     }
-
-    # checks$value_conformance
-    rv$checks$value_conformance <- DQAstats::valueConformanceChecks_(rv$conformance$value_conformance)
-
-    # checks$etl
-    rv$checks$etl <- DQAstats::etlChecks_(rv$results_descriptive)
-
-    # delete raw data
-    rv$data_source <- NULL
-    rv$data_target <- NULL
-    gc()
-
-    # set flag that we have all data
-    rv$getdata_target <- TRUE
-    rv$getdata_source <- TRUE
-
-    # set flag to create report here
-    rv$create_report <- TRUE
   })
 
 
@@ -150,19 +152,19 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
   # render dashboard summary
   observe({
     req(rv$dash_summary_target)
-      output$dash_summary_target <- renderTable({
-        tab <- rv$dash_summary_target
-        colnames(tab) <- c("Variable", "# Distinct", "# Valid", "# Missing")
-        tab
-      })
+    output$dash_summary_target <- renderTable({
+      tab <- rv$dash_summary_target
+      colnames(tab) <- c("Variable", "# Distinct", "# Valid", "# Missing")
+      tab
+    })
   })
   observe({
     req(rv$dash_summary_source)
-      output$dash_summary_source <- renderTable({
-        tab <- rv$dash_summary_source
-        colnames(tab) <- c("Variable", "# Distinct", "# Valid", "# Missing")
-        tab
-      })
+    output$dash_summary_source <- renderTable({
+      tab <- rv$dash_summary_source
+      colnames(tab) <- c("Variable", "# Distinct", "# Valid", "# Missing")
+      tab
+    })
   })
 
   observe({
@@ -214,7 +216,7 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
              href = paste0("mailto:imi-miracum-diz-projektanfragen@lists.fau.de?",
                            "body=",
                            utils::URLencode(paste0("This is an automatically created Email.\n\n\nData Map\n\nSite name: ", rv$sitename,
-                                                   "\n\nR-Package version 'miRacumDQA': ", utils::packageVersion("DQAgui"),
+                                                   "\n\nR-Package version 'DQAgui': ", utils::packageVersion("DQAgui"),
                                                    "\n\nLast run: ", rv$end.time,
                                                    "\nRun duration: ", round(rv$duration,2), " min.")),
                            "&subject=", paste0("'Data Map - '", rv$sitename)))
@@ -242,7 +244,7 @@ moduleDashboardUI <- function(id){
   tagList(
     fluidRow(
       column(6,
-             box(title = "Welcome to your MIRACUM Data-Quality-Analysis Dashboard",
+             box(title = "Welcome to your Data-Quality-Analysis Dashboard",
                  verbatimTextOutput(ns("dash_instruction")),
                  conditionalPanel(
                    condition = "output['moduleConfig-dbConnection']",
