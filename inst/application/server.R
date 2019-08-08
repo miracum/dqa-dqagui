@@ -25,6 +25,9 @@ shiny::shinyServer(function(input, output, session) {
     # TODO remove utils path (this is for debugging only and needs to be replaced by a user customization)
     rv$utilspath <- DQAstats::cleanPathName_(system.file("application/_utilities", package = "miRacumDQA"))
 
+    # current date
+    rv$current_date <- format(Sys.Date(), "%d. %B %Y", tz = "CET")
+
     # TODO remove later, when we have more input source
     rv$db_source <- "csv"
 
