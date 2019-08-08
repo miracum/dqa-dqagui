@@ -135,6 +135,10 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
         rv$conformance$value_conformance[[i]] <- value_conformance[[i]]
       }
 
+      # generate datamap
+      rv$datamap$target <- DQAstats::generateDatamap_(results = rv$results_descriptive, mdr = rv$mdr, headless = rv$headless)
+      rv$datamap$source <- DQAstats::generateDatamap_(results = rv$results_descriptive, mdr = rv$mdr, headless = rv$headless)
+
       # checks$value_conformance
       rv$checks$value_conformance <- DQAstats::valueConformanceChecks_(rv$conformance$value_conformance)
 
@@ -167,17 +171,17 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
 
   # render dashboard summary
   observe({
-    req(rv$dash_summary_target)
-    output$dash_summary_target <- renderTable({
-      tab <- rv$dash_summary_target
+    req(rv$datamap$target)
+    output$dash_datamap_target <- renderTable({
+      tab <- rv$datamap$target
       colnames(tab) <- c("Variable", "# Distinct", "# Valid", "# Missing")
       tab
     })
   })
   observe({
-    req(rv$dash_summary_source)
-    output$dash_summary_source <- renderTable({
-      tab <- rv$dash_summary_source
+    req(rv$datamap$source)
+    output$dash_datamap_source <- renderTable({
+      tab <- rv$datamap$source
       colnames(tab) <- c("Variable", "# Distinct", "# Valid", "# Missing")
       tab
     })
@@ -287,13 +291,13 @@ moduleDashboardUI <- function(id){
              conditionalPanel(
                condition = "output['moduleDashboard-etl_results']",
                box(title = "Target System Overview (Data Map)",
-                   tableOutput(ns("dash_summary_target")),
+                   tableOutput(ns("dash_datamap_target")),
                    tags$hr(),
                    uiOutput(ns("dash_mail_button")),
                    width = 12
                ),
                box(title = "Source System Overview",
-                   tableOutput(ns("dash_summary_source")),
+                   tableOutput(ns("dash_datamap_source")),
                    width = 12
                )
              )
