@@ -136,8 +136,7 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
       }
 
       # generate datamap
-      rv$datamap$target <- DQAstats::generateDatamap_(results = rv$results_descriptive, db = rv$db_target, mdr = rv$mdr, headless = rv$headless)
-      rv$datamap$source <- DQAstats::generateDatamap_(results = rv$results_descriptive, db = rv$db_source, mdr = rv$mdr, headless = rv$headless)
+      rv$datamap <- DQAstats::generateDatamap_(results = rv$results_descriptive, source_db = rv$db_source, mdr = rv$mdr, headless = rv$headless)
 
       # checks$value_conformance
       rv$checks$value_conformance <- DQAstats::valueConformanceChecks_(rv$conformance$value_conformance)
@@ -171,17 +170,17 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
 
   # render dashboard summary
   observe({
-    req(rv$datamap$target)
+    req(rv$datamap$target_data)
     output$dash_datamap_target <- renderTable({
-      tab <- rv$datamap$target
+      tab <- rv$datamap$target_data
       colnames(tab) <- c("Variable", "# Distinct", "# Valid", "# Missing")
       tab
     })
   })
   observe({
-    req(rv$datamap$source)
+    req(rv$datamap$source_data)
     output$dash_datamap_source <- renderTable({
-      tab <- rv$datamap$source
+      tab <- rv$datamap$source_data
       colnames(tab) <- c("Variable", "# Distinct", "# Valid", "# Missing")
       tab
     })
