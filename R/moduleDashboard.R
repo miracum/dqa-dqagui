@@ -136,7 +136,7 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
       }
 
       # generate datamap
-      rv$datamap <- DQAstats::generateDatamap_(results = rv$results_descriptive, source_db = rv$db_source, mdr = rv$mdr, headless = rv$headless)
+      rv$datamap <- DQAstats::generateDatamap_(results = rv$results_descriptive, db = rv$db_target, mdr = rv$mdr, headless = rv$headless)
 
       # checks$value_conformance
       rv$checks$value_conformance <- DQAstats::valueConformanceChecks_(rv$conformance$value_conformance)
