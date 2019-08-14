@@ -59,7 +59,7 @@ shiny::shinyUI(shinydashboard::dashboardPage(skin = "black",
                                   moduleAtempPlausibilityUI("moduleAtempPlausibility")
                           ),
 
-                          shinydashboard::tabItem(tabName = "tab_unique_plausibility",
+                          shinydashboard::tabItem(tabName = "tab_uniq_plausibility",
                                   moduleUniquePlausibilityUI("moduleUniquePlausibility")
                           ),
 

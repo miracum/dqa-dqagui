@@ -32,12 +32,13 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
 
     # render select input here
     output$descr_selection_uiout <- renderUI({
-      selectInput(session$ns("var_select"), "Select variable", rv$variable_list, multiple=FALSE, selectize=FALSE, size = 10)
+      selectInput("moduleDescriptive-var_select", "Select variable", rv$variable_list, multiple=FALSE, selectize=FALSE, size = 10)
     })
 
 
     # generate output tables
     observeEvent(input_re()[["moduleDescriptive-var_select"]], {
+      cat(input_re()[["moduleDescriptive-var_select"]], "\n")
 
       # get description object
       desc_out <- rv$results_descriptive[[input_re()[["moduleDescriptive-var_select"]]]]$description

@@ -96,7 +96,7 @@ shiny::shinyServer(function(input, output, session) {
                 shinydashboard::menuItem("Descriptive Results", tabName = "tab_descriptive", icon = icon("table")),
                 shinydashboard::menuItem("Plausibility Checks", tabName = "tab_plausibility", icon = icon("check-circle"),
                                          shinydashboard::menuSubItem("Atemporal Plausibility", tabName = "tab_atemp_plausibility"),
-                                         shinydashboard::menuSubItem("Uniqueness Plausibility", tabName = "tab_unique_plausibility")),
+                                         shinydashboard::menuSubItem("Uniqueness Plausibility", tabName = "tab_uniq_plausibility")),
                 shinydashboard::menuItem("Visualizations", tabName = "tab_visualizations", icon = icon("chart-line")),
                 shinydashboard::menuItem("Reporting", tabName = "tab_report", icon = icon("file-alt"))
             )

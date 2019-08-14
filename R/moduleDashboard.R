@@ -117,6 +117,21 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
       # load target data
       rv$data_target <- DQAstats::loadTarget_(rv = rv, keys_to_test = rv$keys_target, headless = rv$headless)
 
+      # get atemporal plausibilities
+      rv$data_plausibility$atemporal <- DQAstats::getAtempPlausis_(rv = rv, pl.atemp_vars = rv$pl.atemp_vars, mdr = rv$mdr, source_db = rv$db_source, headless = rv$headless)
+
+      # add the plausibility raw data to data_target and data_source
+      for (i in names(rv$data_plausibility$atemporal)){
+        for (k in c("source_data", "target_data")){
+          w <- gsub("_data", "", k)
+          n.key <- paste0(i, "_", w)
+          raw_data <- paste0("data_", w)
+          rv[[raw_data]][[n.key]] <- rv$data_plausibility$atemporal[[i]][[k]][[raw_data]]
+          rv$data_plausibility$atemporal[[i]][[k]][[raw_data]] <- NULL
+        }
+        gc()
+      }
+
       # calculate descriptive results
       rv$results_descriptive <- DQAstats::descriptiveResults_(rv = rv, source_db = rv$db_source, headless = rv$headless)
 
@@ -125,6 +140,7 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
 
       # calculate plausibilites
       rv$results_plausibility_atemporal <- DQAstats::atempPausiResults_(rv = rv, source_db = rv$db_source, headless = rv$headless)
+      rv$results_plausibility_uniqueness <- DQAstats::uniqPausiResults_(rv = rv, pl.uniq_vars = rv$pl.uniq_vars, mdr = rv$mdr, source_db = rv$db_source, headless = rv$headless)
 
       # conformance
       rv$conformance$value_conformance <- DQAstats::valueConformance_(rv$results_descriptive, headless = rv$headless)

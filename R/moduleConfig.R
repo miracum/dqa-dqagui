@@ -196,7 +196,7 @@ moduleConfigUI <- function(id){
                               selected = NULL,
                               inline = TRUE),
                  textInput(ns("config_targetdb_dbname"), label = "Database name"),
-                 textInput(ns("config_targetdb_host"), label = "Host name"),
+                 textInput(ns("config_targetdb_host"), label = "Host name / IP-Address"),
                  textInput(ns("config_targetdb_port"), label = "Port"),
                  textInput(ns("config_targetdb_user"), label = "Username"),
                  passwordInput(ns("config_targetdb_password"), label = "Password"),

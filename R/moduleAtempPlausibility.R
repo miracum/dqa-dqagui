@@ -30,13 +30,29 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
   observe({
     req(rv$checks$value_conformance)
 
+    if (is.null(rv$pl_atemp_vars_filter)){
+      # create rv$pl_atemp_vars_filter for rendering of results
+      listvec <- unname(sapply(names(rv$data_plausibility$atemporal), function(x){
+        rv$data_plausibility$atemporal[[x]]$source_data$name
+      }, simplify = T))
+      list_i = 1
+      rv$pl_atemp_vars_filter <- sapply(listvec, function(x){
+        outlist <- names(rv$data_plausibility$atemporal)[[list_i]]
+        list_i <<- list_i + 1
+        return(outlist)
+      }, USE.NAMES = T, simplify = F)
+      rm(list_i, listvec)
+      gc()
+    }
+
     # render select input here
     output$pl_selection_uiout <- renderUI({
-      selectInput(session$ns("plausibility_sel"), "Select plausibility item", rv$pl_vars_filter, multiple=FALSE, selectize=FALSE, size = 10)
+      selectInput("moduleAtempPlausibility-plausibility_sel", "Select plausibility item", rv$pl_atemp_vars_filter, multiple=FALSE, selectize=FALSE, size = 10)
     })
 
     # generate output tables
     observeEvent(input_re()[["moduleAtempPlausibility-plausibility_sel"]], {
+      cat(input_re()[["moduleAtempPlausibility-plausibility_sel"]], "\n")
 
       # get description object
       desc_out <- rv$results_plausibility_atemporal[[input_re()[["moduleAtempPlausibility-plausibility_sel"]]]]$description
@@ -50,8 +66,8 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
       output$pl_selection_description_source <- renderTable({
         o <- desc_out$source_data
         c <- count_out$source_data
-        data.table::data.table(" " = c("Variable name:", "Source table:", "FROM (SQL):", "JOIN TABLE (SQL):", "JOIN TYPE (SQL):", "JOIN ON (SQL):", "WHERE (SQL):", "DQ-internal Variable Name:", "Variable type:"),
-                               " " = c(o$var_name, o$table_name, o$sql_from, o$sql_join_table, o$sql_join_type, o$sql_join_on, o$sql_where, c$cnt$variable, c$type))
+        data.table::data.table(" " = c("Variable 1:", "Variable 2:", "Filter Criterion Variable 2 (regex):", "Join Criterion:", "DQ-internal Variable Name:", "Variable type:"),
+                               " " = c(o$var_dependent, o$var_independent, o$filter, o$join_crit, c$cnt$variable, c$type))
 
       })
 
@@ -67,8 +83,8 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
       output$pl_selection_description_target <- renderTable({
         o <- desc_out$target_data
         c <- count_out$target_data
-        data.table::data.table(" " = c("Variable name:", "Source table:", "FROM (SQL):", "JOIN TABLE (SQL):", "JOIN TYPE (SQL):", "JOIN ON (SQL):", "WHERE (SQL):", "DQ-internal Variable Name:", "Variable type:"),
-                               " " = c(o$var_name, o$table_name, o$sql_from, o$sql_join_table, o$sql_join_type, o$sql_join_on, o$sql_where, c$cnt$variable, c$type))
+        data.table::data.table(" " = c("Variable 1:", "Variable 2:", "Filter Criterion Variable 2 (regex):", "Join Criterion:", "DQ-internal Variable Name:", "Variable type:"),
+                               " " = c(o$var_dependent, o$var_independent, o$filter, o$join_crit, c$cnt$variable, c$type))
 
       })
 
