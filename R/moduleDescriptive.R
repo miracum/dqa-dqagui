@@ -125,15 +125,15 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
           do.call(tagList, list(h, v, tags$hr(), ch, ce, cu))
         })
 
-        json_obj <- jsonlite::fromJSON(desc_out$source_data$checks$value_set)
+        json_obj_src <- jsonlite::fromJSON(desc_out$source_data$checks$value_set)
 
         if (desc_out$source_data$checks$var_type == "factor"){
           output$descr_checks_source_valueset <- renderText({
-            json_obj[["value_set"]]
+            json_obj_src[["value_set"]]
           })
         } else if (desc_out$source_data$checks$var_type %in% c("integer", "numeric")){
           output$descr_checks_source_valueset <- renderPrint({
-            json_obj
+            json_obj_src
           })
         }
 
@@ -184,15 +184,15 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
           do.call(tagList, list(h, v, tags$hr(), ch, ce, cu))
         })
 
-        json_obj <- jsonlite::fromJSON(desc_out$target_data$checks$value_set)
+        json_obj_tar <- jsonlite::fromJSON(desc_out$target_data$checks$value_set)
 
         if (desc_out$target_data$checks$var_type == "factor"){
           output$descr_checks_target_valueset <- renderText({
-            json_obj[["value_set"]]
+            json_obj_tar[["value_set"]]
           })
         } else if (desc_out$target_data$checks$var_type %in% c("integer", "numeric")){
           output$descr_checks_target_valueset <- renderPrint({
-            json_obj
+            json_obj_tar
           })
         }
 

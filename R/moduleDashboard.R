@@ -244,7 +244,10 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
     output$dash_mail_button <- renderUI({
 
       # encode datamap to json string
-      json_string <- jsonlite::toJSON(lapply(rv$datamap, function(x){unname(split(x, 1:nrow(x)))}))
+      json_string <- jsonlite::toJSON(c(list("Sitename" = rv$sitename,
+                                             "Lastrun" = rv$end.time,
+                                             "Run duration", round(rv$duration,2)),
+                                        lapply(rv$datamap, function(x){unname(split(x, 1:nrow(x)))})))
       # to decode do
       # jsonlite::fromJSON(jsonstring)
 
