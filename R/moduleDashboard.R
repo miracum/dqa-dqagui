@@ -118,7 +118,7 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
       rv$data_target <- DQAstats::loadTarget_(rv = rv, keys_to_test = rv$keys_target, headless = rv$headless)
 
       # get atemporal plausibilities
-      rv$data_plausibility$atemporal <- DQAstats::getAtempPlausis_(rv = rv, pl.atemp_vars = rv$pl.atemp_vars, mdr = rv$mdr, source_db = rv$db_source, headless = rv$headless)
+      rv$data_plausibility$atemporal <- DQAstats::getAtempPlausis_(rv = rv, pl.atemp_vars = rv$pl.atemp_vars, mdr = rv$mdr, headless = rv$headless)
 
       # add the plausibility raw data to data_target and data_source
       for (i in names(rv$data_plausibility$atemporal)){
@@ -133,14 +133,14 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
       }
 
       # calculate descriptive results
-      rv$results_descriptive <- DQAstats::descriptiveResults_(rv = rv, source_db = rv$db_source, headless = rv$headless)
+      rv$results_descriptive <- DQAstats::descriptiveResults_(rv = rv, headless = rv$headless)
 
       # get time_interval
       rv$time_interval <- DQAstats::timeInterval_(rv$results_descriptive$EpisodeOfCare_period_end)
 
       # calculate plausibilites
-      rv$results_plausibility_atemporal <- DQAstats::atempPausiResults_(rv = rv, source_db = rv$db_source, headless = rv$headless)
-      rv$results_plausibility_uniqueness <- DQAstats::uniqPausiResults_(rv = rv, pl.uniq_vars = rv$pl.uniq_vars, mdr = rv$mdr, source_db = rv$db_source, headless = rv$headless)
+      rv$results_plausibility_atemporal <- DQAstats::atempPausiResults_(rv = rv, headless = rv$headless)
+      rv$results_plausibility_uniqueness <- DQAstats::uniqPausiResults_(rv = rv, pl.uniq_vars = rv$pl.uniq_vars, mdr = rv$mdr, headless = rv$headless)
 
       # conformance
       rv$conformance$value_conformance <- DQAstats::valueConformance_(rv$results_descriptive, headless = rv$headless)
@@ -245,8 +245,8 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
 
       # encode datamap to json string
       json_string <- jsonlite::toJSON(c(list("Sitename" = rv$sitename,
-                                             "Lastrun" = rv$end.time,
-                                             "Run duration", round(rv$duration,2)),
+                                             "Lastrun" = as.character(rv$end.time),
+                                             "Run duration" = as.character(round(rv$duration,2))),
                                         lapply(rv$datamap, function(x){unname(split(x, 1:nrow(x)))})))
       # to decode do
       # jsonlite::fromJSON(jsonstring)
@@ -259,8 +259,9 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
 
              href = paste0("mailto:imi-miracum-diz-projektanfragen@lists.fau.de?",
                            "body=",
-                           utils::URLencode(paste0("This is an automatically created Email.\n\n\nData Map\n\nSite name: ", rv$sitename,
-                                                   "\n\nR-Package version 'DQAgui': ", utils::packageVersion("DQAgui"),
+                           utils::URLencode(paste0("This is an automatically created Email.\n\n\nSite name: ", rv$sitename,
+                                                   "\n\nR-Package version 'DQAstats': ", utils::packageVersion("DQAstats"),
+                                                   "\nR-Package version 'DQAgui': ", utils::packageVersion("DQAgui"),
                                                    "\n\nLast run: ", rv$end.time,
                                                    "\nRun duration: ", round(rv$duration,2), " min.",
                                                    "\n\nDatamap (JSON):\n", json_string)),
@@ -299,14 +300,20 @@ moduleDashboardUI <- function(id){
              ),
              conditionalPanel(
                condition = "output['moduleDashboard-etl_results']",
-               box(title = "Quick ETL Checks: ",
+               box(title = "ETL Checks: ",
+                   helpText(paste0("ETL (extract transform load) checks compare for each variable the exact matching ",
+                                   "of the number of distinct values and the number of valid values ",
+                                   "(=N) between the source data system and the target data system.")),
                    DT::dataTableOutput(ns("dash_quick_etlchecks")),
                    width = 12
                )
              ),
              conditionalPanel(
                condition = "output['moduleDashboard-valueconformance_results']",
-               box(title = "Quick Value Conformance Checks: ",
+               box(title = "Value Conformance Checks: ",
+                   helpText(paste0("Value conformance checks compare for each variable the values of each data system to ",
+                                   "predefined constraints. Those constraints should be defined for each variable and ",
+                                   "data system individually in the metadata repository (MDR).")),
                    DT::dataTableOutput(ns("dash_quick_valueconformance_checks")),
                    width = 12
                )
