@@ -39,9 +39,9 @@ moduleReportServer <- function(input, output, session, rv, input_re){
 
 
   output$download_report <- downloadHandler(
-    filename = function(){"DQA_report.pdf"},
+    filename = function(){paste0("DQA_report_", gsub("\\-|\\:| ", "", substr(rv$start.time, 1, 16)), ".pdf")},
     content = function(file){
-      file.copy(paste0(tempdir(), "/DQA_report.pdf"), file)
+      file.copy(paste0(tempdir(), "/DQA_report_", gsub("\\-|\\:| ", "", substr(rv$start.time, 1, 16)), ".pdf"), file)
     },
     contentType = "application/pdf"
   )
