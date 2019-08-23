@@ -59,7 +59,9 @@ renderQuickChecks <- function(dat_table){
     DT::formatStyle(columns=2,
                 backgroundColor = DT::styleEqual(c("passed", "failed"), c("lightgreen", "red"))) %>%
     DT::formatStyle(columns=3,
-                backgroundColor = DT::styleEqual(c("passed", "failed"), c("lightgreen", "red")))
+                backgroundColor = DT::styleEqual(c("passed", "failed"), c("lightgreen", "red"))) %>%
+    DT::formatStyle(columns=4,
+                    backgroundColor = DT::styleEqual(c("passed", "failed"), c("lightgreen", "red")))
   return(out)
 }
 
