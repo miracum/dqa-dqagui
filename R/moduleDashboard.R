@@ -151,6 +151,10 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
         rv$conformance$value_conformance[[i]] <- value_conformance[[i]]
       }
 
+
+      # completeness
+      rv$completeness <- DQAstats::completeness_(results = rv$results_descriptive, headless = rv$headless)
+
       # generate datamap
       rv$datamap <- DQAstats::generateDatamap_(results = rv$results_descriptive, db = rv$db_target, mdr = rv$mdr, headless = rv$headless)
 
@@ -189,7 +193,7 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
     req(rv$datamap$target_data)
     output$dash_datamap_target <- renderTable({
       tab <- rv$datamap$target_data
-      colnames(tab) <- c("Variable", "# Distinct", "# Valid", "# Missing")
+      colnames(tab) <- c("Variable", "# N", "# Valid", "# Missing", "# Distinct")
       tab
     })
   })
@@ -197,7 +201,7 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
     req(rv$datamap$source_data)
     output$dash_datamap_source <- renderTable({
       tab <- rv$datamap$source_data
-      colnames(tab) <- c("Variable", "# Distinct", "# Valid", "# Missing")
+      colnames(tab) <- c("Variable", "# N", "# Valid", "# Missing", "# Distinct")
       tab
     })
   })

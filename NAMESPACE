@@ -3,6 +3,8 @@
 export(launchApp)
 export(moduleAtempPlausibilityServer)
 export(moduleAtempPlausibilityUI)
+export(moduleCompletenessServer)
+export(moduleCompletenessUI)
 export(moduleConfigServer)
 export(moduleConfigUI)
 export(moduleDashboardServer)
