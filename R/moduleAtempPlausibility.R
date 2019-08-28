@@ -141,11 +141,11 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
 
         if (desc_out$source_data$checks$var_type == "factor"){
           output$pl_checks_source_valueset <- renderText({
-            json_obj_src[["value_set"]]
+            json_obj_src$value_set
           })
         } else if (desc_out$source_data$checks$var_type %in% c("integer", "numeric")){
           output$pl_checks_source_valueset <- renderPrint({
-            json_obj_src
+            json_obj_src$range
           })
         }
 
@@ -200,11 +200,11 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
 
         if (desc_out$target_data$checks$var_type == "factor"){
           output$pl_checks_target_valueset <- renderText({
-            json_obj_tar[["value_set"]]
+            json_obj_tar$value_set
           })
         } else if (desc_out$target_data$checks$var_type %in% c("integer", "numeric")){
           output$pl_checks_target_valueset <- renderPrint({
-            json_obj_tar
+            json_obj_tar$range
           })
         }
 
