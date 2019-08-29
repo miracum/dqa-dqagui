@@ -78,7 +78,7 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
       output$descr_selection_counts_source <- renderTable({
         tryCatch({
           o <- count_out$source_data$cnt[,c("variable", "n", "valids", "missings", "distinct"),with=F]
-          data.table::data.table(" " = c("N:", "Valid values:", "Missing values:", "Distinct values:"),
+          data.table::data.table(" " = c("n:", "Valid values:", "Missing values:", "Distinct values:"),
                                  " " = c(o$n, o$valids, o$missings, o$distinct))
         }, error=function(e){shinyjs::logjs(e)})
       })
@@ -87,7 +87,7 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
       output$descr_selection_counts_target <- renderTable({
         tryCatch({
           o <- count_out$target_data$cnt[,c("variable", "n", "valids", "missings", "distinct"),with=F]
-          data.table::data.table(" " = c("N:", "Valid values:", "Missing values:", "Distinct values:"),
+          data.table::data.table(" " = c("n:", "Valid values:", "Missing values:", "Distinct values:"),
                                  " " = c(o$n, o$valids, o$missings, o$distinct))
         }, error=function(e){shinyjs::logjs(e)})
       })

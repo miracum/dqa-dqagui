@@ -193,7 +193,7 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
     req(rv$datamap$target_data)
     output$dash_datamap_target <- renderTable({
       tab <- rv$datamap$target_data
-      colnames(tab) <- c("Variable", "# N", "# Valid", "# Missing", "# Distinct")
+      colnames(tab) <- c("Variable", "# n", "# Valid", "# Missing", "# Distinct")
       tab
     })
   })
@@ -201,7 +201,7 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
     req(rv$datamap$source_data)
     output$dash_datamap_source <- renderTable({
       tab <- rv$datamap$source_data
-      colnames(tab) <- c("Variable", "# N", "# Valid", "# Missing", "# Distinct")
+      colnames(tab) <- c("Variable", "# n", "# Valid", "# Missing", "# Distinct")
       tab
     })
   })
@@ -304,19 +304,21 @@ moduleDashboardUI <- function(id){
              ),
              conditionalPanel(
                condition = "output['moduleDashboard-etl_results']",
-               box(title = "ETL Checks: ",
-                   helpText(paste0("ETL (extract transform load) checks compare for each variable the exact matching ",
-                                   "of the number of distinct values and the number of valid values ",
-                                   "(=N) between the source data system and the target data system.")),
+               box(title = "Completeness Checks (Validation): ",
+                   helpText(paste0("Completeness checks (validation) evaluate the ETL (extract transform load) jobs. ",
+                                   "They compare for each variable the exact matching ",
+                                   "of the number of distinct values, the number of valid values ",
+                                   "(=n), and the number of missing values ",
+                                   "between the source data system and the target data system.")),
                    DT::dataTableOutput(ns("dash_quick_etlchecks")),
                    width = 12
                )
              ),
              conditionalPanel(
                condition = "output['moduleDashboard-valueconformance_results']",
-               box(title = "Value Conformance Checks: ",
-                   helpText(paste0("Value conformance checks compare for each variable the values of each data system to ",
-                                   "predefined constraints. Those constraints should be defined for each variable and ",
+               box(title = "Value Conformance Checks (Verification): ",
+                   helpText(paste0("Value conformance checks (verification) compare for each variable the values of each data system to ",
+                                   "predefined constraints. Those constraints can be defined for each variable and ",
                                    "data system individually in the metadata repository (MDR).")),
                    DT::dataTableOutput(ns("dash_quick_valueconformance_checks")),
                    width = 12
