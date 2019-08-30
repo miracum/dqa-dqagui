@@ -119,7 +119,7 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
 
       # conformance source
       # render conformance checks (only if value set present)
-      if (!is.na(desc_out$source_data$checks$value_set)){
+      if (!is.na(desc_out$source_data$checks$constraints)){
 
         # workaround to tell ui, that value_set is there
         output$gotValueset_s <- reactive({
@@ -127,7 +127,7 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
         })
 
         output$pl_checks_source <- renderUI({
-          h <- h5(tags$b("Value set:"))
+          h <- h5(tags$b("Constraining values/rules:"))
           v <- verbatimTextOutput("moduleAtempPlausibility-pl_checks_source_valueset")
 
 
@@ -137,7 +137,7 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
           do.call(tagList, list(h, v, tags$hr(), ch, ce, cu))
         })
 
-        json_obj_src <- jsonlite::fromJSON(desc_out$source_data$checks$value_set)
+        json_obj_src <- jsonlite::fromJSON(desc_out$source_data$checks$constraints)
 
         if (desc_out$source_data$checks$var_type == "factor"){
           output$pl_checks_source_valueset <- renderText({
@@ -178,7 +178,7 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
 
       # conformance target
       # render conformance checks (only if value set present)
-      if (!is.na(desc_out$target_data$checks$value_set)){
+      if (!is.na(desc_out$target_data$checks$constraints)){
 
         # workaround to tell ui, that value_set is there
         output$gotValueset_t <- reactive({
@@ -186,7 +186,7 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
         })
 
         output$pl_checks_target <- renderUI({
-          h <- h5(tags$b("Value set:"))
+          h <- h5(tags$b("Constraining values/rules:"))
           v <- verbatimTextOutput("moduleAtempPlausibility-pl_checks_target_valueset")
 
 
@@ -196,7 +196,7 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
           do.call(tagList, list(h, v, tags$hr(), ch, ce, cu))
         })
 
-        json_obj_tar <- jsonlite::fromJSON(desc_out$target_data$checks$value_set)
+        json_obj_tar <- jsonlite::fromJSON(desc_out$target_data$checks$constraints)
 
         if (desc_out$target_data$checks$var_type == "factor"){
           output$pl_checks_target_valueset <- renderText({
