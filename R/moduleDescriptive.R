@@ -127,11 +127,11 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
 
         json_obj_src <- jsonlite::fromJSON(desc_out$source_data$checks$constraints)
 
-        if (desc_out$source_data$checks$var_type == "factor"){
+        if (desc_out$source_data$checks$var_type == "permittedValues"){
           output$descr_checks_source_valueset <- renderText({
             json_obj_src$value_set
           })
-        } else if (desc_out$source_data$checks$var_type %in% c("integer", "numeric")){
+        } else if (desc_out$source_data$checks$var_type %in% c("integer", "float")){
           output$descr_checks_source_valueset <- renderPrint({
             json_obj_src$range
           })
@@ -186,11 +186,11 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
 
         json_obj_tar <- jsonlite::fromJSON(desc_out$target_data$checks$constraints)
 
-        if (desc_out$target_data$checks$var_type == "factor"){
+        if (desc_out$target_data$checks$var_type == "permittedValues"){
           output$descr_checks_target_valueset <- renderText({
             json_obj_tar$value_set
           })
-        } else if (desc_out$target_data$checks$var_type %in% c("integer", "numeric")){
+        } else if (desc_out$target_data$checks$var_type %in% c("integer", "float")){
           output$descr_checks_target_valueset <- renderPrint({
             json_obj_tar$range
           })
