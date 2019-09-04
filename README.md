@@ -4,7 +4,7 @@ This is the repository of the R package 'DQAgui'. It provides a graphical user i
 
 ## Installation
 
-You can install the development version of DQAgui with:
+You can install the development version of *DQAgui* with:
 
 ``` r
 install.packages("devtools")
