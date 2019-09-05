@@ -135,12 +135,14 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
       # calculate descriptive results
       rv$results_descriptive <- DQAstats::descriptiveResults_(rv = rv, headless = rv$headless)
 
-      # get time_interval
-      rv$time_interval <- DQAstats::timeInterval_(rv$results_descriptive$EpisodeOfCare_period_end)
-
       # calculate plausibilites
       rv$results_plausibility_atemporal <- DQAstats::atempPausiResults_(rv = rv, headless = rv$headless)
       rv$results_plausibility_uniqueness <- DQAstats::uniqPausiResults_(rv = rv, pl.uniq_vars = rv$pl.uniq_vars, mdr = rv$mdr, headless = rv$headless)
+
+      # delete raw data (this is the earliest point, where we don't need the raw data anymore)
+      rv$data_source <- NULL
+      rv$data_target <- NULL
+      gc()
 
       # conformance
       rv$conformance$value_conformance <- DQAstats::valueConformance_(rv$results_descriptive, headless = rv$headless)
@@ -150,7 +152,6 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
       for (i in names(value_conformance)){
         rv$conformance$value_conformance[[i]] <- value_conformance[[i]]
       }
-
 
       # completeness
       rv$completeness <- DQAstats::completeness_(results = rv$results_descriptive, headless = rv$headless)
@@ -164,10 +165,8 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
       # checks$etl
       rv$checks$etl <- DQAstats::etlChecks_(rv$results_descriptive)
 
-      # delete raw data
-      rv$data_source <- NULL
-      rv$data_target <- NULL
-      gc()
+      # get time_interval
+      rv$time_interval <- DQAstats::timeInterval_(rv$results_descriptive$EpisodeOfCare_period_end)
 
       # set flag that we have all data
       rv$getdata_target <- FALSE
