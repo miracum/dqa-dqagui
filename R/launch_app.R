@@ -27,7 +27,12 @@
 #' @export
 #'
 
-launchApp <- function(port=3838){
+launchApp <- function(port=3838, utilspath, db_source){
   options(shiny.port = port)
+  assign("utilspath", utilspath, envir = .GlobalEnv)
+  assign("db_source", db_source, envir = .GlobalEnv)
   shiny::shinyAppDir(appDir = system.file("application", package = "DQAgui"))
 }
+
+# debugging
+# launchApp(utilspath = DQAstats::cleanPathName_(system.file("application/_utilities", package = "miRacumDQA")), db_source = "p21csv")

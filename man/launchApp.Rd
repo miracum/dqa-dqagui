@@ -4,7 +4,7 @@
 \alias{launchApp}
 \title{Launch the DQA graphical user interface (GUI)}
 \usage{
-launchApp(port = 3838)
+launchApp(port = 3838, utilspath, db_source)
 }
 \arguments{
 \item{port}{The port, DQAgui is running on (default: 3838)}

@@ -260,9 +260,10 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
              # https://stackoverflow.com/questions/45880437/r-shiny-use-onclick-option-of-actionbutton-on-the-server-side
              # https://stackoverflow.com/questions/45376976/use-actionbutton-to-send-email-in-rshiny
 
-             href = paste0("mailto:imi-miracum-diz-projektanfragen@lists.fau.de?",
+             href = paste0("mailto:", rv$datamap_email, "?",
                            "body=",
-                           utils::URLencode(paste0("This is an automatically created Email.\n\n\nSite name: ", rv$sitename,
+                           utils::URLencode(paste0("Site name: ", rv$sitename,
+                                                   "\n\n(this is an automatically created email)\n\n",
                                                    "\n\nR-Package version 'DQAstats': ", utils::packageVersion("DQAstats"),
                                                    "\nR-Package version 'DQAgui': ", utils::packageVersion("DQAgui"),
                                                    "\n\nLast run: ", rv$end.time,
@@ -304,10 +305,10 @@ moduleDashboardUI <- function(id){
              conditionalPanel(
                condition = "output['moduleDashboard-etl_results']",
                box(title = "Completeness Checks (Validation): ",
-                   helpText(paste0("Completeness checks (validation) evaluate the ETL (extract transform load) jobs. ",
+                   helpText(paste0("Completeness checks (validation) evaluate the 'correctness' of the ETL (extract transform load) jobs. ",
                                    "They compare for each variable the exact matching ",
-                                   "of the number of distinct values, the number of valid values ",
-                                   "(=n), and the number of missing values ",
+                                   "of the number of distinct values, the number of valid values, ",
+                                   "and the number of missing values ",
                                    "between the source data system and the target data system.")),
                    DT::dataTableOutput(ns("dash_quick_etlchecks")),
                    width = 12
