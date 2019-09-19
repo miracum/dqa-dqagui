@@ -156,7 +156,13 @@ moduleConfigServer <- function(input, output, session, rv, input_re){
 
   observe({
     if (is.null(rv$sitenames)){
-      rv$sitenames <- jsonlite::fromJSON(paste0(rv$utilspath, "/MISC/sitenames.JSON"))
+      rv$sitenames <- tryCatch({
+        out <- jsonlite::fromJSON(paste0(rv$utilspath, "/MISC/sitenames.JSON"))
+      }, error = function(e){
+        out <- list("No sitenames provided" = "No sitenames provided")
+      }, finally = function(f){
+        return(out)
+      })
 
       updateSelectInput(session, "config_sitename", choices = rv$sitenames,
                         selected = ifelse(!is.null(rv$sitename), rv$sitename, character(0)))
