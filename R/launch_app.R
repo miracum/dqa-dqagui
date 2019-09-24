@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+
 #' @title Launch the DQA graphical user interface (GUI)
 #'
 #' @param port The port, the MIRACUM DQA Tool is running on (default: 3838)

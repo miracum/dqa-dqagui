@@ -1,6 +1,6 @@
 Package: DQAgui
 Title: DQA GUI
-Version: 0.0.2.9000
+Version: 0.0.2
 Authors@R: 
     person(given = "Lorenz A.",
            family = "Kapsner",
@@ -13,7 +13,7 @@ URL: https://gitlab.miracum.org/miracum-dqa/dqagui
 BugReports: https://gitlab.miracum.org/miracum-dqa/dqagui/issues
 Encoding: UTF-8
 Copyright: Universitätsklinikum Erlangen
-Date/Publication: 2019-08-30 08:46:56 UTC
+Date/Publication: 2019-09-24 10:11:00 UTC
 Imports: 
     data.table,
     magrittr,
@@ -26,7 +26,7 @@ Imports:
     knitr,
     jsonlite,
     config,
-    DQAstats (>= 0.0.1.9001)
+    DQAstats (>= 0.0.2.9000)
 Suggests: 
     testthat,
     processx
