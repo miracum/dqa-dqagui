@@ -46,12 +46,13 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
 
       # check if sitename is present
       if (nchar(input_re()[["moduleConfig-config_sitename"]]) < 2 || any(grepl("\\s", input_re()[["moduleConfig-config_sitename"]]))){
+        # reset sql
+        rv$sql_target <- NULL
+
         shiny::showModal(modalDialog(
           title = "Invalid values",
           "No empty strings or spaces allowed in the site name configuration."
         ))
-        # reset sql
-        rv$sql_target <- NULL
 
         # site name is present
       } else {
@@ -59,12 +60,13 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
 
         # check if valid source path is present
         if (identical(rv$sourcefiledir, character(0)) || any(grepl("\\s", rv$sourcefiledir)) || is.null(rv$sourcefiledir)){
+          # reset sql
+          rv$sql_target <- NULL
+
           shiny::showModal(modalDialog(
             title = "Invalid values",
             "No empty strings or spaces allowed in the source file path configuration."
           ))
-          # reset sql
-          rv$sql <- NULL
 
           # valid sourcepath is present
         } else {
@@ -78,6 +80,8 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
         }
       }
     }
+
+    print(rv$sql_target)
 
 
     if (is.null(rv$sql_target)){

@@ -25,6 +25,9 @@ shiny::shinyServer(function(input, output, session) {
     # set utilspath
     rv$utilspath <- DQAstats::cleanPathName_(utilspath)
 
+    # initialize sourcefiledir
+    rv$sourcefiledir <- NULL
+
     # read datamap email
     rv$datamap_email <- tryCatch({
         # if existing, set email address for data-map button
