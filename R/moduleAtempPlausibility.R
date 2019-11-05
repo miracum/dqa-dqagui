@@ -48,7 +48,12 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
 
     # render select input here
     output$pl_selection_uiout <- renderUI({
-      selectInput("moduleAtempPlausibility-plausibility_sel", "Select plausibility item", rv$pl_atemp_vars_filter, multiple=FALSE, selectize=FALSE, size = 10)
+      selectInput("moduleAtempPlausibility-plausibility_sel",
+                  "Select plausibility item",
+                  rv$pl_atemp_vars_filter,
+                  multiple=FALSE,
+                  selectize=FALSE,
+                  size = 10)
     })
 
     # generate output tables
