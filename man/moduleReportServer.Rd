@@ -15,7 +15,8 @@ moduleReportServer(input, output, session, rv, input_re)
 
 \item{rv}{The global 'reactiveValues()' object, defined in server.R}
 
-\item{input_re}{The Shiny server input object, wrapped into a reactive expression: input_re = reactive({input})}
+\item{input_re}{The Shiny server input object, wrapped into a reactive
+expression: input_re = reactive({input})}
 }
 \description{
 moduleReportServer
