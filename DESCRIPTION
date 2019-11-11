@@ -25,10 +25,9 @@ Imports:
     shinyjs,
     knitr,
     jsonlite,
-    config,
-    DQAstats (>= 0.0.2)
+    config
 Suggests: 
     testthat,
     processx
 Remotes:  
-    url::https://gitlab.miracum.org/miracum-dqa/dqastats.git
+    git::git@gitlab.miracum.org:miracum-dqa/dqastats.git
