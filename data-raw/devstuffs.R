@@ -68,7 +68,7 @@ usethis::use_package("processx", type = "Suggests")
 
 # Development package
 devtools::install_git(url = "https://gitlab.miracum.org/miracum-dqa/dqastats.git", ref = "master", upgrade = "always")
-#usethis::use_dev_package("DQAstats", type = "Imports")
+usethis::use_dev_package("DQAstats", type = "Imports")
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
 desc::desc_set_remotes("url::https://gitlab.miracum.org:miracum-dqa/dqastats.git", file = usethis::proj_get())
 
