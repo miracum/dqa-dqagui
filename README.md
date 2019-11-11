@@ -1,5 +1,10 @@
 # DQAgui (!!! currently under development !!!)
 
+<!-- badges: start -->
+[![pipeline status](https://gitlab.miracum.org/miracum-dqa/dqagui/badges/master/pipeline.svg)](https://gitlab.miracum.org/miracum-dqa/dqagui/commits/master)
+[![coverage report](https://gitlab.miracum.org/miracum-dqa/dqagui/badges/master/coverage.svg)](https://gitlab.miracum.org/miracum-dqa/dqagui/commits/master)
+<!-- badges: end -->
+
 This is the repository of the R package 'DQAgui'. It provides a graphical user interface to the functionalities implemented in 'DQAstats'. 
 
 Currently, this packages is to be used together with the R packages `DQAstat` and `miRacumDQA` in order to work properly.

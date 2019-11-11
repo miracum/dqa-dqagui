@@ -30,6 +30,5 @@ Imports:
 Suggests: 
     testthat,
     processx
-Remotes: 
-    git::git@gitlab.miracum.org:miracumdqa/dqastats.git
-RoxygenNote: 6.1.1
+Remotes:  
+    url::https://gitlab.miracum.org/miracum-dqa/dqastats.git
