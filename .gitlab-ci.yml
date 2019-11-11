@@ -19,6 +19,7 @@ stages:
 
 check:
   stage: build
+  allow_failure: true # necessary when having development-packages (in remotes-section of DESCRIPTION)
   script:
     - R -e "devtools::check(pkg = '.', args = c('--no-tests'), build_args = c('--no-build-vignettes'), check_dir = '${CI_PROJECT_DIR}/ci')"
   artifacts:
