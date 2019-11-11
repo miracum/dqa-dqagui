@@ -21,7 +21,7 @@ my_desc$set(Title = "DQA GUI")
 # The description of your package
 my_desc$set(Description = "A graphical user interface (GUI) to the functions implemented in the R package 'DQAstats'.")
 # The description of your package
-my_desc$set("Date/Publication" = paste(as.character(Sys.time()), "UTC"))
+my_desc$set("Date" = as.character(Sys.Date()))
 # The urls
 my_desc$set("URL", "https://gitlab.miracum.org/miracum-dqa/dqagui")
 my_desc$set("BugReports",
@@ -67,8 +67,10 @@ usethis::use_package("testthat", type = "Suggests")
 usethis::use_package("processx", type = "Suggests")
 
 # Development package
-# https://remotes.r-lib.org/articles/dependencies.html
+devtools::install_git(url = "https://gitlab.miracum.org/miracum-dqa/dqastats.git", ref = "master", upgrade = "always")
 usethis::use_dev_package("DQAstats", type = "Imports")
+# https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
+desc::desc_set_remotes("git::git@gitlab.miracum.org:miracumdqa/dqastats.git", file = usethis::proj_get())
 
 # buildignore and gitignore
 usethis::use_build_ignore("docker")

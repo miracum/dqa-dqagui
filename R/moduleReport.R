@@ -93,6 +93,8 @@ moduleReportServer <- function(input,
              gsub("\\-|\\:| ",
                   "",
                   substr(rv$start.time, 1, 16)),
+             "_",
+             rv$sitename,
              ".pdf")
     },
     content = function(file){
@@ -116,6 +118,8 @@ moduleReportServer <- function(input,
              gsub("\\-|\\:| ",
                   "",
                   substr(rv$start.time, 1, 16)),
+             "_",
+             rv$sitename,
              ".zip")
     },
     content = function(fname) {

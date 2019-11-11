@@ -4,3 +4,4 @@
 ^LICENSE\.md$
 ^docker$
 ^inst/application/_settings$
+^\.gitlab-ci\.yml$
