@@ -30,4 +30,4 @@ Suggests:
     testthat,
     processx
 Remotes:  
-    url::https://gitlab.miracum.org/miracum-dqa/dqastats.git
+    git::git@gitlab.miracum.org:miracum-dqa/dqastats.git
