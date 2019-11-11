@@ -29,5 +29,3 @@ Imports:
 Suggests: 
     testthat,
     processx
-Remotes:  
-    git::https://gitlab.miracum.org/miracum-dqa/dqastats.git
