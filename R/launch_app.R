@@ -71,4 +71,4 @@ launchApp <- function(port=3838,
 }
 
 # debugging
-# launchApp(utilspath = DQAstats::cleanPathName_(system.file("application/_utilities", package = "miRacumDQA")), db_source = "p21csv")
+# launchApp(utilspath = DQAstats::clean_path_name(system.file("application/_utilities", package = "miRacumDQA")), db_source = "p21csv")

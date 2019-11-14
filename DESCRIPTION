@@ -13,7 +13,7 @@ URL: https://gitlab.miracum.org/miracum-dqa/dqagui
 BugReports: https://gitlab.miracum.org/miracum-dqa/dqagui/issues
 Encoding: UTF-8
 Copyright: Universitätsklinikum Erlangen
-Date: 2019-11-12
+Date: 2019-11-14
 Imports: 
     data.table,
     magrittr,
@@ -30,5 +30,5 @@ Suggests:
     testthat,
     processx
 Remotes: 
-    url::https://gitlab.miracum.org/miracum-dqa/dqastats/-/archive/v0.0.3/dqastats-v0.0.3.zip
+    url::https://gitlab.miracum.org/miracum-dqa/dqastats/-/archive/ac18abdb/dqastats-ac18abdb.zip
 RoxygenNote: 6.1.1

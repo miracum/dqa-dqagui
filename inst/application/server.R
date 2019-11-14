@@ -23,7 +23,7 @@ shiny::shinyServer(function(input, output, session) {
     rv$headless <- FALSE
 
     # set utilspath
-    rv$utilspath <- DQAstats::cleanPathName_(utilspath)
+    rv$utilspath <- DQAstats::clean_path_name(utilspath)
 
     # initialize sourcefiledir
     rv$sourcefiledir <- NULL
@@ -31,7 +31,7 @@ shiny::shinyServer(function(input, output, session) {
     # read datamap email
     rv$datamap_email <- tryCatch({
         # if existing, set email address for data-map button
-        out <- DQAstats::getConfig_(paste0(utilspath, "email.yml"), "email")
+        out <- DQAstats::get_config(paste0(utilspath, "email.yml"), "email")
     }, error = function(e){
         print(e)
         # otherwise set it to empty string
@@ -46,8 +46,8 @@ shiny::shinyServer(function(input, output, session) {
     # TODO remove later, when we have more input source
     rv$db_source <- db_source
 
-    # run onStart here
-    onStart(session, rv, input, output)
+    # run on_start here
+    on_start(session, rv, input, output)
 
     # handle reset
     shiny::observeEvent(input$reset, {
@@ -99,10 +99,10 @@ shiny::shinyServer(function(input, output, session) {
     shiny::observe({
         shiny::req(rv$report_created)
 
-        # set end.time
-        rv$end.time <- format(Sys.time(), usetz = T, tz = "CET")
+        # set end_time
+        rv$end_time <- format(Sys.time(), usetz = T, tz = "CET")
         # calc time-diff
-        rv$duration <- difftime(rv$end.time, rv$start.time, units = "mins")
+        rv$duration <- difftime(rv$end_time, rv$start_time, units = "mins")
 
         # render menu
         output$menu <- shinydashboard::renderMenu({

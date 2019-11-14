@@ -121,7 +121,7 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
 
 
           ch <- h5(tags$b("Value conformance:"))
-          ce <- h5(paste0("Conformance check: ", ifelse(value_conf$target_data$conformance_error, "failed", "passed")))
+          ce <- h5(paste0("Conformance check: ", ifelse(value_conf$source_data$conformance_error, "failed", "passed")))
           cu <- uiOutput("moduleDescriptive-descr_conformance_source")
           do.call(tagList, list(h, v, tags$hr(), ch, ce, cu))
         })
@@ -132,9 +132,13 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
           output$descr_checks_source_valueset <- renderText({
             json_obj_src$value_set
           })
-        } else if (desc_out$source_data$checks$var_type %in% c("integer", "float")){
+        } else if (desc_out$source_data$checks$var_type %in% c("integer", "float")) {
           output$descr_checks_source_valueset <- renderPrint({
             json_obj_src$range
+          })
+        } else if (desc_out$source_data$checks$var_type == "string") {
+          output$descr_checks_source_valueset <- renderText({
+            json_obj_src$regex
           })
         }
 
@@ -194,6 +198,10 @@ moduleDescriptiveServer <- function(input, output, session, rv, input_re){
         } else if (desc_out$target_data$checks$var_type %in% c("integer", "float")){
           output$descr_checks_target_valueset <- renderPrint({
             json_obj_tar$range
+          })
+        } else if (desc_out$target_data$checks$var_type == "string") {
+          output$descr_checks_target_valueset <- renderText({
+            json_obj_src$regex
           })
         }
 

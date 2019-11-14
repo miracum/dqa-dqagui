@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' @title onStart
+#' @title on_start
 #'
 #' @param input Shiny server input object
 #' @param output Shiny server output object
@@ -23,9 +23,9 @@
 #'
 #' @export
 #'
-# onStart
+# on_start
 # function to run on startup
-onStart <- function(session, rv, input, output){
+on_start <- function(session, rv, input, output){
   if (file.exists(paste0(tempdir(), "/_settings/global_settings.JSON"))){
     cat("\nglobal_settings.JSON present\n")
     user_settings <- jsonlite::fromJSON(paste0(tempdir(), "/_settings/global_settings.JSON"))
@@ -46,7 +46,7 @@ onStart <- function(session, rv, input, output){
 }
 
 # create summary tables
-summaryTable <- function(){
+summary_table <- function(){
   return(data.table::data.table("variable" = character(),
                     "distinct" = integer(),
                     "valids" = integer(),

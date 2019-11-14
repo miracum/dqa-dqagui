@@ -71,7 +71,7 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
           # valid sourcepath is present
         } else {
 
-          test_source <- DQAstats::testSourceDB_(source_settings = list(dir = rv$sourcefiledir), source_db = rv$db_source, headless = rv$headless)
+          test_source <- DQAstats::test_source_db(source_settings = list(dir = rv$sourcefiledir), source_db = rv$db_source, headless = rv$headless)
 
           if (is.null(test_source)){
             # reset sql
@@ -113,17 +113,30 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
 
     # load all data here
     if (isTRUE(rv$getdata_target) && isTRUE(rv$getdata_source)){
-      # set start.time, when clicking the button
-      rv$start.time <- format(Sys.time(), usetz = T, tz = "CET")
+      # set start_time, when clicking the button
+      rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
 
       # load source data
-      rv$data_source <- DQAstats::loadSource_(rv = rv, keys_to_test = rv$keys_source, headless = rv$headless)
+      rv$data_source <- DQAstats::load_source(
+        rv = rv,
+        keys_to_test = rv$keys_source,
+        headless = rv$headless
+      )
 
       # load target data
-      rv$data_target <- DQAstats::loadTarget_(rv = rv, keys_to_test = rv$keys_target, headless = rv$headless)
+      rv$data_target <- DQAstats::load_target(
+        rv = rv,
+        keys_to_test = rv$keys_target,
+        headless = rv$headless
+      )
 
       # get atemporal plausibilities
-      rv$data_plausibility$atemporal <- DQAstats::getAtempPlausis_(rv = rv, pl.atemp_vars = rv$pl.atemp_vars, mdr = rv$mdr, headless = rv$headless)
+      rv$data_plausibility$atemporal <- DQAstats::get_atemp_plausis(
+        rv = rv,
+        atemp_vars = rv$pl$atemp_vars,
+        mdr = rv$mdr,
+        headless = rv$headless
+      )
 
       # add the plausibility raw data to data_target and data_source
       for (i in names(rv$data_plausibility$atemporal)){
@@ -138,11 +151,22 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
       }
 
       # calculate descriptive results
-      rv$results_descriptive <- DQAstats::descriptiveResults_(rv = rv, headless = rv$headless)
+      rv$results_descriptive <- DQAstats::descriptive_results(
+        rv = rv,
+        headless = rv$headless
+      )
 
       # calculate plausibilites
-      rv$results_plausibility_atemporal <- DQAstats::atempPausiResults_(rv = rv, headless = rv$headless)
-      rv$results_plausibility_uniqueness <- DQAstats::uniqPausiResults_(rv = rv, pl.uniq_vars = rv$pl.uniq_vars, mdr = rv$mdr, headless = rv$headless)
+      rv$results_plausibility_atemporal <- DQAstats::atemp_pausi_results(
+        rv = rv,
+        headless = rv$headless
+      )
+      rv$results_plausibility_uniqueness <- DQAstats::uniq_plausi_results(
+        rv = rv,
+        uniq_vars = rv$pl$uniq_vars,
+        mdr = rv$mdr,
+        headless = rv$headless
+      )
 
       # delete raw data (this is the earliest point, where we don't need the raw data anymore)
       rv$data_source <- NULL
@@ -150,8 +174,21 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
       gc()
 
       # conformance
-      rv$conformance$value_conformance <- DQAstats::valueConformance_(rv$results_descriptive, headless = rv$headless)
-      value_conformance <- DQAstats::valueConformance_(rv$results_plausibility_atemporal, headless = rv$headless)
+      rv$conformance$value_conformance <- DQAstats::value_conformance(
+        results = rv$results_descriptive,
+        headless = rv$headless
+      )
+      # reduce categorical variables to display max. 25 values
+      rv$results_descriptive <- DQAstats::reduce_cat(
+        data = rv$results_descriptive,
+        levellimit = 25
+      )
+      invisible(gc())
+
+      value_conformance <- DQAstats::value_conformance(
+        results = rv$results_plausibility_atemporal,
+        headless = rv$headless
+      )
 
       # workaround, to keep "rv" an reactiveValues object in shiny app
       for (i in names(value_conformance)){
@@ -159,19 +196,33 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
       }
 
       # completeness
-      rv$completeness <- DQAstats::completeness_(results = rv$results_descriptive, headless = rv$headless)
+      rv$completeness <- DQAstats::completeness(
+        results = rv$results_descriptive,
+        headless = rv$headless
+      )
 
       # generate datamap
-      rv$datamap <- DQAstats::generateDatamap_(results = rv$results_descriptive, db = rv$db_target, mdr = rv$mdr, headless = rv$headless)
+      rv$datamap <- DQAstats::generate_datamap(
+        results = rv$results_descriptive,
+        db = rv$db_target,
+        mdr = rv$mdr,
+        headless = rv$headless
+      )
 
       # checks$value_conformance
-      rv$checks$value_conformance <- DQAstats::valueConformanceChecks_(rv$conformance$value_conformance)
+      rv$checks$value_conformance <- DQAstats::value_conformance_checks(
+        results = rv$conformance$value_conformance
+      )
 
       # checks$etl
-      rv$checks$etl <- DQAstats::etlChecks_(rv$results_descriptive)
+      rv$checks$etl <- DQAstats::etl_checks(
+        results = rv$results_descriptive
+      )
 
       # get time_interval
-      rv$time_interval <- DQAstats::timeInterval_(rv$results_descriptive$EpisodeOfCare_period_end)
+      rv$time_interval <- DQAstats::time_interval(
+        data = rv$results_descriptive$EpisodeOfCare_period_end
+      )
 
       # set flag that we have all data
       rv$getdata_target <- FALSE
@@ -242,8 +293,8 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
   observe({
     req(rv$duration)
     output$dash_instruction <- renderText({
-      paste0("Started: ", rv$start.time,
-             "\nFinished: ", rv$end.time,
+      paste0("Started: ", rv$start_time,
+             "\nFinished: ", rv$end_time,
              "\nDuration: ", round(rv$duration, 2), " min.")
     })
     shinyjs::show("dash_instruction")
@@ -253,7 +304,7 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
 
       # encode datamap to json string
       json_string <- jsonlite::toJSON(c(list("Sitename" = rv$sitename,
-                                             "Lastrun" = as.character(rv$end.time),
+                                             "Lastrun" = as.character(rv$end_time),
                                              "Run duration" = as.character(round(rv$duration,2))),
                                         lapply(rv$datamap, function(x){unname(split(x, 1:nrow(x)))})))
       # to decode do
@@ -271,7 +322,7 @@ moduleDashboardServer <- function(input, output, session, rv, input_re){
                                                    "\n\n(this is an automatically created email)\n\n",
                                                    "\n\nR-Package version 'DQAstats': ", utils::packageVersion("DQAstats"),
                                                    "\nR-Package version 'DQAgui': ", utils::packageVersion("DQAgui"),
-                                                   "\n\nLast run: ", rv$end.time,
+                                                   "\n\nLast run: ", rv$end_time,
                                                    "\nRun duration: ", round(rv$duration,2), " min.",
                                                    "\n\nDatamap (JSON):\n", json_string)),
                            "&subject=", paste0("'Data Map - '", rv$sitename)))

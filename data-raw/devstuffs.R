@@ -67,10 +67,11 @@ usethis::use_package("testthat", type = "Suggests")
 usethis::use_package("processx", type = "Suggests")
 
 # Development package
-devtools::install_git(url = "https://gitlab.miracum.org/miracum-dqa/dqastats.git", ref = "v0.0.3", upgrade = "always")
+devtools::install_git(url = "https://gitlab.miracum.org/miracum-dqa/miracumdqa.git", ref = "4633c853", upgrade = "always")
+devtools::install_git(url = "https://gitlab.miracum.org/miracum-dqa/dqastats.git", ref = "ac18abdb", upgrade = "always")
 #usethis::use_dev_package("DQAstats", type = "Imports")
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
-desc::desc_set_remotes(c("url::https://gitlab.miracum.org/miracum-dqa/dqastats/-/archive/v0.0.3/dqastats-v0.0.3.zip"),
+desc::desc_set_remotes(c("url::https://gitlab.miracum.org/miracum-dqa/dqastats/-/archive/ac18abdb/dqastats-ac18abdb.zip"),
                        file = usethis::proj_get())
 
 # buildignore and gitignore

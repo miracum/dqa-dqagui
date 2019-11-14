@@ -32,9 +32,13 @@ moduleMDRServer <- function(input, output, session, rv, input_re){
   observe({
     req(rv$mdr)
 
-    if (rv$db_target %in% rv$mdr[,unique(get("source_system"))]){
+    if (rv$db_target %in% rv$mdr[,unique(get("source_system_name"))]){
 
-      reactive_to_append <- DQAstats::createHelperVars_(mdr = rv$mdr, target_db = rv$db_target, source_db = rv$db_source)
+      reactive_to_append <- DQAstats::create_helper_vars(
+        mdr = rv$mdr,
+        target_db = rv$db_target,
+        source_db = rv$db_source
+      )
       # workaround, to keep "rv" an reactiveValues object in shiny app
       # (rv <- c(rv, reactive_to_append)) does not work!
       for (i in names(reactive_to_append)){

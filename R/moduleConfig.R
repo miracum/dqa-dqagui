@@ -33,7 +33,7 @@ moduleConfigServer <- function(input, output, session, rv, input_re){
     if (is.null(rv$mdr)){
       cat("\nRead MDR\n")
       # read MDR
-      rv$mdr <- DQAstats::readMDR_(rv$utilspath)
+      rv$mdr <- DQAstats::read_mdr(utils = rv$utilspath)
 
       # workaround to tell ui, that db_connection is there
       output$mdr_present <- reactive({
@@ -50,7 +50,7 @@ moduleConfigServer <- function(input, output, session, rv, input_re){
   # observe source file directory
   observeEvent(input_re()[["moduleConfig-config_sourcedir_in"]], {
     settingsdir <- shinyFiles::parseDirPath(roots, input_re()[["moduleConfig-config_sourcedir_in"]])
-    rv$sourcefiledir <- DQAstats::cleanPathName_(settingsdir)
+    rv$sourcefiledir <- DQAstats::clean_path_name(settingsdir)
   })
 
   output$config_sourcedir_out <- reactive({
@@ -125,7 +125,10 @@ moduleConfigServer <- function(input, output, session, rv, input_re){
 
     if (!is.null(rv$settings_target)){
 
-      rv$db_con_target <- DQAstats::testTargetDB_(target_settings = rv$settings_target, headless = rv$headless)
+      rv$db_con_target <- DQAstats::test_target_db(
+        target_settings = rv$settings_target,
+        headless = rv$headless
+      )
 
       if (!is.null(rv$db_con_target)){
         cat("\nDB connection successfully established\n")
@@ -142,7 +145,10 @@ moduleConfigServer <- function(input, output, session, rv, input_re){
     req(rv$db_con_target)
 
     if (is.null(rv$sql_target)){
-      rv$sql_target <- DQAstats::loadSQLs_(utils = rv$utilspath, db = rv$db_target)
+      rv$sql_target <- DQAstats::load_sqls(
+        utils = rv$utilspath,
+        db = rv$db_target
+      )
     }
   })
 

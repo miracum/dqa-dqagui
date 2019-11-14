@@ -39,8 +39,8 @@ moduleReportServer <- function(input,
     # we need for the report is there
     req(rv$create_report)
 
-    if (is.null(rv$report_created)){
-      DQAstats::createMarkdown_(
+    if (is.null(rv$report_created)) {
+      DQAstats::create_markdown(
         rv = rv,
         utils = rv$utilspath,
         outdir = tempdir(),
@@ -92,7 +92,7 @@ moduleReportServer <- function(input,
       paste0("DQA_report_",
              gsub("\\-|\\:| ",
                   "",
-                  substr(rv$start.time, 1, 16)),
+                  substr(rv$start_time, 1, 16)),
              "_",
              rv$sitename,
              ".pdf")
@@ -103,7 +103,7 @@ moduleReportServer <- function(input,
                "/DQA_report_",
                gsub("\\-|\\:| ",
                     "",
-                    substr(rv$start.time, 1, 16)),
+                    substr(rv$start_time, 1, 16)),
                ".pdf"),
         file
       )
@@ -117,7 +117,7 @@ moduleReportServer <- function(input,
       paste0("DQA_results_",
              gsub("\\-|\\:| ",
                   "",
-                  substr(rv$start.time, 1, 16)),
+                  substr(rv$start_time, 1, 16)),
              "_",
              rv$sitename,
              ".zip")
