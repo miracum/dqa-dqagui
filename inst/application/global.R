@@ -1,4 +1,5 @@
-# DQAgui - A graphical user interface (GUI) to the functions implemented in the R package 'DQAstats'.
+# DQAgui - A graphical user interface (GUI) to the functions implemented in the
+# R package 'DQAstats'.
 # Copyright (C) 2019 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify

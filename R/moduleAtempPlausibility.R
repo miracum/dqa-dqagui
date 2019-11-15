@@ -1,4 +1,5 @@
-# DQAgui - A graphical user interface (GUI) to the functions implemented in the R package 'DQAstats'.
+# DQAgui - A graphical user interface (GUI) to the functions implemented in the
+# R package 'DQAstats'.
 # Copyright (C) 2019 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
@@ -15,65 +16,93 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#' @title moduleAtempPlausibilityServer
+#' @title module_atemp_pl_server
 #'
 #' @param input Shiny server input object
 #' @param output Shiny server output object
 #' @param session Shiny session object
 #' @param rv The global 'reactiveValues()' object, defined in server.R
-#' @param input_re The Shiny server input object, wrapped into a reactive expression: input_re = reactive({input})
+#' @param input_re The Shiny server input object, wrapped into a reactive
+#'   expression: input_re = reactive({input})
 #'
 #' @export
 #'
-# moduleAtempPlausibilityServer
-moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
-
+# module_atemp_pl_server
+module_atemp_pl_server <- function(input, output, session, rv, input_re) {
   observe({
     req(rv$checks$value_conformance)
 
-    if (is.null(rv$pl_atemp_vars_filter)){
+    if (is.null(rv$pl_atemp_vars_filter)) {
       # create rv$pl_atemp_vars_filter for rendering of results
-      listvec <- unname(sapply(names(rv$data_plausibility$atemporal), function(x){
-        rv$data_plausibility$atemporal[[x]]$source_data$name
-      }, simplify = T))
-      list_i = 1
-      rv$pl_atemp_vars_filter <- sapply(listvec, function(x){
-        outlist <- names(rv$data_plausibility$atemporal)[[list_i]]
-        list_i <<- list_i + 1
-        return(outlist)
-      }, USE.NAMES = T, simplify = F)
+      listvec <- unname(
+        sapply(
+          names(rv$data_plausibility$atemporal),
+          function(x) {
+            # only plausibilities assigned to source data are being read
+            rv$data_plausibility$atemporal[[x]]$source_data$name
+          }, simplify = T)
+      )
+      list_i <- 1
+      rv$pl_atemp_vars_filter <- sapply(
+        listvec,
+        function(x) {
+          outlist <- names(rv$data_plausibility$atemporal)[[list_i]]
+          list_i <<- list_i + 1
+          return(outlist)
+        }, USE.NAMES = T, simplify = F)
       rm(list_i, listvec)
       gc()
     }
 
     # render select input here
     output$pl_selection_uiout <- renderUI({
-      selectInput("moduleAtempPlausibility-plausibility_sel",
-                  "Select plausibility item",
-                  rv$pl_atemp_vars_filter,
-                  multiple=FALSE,
-                  selectize=FALSE,
-                  size = 10)
+      selectInput(
+        "moduleAtempPlausibility-plausibility_sel",
+        "Select plausibility item",
+        rv$pl_atemp_vars_filter,
+        multiple = FALSE,
+        selectize = FALSE,
+        size = 10
+      )
     })
 
     # generate output tables
-    observeEvent(input_re()[["moduleAtempPlausibility-plausibility_sel"]], {
+    observeEvent(
+      eventExpr = input_re()[["moduleAtempPlausibility-plausibility_sel"]],
+      handlerExpr = {
       cat(input_re()[["moduleAtempPlausibility-plausibility_sel"]], "\n")
 
       # get description object
-      desc_out <- rv$results_plausibility_atemporal[[input_re()[["moduleAtempPlausibility-plausibility_sel"]]]]$description
-      count_out <- rv$results_plausibility_atemporal[[input_re()[["moduleAtempPlausibility-plausibility_sel"]]]]$counts
-      stat_out <- rv$results_plausibility_atemporal[[input_re()[["moduleAtempPlausibility-plausibility_sel"]]]]$statistics
+      sel_ob <- input_re()[["moduleAtempPlausibility-plausibility_sel"]]
+      desc_out <- rv$results_plausibility_atemporal[[sel_ob]]$description
+      count_out <- rv$results_plausibility_atemporal[[sel_ob]]$counts
+      stat_out <- rv$results_plausibility_atemporal[[sel_ob]]$statistics
 
-      value_conf <- rv$conformance$value_conformance[[input_re()[["moduleAtempPlausibility-plausibility_sel"]]]]
+      value_conf <- rv$conformance$value_conformance[[sel_ob]]
 
 
       # render source description
-      output$pl_selection_description_source <- renderTable({
+      output$pl_selection_descr_source <- renderTable({
         o <- desc_out$source_data
         c <- count_out$source_data
-        data.table::data.table(" " = c("Variable 1:", "Variable 2:", "Filter Criterion Variable 2 (regex):", "Join Criterion:", "DQ-internal Variable Name:", "Variable type:"),
-                               " " = c(o$var_dependent, o$var_independent, o$filter, o$join_crit, c$cnt$variable, c$type))
+        data.table::data.table(
+          " " = c(
+            "Variable 1:",
+            "Variable 2:",
+            "Filter Criterion Variable 2 (regex):",
+            "Join Criterion:",
+            "DQ-internal Variable Name:",
+            "Variable type:"
+          ),
+          " " = c(
+            o$var_dependent,
+            o$var_independent,
+            o$filter,
+            o$join_crit,
+            c$cnt$variable,
+            c$type
+          )
+        )
 
       })
 
@@ -86,29 +115,83 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
       })
 
       # render target description
-      output$pl_selection_description_target <- renderTable({
+      output$pl_selection_descr_target <- renderTable({
         o <- desc_out$target_data
         c <- count_out$target_data
-        data.table::data.table(" " = c("Variable 1:", "Variable 2:", "Filter Criterion Variable 2 (regex):", "Join Criterion:", "DQ-internal Variable Name:", "Variable type:"),
-                               " " = c(o$var_dependent, o$var_independent, o$filter, o$join_crit, c$cnt$variable, c$type))
+        data.table::data.table(
+          " " = c(
+            "Variable 1:",
+            "Variable 2:",
+            "Filter Criterion Variable 2 (regex):",
+            "Join Criterion:",
+            "DQ-internal Variable Name:",
+            "Variable type:"
+          ),
+          " " = c(
+            o$var_dependent,
+            o$var_independent,
+            o$filter,
+            o$join_crit,
+            c$cnt$variable,
+            c$type
+          )
+        )
 
       })
 
       # render source counts
       output$pl_selection_counts_source <- renderTable({
         tryCatch({
-          o <- count_out$source_data$cnt[,c("variable", "n", "valids", "missings", "distinct"),with=F]
-          data.table::data.table(" " = c("n:", "Valid values:", "Missing values:", "Distinct values:"),
-                                 " " = c(o$n, o$valids, o$missings, o$distinct))
-        }, error=function(e){shinyjs::logjs(e)})
+          o <- count_out$source_data$cnt[, c(
+            "variable",
+            "n",
+            "valids",
+            "missings",
+            "distinct"), with = F]
+          data.table::data.table(
+            " " = c(
+              "n:",
+              "Valid values:",
+              "Missing values:",
+              "Distinct values:"
+            ),
+            " " = c(
+              o$n,
+              o$valids,
+              o$missings,
+              o$distinct
+            )
+          )
+        }, error = function(e) {
+          shinyjs::logjs(e)
+        })
       })
       # render target counts
       output$pl_selection_counts_target <- renderTable({
         tryCatch({
-          o <- count_out$target_data$cnt[,c("variable", "n", "valids", "missings", "distinct"),with=F]
-          data.table::data.table(" " = c("n:", "Valid values:", "Missing values:", "Distinct values:"),
-                                 " " = c(o$n, o$valids, o$missings, o$distinct))
-        }, error=function(e){shinyjs::logjs(e)})
+          o <- count_out$target_data$cnt[, c(
+            "variable",
+            "n",
+            "valids",
+            "missings",
+            "distinct"), with = F]
+          data.table::data.table(
+            " " = c(
+              "n:",
+              "Valid values:",
+              "Missing values:",
+              "Distinct values:"
+            ),
+            " " = c(
+              o$n,
+              o$valids,
+              o$missings,
+              o$distinct
+            )
+          )
+        }, error = function(e) {
+          shinyjs::logjs(e)
+        })
       })
 
 
@@ -125,31 +208,42 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
 
       # conformance source
       # render conformance checks (only if value set present)
-      if (!is.na(desc_out$source_data$checks$constraints)){
-
+      if (!is.na(desc_out$source_data$checks$constraints)) {
         # workaround to tell ui, that value_set is there
-        output$gotValueset_s <- reactive({
+        output$got_valueset_s <- reactive({
           return(TRUE)
         })
 
         output$pl_checks_source <- renderUI({
           h <- h5(tags$b("Constraining values/rules:"))
-          v <- verbatimTextOutput("moduleAtempPlausibility-pl_checks_source_valueset")
+          v <- verbatimTextOutput(
+            outputId = "moduleAtempPlausibility-pl_checks_source_valueset"
+          )
 
 
           ch <- h5(tags$b("Value conformance:"))
-          ce <- h5(paste0("Conformance check: ", ifelse(value_conf$target_data$conformance_error, "failed", "passed")))
+          ce <- h5(paste0(
+            "Conformance check: ",
+            ifelse(
+              value_conf$target_data$conformance_error,
+              "failed",
+              "passed"
+            )
+          ))
           cu <- uiOutput("moduleAtempPlausibility-pl_conformance_source")
           do.call(tagList, list(h, v, tags$hr(), ch, ce, cu))
         })
 
-        json_obj_src <- jsonlite::fromJSON(desc_out$source_data$checks$constraints)
+        json_obj_src <- jsonlite::fromJSON(
+          txt = desc_out$source_data$checks$constraints
+        )
 
-        if (desc_out$source_data$checks$var_type == "permittedValues"){
+        if (desc_out$source_data$checks$var_type == "permittedValues") {
           output$pl_checks_source_valueset <- renderText({
             json_obj_src$value_set
           })
-        } else if (desc_out$source_data$checks$var_type %in% c("integer", "float")){
+        } else if (desc_out$source_data$checks$var_type %in%
+                   c("integer", "float")) {
           output$pl_checks_source_valueset <- renderPrint({
             json_obj_src$range
           })
@@ -157,10 +251,12 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
 
         # render automatic conformance checks source
         # value conformance
-        if (isTRUE(value_conf$source_data$conformance_error)){
-
+        if (isTRUE(value_conf$source_data$conformance_error)) {
           output$pl_conformance_source <- renderUI({
-            v <- verbatimTextOutput("moduleAtempPlausibility-pl_conformance_source_results")
+            w_id <- "moduleAtempPlausibility-pl_conformance_source_results"
+            v <- verbatimTextOutput(
+              outputId = w_id
+            )
             do.call(tagList, list(v))
           })
 
@@ -169,46 +265,57 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
           })
         } else {
           output$pl_conformance_source <- renderUI({
+
           })
         }
 
       } else {
-
         # workaround to tell ui, that value_set is not there
-        output$gotValueset_s <- reactive({
+        output$got_valueset_s <- reactive({
           return(FALSE)
         })
       }
-      outputOptions(output, 'gotValueset_s', suspendWhenHidden=FALSE)
+      outputOptions(output, "got_valueset_s", suspendWhenHidden = FALSE)
 
 
       # conformance target
       # render conformance checks (only if value set present)
-      if (!is.na(desc_out$target_data$checks$constraints)){
-
+      if (!is.na(desc_out$target_data$checks$constraints)) {
         # workaround to tell ui, that value_set is there
-        output$gotValueset_t <- reactive({
+        output$got_valueset_t <- reactive({
           return(TRUE)
         })
 
         output$pl_checks_target <- renderUI({
           h <- h5(tags$b("Constraining values/rules:"))
-          v <- verbatimTextOutput("moduleAtempPlausibility-pl_checks_target_valueset")
+          v <- verbatimTextOutput(
+            outputId = "moduleAtempPlausibility-pl_checks_target_valueset"
+          )
 
 
           ch <- h5(tags$b("Value conformance:"))
-          ce <- h5(paste0("Conformance check: ", ifelse(value_conf$target_data$conformance_error, "failed", "passed")))
+          ce <- h5(paste0(
+            "Conformance check: ",
+            ifelse(
+              value_conf$target_data$conformance_error,
+              "failed",
+              "passed"
+            )
+          ))
           cu <- uiOutput("moduleAtempPlausibility-pl_conformance_target")
           do.call(tagList, list(h, v, tags$hr(), ch, ce, cu))
         })
 
-        json_obj_tar <- jsonlite::fromJSON(desc_out$target_data$checks$constraints)
+        json_obj_tar <- jsonlite::fromJSON(
+          txt = desc_out$target_data$checks$constraints
+        )
 
-        if (desc_out$target_data$checks$var_type == "permittedValues"){
+        if (desc_out$target_data$checks$var_type == "permittedValues") {
           output$pl_checks_target_valueset <- renderText({
             json_obj_tar$value_set
           })
-        } else if (desc_out$target_data$checks$var_type %in% c("integer", "float")){
+        } else if (desc_out$target_data$checks$var_type %in%
+                   c("integer", "float")) {
           output$pl_checks_target_valueset <- renderPrint({
             json_obj_tar$range
           })
@@ -217,10 +324,13 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
 
         # render automatic conformance checks target
         # value conformance
-        if (isTRUE(value_conf$target_data$conformance_error)){
-
+        if (isTRUE(value_conf$target_data$conformance_error)) {
           output$pl_conformance_target <- renderUI({
-            v <- verbatimTextOutput("moduleAtempPlausibility-pl_conformance_target_results")
+            # workaround (lintr wants max. 80 chars per line)
+            w_id2 <- "moduleAtempPlausibility-pl_conformance_target_results"
+            v <- verbatimTextOutput(
+              outputId = w_id2
+            )
             do.call(tagList, list(v))
           })
 
@@ -229,93 +339,105 @@ moduleAtempPlausibilityServer <- function(input, output, session, rv, input_re){
           })
         } else {
           output$pl_conformance_target <- renderUI({
+
           })
         }
 
       } else {
-
         # workaround to tell ui, that value_set is not there
-        output$gotValueset_t <- reactive({
+        output$got_valueset_t <- reactive({
           return(FALSE)
         })
       }
-      outputOptions(output, 'gotValueset_t', suspendWhenHidden=FALSE)
+      outputOptions(output, "got_valueset_t", suspendWhenHidden = FALSE)
     })
   })
 }
 
-#' @title moduleAtempPlausibilityUI
+#' @title module_atemp_pl_ui
 #'
 #' @param id A character. The identifier of the shiny object
 #'
 #' @export
 #'
-# moduleAtempPlausibilityUI
-moduleAtempPlausibilityUI <- function(id){
+# module_atemp_pl_ui
+module_atemp_pl_ui <- function(id) {
   ns <- NS(id)
 
   tagList(
     fluidRow(
       box(title = "Select variable",
           uiOutput(ns("pl_selection_uiout")),
-          width = 4
-      ),
+          width = 4),
       box(title = "Description",
           htmlOutput(ns("pl_description")),
-          width = 8
-      )
+          width = 8)
     ),
     fluidRow(
-      box(title="Source Data System",
-          width = 6,
-          fluidRow(
-            column(8,
-                   h5(tags$b("Metadata")),
-                   tableOutput(ns("pl_selection_description_source"))
-            ),
-            column(4,
-                   h5(tags$b("Completeness Overview")),
-                   tableOutput(ns("pl_selection_counts_source"))
-            )
+      box(
+        title = "Source Data System",
+        width = 6,
+        fluidRow(
+          column(8,
+                 h5(
+                   tags$b("Metadata")
+                 ),
+                 tableOutput(ns("pl_selection_descr_source"))
           ),
-          fluidRow(
-            column(8,
-                   h5(tags$b("Results")),
-                   tableOutput(ns("pl_selection_source_table"))
-            ),
-            column(4,
-                   conditionalPanel(
-                     condition = "output['moduleAtempPlausibility-gotValueset_s']",
-                     uiOutput(ns("pl_checks_source"))
-                   )
-            )
+          column(4,
+                 h5(
+                   tags$b("Completeness Overview")
+                 ),
+                 tableOutput(ns("pl_selection_counts_source"))
           )
+        ),
+        fluidRow(
+          column(8,
+                 h5(
+                   tags$b("Results")
+                 ),
+                 tableOutput(ns("pl_selection_source_table"))
+          ),
+          column(
+            4,
+            conditionalPanel(
+              condition = "output['moduleAtempPlausibility-got_valueset_s']",
+              uiOutput(ns("pl_checks_source"))
+            )
+          ))
       ),
-      box(title="Target Data System",
-          width = 6,
-          fluidRow(
-            column(8,
-                   h5(tags$b("Metadata")),
-                   tableOutput(ns("pl_selection_description_target"))
-            ),
-            column(4,
-                   h5(tags$b("Completeness Overview")),
-                   tableOutput(ns("pl_selection_counts_target"))
-            )
+      box(
+        title = "Target Data System",
+        width = 6,
+        fluidRow(
+          column(8,
+                 h5(
+                   tags$b("Metadata")
+                 ),
+                 tableOutput(ns("pl_selection_descr_target"))
           ),
-          fluidRow(
-            column(8,
-                   h5(tags$b("Results")),
-                   tableOutput(ns("pl_selection_target_table"))
-            ),
-            column(4,
-                   conditionalPanel(
-                     condition = "output['moduleAtempPlausibility-gotValueset_t']",
-                     uiOutput(ns("pl_checks_target"))
-                   )
+          column(4,
+                 h5(
+                   tags$b("Completeness Overview")
+                 ),
+                 tableOutput(
+                   ns("pl_selection_counts_target")
+                 ))
+        ),
+        fluidRow(
+          column(8,
+                 h5(
+                   tags$b("Results")
+                 ),
+                 tableOutput(ns("pl_selection_target_table"))
+          ),
+          column(
+            4,
+            conditionalPanel(
+              condition = "output['moduleAtempPlausibility-got_valueset_t']",
+              uiOutput(ns("pl_checks_target"))
             )
-          )
+          ))
       )
-    )
-  )
+    ))
 }

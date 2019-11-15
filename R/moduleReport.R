@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#' @title moduleReportServer
+#' @title module_report_server
 #'
 #' @param input Shiny server input object
 #' @param output Shiny server output object
@@ -27,8 +27,8 @@
 #'
 #' @export
 #'
-# moduleReportServer
-moduleReportServer <- function(input,
+# module_report_server
+module_report_server <- function(input,
                                output,
                                session,
                                rv,
@@ -88,7 +88,7 @@ moduleReportServer <- function(input,
 
 
   output$download_report <- downloadHandler(
-    filename = function(){
+    filename = function() {
       paste0("DQA_report_",
              gsub("\\-|\\:| ",
                   "",
@@ -97,7 +97,7 @@ moduleReportServer <- function(input,
              rv$sitename,
              ".pdf")
     },
-    content = function(file){
+    content = function(file) {
       file.copy(
         paste0(tempdir(),
                "/DQA_report_",
@@ -147,14 +147,14 @@ moduleReportServer <- function(input,
   )
 }
 
-#' @title moduleReportUI
+#' @title module_report_ui
 #'
 #' @param id A character. The identifier of the shiny object
 #'
 #' @export
 #'
-# moduleReportUI
-moduleReportUI <- function(id) {
+# module_report_ui
+module_report_ui <- function(id) {
   ns <- NS(id)
 
   tagList(

@@ -15,7 +15,7 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.0.3")
+my_desc$set_version("0.0.4")
 # The title of your package
 my_desc$set(Title = "DQA GUI")
 # The description of your package
@@ -65,14 +65,18 @@ usethis::use_package("config", type="Imports")
 # Suggests
 usethis::use_package("testthat", type = "Suggests")
 usethis::use_package("processx", type = "Suggests")
+usethis::use_package("lintr", type = "Suggests")
 
 # Development package
-devtools::install_git(url = "https://gitlab.miracum.org/miracum-dqa/miracumdqa.git", ref = "4633c853", upgrade = "always")
-devtools::install_git(url = "https://gitlab.miracum.org/miracum-dqa/dqastats.git", ref = "ac18abdb", upgrade = "always")
+mytag <- "v0.0.4"
+devtools::install_git(url = "https://gitlab.miracum.org/miracum-dqa/dqastats.git", ref = mytag, upgrade = "always")
 #usethis::use_dev_package("DQAstats", type = "Imports")
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
-desc::desc_set_remotes(c("url::https://gitlab.miracum.org/miracum-dqa/dqastats/-/archive/ac18abdb/dqastats-ac18abdb.zip"),
-                       file = usethis::proj_get())
+desc::desc_set_remotes(c(
+  paste0(
+    "url::https://gitlab.miracum.org/miracum-dqa/dqastats/-/archive/", mytag, "/dqastats-", mytag, ".zip")
+),
+file = usethis::proj_get())
 
 # buildignore and gitignore
 usethis::use_build_ignore("docker")

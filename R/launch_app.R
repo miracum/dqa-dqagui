@@ -39,9 +39,9 @@
 #' @export
 #'
 
-launchApp <- function(port=3838,
-                      utilspath,
-                      db_source) {
+launch_app <- function(port=3838,
+                       utilspath,
+                       db_source) {
 
   global_env_hack <- function(key,
                               val,
@@ -67,8 +67,7 @@ launchApp <- function(port=3838,
 
   options(shiny.port = port)
 
-  shiny::shinyAppDir(appDir = system.file("application", package = "DQAgui"))
+  shiny::shinyAppDir(
+    appDir = system.file("application", package = "DQAgui")
+  )
 }
-
-# debugging
-# launchApp(utilspath = DQAstats::clean_path_name(system.file("application/_utilities", package = "miRacumDQA")), db_source = "p21csv")

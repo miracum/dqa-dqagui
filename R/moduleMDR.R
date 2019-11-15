@@ -1,4 +1,5 @@
-# DQAgui - A graphical user interface (GUI) to the functions implemented in the R package 'DQAstats'.
+# DQAgui - A graphical user interface (GUI) to the functions implemented in the
+# R package 'DQAstats'.
 # Copyright (C) 2019 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
@@ -15,25 +16,24 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#' @title moduleMDRServer
+#' @title module_mdr_server
 #'
 #' @param input Shiny server input object
 #' @param output Shiny server output object
 #' @param session Shiny session object
 #' @param rv The global 'reactiveValues()' object, defined in server.R
-#' @param input_re The Shiny server input object, wrapped into a reactive expression: input_re = reactive({input})
+#' @param input_re The Shiny server input object, wrapped into a reactive
+#'   expression: input_re = reactive({input})
 #'
 #' @export
 #'
-# moduleMDRServer
-moduleMDRServer <- function(input, output, session, rv, input_re){
-
+# module_mdr_server
+module_mdr_server <- function(input, output, session, rv, input_re) {
   # read mdr
   observe({
     req(rv$mdr)
 
-    if (rv$db_target %in% rv$mdr[,unique(get("source_system_name"))]){
-
+    if (rv$db_target %in% rv$mdr[, unique(get("source_system_name"))]) {
       reactive_to_append <- DQAstats::create_helper_vars(
         mdr = rv$mdr,
         target_db = rv$db_target,
@@ -41,41 +41,41 @@ moduleMDRServer <- function(input, output, session, rv, input_re){
       )
       # workaround, to keep "rv" an reactiveValues object in shiny app
       # (rv <- c(rv, reactive_to_append)) does not work!
-      for (i in names(reactive_to_append)){
+      for (i in names(reactive_to_append)) {
         rv[[i]] <- reactive_to_append[[i]]
       }
 
     } else {
-      showModal(modalDialog(
-        "No keys for target database found in MDR.",
-        title = "No keys found")
-      )
+      showModal(modalDialog("No keys for target database found in MDR.",
+                            title = "No keys found"))
     }
   })
 
   output$mdr_table <- DT::renderDataTable({
-    DT::datatable(rv$mdr, options = list(scrollX = TRUE, pageLength = 20, dom="ltip"))
+    DT::datatable(rv$mdr, options = list(
+      scrollX = TRUE,
+      pageLength = 20,
+      dom = "ltip"
+    ))
   })
 }
 
 
-#' @title moduleMDRUI
+#' @title module_mdr_ui
 #'
 #' @param id A character. The identifier of the shiny object
 #'
 #' @export
 #'
-# moduleMDRUI
-moduleMDRUI <- function(id){
+# module_mdr_ui
+module_mdr_ui <- function(id) {
   ns <- NS(id)
 
-  tagList(
-    fluidRow(
-      box(
-        title = "DQ Metadatarepository",
-        DT::dataTableOutput(ns("mdr_table")),
-        width = 12
-      )
+  tagList(fluidRow(
+    box(
+      title = "DQ Metadatarepository",
+      DT::dataTableOutput(ns("mdr_table")),
+      width = 12
     )
-  )
+  ))
 }

@@ -1,4 +1,5 @@
-# DQAgui - A graphical user interface (GUI) to the functions implemented in the R package 'DQAstats'.
+# DQAgui - A graphical user interface (GUI) to the functions implemented in the
+# R package 'DQAstats'.
 # Copyright (C) 2019 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
@@ -28,20 +29,42 @@ shiny::shinyUI(
         shinyjs::useShinyjs(),
         # js reset function
         # https://stackoverflow.com/questions/25062422/restart-shiny-session
-        shinyjs::extendShinyjs(script = system.file("application/reset.js", package = "DQAgui"), functions = "reset"), # Add the js code to the page
+        shinyjs::extendShinyjs(
+          script = system.file("application/reset.js",
+                               package = "DQAgui"),
+          functions = "reset"
+        ), # Add the js code to the page
 
         #Sidebar Panel
-        shinydashboard::sidebarMenu(id = "tabs",
-                                    shinydashboard::menuItem("Dashboard", tabName = "tab_dashboard", icon = icon("tachometer-alt")),
-                                    shinydashboard::sidebarMenuOutput("menu"),
-                                    shinydashboard::menuItem("Config", tabName = "tab_config", icon = icon("cogs")),
-                                    shinydashboard::sidebarMenuOutput("mdr"),
-                                    shiny::tags$hr(),
-                                    shiny::actionButton("reset", "Reset DQA Tool")
+        shinydashboard::sidebarMenu(
+          id = "tabs",
+          shinydashboard::menuItem(
+            text = "Dashboard",
+            tabName = "tab_dashboard",
+            icon = icon("tachometer-alt")
+          ),
+          shinydashboard::sidebarMenuOutput("menu"),
+          shinydashboard::menuItem(
+            text = "Config",
+            tabName = "tab_config",
+            icon = icon("cogs")
+          ),
+          shinydashboard::sidebarMenuOutput("mdr"),
+          shiny::tags$hr(),
+          shiny::actionButton(
+            inputId = "reset",
+            label = "Reset DQA Tool"
+          )
         ),
-        shiny::div(class = "sidebar-menu", style = "position:fixed; bottom:0; left:0; white-space: normal; text-align:left;
-                                                                              padding: 9.5px 9.5px 9.5px 9.5px; margin: 6px 10px 6px 10px; box-sizing:border-box; heigth: auto; width: 230px;",
-                   shiny::HTML("\u00A9 Universitätsklinikum Erlangen<br/>"))
+        shiny::div(
+          class = "sidebar-menu",
+          style = paste0("position:fixed; bottom:0; left:0; ",
+                         "white-space: normal; text-align:left; ",
+                         "padding: 9.5px 9.5px 9.5px 9.5px; ",
+                         "margin: 6px 10px 6px 10px; ",
+                         "box-sizing:border-box; heigth: auto; width: 230px;"),
+          shiny::HTML("\u00A9 Universitätsklinikum Erlangen<br/>")
+        )
       ),
 
       shinydashboard::dashboardBody(
@@ -50,42 +73,53 @@ shiny::shinyUI(
         shinyjs::useShinyjs(),
 
         shinydashboard::tabItems(
-          shinydashboard::tabItem(tabName = "tab_dashboard",
-                                  moduleDashboardUI("moduleDashboard")
+          shinydashboard::tabItem(
+            tabName = "tab_dashboard",
+            module_dashboard_ui("moduleDashboard")
           ),
 
-          shinydashboard::tabItem(tabName = "tab_config",
-                                  moduleConfigUI("moduleConfig")
+          shinydashboard::tabItem(
+            tabName = "tab_config",
+            module_config_ui("moduleConfig")
           ),
 
-          shinydashboard::tabItem(tabName = "tab_descriptive",
-                                  moduleDescriptiveUI("moduleDescriptive")
+          shinydashboard::tabItem(
+            tabName = "tab_descriptive",
+            module_descriptive_ui("moduleDescriptive")
           ),
 
-          shinydashboard::tabItem(tabName = "tab_atemp_plausibility",
-                                  moduleAtempPlausibilityUI("moduleAtempPlausibility")
+          shinydashboard::tabItem(
+            tabName = "tab_atemp_plausibility",
+            module_atemp_pl_ui("moduleAtempPlausibility")
           ),
 
-          shinydashboard::tabItem(tabName = "tab_uniq_plausibility",
-                                  moduleUniquePlausibilityUI("moduleUniquePlausibility")
+          shinydashboard::tabItem(
+            tabName = "tab_uniq_plausibility",
+            module_uniq_plaus_ui("moduleUniquePlausibility")
           ),
 
-          shinydashboard::tabItem(tabName = "tab_completeness",
-                                  moduleCompletenessUI("moduleCompleteness")
-          ),
-          #
-          #                                                                 shinydashboard::tabItem(tabName = "tab_visualizations",
-          #                                                                                         moduleVisualizationsUI("moduleVisulizations")
-          #                                                                 ),
-
-          shinydashboard::tabItem(tabName = "tab_report",
-                                  moduleReportUI("moduleReport")
+          shinydashboard::tabItem(
+            tabName = "tab_completeness",
+            module_completeness_ui("moduleCompleteness")
           ),
 
-          shinydashboard::tabItem(tabName = "tab_mdr",
-                                  moduleMDRUI("moduleMDR")
+          #% shinydashboard::tabItem(
+          #%   tabName = "tab_visualizations",
+          #%   module_visualizations_ui("moduleVisulizations")
+          #% ),
+
+          shinydashboard::tabItem(
+            tabName = "tab_report",
+            module_report_ui("moduleReport")
+          ),
+
+          shinydashboard::tabItem(
+            tabName = "tab_mdr",
+            module_mdr_ui("moduleMDR")
           )
 
         )
       )
-    )))
+    )
+  )
+)

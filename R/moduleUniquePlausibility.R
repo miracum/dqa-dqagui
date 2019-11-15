@@ -1,4 +1,5 @@
-# DQAgui - A graphical user interface (GUI) to the functions implemented in the R package 'DQAstats'.
+# DQAgui - A graphical user interface (GUI) to the functions implemented in the
+# R package 'DQAstats'.
 # Copyright (C) 2019 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
@@ -14,105 +15,134 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#' @title moduleUniquePlausibilityServer
+#' @title module_uniq_plaus_server
 #'
 #' @param input Shiny server input object
 #' @param output Shiny server output object
 #' @param session Shiny session object
 #' @param rv The global 'reactiveValues()' object, defined in server.R
-#' @param input_re The Shiny server input object, wrapped into a reactive expression: input_re = reactive({input})
+#' @param input_re The Shiny server input object, wrapped into a reactive
+#'   expression: input_re = reactive({input})
 #'
 #' @export
 #'
-# moduleUniquePlausibilityServer
-moduleUniquePlausibilityServer <- function(input, output, session, rv, input_re){
-  observe({
-    req(rv$results_plausibility_uniqueness)
+# module_uniq_plaus_server
+module_uniq_plaus_server <-
+  function(input, output, session, rv, input_re) {
+    observe({
+      req(rv$results_plausibility_unique)
 
-    if (is.null(rv$pl_uniq_vars_filter)){
-      # create rv$pl_atemp_vars_filter for rendering of results
-      listvec <- names(rv$results_plausibility_uniqueness)
-      list_i = 1
-      rv$pl_uniq_vars_filter <- sapply(listvec, function(x){
-        outlist <- names(rv$results_plausibility_uniqueness)[[list_i]]
-        invisible(list_i <<- list_i + 1)
-        return(outlist)
-      }, USE.NAMES = T, simplify = F)
-      rm(list_i, listvec)
-      gc()
-    }
+      if (is.null(rv$pl_uniq_vars_filter)) {
+        # create rv$pl_atemp_vars_filter for rendering of results
+        listvec <- names(rv$results_plausibility_unique)
+        list_i <- 1
+        rv$pl_uniq_vars_filter <- sapply(listvec, function(x) {
+          outlist <- names(rv$results_plausibility_unique)[[list_i]]
+          invisible(list_i <<- list_i + 1)
+          return(outlist)
+        }, USE.NAMES = T, simplify = F)
+        rm(list_i, listvec)
+        gc()
+      }
 
-    # render select input here
-    output$pl_selection_uiout <- renderUI({
-      selectInput("moduleUniquePlausibility-plausibility_sel", "Select plausibility item", rv$pl_uniq_vars_filter, multiple=FALSE, selectize=FALSE, size = 10)
+      # render select input here
+      output$pl_selection_uiout <- renderUI({
+        selectInput(
+          "moduleUniquePlausibility-plausibility_sel",
+          "Select plausibility item",
+          rv$pl_uniq_vars_filter,
+          multiple = FALSE,
+          selectize = FALSE,
+          size = 10
+        )
+      })
+
+      # generate output tables
+      observeEvent(input_re()[["moduleUniquePlausibility-plausibility_sel"]], {
+        cat(input_re()[["moduleUniquePlausibility-plausibility_sel"]], "\n")
+
+        sel_ob3 <- input_re()[["moduleUniquePlausibility-plausibility_sel"]]
+        uniq_out <- rv$results_plausibility_unique[[sel_ob3]]
+
+
+        # description
+        output$pl_description <- renderText({
+          d <- uniq_out$description
+          # https://community.rstudio.com/t/rendering-markdown-text/11588
+          out <- knitr::knit2html(text = d, fragment.only = TRUE)
+          # output non-escaped HTML string
+          shiny::HTML(out)
+        })
+
+        # render target statistics
+        output$pl_selection_target_table <- renderUI({
+          c1 <-
+            h5(paste0(
+              "Plausibility check: ",
+              ifelse(
+                uniq_out$target_data$error == "FALSE",
+                "passed",
+                "failed"
+              )
+            ))
+          c3 <- h5(paste0("Message: ", uniq_out$target_data$message))
+
+          do.call(tagList, list(c1, c3))
+        })
+        # render source statistics
+        output$pl_selection_source_table <- renderUI({
+          c1 <-
+            h5(paste0(
+              "Plausibility check: ",
+              ifelse(
+                uniq_out$source_data$error == "FALSE",
+                "passed",
+                "failed"
+              )
+            ))
+          c3 <- h5(paste0("Message: ", uniq_out$source_data$message))
+
+          do.call(tagList, list(c1, c3))
+        })
+      })
     })
+  }
 
-    # generate output tables
-    observeEvent(input_re()[["moduleUniquePlausibility-plausibility_sel"]], {
-      cat(input_re()[["moduleUniquePlausibility-plausibility_sel"]], "\n")
-
-      uniq_out <- rv$results_plausibility_uniqueness[[input_re()[["moduleUniquePlausibility-plausibility_sel"]]]]
-
-
-      # description
-      output$pl_description <- renderText({
-        d <- uniq_out$description
-        # https://community.rstudio.com/t/rendering-markdown-text/11588
-        out <- knitr::knit2html(text = d, fragment.only = TRUE)
-        # output non-escaped HTML string
-        shiny::HTML(out)
-      })
-
-      # render target statistics
-      output$pl_selection_target_table <- renderUI({
-        c1 <- h5(paste0("Plausibility check: ", ifelse(uniq_out$target_data$error == "FALSE", "passed", "failed")))
-        c3 <- h5(paste0("Message: ", uniq_out$target_data$message))
-
-        do.call(tagList, list(c1, c3))
-      })
-      # render source statistics
-      output$pl_selection_source_table <- renderUI({
-        c1 <- h5(paste0("Plausibility check: ", ifelse(uniq_out$source_data$error == "FALSE", "passed", "failed")))
-        c3 <- h5(paste0("Message: ", uniq_out$source_data$message))
-
-        do.call(tagList, list(c1, c3))
-      })
-    })
-  })
-}
-
-#' @title moduleUniquePlausibilityUI
+#' @title module_uniq_plaus_ui
 #'
 #' @param id A character. The identifier of the shiny object
 #'
 #' @export
 #'
-# moduleUniquePlausibilityUI
-moduleUniquePlausibilityUI <- function(id){
+# module_uniq_plaus_ui
+module_uniq_plaus_ui <- function(id) {
   ns <- NS(id)
 
   tagList(
     fluidRow(
-      box(title = "Select variable",
-          uiOutput(ns("pl_selection_uiout")),
-          width = 4
-      ),
-      box(title = "Description",
-          htmlOutput(ns("pl_description")),
-          width = 8
-      )
+      box(
+        title = "Select variable",
+        uiOutput(ns(
+          "pl_selection_uiout"
+        )),
+        width = 4),
+      box(
+        title = "Description",
+        htmlOutput(ns("pl_description")),
+        width = 8)
     ),
     fluidRow(
-      box(title="Source Data System",
-          h5(tags$b("Results")),
-          uiOutput(ns("pl_selection_source_table")),
-          width = 6
+      box(
+        title = "Source Data System",
+        h5(tags$b("Results")),
+        uiOutput(ns("pl_selection_source_table")),
+        width = 6
       ),
-      box(title="Target Data System",
-          h5(tags$b("Results")),
-          uiOutput(ns("pl_selection_target_table")),
-          width = 6
+      box(
+        title = "Target Data System",
+        h5(tags$b("Results")),
+        uiOutput(ns("pl_selection_target_table")),
+        width = 6
       )
-    )
-  )
+    ))
 }
