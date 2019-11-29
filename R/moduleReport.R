@@ -42,7 +42,7 @@ module_report_server <- function(input,
     if (is.null(rv$report_created)) {
       DQAstats::create_markdown(
         rv = rv,
-        utils = rv$utilspath,
+        utils = rv$utils_path,
         outdir = tempdir(),
         headless = rv$headless
       )

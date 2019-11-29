@@ -19,7 +19,7 @@
 #' @title Launch the DQA graphical user interface (GUI)
 #'
 #' @param port The port, the MIRACUM DQA Tool is running on (default: 3838)
-#' @param utilspath The path to the utilities-folder, containing the metadata
+#' @param utils_path The path to the utilities-folder, containing the metadata
 #'   repository files (`mdr.csv` inside the folder `MDR`), JSON files with SQL
 #'   statements (inside the folder `SQL`), config files for the database
 #'   connection (`settings_default.yml`) and the email address used for the
@@ -40,7 +40,7 @@
 #'
 
 launch_app <- function(port=3838,
-                       utilspath,
+                       utils_path,
                        db_source) {
 
   global_env_hack <- function(key,
@@ -54,8 +54,8 @@ launch_app <- function(port=3838,
   }
 
   global_env_hack(
-    key = "utilspath",
-    val = utilspath,
+    key = "utils_path",
+    val = utils_path,
     pos = 1L
   )
 

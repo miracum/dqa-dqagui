@@ -22,8 +22,8 @@ shiny::shinyServer(function(input, output, session) {
     # set headless
     rv$headless <- FALSE
 
-    # set utilspath
-    rv$utilspath <- DQAstats::clean_path_name(utilspath)
+    # set utils_path
+    rv$utils_path <- DQAstats::clean_path_name(utils_path)
 
     # initialize sourcefiledir
     rv$sourcefiledir <- NULL
@@ -33,7 +33,7 @@ shiny::shinyServer(function(input, output, session) {
         expr = {
             # if existing, set email address for data-map button
             out <- DQAstats::get_config(
-                config_file = paste0(utilspath, "email.yml"),
+                config_file = paste0(utils_path, "email.yml"),
                 config_key = "email"
             )
         }, error = function(e) {

@@ -36,7 +36,7 @@ module_config_server <- function(input, output, session, rv, input_re) {
         if (is.null(rv$mdr)) {
           cat("\nRead MDR\n")
           # read MDR
-          rv$mdr <- DQAstats::read_mdr(utils = rv$utilspath)
+          rv$mdr <- DQAstats::read_mdr(utils = rv$utils_path)
 
           # workaround to tell ui, that db_connection is there
           output$mdr_present <- reactive({
@@ -112,7 +112,7 @@ module_config_server <- function(input, output, session, rv, input_re) {
               cat("\nReading default settings\n")
               rv$settings_target <- config::get(
                 value = input_re()[["moduleConfig-config_targetdb_rad"]],
-                file = paste0(rv$utilspath, "/settings_default.yml")
+                file = paste0(rv$utils_path, "/settings_default.yml")
               )
 
               showModal(
@@ -209,7 +209,7 @@ module_config_server <- function(input, output, session, rv, input_re) {
 
       if (is.null(rv$sql_target)) {
         rv$sql_target <- DQAstats::load_sqls(
-          utils = rv$utilspath,
+          utils = rv$utils_path,
           db = rv$db_target
         )
       }
@@ -229,7 +229,7 @@ module_config_server <- function(input, output, session, rv, input_re) {
         # check, if user has provided custom site names
         rv$sitenames <- tryCatch({
           outlist <- jsonlite::fromJSON(
-            paste0(rv$utilspath, "/MISC/sitenames.JSON")
+            paste0(rv$utils_path, "/MISC/sitenames.JSON")
           )
           outlist
         }, error = function(e) {

@@ -1,6 +1,6 @@
 # debugging
 launch_app(
-  utilspath = DQAstats::clean_path_name(
+  utils_path = DQAstats::clean_path_name(
     system.file(
       "application/_utilities",
       package = "miRacumDQA"
