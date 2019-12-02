@@ -2,10 +2,14 @@ Package: DQAgui
 Title: DQA GUI
 Version: 0.0.4
 Authors@R: 
-    person(given = "Lorenz A.",
-           family = "Kapsner",
-           role = c("cre", "aut"),
-           email = "lorenz.kapsner@uk-erlangen.de")
+    c(person(given = "Lorenz A.",
+             family = "Kapsner",
+             role = c("cre", "aut"),
+             email = "lorenz.kapsner@uk-erlangen.de",
+             comment = c(ORCID = "0000-0003-1866-860X")),
+      person(given = "Jonathan M.",
+             family = "Mang",
+             role = "aut"))
 Description: A graphical user interface (GUI) to the functions implemented in the R package 'DQAstats'.
 License: GPL-3
 LazyData: true
@@ -13,7 +17,7 @@ URL: https://gitlab.miracum.org/miracum-dqa/dqagui
 BugReports: https://gitlab.miracum.org/miracum-dqa/dqagui/issues
 Encoding: UTF-8
 Copyright: Universitätsklinikum Erlangen
-Date: 2019-11-15
+Date: 2019-12-02
 Imports: 
     data.table,
     magrittr,
@@ -31,5 +35,5 @@ Suggests:
     processx,
     lintr
 Remotes: 
-    url::https://gitlab.miracum.org/miracum-dqa/dqastats/-/archive/v0.0.4/dqastats-v0.0.4.zip
+    url::https://gitlab.miracum.org/miracum-dqa/dqastats/-/archive/v0.0.5/dqastats-v0.0.5.zip
 RoxygenNote: 7.0.1

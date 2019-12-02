@@ -4,12 +4,18 @@
 \alias{launch_app}
 \title{Launch the DQA graphical user interface (GUI)}
 \usage{
-launch_app(port = 3838, utilspath, db_source)
+launch_app(
+  port = 3838,
+  utils_path = system.file("demo_data/utilities", package = "DQAstats"),
+  mdr_filename = "mdr_example_data.csv",
+  config_file = system.file("demo_data/utilities/settings/demo_settings.yml", package =
+    "DQAstats")
+)
 }
 \arguments{
 \item{port}{The port, the MIRACUM DQA Tool is running on (default: 3838)}
 
-\item{utilspath}{The path to the utilities-folder, containing the metadata
+\item{utils_path}{The path to the utilities-folder, containing the metadata
 repository files (`mdr.csv` inside the folder `MDR`), JSON files with SQL
 statements (inside the folder `SQL`), config files for the database
 connection (`settings_default.yml`) and the email address used for the

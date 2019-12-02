@@ -30,26 +30,19 @@
 # module_mdr_server
 module_mdr_server <- function(input, output, session, rv, input_re) {
   # read mdr
-  observe({
-    req(rv$mdr)
-
-    if (rv$db_target %in% rv$mdr[, unique(get("source_system_name"))]) {
-      reactive_to_append <- DQAstats::create_helper_vars(
-        mdr = rv$mdr,
-        target_db = rv$db_target,
-        source_db = rv$db_source
-      )
-      # workaround, to keep "rv" an reactiveValues object in shiny app
-      # (rv <- c(rv, reactive_to_append)) does not work!
-      for (i in names(reactive_to_append)) {
-        rv[[i]] <- reactive_to_append[[i]]
-      }
-
-    } else {
-      showModal(modalDialog("No keys for target database found in MDR.",
-                            title = "No keys found"))
-    }
-  })
+  # observe({
+  #   req(rv$mdr)
+  #
+  #   if (rv$source$system_name %in%
+  #       rv$mdr[, unique(get("source_system_name"))] &&
+  #       rv$target$system_name %in%
+  #       rv$mdr[, unique(get("source_system_name"))]) {
+  #
+  #   } else {
+  #     showModal(modalDialog("No keys for target database found in MDR.",
+  #                           title = "No keys found"))
+  #   }
+  # })
 
   output$mdr_table <- DT::renderDataTable({
     DT::datatable(rv$mdr, options = list(

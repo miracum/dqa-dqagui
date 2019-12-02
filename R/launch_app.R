@@ -40,8 +40,15 @@
 #'
 
 launch_app <- function(port=3838,
-                       utils_path,
-                       db_source) {
+                       utils_path = system.file(
+                         "demo_data/utilities",
+                         package = "DQAstats"
+                       ),
+                       mdr_filename = "mdr_example_data.csv",
+                       config_file = system.file(
+                         "demo_data/utilities/settings/demo_settings.yml",
+                         package = "DQAstats"
+                       )) {
 
   global_env_hack <- function(key,
                               val,
@@ -60,8 +67,14 @@ launch_app <- function(port=3838,
   )
 
   global_env_hack(
-    key = "db_source",
-    val = db_source,
+    key = "config_file",
+    val = config_file,
+    pos = 1L
+  )
+
+  global_env_hack(
+    key = "mdr_filename",
+    val = mdr_filename,
     pos = 1L
   )
 

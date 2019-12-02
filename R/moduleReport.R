@@ -42,7 +42,7 @@ module_report_server <- function(input,
     if (is.null(rv$report_created)) {
       DQAstats::create_markdown(
         rv = rv,
-        utils = rv$utils_path,
+        utils_path = rv$utilspath,
         outdir = tempdir(),
         headless = rv$headless
       )
@@ -50,41 +50,42 @@ module_report_server <- function(input,
     }
   })
 
-  observe({
-    req(rv$report_created)
-
-    # create export dir
-    exportdir <- paste0(tempdir(), "/export/")
-    cat("\nCreate ", exportdir, "\n\n")
-    dir.create(exportdir)
-
-    # write files
-    # datamap
-    data.table::fwrite(
-      x = rv$datamap$target_data,
-      file = paste0(exportdir, "datamap_target.csv")
-    )
-    data.table::fwrite(
-      x = rv$datamap$source_data,
-      file = paste0(exportdir, "datamap_source.csv")
-    )
-
-    # completeness
-    data.table::fwrite(
-      x = rv$checks$etl,
-      file = paste0(exportdir, "etl_checks.csv")
-    )
-    data.table::fwrite(
-      x = rv$completeness,
-      file = paste0(exportdir, "completeness.csv")
-    )
-
-    # conformance
-    data.table::fwrite(
-      x = rv$checks$value_conformance,
-      file = paste0(exportdir, "value_conformance.csv")
-    )
-  })
+  # TODO swiched off for debugging
+  # observe({
+  #   req(rv$report_created)
+  #
+  #   # create export dir
+  #   exportdir <- paste0(tempdir(), "/export/")
+  #   cat("\nCreate ", exportdir, "\n\n")
+  #   dir.create(exportdir)
+  #
+  #   # write files
+  #   # datamap
+  #   data.table::fwrite(
+  #     x = rv$datamap$target_data,
+  #     file = paste0(exportdir, "datamap_target.csv")
+  #   )
+  #   data.table::fwrite(
+  #     x = rv$datamap$source_data,
+  #     file = paste0(exportdir, "datamap_source.csv")
+  #   )
+  #
+  #   # completeness
+  #   data.table::fwrite(
+  #     x = rv$checks$etl,
+  #     file = paste0(exportdir, "etl_checks.csv")
+  #   )
+  #   data.table::fwrite(
+  #     x = rv$completeness,
+  #     file = paste0(exportdir, "completeness.csv")
+  #   )
+  #
+  #   # conformance
+  #   data.table::fwrite(
+  #     x = rv$checks$value_conformance,
+  #     file = paste0(exportdir, "value_conformance.csv")
+  #   )
+  # })
 
 
   output$download_report <- downloadHandler(

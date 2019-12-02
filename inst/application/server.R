@@ -23,10 +23,7 @@ shiny::shinyServer(function(input, output, session) {
     rv$headless <- FALSE
 
     # set utils_path
-    rv$utils_path <- DQAstats::clean_path_name(utils_path)
-
-    # initialize sourcefiledir
-    rv$sourcefiledir <- NULL
+    rv$utilspath <- DQAstats::clean_path_name(utils_path)
 
     # read datamap email
     rv$datamap_email <- tryCatch(
@@ -47,9 +44,6 @@ shiny::shinyServer(function(input, output, session) {
     # current date
     rv$current_date <- format(Sys.Date(), "%d. %B %Y", tz = "CET")
 
-    # TODO remove later, when we have more input source
-    rv$db_source <- db_source
-
     # run on_start here
     on_start(session, rv, input, output)
 
@@ -66,7 +60,7 @@ shiny::shinyServer(function(input, output, session) {
     # # tab_config
     # ########################
 
-    shiny::callModule(module_config_server,
+    shiny::callModule(module_config2_server,
                       "moduleConfig",
                       rv,
                       input_re = input_reactive)

@@ -48,86 +48,88 @@ module_dashboard_server <- function(input, output, session, rv, input_re) {
 
       # mdr is present:
     } else {
-      # check if sitename is present
-      if (nchar(input_re()[["moduleConfig-config_sitename"]]) < 2 ||
-          any(grepl("\\s", input_re()[["moduleConfig-config_sitename"]]))) {
-        # reset sql
-        rv$sql_target <- NULL
+      # # check if sitename is present
+      # if (nchar(input_re()[["moduleConfig-config_sitename"]]) < 2 ||
+      #     any(grepl("\\s", input_re()[["moduleConfig-config_sitename"]]))) {
+      #   # reset sql
+      #   rv$sql_target <- NULL
+      #
+      #   shiny::showModal(
+      #     modalDialog(
+      #       title = "Invalid values",
+      #       paste0("No empty strings or spaces allowed in ",
+      #              "the site name configuration.")
+      #     )
+      #   )
+      #
+      #   # site name is present
+      # } else {
+      # rv$sitename <- input_re()[["moduleConfig-config_sitename"]]
+      # TODO
+      rv$sitename <- "test"
 
-        shiny::showModal(
-          modalDialog(
-            title = "Invalid values",
-            paste0("No empty strings or spaces allowed in ",
-                   "the site name configuration.")
-          )
-        )
+      # # check if valid source path is present
+      # if (identical(rv$sourcefiledir, character(0)) ||
+      #     any(grepl("\\s", rv$sourcefiledir)) ||
+      #     is.null(rv$sourcefiledir)) {
+      #   # reset sql
+      #   rv$sql_target <- NULL
+      #
+      #   shiny::showModal(
+      #     modalDialog(
+      #       title = "Invalid values",
+      #       paste0("No empty strings or spaces allowed in the ",
+      #              "source file path configuration.")
+      #     )
+      #   )
 
-        # site name is present
-      } else {
-        rv$sitename <- input_re()[["moduleConfig-config_sitename"]]
-
-        # check if valid source path is present
-        if (identical(rv$sourcefiledir, character(0)) ||
-            any(grepl("\\s", rv$sourcefiledir)) ||
-            is.null(rv$sourcefiledir)) {
-          # reset sql
-          rv$sql_target <- NULL
-
-          shiny::showModal(
-            modalDialog(
-              title = "Invalid values",
-              paste0("No empty strings or spaces allowed in the ",
-                     "source file path configuration.")
-            )
-          )
-
-          # valid sourcepath is present
-        } else {
-          test_source <-
-            DQAstats::test_source_db(
-              source_settings = list(dir = rv$sourcefiledir),
-              source_db = rv$db_source,
-              headless = rv$headless
-            )
-
-          if (is.null(test_source)) {
-            # reset sql
-            rv$sql_target <- NULL
-          }
-        }
-      }
+      # valid sourcepath is present
+      # } else {
+      #   test_source <-
+      #     DQAstats::test_source_db(
+      #       source_settings = list(dir = rv$sourcefiledir),
+      #       source_db = rv$db_source,
+      #       headless = rv$headless
+      #     )
+      #
+      #   if (is.null(test_source)) {
+      #     # reset sql
+      #     rv$sql_target <- NULL
+      #   }
+      #}
+      #}
     }
 
-    print(rv$sql_target)
+    #print(rv$sql_target)
 
 
-    if (is.null(rv$sql_target)) {
-      cat("\nSQL not loaded yet\n")
+    # if (is.null(rv$sql_target)) {
+    #   cat("\nSQL not loaded yet\n")
+    #
+    # } else {
+    # set flags to inactivate config-widgets and start loading of
+    # data
+    rv$getdata_target <- TRUE
+    rv$getdata_source <- TRUE
 
-    } else {
-      # set flags to inactivate config-widgets and start loading of
-      # data
-      rv$getdata_target <- TRUE
-      rv$getdata_source <- TRUE
-
-      if (!dir.exists(paste0(tempdir(), "/_settings/"))) {
-        dir.create(paste0(tempdir(), "/_settings/"))
-      }
-
-      # save user settings
-      writeLines(
-        jsonlite::toJSON(
-          list(
-            "db" = rv$db_target,
-            "source_path" = rv$sourcefiledir,
-            "site_name" = rv$sitename
-          ),
-          pretty = T,
-          auto_unbox = F
-        ),
-        paste0(tempdir(), "/_settings/global_settings.JSON")
-      )
-    }
+    # if (!dir.exists(paste0(tempdir(), "/_settings/"))) {
+    #   dir.create(paste0(tempdir(), "/_settings/"))
+    # }
+    #
+    # # save user settings
+    # writeLines(
+    #   jsonlite::toJSON(
+    #     list(
+    #       "db" = rv$db_target,
+    #       "source_path" = rv$sourcefiledir,
+    #       "site_name" = rv$sitename
+    #     ),
+    #     pretty = T,
+    #     auto_unbox = F
+    #   ),
+    #   paste0(tempdir(), "/_settings/global_settings.JSON")
+    # )
+    #}
   })
 
   observe({
@@ -135,43 +137,66 @@ module_dashboard_server <- function(input, output, session, rv, input_re) {
 
     # load all data here
     if (isTRUE(rv$getdata_target) && isTRUE(rv$getdata_source)) {
-      # set start_time, when clicking the button
+      # set start_time (e.g. when clicking the 'Load Data'-button in shiny
       rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
 
-      # load source data
-      rv$data_source <- DQAstats::load_source(
-        rv = rv,
-        keys_to_test = rv$keys_source,
-        headless = rv$headless
+      # TODO this is the wrong place for this
+      rv$source$settings$dir <- system.file(
+        "demo_data",
+        package = "DQAstats"
+      )
+      rv$target$settings$dir <- system.file(
+        "demo_data",
+        package = "DQAstats"
       )
 
-      # load target data
-      rv$data_target <- DQAstats::load_target(
+      # load source data:
+      temp_dat <- DQAstats::data_loading(
         rv = rv,
-        keys_to_test = rv$keys_target,
-        headless = rv$headless
+        system = rv$source,
+        keys_to_test = rv$keys_source
       )
+      rv$data_source <- temp_dat$outdata
+      rv$source$sql <- temp_dat$sql_statements
+      rm(temp_dat)
+      invisible(gc())
 
-      # get atemporal plausibilities
-      rv$data_plausibility$atemporal <- DQAstats::get_atemp_plausis(
-        rv = rv,
-        atemp_vars = rv$pl$atemp_vars,
-        mdr = rv$mdr,
-        headless = rv$headless
-      )
+      # load target_data
+      if (rv$target$system_name != rv$source$system_name) {
+        # load target
+        temp_dat <- DQAstats::data_loading(
+          rv = rv,
+          system = rv$target,
+          keys_to_test = rv$keys_target
+        )
+        rv$data_target <- temp_dat$outdata
+        rv$target$sql <- temp_dat$sql_statements
+        rm(temp_dat)
+        invisible(gc())
+      } else {
+        rv$data_target <- rv$data_source
+      }
 
-      # add the plausibility raw data to data_target and data_source
-      for (i in names(rv$data_plausibility$atemporal)) {
-        for (k in c("source_data", "target_data")) {
-          w <- gsub("_data", "", k)
-          n_key <- paste0(i, "_", w)
-          raw_data <- paste0("data_", w)
-          rv[[raw_data]][[n_key]] <-
-            rv$data_plausibility$atemporal[[i]][[k]][[raw_data]]
-          rv$data_plausibility$atemporal[[i]][[k]][[raw_data]] <-
-            NULL
+      if (nrow(rv$pl$atemp_vars) != 0) {
+        # get atemporal plausibilities
+        rv$data_plausibility$atemporal <- DQAstats::get_atemp_plausis(
+          rv = rv,
+          atemp_vars = rv$pl$atemp_vars,
+          mdr = rv$mdr,
+          headless = rv$headless
+        )
+
+        # add the plausibility raw data to data_target and data_source
+        for (i in names(rv$data_plausibility$atemporal)) {
+          for (k in c("source_data", "target_data")) {
+            w <- gsub("_data", "", k)
+            raw_data <- paste0("data_", w)
+            rv[[raw_data]][[i]] <-
+              rv$data_plausibility$atemporal[[i]][[k]][[raw_data]]
+            rv$data_plausibility$atemporal[[i]][[k]][[raw_data]] <- NULL
+          }
+          gc()
         }
-        gc()
       }
 
       # calculate descriptive results
@@ -180,20 +205,31 @@ module_dashboard_server <- function(input, output, session, rv, input_re) {
         headless = rv$headless
       )
 
-      # calculate plausibilites
-      rv$results_plausibility_atemporal <- DQAstats::atemp_pausi_results(
-        rv = rv,
-        headless = rv$headless
-      )
-      rv$results_plausibility_unique <- DQAstats::uniq_plausi_results(
-        rv = rv,
-        uniq_vars = rv$pl$uniq_vars,
-        mdr = rv$mdr,
-        headless = rv$headless
-      )
+      # get time_interval
+      # TODO hardcoded for MIRACUM
+      rv$time_interval <-
+        DQAstats::time_interval(rv$results_descriptive$EpisodeOfCare_period_end)
 
-      # delete raw data (this is the earliest point, where we don't need
-      # the raw data anymore)
+      if (!is.null(rv$data_plausibility$atemporal)) {
+        # calculate plausibilites
+        rv$results_plausibility_atemporal <- DQAstats::atemp_pausi_results(
+          rv = rv,
+          atemp_vars = rv$data_plausibility$atemporal,
+          mdr = rv$mdr,
+          headless = rv$headless
+        )
+      }
+
+      if (nrow(rv$pl$uniq_vars) != 0) {
+        rv$results_plausibility_unique <- DQAstats::uniq_plausi_results(
+          rv = rv,
+          uniq_vars = rv$pl$uniq_vars,
+          mdr = rv$mdr,
+          headless = rv$headless
+        )
+      }
+
+      # delete raw data
       rv$data_source <- NULL
       rv$data_target <- NULL
       gc()
@@ -204,6 +240,7 @@ module_dashboard_server <- function(input, output, session, rv, input_re) {
           results = rv$results_descriptive,
           headless = rv$headless
         )
+
       # reduce categorical variables to display max. 25 values
       rv$results_descriptive <- DQAstats::reduce_cat(
         data = rv$results_descriptive,
@@ -211,16 +248,18 @@ module_dashboard_server <- function(input, output, session, rv, input_re) {
       )
       invisible(gc())
 
-      value_conformance <- DQAstats::value_conformance(
-        results = rv$results_plausibility_atemporal,
-        headless = rv$headless
-      )
+      if (!is.null(rv$results_plausibility_atemporal)) {
+        add_value_conformance <- DQAstats::value_conformance(
+          results = rv$results_plausibility_atemporal,
+          headless = rv$headless
+        )
 
-      # workaround, to keep "rv" an reactiveValues object in shiny app
-      for (i in names(value_conformance)) {
-        rv$conformance$value_conformance[[i]] <- value_conformance[[i]]
+        # workaround, to keep "rv" an reactiveValues object in shiny app
+        for (i in names(add_value_conformance)) {
+          rv$conformance$value_conformance[[i]] <- add_value_conformance[[i]]
+        }
+        rm(add_value_conformance)
       }
-
       # completeness
       rv$completeness <- DQAstats::completeness(
         results = rv$results_descriptive,
@@ -230,7 +269,7 @@ module_dashboard_server <- function(input, output, session, rv, input_re) {
       # generate datamap
       rv$datamap <- DQAstats::generate_datamap(
         results = rv$results_descriptive,
-        db = rv$db_target,
+        db = rv$target$system_name,
         mdr = rv$mdr,
         headless = rv$headless
       )
@@ -245,6 +284,7 @@ module_dashboard_server <- function(input, output, session, rv, input_re) {
       rv$checks$etl <- DQAstats::etl_checks(
         results = rv$results_descriptive
       )
+
 
       # get time_interval
       rv$time_interval <- DQAstats::time_interval(
@@ -425,8 +465,8 @@ module_dashboard_ui <- function(id) {
         box(
           title = "Welcome to your Data-Quality-Analysis Dashboard",
           verbatimTextOutput(ns("dash_instruction")),
-          conditionalPanel(condition = "output['moduleConfig-db_connection']",
-                           actionButton(ns("dash_load_btn"), "Load data")),
+          #conditionalPanel(condition = "output['moduleConfig-db_connection']",
+          actionButton(ns("dash_load_btn"), "Load data"),#),
           width = 12
         ),
         conditionalPanel(
