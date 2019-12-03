@@ -3,3 +3,4 @@ inst/application/_settings/
 *.Rproj
 .Rproj*
 .Rproj.user
+*.RData
