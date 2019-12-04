@@ -91,6 +91,13 @@ module_config2_server <-
                    # rm(reactive_to_append)
                    # invisible(gc())
                  })
+
+    # show hint if upload-path or db-connection is set:
+    output$config_sourcedir_in_msg <-
+      renderPrint({
+        input$config_sourcedir_in_msg
+      })
+
   }
 
 #' @title module_config_ui
@@ -108,7 +115,11 @@ module_config2_ui <- function(id) {
       condition = "typeof output['moduleConfig-mdr_present'] == 'undefined'",
       box(
         title = "Load Metadata Repository",
-        actionButton(ns("config_load_mdr"), "Load MDR"),
+        actionButton(
+          inputId = ns("config_load_mdr"),
+          label = "Load MDR",
+          icon = icon("table")
+        ),
         width = 12
       )
     ),
@@ -132,14 +143,16 @@ module_config2_ui <- function(id) {
               "21 source data in csv format (default: '/home/input')."
             )
           ),
+          print(verbatimTextOutput("config_sourcedir_in_msg")),
           br(),
           div(
-            actionButton(inputId = "config_sourcedir_in", label = "Source Dir"),
+            actionButton(
+              inputId = "config_sourcedir_in",
+              label = "Source Dir",
+              icon = icon("folder-open")
+            ),
             style = "text-align:center;"
           ),
-          div(verbatimTextOutput(ns(
-            "config_sourcedir_out"
-          )))
         ),
         tabPanel(title = "PostgreSQL",
                  div(
@@ -150,7 +163,9 @@ module_config2_ui <- function(id) {
                      solidHeader = TRUE,
                      width = 12,
                      div(
-                       tags$i("These options should only appear if there are db-settings in the settings-file.")
+                       tags$i(
+                         "These options should only appear if there are db-settings in the settings-file."
+                       )
                      ),
                      br(),
                      div(
@@ -190,7 +205,11 @@ module_config2_ui <- function(id) {
                      ),
                      br(),
                      div(
-                       actionButton(inputId = "source_pg_test_connection", label = "Test & Save connection"),
+                       actionButton(
+                         inputId = "source_pg_test_connection",
+                         label = "Test & Save connection",
+                         icon = icon("database")
+                       ),
                        style = "text-align:center;"
                      ),
                    )
@@ -208,7 +227,7 @@ module_config2_ui <- function(id) {
         width = 12,
         selected = "PostgreSQL",
         tabPanel(title = "CSV", "CSV content goes here"),
-        tabPanel(title = "Postgres", "Postgres content goes here")
+        tabPanel(title = "PostgreSQL", "Postgres content goes here")
       )
     )
   ))
