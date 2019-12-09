@@ -51,6 +51,45 @@ module_config2_server <-
                                           mdr_filename = mdr_filename)
                      stopifnot(data.table::is.data.table(rv$mdr))
 
+                     ## Read in the settings
+                     # - Determine the different systems from mdr:
+                     vec <-
+                       c("source_table_name",
+                         "source_system_name",
+                         "source_system_type")
+                     rv$systems <- unique(rv$mdr[, vec, with = F])
+                     cat(paste0("\nDifferent systems found in MDR:\n"))
+                     print(rv$systems)
+
+                     # - Read the settings for all these systems:
+                     unique_systems <-
+                       rv$systems[, get("source_system_name")]
+                     rv$settings <-
+                       lapply(unique_systems, function(x)
+                         DQAstats::get_config(config_file = config_file, config_key = tolower(x)))
+                     cat(paste0("\nSettings found for systems:\n"))
+                     print(typeof(rv$settings))
+                     print(rv$settings)
+
+                     # - Different system-types:
+                     rv$system_types <-
+                       as.list(rv$systems[, unique(get("source_system_type"))])
+                     cat(paste0("\nDifferent system types::\n"))
+                     print(rv$system_types)
+
+                     i = 1
+                     for (systype in rv$system_types) {
+                       cat(paste0("System type ", i, " = ", systype, "\n"))
+                       i <- i + 1
+                     }
+
+                     # Store the system-types in output-variable to only
+                     # show these tabs on the config page:
+                     output$system_types <- reactive({
+                       rv$system_types
+                     })
+                     outputOptions(output, "system_types", suspendWhenHidden = FALSE)
+
                      # workaround to tell ui, that mdr is there
                      output$mdr_present <- reactive({
                        return(TRUE)
@@ -90,14 +129,15 @@ module_config2_server <-
     # observe source file directory
     observeEvent(input_re()[["moduleConfig-config_sourcedir_in"]], {
       settingsdir_src <- shinyFiles::parseDirPath(roots = roots_src,
-                                              selection = input_re()[["moduleConfig-config_sourcedir_in"]])
+                                                  selection = input_re()[["moduleConfig-config_sourcedir_in"]])
       rv$source$settings$dir <-
         as.character(DQAstats::clean_path_name(settingsdir_src))
       # print(cat("Test1", rv$source$settings$dir))
     })
     observeEvent(input_re()[["moduleConfig-config_sourcedir_in_changed"]], {
-      settingsdir_src <- shinyFiles::parseDirPath(roots = roots_src_changed,
-                                                  selection = input_re()[["moduleConfig-config_sourcedir_in_changed"]])
+      settingsdir_src <-
+        shinyFiles::parseDirPath(roots = roots_src_changed,
+                                 selection = input_re()[["moduleConfig-config_sourcedir_in_changed"]])
       rv$source$settings$dir <-
         as.character(DQAstats::clean_path_name(settingsdir_src))
       # print(cat("Test1", rv$source$settings$dir))
@@ -118,6 +158,11 @@ module_config2_server <-
       }
     })
 
+    if (logik ==T ){
+      appendTab("moduleConfig-tabs", tab = tabItem(
+        id = "123",
+      ))
+    }
 
     roots_tar <- c(home = "/home/")
     shinyFiles::shinyDirChoose(
@@ -139,17 +184,19 @@ module_config2_server <-
       roots = roots_tar_changed,
       defaultRoot = "home"
     )
-        # observe target file directory
-    observeEvent(input_re()[["moduleConfig-config_targetdir_in"]], {
-      settingsdir_tar <- shinyFiles::parseDirPath(roots = roots_tar,
-                                              selection = input_re()[["moduleConfig-config_targetdir_in"]])
-      rv$target$settings$dir <-
-        as.character(DQAstats::clean_path_name(settingsdir_tar))
-      # print(cat("Test1", rv$target$settings$dir))
-    })
+    # observe target file directory
+    observeEvent(eventExpr = input_re()[["moduleConfig-config_targetdir_in"]],
+                 handlerExpr = {
+                   settingsdir_tar <- shinyFiles::parseDirPath(roots = roots_tar,
+                                                               selection = input_re()[["moduleConfig-config_targetdir_in"]])
+                   rv$target$settings$dir <-
+                     as.character(DQAstats::clean_path_name(settingsdir_tar))
+                   # print(cat("Test1", rv$target$settings$dir))
+                 })
     observeEvent(input_re()[["moduleConfig-config_targetdir_in_changed"]], {
-      settingsdir_tar <- shinyFiles::parseDirPath(roots = roots_tar_changed,
-                                                  selection = input_re()[["moduleConfig-config_targetdir_in_changed"]])
+      settingsdir_tar <-
+        shinyFiles::parseDirPath(roots = roots_tar_changed,
+                                 selection = input_re()[["moduleConfig-config_targetdir_in_changed"]])
       rv$target$settings$dir <-
         as.character(DQAstats::clean_path_name(settingsdir_tar))
       # print(cat("Test1", rv$target$settings$dir))
@@ -204,229 +251,37 @@ module_config2_ui <- function(id) {
         "Please load the source and target data now:"
       ),
     ),
-    box(
-      title =  "INPUT settings",
-      width = 6,
-      solidHeader = TRUE,
-      # status = "primary",
-      tabBox(
-        # The id lets us use input$tabset1 on the server to find the current tab
-        id = ns("input_tabs"),
-        width = 12,
-        selected = "CSV",
 
-        tabPanel(
-          title = "CSV",
-          h4("Source CSV Upload"),
-          div(
-            paste(
-              "Please choose the directory of your",
-              "\u00A7",
-              "21 source data in csv format (default: '/home/input')."
-            )
-          ),
-          br(),
-          # If there is no path set yet: Display the button to choose it
-          conditionalPanel(
-            condition = "typeof output['moduleConfig-source_csv_dir'] == 'undefined'",
-            shinyFiles::shinyDirButton(
-              id = ns("config_sourcedir_in"),
-              label = "Source Dir",
-              title = "Please select the source directory",
-              icon = icon("folder"),
-            ),
-            style = "text-align:center;"
-          ),
-          # If the path is already set, display it and offer the possibility to change it:
-          conditionalPanel(
-            condition =
-              "typeof output['moduleConfig-source_csv_dir'] !== 'undefined'",
-            verbatimTextOutput(ns("source_csv_dir")),
-            style = "text-align:center;",
 
-            shinyFiles::shinyDirButton(
-              id = ns("config_sourcedir_in_changed"),
-              label = "Change Source Dir",
-              title = "Please select the new source directory",
-              icon = icon("folder"),
-            ),
-          )
-        ),
 
-        tabPanel(
-          title = "PostgreSQL",
-          h4("Source Database Connection"),
-          box(
-            title = "Preloadings",
-            # background = "blue",
-            #solidHeader = TRUE,
-            width = 12,
-            tags$i(
-              "These options should only appear if there are db-settings in the settings-file."
-            ),
-            br(),
-            fluidRow(column(
-              6,
-              actionButton(
-                inputId = "config_source_pg_i2b2",
-                label = "i2b2",
-                style = "float:left"
-              )
-            ),
-            column(
-              6,
-              actionButton(
-                inputId = "config_sourcedir_omop",
-                label = "OMOP",
-                style = "float:right"
-              )
-            )),
-          ),
-          textInput(
-            inputId = "source_pg_dbname",
-            label = "DB Name",
-            placeholder = "Enter the name of the database ..."
-          ),
-          textInput(
-            inputId = "source_pg_ip",
-            label = "IP",
-            placeholder = "Enter the IP here in format '192.168.1.1' ..."
-          ),
-          textInput(
-            inputId = "source_pg_port",
-            label = "Port",
-            placeholder = "Enter the Port of the database connection ..."
-          ),
-          textInput(
-            inputId = "source_pg_username",
-            label = "Username",
-            placeholder = "Enter the Username for the database connection ..."
-          ),
-          passwordInput(
-            inputId = "source_pg_password",
-            label = "Password",
-            placeholder = "Enter the database password ..."
-          ),
-          br(),
-          actionButton(
-            inputId = ns("source_pg_test_connection"),
-            label = "Test & Save connection",
-            icon = icon("database"),
-            style = "text-align:center;"
-          )
-        )
-      )
-    ),
-    box(
-      title =  "OUTPUT settings",
-      width = 6,
-      solidHeader = TRUE,
-      # status = "warning",
-      tabBox(
-        # The id lets us use input$tabset2 on the server to find the current tab
-        id = "tabset2",
-        width = 12,
-        selected = "PostgreSQL",
-        tabPanel(
-          title = "CSV",
-          h4("Target CSV Upload"),
-          div(
-            paste(
-              "Please choose the directory of your",
-              "\u00A7",
-              "21 target data in csv format (default: '/home/input')."
-            )
-          ),
-          br(),
-          # If there is no path set yet: Display the button to choose it
-          conditionalPanel(
-            condition = "typeof output['moduleConfig-target_csv_dir'] == 'undefined'",
-            shinyFiles::shinyDirButton(
-              id = ns("config_targetdir_in"),
-              label = "Target Dir",
-              title = "Please select the target directory",
-              icon = icon("folder"),
-            ),
-            style = "text-align:center;"
-          ),
-          # If the path is already set, display it and offer the possibility to change it:
-          conditionalPanel(
-            condition =
-              "typeof output['moduleConfig-target_csv_dir'] !== 'undefined'",
-            verbatimTextOutput(ns("target_csv_dir")),
-            style = "text-align:center;",
+    #uiOutput("module_config2_ui"),
 
-            shinyFiles::shinyDirButton(
-              id = ns("config_targetdir_in_changed"),
-              label = "Change Target Dir",
-              title = "Please select the new target directory",
-              icon = icon("folder"),
-            ),
-          )
-        ),
-        tabPanel(
-          title = "PostgreSQL",
-          h4("Target Database Connection"),
-          box(
-            title = "Preloadings",
-            # background = "blue",
-            #solidHeader = TRUE,
-            width = 12,
-            tags$i(
-              "These options should only appear if there are db-settings in the settings-file."
-            ),
-            br(),
-            fluidRow(column(
-              6,
-              actionButton(
-                inputId = "config_target_pg_i2b2",
-                label = "i2b2",
-                style = "float:left"
-              )
-            ),
-            column(
-              6,
-              actionButton(
-                inputId = "config_targetdir_omop",
-                label = "OMOP",
-                style = "float:right"
-              )
-            )),
-          ),
-          textInput(
-            inputId = "target_pg_dbname",
-            label = "DB Name",
-            placeholder = "Enter the name of the database ..."
-          ),
-          textInput(
-            inputId = "target_pg_ip",
-            label = "IP",
-            placeholder = "Enter the IP here in format '192.168.1.1' ..."
-          ),
-          textInput(
-            inputId = "target_pg_port",
-            label = "Port",
-            placeholder = "Enter the Port of the database connection ..."
-          ),
-          textInput(
-            inputId = "target_pg_username",
-            label = "Username",
-            placeholder = "Enter the Username for the database connection ..."
-          ),
-          passwordInput(
-            inputId = "target_pg_password",
-            label = "Password",
-            placeholder = "Enter the database password ..."
-          ),
-          br(),
-          actionButton(
-            inputId = ns("target_pg_test_connection"),
-            label = "Test & Save connection",
-            icon = icon("database"),
-            style = "text-align:center;"
-          )
+    ## Just for debugging:
+    # conditionalPanel(condition = "output['moduleConfig-system_types'].includes('LKJGHJGFGFFKJFKJFLGLKDGLKGE')",
+    #                  box(
+    #                    status = "warning",
+    #                    h1(
+    #                      "This should never appear in the GUI!"
+    #                    ))),
 
-        )
+
+    ## This will be displayed after the MDR is loaded successfully:
+    conditionalPanel(
+      condition = "typeof output['moduleConfig-system_types'] !== 'undefined'",
+      box(
+        title =  "INPUT settings",
+        width = 6,
+        solidHeader = TRUE,
+        # status = "primary",
+        tabsetPanel(id = ns("tabs"))
+        #get_config_tabbox("tabset2", tabnames = c("csv", "postgres"), source = T)
+      ),
+      box(
+        title =  "OUTPUT settings",
+        width = 6,
+        solidHeader = TRUE,
+        # status = "warning",
+        get_config_tabbox("tabset2", tabnames = c("csv", "postgres"), source = F)
       )
     )
   ))
