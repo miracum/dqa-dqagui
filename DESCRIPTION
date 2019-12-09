@@ -9,7 +9,8 @@ Authors@R:
              comment = c(ORCID = "0000-0003-1866-860X")),
       person(given = "Jonathan M.",
              family = "Mang",
-             role = "aut"))
+             role = "aut",
+             comment = c(ORCID = "0000-0003-0518-4710")))
 Description: A graphical user interface (GUI) to the functions implemented in the R package 'DQAstats'.
 License: GPL-3
 LazyData: true
@@ -17,7 +18,7 @@ URL: https://gitlab.miracum.org/miracum-dqa/dqagui
 BugReports: https://gitlab.miracum.org/miracum-dqa/dqagui/issues
 Encoding: UTF-8
 Copyright: Universitätsklinikum Erlangen
-Date: 2019-12-02
+Date: 2019-12-09
 Imports: 
     data.table,
     magrittr,
@@ -29,7 +30,8 @@ Imports:
     shinyjs,
     knitr,
     jsonlite,
-    config
+    config,
+    DQAstats (>= 0.0.5)
 Suggests: 
     testthat,
     processx,
