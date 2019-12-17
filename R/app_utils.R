@@ -106,14 +106,20 @@ render_quick_checks <- function(dat_table) {
 }
 
 
-get_db_settings <- function(input) {
+get_db_settings <- function(input, target = T) {
   # create description of column selections
   vec <- c("dbname", "host", "port", "user", "password")
 
   tab <- lapply(vec, function(g) {
-    data.table::data.table("keys" = g, "value" = eval(parse(
-      text = paste0("input[['moduleConfig-config_targetdb_", g, "']]")
-    )))
+    if (target) {
+      data.table::data.table("keys" = g, "value" = eval(parse(
+        text = paste0("input[['moduleConfig-config_targetdb_", g, "']]")
+      )))
+    } else {
+      data.table::data.table("keys" = g, "value" = eval(parse(
+        text = paste0("input[['moduleConfig-config_sourcedb_", g, "']]")
+      )))
+    }
   })
 
   tab <- do.call(rbind, tab)
@@ -145,5 +151,5 @@ get_db_settings <- function(input) {
 #                     If type is e.g. "Warning"
 #                     the printed line will be "[Warning] print_this".
 printme <- function(print_this, type = "Info") {
-  cat(paste0("\n[", type, "] ", print_this))
+  message(paste0("[", type, "] ", print_this))
 }

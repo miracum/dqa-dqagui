@@ -36,14 +36,14 @@ module_config2_server <-
     observeEvent(eventExpr = input_re()[["moduleConfig-config_load_mdr"]],
                  handlerExpr = {
                    if (is.null(rv$mdr)) {
-                     cat("\nRead MDR\n")
+                     printme("Reading MDR ...")
                      # TODO hard-coded
                      rv$mdr_filename <- mdr_filename
 
                      if (debugging)
-                       print(cat("MDR-Filename:", mdr_filename))
+                       printme(paste0("MDR-Filename:", mdr_filename))
                      if (debugging)
-                       print(cat("rv$utilspath:", rv$utilspath))
+                       printme(paste0("rv$utilspath:", rv$utilspath))
 
                      # read MDR
                      rv$mdr <-
@@ -68,12 +68,6 @@ module_config2_server <-
                        lapply(unique_systems, function(x)
                          DQAstats::get_config(config_file = config_file,
                                               config_key = tolower(x)))
-
-
-                     # cat(paste0("\nSettings found for systems:\n"))
-                     # print(config_file)
-                     # print(rv$settings)
-
 
                      # - Different system-types:
                      rv$system_types <-
@@ -109,8 +103,6 @@ module_config2_server <-
 
                        if (length(postgres_system_names) > 0) {
                          # Show buttons to prefill different systems presettings:
-                         # - Activate the buttton box:
-
                          # - Add a button/choice/etc. for each system:
                          updateSelectInput(session = session,
                                            inputId = "source_pg_presettings_list",
@@ -127,12 +119,6 @@ module_config2_server <-
                                            inputId = "target_pg_presettings_list",
                                            choices = "No presets available")
                        }
-
-
-
-
-
-                       # updateTextInput(session = session, inputId = "source_pg_dbname", value = TODO)
                      }
                      # Optional: Set a tab as active with:
                      #% updateTabItems(session = session,
@@ -214,9 +200,8 @@ module_config2_server <-
       if (rv$source$settings$dir != "") {
         # workaround to tell ui, that it is there
         output$source_csv_dir <- reactive({
-          cat("\nSource file dir:",
-              rv$source$settings$dir,
-              "\n")
+          printme(paste0("Source file dir:",
+              rv$source$settings$dir))
           paste(rv$source$settings$dir)
         })
         outputOptions(output, "source_csv_dir", suspendWhenHidden = FALSE)
@@ -266,9 +251,8 @@ module_config2_server <-
       if (rv$target$settings$dir != "") {
         # workaround to tell ui, that it is there
         output$target_csv_dir <- reactive({
-          cat("\ntarget file dir:",
-              rv$target$settings$dir,
-              "\n")
+          printme(paste0("Target file dir:",
+              rv$target$settings$dir))
           paste(rv$target$settings$dir)
         })
         outputOptions(output, "target_csv_dir", suspendWhenHidden = FALSE)
@@ -296,35 +280,35 @@ module_config2_server <-
       rv$source$settings <- config_stuff
       if (length(config_stuff) != 0) {
         updateTextInput(session = session,
-                        inputId = "source_pg_dbname",
+                        inputId = "config_sourcedb_dbname",
                         value = config_stuff[["dbname"]])
         updateTextInput(session = session,
-                        inputId = "source_pg_ip",
+                        inputId = "config_sourcedb_host",
                         value = config_stuff[["host"]])
         updateTextInput(session = session,
-                        inputId = "source_pg_port",
+                        inputId = "config_sourcedb_port",
                         value = config_stuff[["port"]])
         updateTextInput(session = session,
-                        inputId = "source_pg_username",
+                        inputId = "config_sourcedb_user",
                         value = config_stuff[["user"]])
         updateTextInput(session = session,
-                        inputId = "source_pg_password",
+                        inputId = "config_sourcedb_password",
                         value = config_stuff[["password"]])
       } else{
         updateTextInput(session = session,
-                        inputId = "source_pg_dbname",
+                        inputId = "config_sourcedb_dbname",
                         value = "")
         updateTextInput(session = session,
-                        inputId = "source_pg_ip",
+                        inputId = "config_sourcedb_host",
                         value = "")
         updateTextInput(session = session,
-                        inputId = "source_pg_port",
+                        inputId = "config_sourcedb_port",
                         value = "")
         updateTextInput(session = session,
-                        inputId = "source_pg_username",
+                        inputId = "config_sourcedb_user",
                         value = "")
         updateTextInput(session = session,
-                        inputId = "source_pg_password",
+                        inputId = "config_sourcedb_password",
                         value = "")
       }
     })
@@ -349,44 +333,124 @@ module_config2_server <-
       rv$target$settings <- config_stuff
       if (length(config_stuff) != 0) {
         updateTextInput(session = session,
-                        inputId = "target_pg_dbname",
+                        inputId = "config_targetdb_dbname",
                         value = config_stuff[["dbname"]])
         updateTextInput(session = session,
-                        inputId = "target_pg_ip",
+                        inputId = "config_targetdb_host",
                         value = config_stuff[["host"]])
         updateTextInput(session = session,
-                        inputId = "target_pg_port",
+                        inputId = "config_targetdb_port",
                         value = config_stuff[["port"]])
         updateTextInput(session = session,
-                        inputId = "target_pg_username",
+                        inputId = "config_targetdb_user",
                         value = config_stuff[["user"]])
         updateTextInput(session = session,
-                        inputId = "target_pg_password",
+                        inputId = "config_targetdb_password",
                         value = config_stuff[["password"]])
       } else{
         updateTextInput(session = session,
-                        inputId = "target_pg_dbname",
+                        inputId = "config_targetdb_dbname",
                         value = "")
         updateTextInput(session = session,
-                        inputId = "target_pg_ip",
+                        inputId = "config_targetdb_host",
                         value = "")
         updateTextInput(session = session,
-                        inputId = "target_pg_port",
+                        inputId = "config_targetdb_port",
                         value = "")
         updateTextInput(session = session,
-                        inputId = "target_pg_username",
+                        inputId = "config_targetdb_user",
                         value = "")
         updateTextInput(session = session,
-                        inputId = "target_pg_password",
+                        inputId = "config_targetdb_password",
                         value = "")
       }
     })
 
     observeEvent(input$source_pg_test_connection, {
-      showNotification("Testing the connection is not yet implemented.\nKeep calm =)")
+      rv$source$settings <-
+        get_db_settings(input = input_re(), target = F)
+
+      if (!is.null(rv$source$settings)) {
+        rv$source$db_con <- DQAstats::test_db(settings = rv$source$settings,
+                                              headless = rv$headless)
+
+        if (!is.null(rv$source$db_con)) {
+          printme(
+            paste0(
+              "\nDB connection for ",
+              input$source_pg_presettings_list,
+              " successfully established\n"
+            )
+          )
+          # shiny::showModal(modalDialog(
+          #   title = paste0(
+          #     input$source_pg_presettings_list,
+          #     "-database connection successfully tested"
+          #   ),
+          #   paste0(
+          #     "The connection to ",
+          #     input$source_pg_presettings_list,
+          #     " has been",
+          #     " successfully established and tested."
+          #   )
+          # ))
+          showNotification(paste0(
+            "\U2714 Connection to ",
+            input$source_pg_presettings_list,
+            " established"
+          ))
+        } else {
+          showNotification(paste0(
+            "\U2718 Connection to ",
+            input$source_pg_presettings_list,
+            " failed"
+          ))
+        }
+      }
+
     })
+
     observeEvent(input$target_pg_test_connection, {
-      showNotification("Testing the connection is not yet implemented.\nKeep calm =)")
+      rv$target$settings <-
+        get_db_settings(input = input_re(), target = T)
+
+      if (!is.null(rv$target$settings)) {
+        rv$target$db_con <- DQAstats::test_db(settings = rv$target$settings,
+                                              headless = rv$headless)
+
+        if (!is.null(rv$target$db_con)) {
+          printme(
+            paste0(
+              "\nDB connection for ",
+              input$target_pg_presettings_list,
+              " successfully established\n"
+            )
+          )
+          # shiny::showModal(modalDialog(
+          #   title = paste0(
+          #     input$target_pg_presettings_list,
+          #     "-database connection successfully tested"
+          #   ),
+          #   paste0(
+          #     "The connection to ",
+          #     input$target_pg_presettings_list,
+          #     " has been",
+          #     " successfully established and tested."
+          #   )
+          # ))
+          showNotification(paste0(
+            "\U2714 Connection to ",
+            input$target_pg_presettings_list,
+            " established"
+          ))
+        } else {
+          showNotification(paste0(
+            "\U2718 Connection to ",
+            input$target_pg_presettings_list,
+            " failed"
+          ))
+        }
+      }
     })
   }
 
@@ -506,27 +570,27 @@ module_config2_ui <- function(id) {
               style = "text-align:center;"
             ),
             textInput(
-              inputId = ns("source_pg_dbname"),
+              inputId = ns("config_sourcedb_dbname"),
               label = "DB Name",
               placeholder = "Enter the name of the database ..."
             ),
             textInput(
-              inputId = ns("source_pg_ip"),
+              inputId = ns("config_sourcedb_host"),
               label = "IP",
               placeholder = "Enter the IP here in format '192.168.1.1' ..."
             ),
             textInput(
-              inputId = ns("source_pg_port"),
+              inputId = ns("config_sourcedb_port"),
               label = "Port",
               placeholder = "Enter the Port of the database connection ..."
             ),
             textInput(
-              inputId = ns("source_pg_username"),
+              inputId = ns("config_sourcedb_user"),
               label = "Username",
               placeholder = "Enter the Username for the database connection ..."
             ),
             passwordInput(
-              inputId = ns("source_pg_password"),
+              inputId = ns("config_sourcedb_password"),
               label = "Password",
               placeholder = "Enter the database password ..."
             ),
@@ -616,27 +680,27 @@ module_config2_ui <- function(id) {
               style = "text-align:center;"
             ),
             textInput(
-              inputId = ns("target_pg_dbname"),
+              inputId = ns("config_targetdb_dbname"),
               label = "DB Name",
               placeholder = "Enter the name of the database ..."
             ),
             textInput(
-              inputId = ns("target_pg_ip"),
+              inputId = ns("config_targetdb_host"),
               label = "IP",
               placeholder = "Enter the IP here in format '192.168.1.1' ..."
             ),
             textInput(
-              inputId = ns("target_pg_port"),
+              inputId = ns("config_targetdb_port"),
               label = "Port",
               placeholder = "Enter the Port of the database connection ..."
             ),
             textInput(
-              inputId = ns("target_pg_username"),
+              inputId = ns("config_targetdb_user"),
               label = "Username",
               placeholder = "Enter the Username for the database connection ..."
             ),
             passwordInput(
-              inputId = ns("target_pg_password"),
+              inputId = ns("config_targetdb_password"),
               label = "Password",
               placeholder = "Enter the database password ..."
             ),
@@ -652,8 +716,5 @@ module_config2_ui <- function(id) {
         )
       )
     )
-
-
   ))
-
 }

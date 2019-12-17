@@ -39,16 +39,14 @@
 #' @export
 #'
 
-launch_app <- function(port=3838,
-                       utils_path = system.file(
-                         "demo_data/utilities",
-                         package = "DQAstats"
-                       ),
+launch_app <- function(port = 3838,
+                       utils_path = system.file("demo_data/utilities",
+                                                package = "DQAstats"),
                        mdr_filename = "mdr_example_data.csv",
                        config_file = system.file(
                          "demo_data/utilities/settings/demo_settings.yml",
-                         package = "DQAstats"
-                       )) {
+                                                 package = "DQAstats")) {
+
 
   global_env_hack <- function(key,
                               val,
@@ -83,4 +81,6 @@ launch_app <- function(port=3838,
   shiny::shinyAppDir(
     appDir = system.file("application", package = "DQAgui")
   )
+
+  shiny::runApp(appDir = system.file("application", package = "DQAgui"))
 }
