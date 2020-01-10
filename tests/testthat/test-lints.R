@@ -18,6 +18,7 @@ test_that(
         "moduleAtempPlausibility.R" = NULL,
         "moduleCompleteness.R" = NULL,
         "moduleConfig.R" = NULL,
+        "moduleConfig2.R" = NULL,
         "moduleDashboard.R" = "cyclomatic complexity",
         "moduleDescriptive.R" = NULL,
         "moduleMDR.R" = NULL,

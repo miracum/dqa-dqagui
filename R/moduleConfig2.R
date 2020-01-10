@@ -63,7 +63,8 @@ module_config2_server <-
 
                      # - Read the settings for all these systems:
                      unique_systems <-
-                       rv$systems[, get("source_system_name")]
+                       rv$systems[!is.na(get("source_system_name")),
+                                  unique(get("source_system_name"))]
                      rv$settings <-
                        lapply(unique_systems, function(x)
                          DQAstats::get_config(config_file = config_file,
@@ -71,7 +72,8 @@ module_config2_server <-
 
                      # - Different system-types:
                      rv$system_types <-
-                       rv$systems[, unique(get("source_system_type"))]
+                       rv$systems[!is.na(get("source_system_type")),
+                                  unique(get("source_system_type"))]
 
                      i <- 1
                      for (systype in rv$system_types) {
@@ -99,7 +101,11 @@ module_config2_server <-
                        # Fill the tab with presettings
                        # - filter for all system_names with system_type == postgres
                        # select source_system_name from rv$systems where source_system_type == postgres GROUP BY source_system_name
-                       postgres_system_names <- rv$systems[source_system_type == "postgres", source_system_name]
+                       postgres_system_names <-
+                         rv$systems[get("source_system_type") == "postgres" &
+                                      !is.na(get("source_system_name")),
+                                    unique(get("source_system_name"))]
+                       printme(cat("postgres_system_names: ", postgres_system_names))
 
                        if (length(postgres_system_names) > 0) {
                          # Show buttons to prefill different systems presettings:
@@ -201,10 +207,11 @@ module_config2_server <-
         # workaround to tell ui, that it is there
         output$source_csv_dir <- reactive({
           printme(paste0("Source file dir:",
-              rv$source$settings$dir))
+                         rv$source$settings$dir))
           paste(rv$source$settings$dir)
         })
         outputOptions(output, "source_csv_dir", suspendWhenHidden = FALSE)
+        rv$source$system <- "csv"
       }
     })
 
@@ -252,15 +259,17 @@ module_config2_server <-
         # workaround to tell ui, that it is there
         output$target_csv_dir <- reactive({
           printme(paste0("Target file dir:",
-              rv$target$settings$dir))
+                         rv$target$settings$dir))
           paste(rv$target$settings$dir)
         })
         outputOptions(output, "target_csv_dir", suspendWhenHidden = FALSE)
+        rv$target$system <- "csv"
       }
     })
 
     # If the "load presets"-button was pressed, startload & show the presets:
-    observeEvent(input$source_pg_presettings_btn, {
+    # observeEvent(input$source_pg_presettings_btn, {
+    observeEvent(input$source_pg_presettings_list, {
       printme(
         paste0(
           "Input-preset ",
@@ -313,7 +322,8 @@ module_config2_server <-
       }
     })
 
-    observeEvent(input$target_pg_presettings_btn, {
+    #observeEvent(input$target_pg_presettings_btn, {
+    observeEvent(input$target_pg_presettings_list, {
       printme(
         paste0(
           "Input-preset ",
@@ -394,17 +404,21 @@ module_config2_server <-
           #     " successfully established and tested."
           #   )
           # ))
-          showNotification(paste0(
-            "\U2714 Connection to ",
-            input$source_pg_presettings_list,
-            " established"
-          ))
+          showNotification(
+            paste0(
+              "\U2714 Connection to ",
+              input$source_pg_presettings_list,
+              " established"
+            )
+          )
+          rv$source$system <- "postgres"
         } else {
           showNotification(paste0(
             "\U2718 Connection to ",
             input$source_pg_presettings_list,
             " failed"
           ))
+          rv$source$system <- ""
         }
       }
 
@@ -438,20 +452,55 @@ module_config2_server <-
           #     " successfully established and tested."
           #   )
           # ))
-          showNotification(paste0(
-            "\U2714 Connection to ",
-            input$target_pg_presettings_list,
-            " established"
-          ))
+          showNotification(
+            paste0(
+              "\U2714 Connection to ",
+              input$target_pg_presettings_list,
+              " established"
+            )
+          )
+          rv$target$system <- "postgres"
         } else {
           showNotification(paste0(
             "\U2718 Connection to ",
             input$target_pg_presettings_list,
             " failed"
           ))
+          rv$target$system <- ""
         }
       }
     })
+
+    observe({
+      if (is.null(rv$sitenames)) {
+        # check, if user has provided custom site names
+        rv$sitenames <- tryCatch({
+          outlist <- jsonlite::fromJSON(
+            paste0(rv$utilspath, "/MISC/sitenames.JSON")
+          )
+          outlist
+        }, error = function(e) {
+          outlist <- list("No sitenames provided" = "No sitenames provided")
+          outlist
+          # TODO instead of dropdown menu, render text input field in the
+          # case, users have not provided sitenames. This allows them
+          # to specify a name of the DQA session (which will be included
+          # into the report's title)
+        }, finally = function(f) {
+          return(outlist)
+        })
+
+        updateSelectInput(
+          session,
+          "config_sitename",
+          choices = rv$sitenames,
+          selected = ifelse(!is.null(rv$sitename),
+                            rv$sitename,
+                            character(0))
+        )
+      }
+    })
+
   }
 
 #' @title module_config_ui
@@ -464,257 +513,277 @@ module_config2_server <-
 module_config2_ui <- function(id) {
   ns <- NS(id)
 
-  tagList(fluidRow(
-    conditionalPanel(
-      condition = "typeof output['moduleConfig-mdr_present'] == 'undefined'",
-      box(
-        title = "Load Metadata Repository",
-        actionButton(
-          inputId = ns("config_load_mdr"),
-          label = "Load MDR",
-          icon = icon("table")
+  tagList(
+    fluidRow(
+      box(title = "Sitename",
+          div(
+            class = "row",
+            div(
+              class = "col-sm-8",
+              selectInput(
+                ns("config_sitename"),
+                "Please enter the name of your site",
+                selected = F,
+                choices = NULL,
+                multiple = F
+              )
+            ),
+            div(class = "col-sm-4")
+          ),
+          width = 12),
+
+      conditionalPanel(
+        condition = "typeof output['moduleConfig-mdr_present'] == 'undefined'",
+        box(
+          title = "Load Metadata Repository",
+          actionButton(
+            inputId = ns("config_load_mdr"),
+            label = "Load MDR",
+            icon = icon("table")
+          ),
+          width = 12
+        )
+      ),
+      conditionalPanel(
+        condition = "typeof output['moduleConfig-mdr_present'] !== 'undefined'",
+        box(
+          title = "MDR was loaded successfully",
+          # status = "success",
+          solidHeader = TRUE,
+          width = 12,
+          "Please load the source and target data now:"
         ),
-        width = 12
-      )
-    ),
-    conditionalPanel(
-      condition = "typeof output['moduleConfig-mdr_present'] !== 'undefined'",
-      box(
-        title = "MDR was loaded successfully",
-        # status = "success",
-        solidHeader = TRUE,
-        width = 12,
-        "Please load the source and target data now:"
       ),
-    ),
 
-    ## This will be displayed after the MDR is loaded successfully:
-    conditionalPanel(
-      condition = "typeof output['moduleConfig-system_types'] !== 'undefined'",
+      ## This will be displayed after the MDR is loaded successfully:
+      conditionalPanel(
+        condition = "typeof output['moduleConfig-system_types'] !== 'undefined'",
 
-      box(
-        title =  "SOURCE settings",
-        width = 6,
-        solidHeader = TRUE,
-        # status = "primary",
-        tabBox(
-          # The id lets us use input$source_tabs
-          # on the server to find the current tab
-          id = ns("source_tabs"),
-          width = 12,
-          # selected = "CSV",
+        box(
+          title =  "SOURCE settings",
+          width = 6,
+          solidHeader = TRUE,
+          # status = "primary",
+          tabBox(
+            # The id lets us use input$source_tabs
+            # on the server to find the current tab
+            id = ns("source_tabs"),
+            width = 12,
+            # selected = "CSV",
 
-          tabPanel(
-            title = "CSV",
-            h4("Source CSV Upload"),
-            div(
-              paste(
-                "Please choose the directory of your",
-                "\u00A7",
-                "21 source data in csv format (default: '/home/input')."
+            tabPanel(
+              title = "CSV",
+              h4("Source CSV Upload"),
+              div(
+                paste(
+                  "Please choose the directory of your",
+                  "\u00A7",
+                  "21 source data in csv format (default: '/home/input')."
+                )
+              ),
+              br(),
+              # If there is no path set yet: Display the button to choose it
+              conditionalPanel(
+                condition = paste0(
+                  "typeof output[",
+                  "'moduleConfig-source_csv_dir'",
+                  "] == 'undefined'"
+                ),
+                shinyFiles::shinyDirButton(
+                  id = ns("config_sourcedir_in"),
+                  label = "Source Dir",
+                  title = "Please select the source directory",
+                  icon = icon("folder"),
+                ),
+                style = "text-align:center;"
+              ),
+              # If the path is already set, display it
+              # and offer the possibility to change it:
+              conditionalPanel(
+                condition =
+                  "typeof output['moduleConfig-source_csv_dir'] !== 'undefined'",
+                verbatimTextOutput(ns("source_csv_dir")),
+                style = "text-align:center;",
+
+                shinyFiles::shinyDirButton(
+                  id = ns("config_sourcedir_in_changed"),
+                  label = "Change Source Dir",
+                  title = "Please select the new source directory",
+                  icon = icon("folder"),
+                ),
               )
             ),
-            br(),
-            # If there is no path set yet: Display the button to choose it
-            conditionalPanel(
-              condition = paste0(
-                "typeof output[",
-                "'moduleConfig-source_csv_dir'",
-                "] == 'undefined'"
-              ),
-              shinyFiles::shinyDirButton(
-                id = ns("config_sourcedir_in"),
-                label = "Source Dir",
-                title = "Please select the source directory",
-                icon = icon("folder"),
-              ),
-              style = "text-align:center;"
-            ),
-            # If the path is already set, display it
-            # and offer the possibility to change it:
-            conditionalPanel(
-              condition =
-                "typeof output['moduleConfig-source_csv_dir'] !== 'undefined'",
-              verbatimTextOutput(ns("source_csv_dir")),
-              style = "text-align:center;",
 
-              shinyFiles::shinyDirButton(
-                id = ns("config_sourcedir_in_changed"),
-                label = "Change Source Dir",
-                title = "Please select the new source directory",
-                icon = icon("folder"),
+            tabPanel(
+              title = "PostgreSQL",
+              h4("Source Database Connection"),
+              box(
+                title = "Preloadings",
+                # background = "blue",
+                #solidHeader = TRUE,
+                width = 12,
+                selectInput(
+                  # This will be filled in the server part.
+                  inputId = ns("source_pg_presettings_list"),
+                  label = NULL,
+                  choices = NULL,
+                  selected = NULL
+                ),
+                style = "text-align:center;"
               ),
-            )
-          ),
-
-          tabPanel(
-            title = "PostgreSQL",
-            h4("Source Database Connection"),
-            box(
-              title = "Preloadings",
-              # background = "blue",
-              #solidHeader = TRUE,
-              width = 12,
-              selectInput(
-                # This will be filled in the server part.
-                inputId = ns("source_pg_presettings_list"),
-                label = NULL,
-                choices = NULL,
-                selected = NULL
+              textInput(
+                inputId = ns("config_sourcedb_dbname"),
+                label = "DB Name",
+                placeholder = "Enter the name of the database ..."
               ),
+              textInput(
+                inputId = ns("config_sourcedb_host"),
+                label = "IP",
+                placeholder = "Enter the IP here in format '192.168.1.1' ..."
+              ),
+              textInput(
+                inputId = ns("config_sourcedb_port"),
+                label = "Port",
+                placeholder = "Enter the Port of the database connection ..."
+              ),
+              textInput(
+                inputId = ns("config_sourcedb_user"),
+                label = "Username",
+                placeholder = "Enter the Username for the database connection ..."
+              ),
+              passwordInput(
+                inputId = ns("config_sourcedb_password"),
+                label = "Password",
+                placeholder = "Enter the database password ..."
+              ),
+              br(),
               actionButton(
-                label = "Load preset",
-                inputId = ns("source_pg_presettings_btn"),
-                icon = NULL
+                inputId = ns("source_pg_test_connection"),
+                label = "Test & Save connection",
+                icon = icon("database"),
+                style = "text-align:center;"
+              )
+            )
+          )
+        ),
+        box(
+          title =  "Target settings",
+          width = 6,
+          solidHeader = TRUE,
+          # status = "warning",
+          tabBox(
+            # The id lets us use input$target_tabs
+            # on the server to find the current tab
+            id = ns("target_tabs"),
+            width = 12,
+            # selected = "PostgreSQL",
+            tabPanel(
+              title = "CSV",
+              h4("Target CSV Upload"),
+              div(
+                paste(
+                  "Please choose the directory of your",
+                  "\u00A7",
+                  "21 target data in csv format (default: '/home/input')."
+                )
               ),
-              style = "text-align:center;"
+              br(),
+              # If there is no path set yet: Display the button to choose it
+              conditionalPanel(
+                condition = paste0(
+                  "typeof output[",
+                  "'moduleConfig-target_csv_dir'",
+                  "] == 'undefined'"
+                ),
+                shinyFiles::shinyDirButton(
+                  id = ns("config_targetdir_in"),
+                  label = "Target Dir",
+                  title = "Please select the target directory",
+                  icon = icon("folder"),
+                ),
+                style = "text-align:center;"
+              ),
+              # If the path is already set,
+              # display it and offer the possibility to change it:
+              conditionalPanel(
+                condition =
+                  "typeof output['moduleConfig-target_csv_dir'] !== 'undefined'",
+                verbatimTextOutput(ns("target_csv_dir")),
+                style = "text-align:center;",
+
+                shinyFiles::shinyDirButton(
+                  id = ns("config_targetdir_in_changed"),
+                  label = "Change Target Dir",
+                  title = "Please select the new target directory",
+                  icon = icon("folder"),
+                ),
+              )
             ),
-            textInput(
-              inputId = ns("config_sourcedb_dbname"),
-              label = "DB Name",
-              placeholder = "Enter the name of the database ..."
-            ),
-            textInput(
-              inputId = ns("config_sourcedb_host"),
-              label = "IP",
-              placeholder = "Enter the IP here in format '192.168.1.1' ..."
-            ),
-            textInput(
-              inputId = ns("config_sourcedb_port"),
-              label = "Port",
-              placeholder = "Enter the Port of the database connection ..."
-            ),
-            textInput(
-              inputId = ns("config_sourcedb_user"),
-              label = "Username",
-              placeholder = "Enter the Username for the database connection ..."
-            ),
-            passwordInput(
-              inputId = ns("config_sourcedb_password"),
-              label = "Password",
-              placeholder = "Enter the database password ..."
-            ),
-            br(),
-            actionButton(
-              inputId = ns("source_pg_test_connection"),
-              label = "Test & Save connection",
-              icon = icon("database"),
-              style = "text-align:center;"
+            tabPanel(
+              title = "PostgreSQL",
+              h4("Target Database Connection"),
+              box(
+                title = "Preloadings",
+                # background = "blue",
+                #solidHeader = TRUE,
+                width = 12,
+                selectInput(
+                  # This will be filled in the server part.
+                  inputId = ns("target_pg_presettings_list"),
+                  label = NULL,
+                  choices = NULL,
+                  selected = NULL
+                ),
+                style = "text-align:center;"
+              ),
+              textInput(
+                inputId = ns("config_targetdb_dbname"),
+                label = "DB Name",
+                placeholder = "Enter the name of the database ..."
+              ),
+              textInput(
+                inputId = ns("config_targetdb_host"),
+                label = "IP",
+                placeholder = "Enter the IP here in format '192.168.1.1' ..."
+              ),
+              textInput(
+                inputId = ns("config_targetdb_port"),
+                label = "Port",
+                placeholder = "Enter the Port of the database connection ..."
+              ),
+              textInput(
+                inputId = ns("config_targetdb_user"),
+                label = "Username",
+                placeholder = "Enter the Username for the database connection ..."
+              ),
+              passwordInput(
+                inputId = ns("config_targetdb_password"),
+                label = "Password",
+                placeholder = "Enter the database password ..."
+              ),
+              br(),
+              actionButton(
+                inputId = ns("target_pg_test_connection"),
+                label = "Test & Save connection",
+                icon = icon("database"),
+                style = "text-align:center;"
+              )
+
             )
           )
         )
       ),
-      box(
-        title =  "Target settings",
-        width = 6,
-        solidHeader = TRUE,
-        # status = "warning",
-        tabBox(
-          # The id lets us use input$target_tabs
-          # on the server to find the current tab
-          id = ns("target_tabs"),
-          width = 12,
-          # selected = "PostgreSQL",
-          tabPanel(
-            title = "CSV",
-            h4("Target CSV Upload"),
-            div(
-              paste(
-                "Please choose the directory of your",
-                "\u00A7",
-                "21 target data in csv format (default: '/home/input')."
-              )
-            ),
-            br(),
-            # If there is no path set yet: Display the button to choose it
-            conditionalPanel(
-              condition = paste0(
-                "typeof output[",
-                "'moduleConfig-target_csv_dir'",
-                "] == 'undefined'"
-              ),
-              shinyFiles::shinyDirButton(
-                id = ns("config_targetdir_in"),
-                label = "Target Dir",
-                title = "Please select the target directory",
-                icon = icon("folder"),
-              ),
-              style = "text-align:center;"
-            ),
-            # If the path is already set,
-            # display it and offer the possibility to change it:
-            conditionalPanel(
-              condition =
-                "typeof output['moduleConfig-target_csv_dir'] !== 'undefined'",
-              verbatimTextOutput(ns("target_csv_dir")),
-              style = "text-align:center;",
-
-              shinyFiles::shinyDirButton(
-                id = ns("config_targetdir_in_changed"),
-                label = "Change Target Dir",
-                title = "Please select the new target directory",
-                icon = icon("folder"),
-              ),
-            )
-          ),
-          tabPanel(
-            title = "PostgreSQL",
-            h4("Target Database Connection"),
-            box(
-              title = "Preloadings",
-              # background = "blue",
-              #solidHeader = TRUE,
-              width = 12,
-              selectInput(
-                # This will be filled in the server part.
-                inputId = ns("target_pg_presettings_list"),
-                label = NULL,
-                choices = NULL,
-                selected = NULL
-              ),
-              actionButton(
-                label = "Load preset",
-                inputId = ns("target_pg_presettings_btn"),
-                icon = NULL
-              ),
-              style = "text-align:center;"
-            ),
-            textInput(
-              inputId = ns("config_targetdb_dbname"),
-              label = "DB Name",
-              placeholder = "Enter the name of the database ..."
-            ),
-            textInput(
-              inputId = ns("config_targetdb_host"),
-              label = "IP",
-              placeholder = "Enter the IP here in format '192.168.1.1' ..."
-            ),
-            textInput(
-              inputId = ns("config_targetdb_port"),
-              label = "Port",
-              placeholder = "Enter the Port of the database connection ..."
-            ),
-            textInput(
-              inputId = ns("config_targetdb_user"),
-              label = "Username",
-              placeholder = "Enter the Username for the database connection ..."
-            ),
-            passwordInput(
-              inputId = ns("config_targetdb_password"),
-              label = "Password",
-              placeholder = "Enter the database password ..."
-            ),
-            br(),
-            actionButton(
-              inputId = ns("target_pg_test_connection"),
-              label = "Test & Save connection",
-              icon = icon("database"),
-              style = "text-align:center;"
-            )
-
-          )
-        )
-      )
+      # conditionalPanel(
+      #   condition =
+      #     "typeof output['moduleConfig-target_system'] !== undefined",
+      #   box(
+      #     status = "success",
+      #     solidHeader = TRUE,
+      #     width = 12,
+      #     style = "text-align:center;",
+      #     textOutput(ns("target_system"))
+      #   )
+      # )
     )
-  ))
+  )
 }
