@@ -39,14 +39,15 @@ module_dashboard_server <-
     })
 
     observeEvent(input_re()[["moduleDashboard-dash_load_btn"]], {
+      # Error flag: If an error occurs, the flag will be set to true
+      # and the main calculation won't start:
+      error_tmp <- F
+
       # check, if mdr is present. without mdr, we cannot perform any
       # further operations
       if (is.null(rv$mdr)) {
-        shiny::showModal(
-          shiny::modalDialog(title = "No MDR present",
-                             "Please provide a metadata repository (MDR).")
-        )
-
+        feedback("Please provide a metadata repository (MDR).", type = "No MDR present")
+        error_tmp <- T
         # mdr is present:
       } else {
         # check if sitename is present
@@ -59,20 +60,22 @@ module_dashboard_server <-
               "the site name configuration."
             )
           ))
-
+          error_tmp <- T
           # site name is present
         } else {
           rv$sitename <- input_re()[["moduleConfig-config_sitename"]]
         }
 
+        feedback(paste0("Source system is ", rv$source$system_name),
+                 findme = "1d61685355")
+        feedback(paste0("Target system is ", rv$target$system_name),
+                 findme = "eaf72ed747")
 
-        printme(paste0("Source system is ", rv$source$system))
-        printme(paste0("Target system is ", rv$target$system))
 
-        if (!is.null(rv$source$system) &&
-            !is.null(rv$target$system)) {
+        if (!is.null(rv$source$system_type) &&
+            !is.null(rv$target$system_type)) {
           # Check source setting:
-          if (rv$source$system == "csv") {
+          if (rv$source$system_type == "csv") {
             # Check if source-path is valid:
             if (typeof(rv$source$settings$dir) == "character" &&
                 !is.null(rv$source$settings$dir) &&
@@ -81,7 +84,12 @@ module_dashboard_server <-
               printme("Source settings seem valid. (c0bcc9aa31)")
             } else {
               # invalid path:
-              printme("Source settings not valid. (4044fff4e1)", type = "warning")
+              feedback(
+                print_this = "Source settings not valid.",
+                type = "warning",
+                findme = "10d5e79d44",
+                ui = T
+              )
               printme(
                 paste0(
                   "rv$source$settings$dir = ",
@@ -89,8 +97,9 @@ module_dashboard_server <-
                   "(d9b43110bb)"
                 )
               )
+              error_tmp <- T
             }
-          } else if (rv$source$system == "postgres") {
+          } else if (rv$source$system_type == "postgres") {
             # Check if source-db settings are valid:
             if (!is.null(rv$source$settings)) {
               rv$source$db_con <- DQAstats::test_db(settings = rv$source$settings,
@@ -100,26 +109,41 @@ module_dashboard_server <-
                 printme("Source db-settings seem valid. (29cc920472)")
               } else {
                 # invalid:
-                printme("Source db-settings not valid. (c63e1ccaf0)",
-                        type = "warning")
+                feedback(
+                  print_this = "Source db-settings not valid.",
+                  type = "Warning",
+                  findme = "c63e1ccaf0",
+                  ui = T
+                )
                 printme(paste0(
                   "rv$source$settings = ",
                   rv$source$settings,
                   "(2d47f163a9)"
                 ))
+                error_tmp <- T
               }
             } else {
               # invalid 2:
-              printme("Source db-settings not valid. (127deaebca)", type = "warning")
-              printme("rv$source$settings is null. (320aa3463c)", type = "warning")
+              feedback(
+                print_this = "Source db-settings are empty.",
+                type = "Warning",
+                findme = "127deaebca",
+                ui = T
+              )
+              error_tmp <- T
             }
           } else {
-            printme("Source system not yet implemented (d0f0bfa2f3)",
-                    type = "warning")
+            feedback(
+              print_this = "Source system not yet implemented.",
+              type = "Warning",
+              findme = "d0f0bfa2f3",
+              ui = T
+            )
+            error_tmp <- T
           }
 
           # Check target setting:
-          if (rv$target$system == "csv") {
+          if (rv$target$system_type == "csv") {
             # Check if target-path is valid:
             if (typeof(rv$target$settings$dir) == "character" &&
                 !is.null(rv$target$settings$dir) &&
@@ -128,14 +152,20 @@ module_dashboard_server <-
               printme("Target settings seem valid. (21d4db47d3)")
             } else {
               # invalid path:
-              printme("Target settings not valid. (470b6e0217)", type = "Warning")
+              feedback(
+                print_this = "Target settings not valid.",
+                type = "Warning",
+                findme = "470b6e0217",
+                ui = T
+              )
               printme(paste0(
                 "rv$target$settings$dir = ",
                 rv$target$dir,
                 "(43c81cb723)"
               ))
+              error_tmp <- T
             }
-          } else if (rv$target$system == "postgres") {
+          } else if (rv$target$system_type == "postgres") {
             # Check if target-db settings are valid:
             if (!is.null(rv$target$settings)) {
               rv$target$db_con <- DQAstats::test_db(settings = rv$target$settings,
@@ -145,58 +175,74 @@ module_dashboard_server <-
                 printme("Target db-settings seem valid. (79234d2ba0)")
               } else {
                 # invalid:
-                printme("Target db-settings not valid. (096341c4c1)",
-                        type = "warning")
+                feedback(
+                  print_this = "Target db-settings not valid.",
+                  type = "Warning",
+                  findme = "096341c4c1",
+                  ui = T
+                )
                 printme(paste0(
                   "rv$target$settings = ",
                   rv$target$settings,
                   "(2d47f163a9)"
                 ))
+                error_tmp <- T
               }
             } else {
               # invalid 2:
-              printme("Target db-settings not valid. (8440a9e683)", type = "Warning")
-              printme("rv$target$settings is null. (48358ecb83)", type = "Warning")
+              feedback(
+                print_this = "Target db-settings are empty.",
+                type = "Warning",
+                findme = "8440a9e683",
+                ui = T
+              )
+              error_tmp <- T
             }
           } else {
-            printme("Target system not yet implemented (57b314a1a3)",
-                    type = "warning")
+            feedback(
+              print_this = "Target system not yet implemented.",
+              type = "Warning",
+              findme = "57b314a1a3",
+              ui = T
+            )
+            error_tmp <- T
           }
         } else {
-          printme("Either source or target system is not set. (4e9400f8c9)", type = "Warning")
+          feedback(
+            print_this = "Either source or target system is not set.",
+            type = "Warning",
+            findme = "4e9400f8c9",
+            ui = T
+          )
+          error_tmp <- T
         }
       }
 
-      #print(rv$sql_target)
 
+      if (!error_tmp) {
+        # set flags to inactivate config-widgets and start loading of
+        # data
+        rv$getdata_target <- TRUE
+        rv$getdata_source <- TRUE
 
-      # if (is.null(rv$sql_target)) {
-      #   cat("\nSQL not loaded yet\n")
-      #
-      # } else {
-      # set flags to inactivate config-widgets and start loading of
-      # data
-      rv$getdata_target <- TRUE
-      rv$getdata_source <- TRUE
+        if (!dir.exists(paste0(tempdir(), "/_settings/"))) {
+          dir.create(paste0(tempdir(), "/_settings/"))
+        }
 
-      # if (!dir.exists(paste0(tempdir(), "/_settings/"))) {
-      #   dir.create(paste0(tempdir(), "/_settings/"))
-      # }
-      #
-      # # save user settings
-      # writeLines(
-      #   jsonlite::toJSON(
-      #     list(
-      #       "db" = rv$db_target,
-      #       "source_path" = rv$sourcefiledir,
-      #       "site_name" = rv$sitename
-      #     ),
-      #     pretty = T,
-      #     auto_unbox = F
-      #   ),
-      #   paste0(tempdir(), "/_settings/global_settings.JSON")
-      # )
-      #}
+        # save user settings
+        writeLines(
+          jsonlite::toJSON(
+            list(
+              "source_system" = rv$source$settings,
+              "target_system" = rv$target$settings,
+              "site_name" = rv$sitename
+            ),
+            pretty = T,
+            auto_unbox = F
+          ),
+          paste0(tempdir(), "/_settings/global_settings.JSON")
+        )
+      }
     })
 
     observe({
@@ -204,6 +250,25 @@ module_dashboard_server <-
 
       # load all data here
       if (isTRUE(rv$getdata_target) && isTRUE(rv$getdata_source)) {
+
+        stopifnot(length(rv$source$system_type) == 1)
+
+
+        reactive_to_append <- DQAstats::create_helper_vars(
+          mdr = rv$mdr,
+          target_db = rv$target$system_name,
+          source_db = rv$source$system_name
+        )
+
+        # workaround, to keep "rv" an reactiveValues object in shiny app
+        #% (rv <- c(rv, reactive_to_append)) does not work!
+        for (i in names(reactive_to_append)) {
+          rv[[i]] <- reactive_to_append[[i]]
+        }
+        rm(reactive_to_append)
+        invisible(gc())
+
+
         # set start_time (e.g. when clicking the 'Load Data'-button in shiny
         rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
 
@@ -233,6 +298,7 @@ module_dashboard_server <-
         } else {
           rv$data_target <- rv$data_source
         }
+        printme("Schritt 8")
 
         if (nrow(rv$pl$atemp_vars) != 0) {
           # get atemporal plausibilities
@@ -243,6 +309,8 @@ module_dashboard_server <-
               mdr = rv$mdr,
               headless = rv$headless
             )
+
+          printme("Schritt 9")
 
           # add the plausibility raw data to data_target and data_source
           for (i in names(rv$data_plausibility$atemporal)) {
@@ -257,6 +325,7 @@ module_dashboard_server <-
             gc()
           }
         }
+        printme("Schritt 10")
 
         # calculate descriptive results
         rv$results_descriptive <-

@@ -145,11 +145,46 @@ get_db_settings <- function(input, target = T) {
 }
 
 
+
 # Simply prints stuff to the console.
 # @param print_this:  The string to be printed.
 # @param type:        (Optional) The type of message as string.
 #                     If type is e.g. "Warning"
 #                     the printed line will be "[Warning] print_this".
 printme <- function(print_this, type = "Info") {
-  message(paste0("[", type, "] ", print_this))
+  feedback(print_this, type)
 }
+
+# Simple method to feedback messages either to the user and/or to the console.
+# Extended version of the printme-function.
+# @param print_this:  The string to be showed
+# @param type:        (Optional) The type of message as string.
+#                     This is also the headline of the modal.
+#                     If type is e.g. "Warning"
+#                     the printed line will be "[Warning] print_this".
+# @param ui:          (Optional) If true, the message will also be printed
+#                     to the user in form of a modal.
+# @param console:     (Optional) If true, the message will also be printed
+#                     to the console as is.
+# @param findme:      (Optional) String to find the message in the code.
+#                     E.g. 10-digit random hex from
+#                     https://www.browserling.com/tools/random-hex
+feedback <-
+  function(print_this,
+           type = "Info",
+           ui = FALSE,
+           console = TRUE,
+           findme = "") {
+    if (ui) {
+      shiny::showModal(modalDialog(title = type,
+                                   easyClose = TRUE,
+                                   print_this))
+    }
+    if (console) {
+      if (findme == "") {
+        message(paste0("[", type, "] ", print_this))
+      } else {
+        message(paste0("[", type, "] ", print_this, " (", findme, ")"))
+      }
+    }
+  }

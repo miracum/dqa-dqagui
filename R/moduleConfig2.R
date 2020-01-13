@@ -88,7 +88,30 @@ module_config2_server <-
                        printme("Removing csv-tab from target ...")
                        removeTab(inputId = "target_tabs", target = "CSV")
                      } else {
-                       # TODO: Fill the tabs with presettings
+                       csv_system_names <-
+                         rv$systems[get("source_system_type") == "csv" &
+                                      !is.na(get("source_system_name")),
+                                    unique(get("source_system_name"))]
+                       printme(cat("csv_system_names: ", csv_system_names))
+
+                       if (length(csv_system_names) > 0) {
+                         # Show buttons to prefill different systems presettings:
+                         # - Add a button/choice/etc. for each system:
+                         updateSelectInput(session = session,
+                                           inputId = "source_csv_presettings_list",
+                                           choices = csv_system_names)
+                         updateSelectInput(session = session,
+                                           inputId = "target_csv_presettings_list",
+                                           choices = csv_system_names)
+                       } else {
+                         # Hide the buttons/choices:
+                         updateSelectInput(session = session,
+                                           inputId = "source_csv_presettings_list",
+                                           choices = "No presets available")
+                         updateSelectInput(session = session,
+                                           inputId = "target_csv_presettings_list",
+                                           choices = "No presets available")
+                       }
                      }
                      if (!("postgres" %in% tolower(rv$system_types))) {
                        # Remove Postgres-Tabs:
@@ -189,6 +212,7 @@ module_config2_server <-
     observeEvent(input_re()[["moduleConfig-config_sourcedir_in"]], {
       settingsdir_src <- shinyFiles::parseDirPath(roots = roots_src,
                                                   selection = input_re()[["moduleConfig-config_sourcedir_in"]])
+      rv$source$settings <- NULL
       rv$source$settings$dir <-
         as.character(DQAstats::clean_path_name(settingsdir_src))
     })
@@ -211,7 +235,10 @@ module_config2_server <-
           paste(rv$source$settings$dir)
         })
         outputOptions(output, "source_csv_dir", suspendWhenHidden = FALSE)
-        rv$source$system <- "csv"
+        rv$source$system <-
+          paste0("csv. Path is '", rv$source$settings$dir, "'")
+        rv$source$system_name <- input$source_csv_presettings_list
+        rv$source$system_type <- "csv"
       }
     })
 
@@ -263,7 +290,8 @@ module_config2_server <-
           paste(rv$target$settings$dir)
         })
         outputOptions(output, "target_csv_dir", suspendWhenHidden = FALSE)
-        rv$target$system <- "csv"
+        rv$target$system_name <- input$target_csv_presettings_list
+        rv$target$system_type <- "csv"
       }
     })
 
@@ -286,7 +314,7 @@ module_config2_server <-
         "Loaded successfully.",
         "Filling presets to global rv-object and UI ..."
       ))
-      rv$source$settings <- config_stuff
+      # rv$source$settings <- config_stuff
       if (length(config_stuff) != 0) {
         updateTextInput(session = session,
                         inputId = "config_sourcedb_dbname",
@@ -340,7 +368,7 @@ module_config2_server <-
         "Loaded successfully.",
         "Filling presets to global rv-object and UI ..."
       ))
-      rv$target$settings <- config_stuff
+      # rv$target$settings <- config_stuff
       if (length(config_stuff) != 0) {
         updateTextInput(session = session,
                         inputId = "config_targetdb_dbname",
@@ -382,7 +410,8 @@ module_config2_server <-
 
       if (!is.null(rv$source$settings)) {
         rv$source$db_con <- DQAstats::test_db(settings = rv$source$settings,
-                                              headless = rv$headless)
+                                              headless = rv$headless,
+                                              timeout = 2)
 
         if (!is.null(rv$source$db_con)) {
           printme(
@@ -411,7 +440,8 @@ module_config2_server <-
               " established"
             )
           )
-          rv$source$system <- "postgres"
+          rv$source$system_name <- input$source_pg_presettings_list
+          rv$source$system_type <- "postgres"
         } else {
           showNotification(paste0(
             "\U2718 Connection to ",
@@ -430,7 +460,8 @@ module_config2_server <-
 
       if (!is.null(rv$target$settings)) {
         rv$target$db_con <- DQAstats::test_db(settings = rv$target$settings,
-                                              headless = rv$headless)
+                                              headless = rv$headless,
+                                              timeout = 2)
 
         if (!is.null(rv$target$db_con)) {
           printme(
@@ -459,7 +490,8 @@ module_config2_server <-
               " established"
             )
           )
-          rv$target$system <- "postgres"
+          rv$target$system_name <- input$target_pg_presettings_list
+          rv$target$system_type <- "postgres"
         } else {
           showNotification(paste0(
             "\U2718 Connection to ",
@@ -574,6 +606,20 @@ module_config2_ui <- function(id) {
             tabPanel(
               title = "CSV",
               h4("Source CSV Upload"),
+              box(
+                title = "Available CSV-Systems",
+                # background = "blue",
+                # solidHeader = TRUE,
+                width = 12,
+                selectInput(
+                  # This will be filled in the server part.
+                  inputId = ns("source_csv_presettings_list"),
+                  label = NULL,
+                  choices = NULL,
+                  selected = NULL
+                ),
+                style = "text-align:center;"
+              ),
               div(
                 paste(
                   "Please choose the directory of your",
@@ -680,6 +726,20 @@ module_config2_ui <- function(id) {
             tabPanel(
               title = "CSV",
               h4("Target CSV Upload"),
+              box(
+                title = "Available CSV-Systems",
+                # background = "blue",
+                # solidHeader = TRUE,
+                width = 12,
+                selectInput(
+                  # This will be filled in the server part.
+                  inputId = ns("target_csv_presettings_list"),
+                  label = NULL,
+                  choices = NULL,
+                  selected = NULL
+                ),
+                style = "text-align:center;"
+              ),
               div(
                 paste(
                   "Please choose the directory of your",

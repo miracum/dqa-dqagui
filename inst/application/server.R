@@ -71,19 +71,7 @@ shiny::shinyServer(function(input, output, session) {
         if (!is.null(rv$getdata_target) &&
             !is.null(rv$getdata_source)) {
             # hide load data button
-            shinyjs::hide("moduleDashboard-dash_load_btn")
-
-            # disable config page
-            shinyjs::disable("moduleConfig-config_targetdb_rad")
-            shinyjs::disable("moduleConfig-config_targetdb_dbname")
-            shinyjs::disable("moduleConfig-config_targetdb_host")
-            shinyjs::disable("moduleConfig-config_targetdb_port")
-            shinyjs::disable("moduleConfig-config_targetdb_user")
-            shinyjs::disable("moduleConfig-config_targetdb_password")
-            shinyjs::disable("moduleConfig-config_targetdb_save_btn")
-            shinyjs::disable("moduleConfig-config_targetdb_test_btn")
-            shinyjs::disable("moduleConfig-config_sitename")
-            shinyjs::disable("moduleConfig-config_sourcedir_in")
+            shinyjs::hide("moduleConfig-dash_load_btn")
 
             rv$start <- TRUE
         }
