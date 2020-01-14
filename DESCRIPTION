@@ -38,4 +38,4 @@ Suggests:
     lintr
 Remotes: 
     url::https://gitlab.miracum.org/miracum-dqa/dqastats/-/archive/v0.0.5/dqastats-v0.0.5.zip
-RoxygenNote: 7.0.1
+RoxygenNote: 7.0.2

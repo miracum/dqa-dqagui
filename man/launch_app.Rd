@@ -23,9 +23,11 @@ data map (`email.yml`), a JSON file containing site names (inside the
 folder `MISC`) and a markdown templated to create the PDF report
 (`DQA_report.Rmd` inside the folder `RMD`).}
 
-\item{db_source}{The name of the source database. Currently, the only
-allowed argument is `p21csv` used for the import of the corresponding
-csv files.}
+\item{mdr_filename}{The filename of the mdr (e.g. "mdr_example_data.csv")}
+
+\item{config_file}{The path to the configuration yaml.
+E.g. config_file = system.file(
+"demo_data/utilities/settings/demo_settings.yml", package = "DQAstats")}
 }
 \value{
 DQAgui Shiny application

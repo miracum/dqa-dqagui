@@ -29,20 +29,6 @@
 #'
 # module_mdr_server
 module_mdr_server <- function(input, output, session, rv, input_re) {
-  # read mdr
-  # observe({
-  #   req(rv$mdr)
-  #
-  #   if (rv$source$system_name %in%
-  #       rv$mdr[, unique(get("source_system_name"))] &&
-  #       rv$target$system_name %in%
-  #       rv$mdr[, unique(get("source_system_name"))]) {
-  #
-  #   } else {
-  #     showModal(modalDialog("No keys for target database found in MDR.",
-  #                           title = "No keys found"))
-  #   }
-  # })
 
   output$mdr_table <- DT::renderDataTable({
     DT::datatable(rv$mdr, options = list(

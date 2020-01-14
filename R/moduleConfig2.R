@@ -95,22 +95,26 @@ module_config2_server <-
                        printme(cat("csv_system_names: ", csv_system_names))
 
                        if (length(csv_system_names) > 0) {
-                         # Show buttons to prefill different systems presettings:
+                         # Show buttons to prefill diff. systems presettings:
                          # - Add a button/choice/etc. for each system:
-                         updateSelectInput(session = session,
-                                           inputId = "source_csv_presettings_list",
-                                           choices = csv_system_names)
-                         updateSelectInput(session = session,
-                                           inputId = "target_csv_presettings_list",
-                                           choices = csv_system_names)
+                         updateSelectInput(
+                           session = session,
+                           inputId = "source_csv_presettings_list",
+                           choices = csv_system_names)
+                         updateSelectInput(
+                           session = session,
+                           inputId = "target_csv_presettings_list",
+                           choices = csv_system_names)
                        } else {
                          # Hide the buttons/choices:
-                         updateSelectInput(session = session,
-                                           inputId = "source_csv_presettings_list",
-                                           choices = "No presets available")
-                         updateSelectInput(session = session,
-                                           inputId = "target_csv_presettings_list",
-                                           choices = "No presets available")
+                         updateSelectInput(
+                           session = session,
+                           inputId = "source_csv_presettings_list",
+                           choices = "No presets available")
+                         updateSelectInput(
+                           session = session,
+                           inputId = "target_csv_presettings_list",
+                           choices = "No presets available")
                        }
                      }
                      if (!("postgres" %in% tolower(rv$system_types))) {
@@ -122,31 +126,40 @@ module_config2_server <-
                        removeTab(inputId = "target_tabs", target = "PostgreSQL")
                      } else{
                        # Fill the tab with presettings
-                       # - filter for all system_names with system_type == postgres
-                       # select source_system_name from rv$systems where source_system_type == postgres GROUP BY source_system_name
+                       # - filter for all system_names with
+                       #% system_type == postgres
+                       #% select source_system_name from
+                       #% rv$systems where source_system_type == postgres
+                       #% GROUP BY source_system_name
                        postgres_system_names <-
                          rv$systems[get("source_system_type") == "postgres" &
                                       !is.na(get("source_system_name")),
                                     unique(get("source_system_name"))]
-                       printme(cat("postgres_system_names: ", postgres_system_names))
+                       printme(cat(
+                         "postgres_system_names: ",
+                         postgres_system_names))
 
                        if (length(postgres_system_names) > 0) {
-                         # Show buttons to prefill different systems presettings:
+                         # Show buttons to prefill diff. systems presettings:
                          # - Add a button/choice/etc. for each system:
-                         updateSelectInput(session = session,
-                                           inputId = "source_pg_presettings_list",
-                                           choices = postgres_system_names)
-                         updateSelectInput(session = session,
-                                           inputId = "target_pg_presettings_list",
-                                           choices = postgres_system_names)
+                         updateSelectInput(
+                           session = session,
+                           inputId = "source_pg_presettings_list",
+                           choices = postgres_system_names)
+                         updateSelectInput(
+                           session = session,
+                           inputId = "target_pg_presettings_list",
+                           choices = postgres_system_names)
                        } else {
                          # Hide the buttons/choices:
-                         updateSelectInput(session = session,
-                                           inputId = "source_pg_presettings_list",
-                                           choices = "No presets available")
-                         updateSelectInput(session = session,
-                                           inputId = "target_pg_presettings_list",
-                                           choices = "No presets available")
+                         updateSelectInput(
+                           session = session,
+                           inputId = "source_pg_presettings_list",
+                           choices = "No presets available")
+                         updateSelectInput(
+                           session = session,
+                           inputId = "target_pg_presettings_list",
+                           choices = "No presets available")
                        }
                      }
                      # Optional: Set a tab as active with:
@@ -178,7 +191,8 @@ module_config2_server <-
 
                      # workaround to tell ui, that mdr is there
                      output$source_system_type <- reactive({
-                       return(input_re()[["moduleConfig-config_source_system_type"]])
+                       return(input_re()
+                              [["moduleConfig-config_source_system_type"]])
                      })
                      outputOptions(output,
                                    "source_system_type",
@@ -210,16 +224,18 @@ module_config2_server <-
     )
     # observe source file directory
     observeEvent(input_re()[["moduleConfig-config_sourcedir_in"]], {
-      settingsdir_src <- shinyFiles::parseDirPath(roots = roots_src,
-                                                  selection = input_re()[["moduleConfig-config_sourcedir_in"]])
+      settingsdir_src <- shinyFiles::parseDirPath(
+        roots = roots_src,
+        selection = input_re()[["moduleConfig-config_sourcedir_in"]])
       rv$source$settings <- NULL
       rv$source$settings$dir <-
         as.character(DQAstats::clean_path_name(settingsdir_src))
     })
     observeEvent(input_re()[["moduleConfig-config_sourcedir_in_changed"]], {
       settingsdir_src <-
-        shinyFiles::parseDirPath(roots = roots_src_changed,
-                                 selection = input_re()[["moduleConfig-config_sourcedir_in_changed"]])
+        shinyFiles::parseDirPath(
+          roots = roots_src_changed,
+          selection = input_re()[["moduleConfig-config_sourcedir_in_changed"]])
       rv$source$settings$dir <-
         as.character(DQAstats::clean_path_name(settingsdir_src))
     })
@@ -266,15 +282,18 @@ module_config2_server <-
     # observe target file directory
     observeEvent(eventExpr = input_re()[["moduleConfig-config_targetdir_in"]],
                  handlerExpr = {
-                   settingsdir_tar <- shinyFiles::parseDirPath(roots = roots_tar,
-                                                               selection = input_re()[["moduleConfig-config_targetdir_in"]])
+                   settingsdir_tar <- shinyFiles::parseDirPath(
+                     roots = roots_tar,
+                     selection = input_re()
+                     [["moduleConfig-config_targetdir_in"]])
                    rv$target$settings$dir <-
                      as.character(DQAstats::clean_path_name(settingsdir_tar))
                  })
     observeEvent(input_re()[["moduleConfig-config_targetdir_in_changed"]], {
       settingsdir_tar <-
-        shinyFiles::parseDirPath(roots = roots_tar_changed,
-                                 selection = input_re()[["moduleConfig-config_targetdir_in_changed"]])
+        shinyFiles::parseDirPath(
+          roots = roots_tar_changed,
+          selection = input_re()[["moduleConfig-config_targetdir_in_changed"]])
       rv$target$settings$dir <-
         as.character(DQAstats::clean_path_name(settingsdir_tar))
     })
@@ -314,7 +333,6 @@ module_config2_server <-
         "Loaded successfully.",
         "Filling presets to global rv-object and UI ..."
       ))
-      # rv$source$settings <- config_stuff
       if (length(config_stuff) != 0) {
         updateTextInput(session = session,
                         inputId = "config_sourcedb_dbname",
@@ -368,7 +386,6 @@ module_config2_server <-
         "Loaded successfully.",
         "Filling presets to global rv-object and UI ..."
       ))
-      # rv$target$settings <- config_stuff
       if (length(config_stuff) != 0) {
         updateTextInput(session = session,
                         inputId = "config_targetdb_dbname",
@@ -589,7 +606,8 @@ module_config2_ui <- function(id) {
 
       ## This will be displayed after the MDR is loaded successfully:
       conditionalPanel(
-        condition = "typeof output['moduleConfig-system_types'] !== 'undefined'",
+        condition =
+          "typeof output['moduleConfig-system_types'] !== 'undefined'",
 
         box(
           title =  "SOURCE settings",
@@ -646,8 +664,11 @@ module_config2_ui <- function(id) {
               # If the path is already set, display it
               # and offer the possibility to change it:
               conditionalPanel(
-                condition =
-                  "typeof output['moduleConfig-source_csv_dir'] !== 'undefined'",
+                condition = paste0(
+                  "typeof ",
+                  "output['moduleConfig-source_csv_dir']",
+                  " !== 'undefined'"
+                ),
                 verbatimTextOutput(ns("source_csv_dir")),
                 style = "text-align:center;",
 
@@ -695,7 +716,8 @@ module_config2_ui <- function(id) {
               textInput(
                 inputId = ns("config_sourcedb_user"),
                 label = "Username",
-                placeholder = "Enter the Username for the database connection ..."
+                placeholder =
+                  "Enter the Username for the database connection ..."
               ),
               passwordInput(
                 inputId = ns("config_sourcedb_password"),
@@ -766,8 +788,11 @@ module_config2_ui <- function(id) {
               # If the path is already set,
               # display it and offer the possibility to change it:
               conditionalPanel(
-                condition =
-                  "typeof output['moduleConfig-target_csv_dir'] !== 'undefined'",
+                condition = paste0(
+                  "typeof ",
+                  "output['moduleConfig-target_csv_dir']",
+                  " !== 'undefined'"
+                ),
                 verbatimTextOutput(ns("target_csv_dir")),
                 style = "text-align:center;",
 
@@ -814,7 +839,8 @@ module_config2_ui <- function(id) {
               textInput(
                 inputId = ns("config_targetdb_user"),
                 label = "Username",
-                placeholder = "Enter the Username for the database connection ..."
+                placeholder =
+                  "Enter the Username for the database connection ..."
               ),
               passwordInput(
                 inputId = ns("config_targetdb_password"),
@@ -828,22 +854,10 @@ module_config2_ui <- function(id) {
                 icon = icon("database"),
                 style = "text-align:center;"
               )
-
             )
           )
         )
-      ),
-      # conditionalPanel(
-      #   condition =
-      #     "typeof output['moduleConfig-target_system'] !== undefined",
-      #   box(
-      #     status = "success",
-      #     solidHeader = TRUE,
-      #     width = 12,
-      #     style = "text-align:center;",
-      #     textOutput(ns("target_system"))
-      #   )
-      # )
+      )
     )
   )
 }

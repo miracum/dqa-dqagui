@@ -46,7 +46,8 @@ module_dashboard_server <-
       # check, if mdr is present. without mdr, we cannot perform any
       # further operations
       if (is.null(rv$mdr)) {
-        feedback("Please provide a metadata repository (MDR).", type = "No MDR present")
+        feedback("Please provide a metadata repository (MDR).",
+                 type = "No MDR present")
         error_tmp <- T
         # mdr is present:
       } else {
@@ -102,8 +103,9 @@ module_dashboard_server <-
           } else if (rv$source$system_type == "postgres") {
             # Check if source-db settings are valid:
             if (!is.null(rv$source$settings)) {
-              rv$source$db_con <- DQAstats::test_db(settings = rv$source$settings,
-                                                    headless = rv$headless)
+              rv$source$db_con <-
+                DQAstats::test_db(settings = rv$source$settings,
+                                  headless = rv$headless)
               if (!is.null(rv$source$db_con)) {
                 # valid
                 printme("Source db-settings seem valid. (29cc920472)")
@@ -168,8 +170,9 @@ module_dashboard_server <-
           } else if (rv$target$system_type == "postgres") {
             # Check if target-db settings are valid:
             if (!is.null(rv$target$settings)) {
-              rv$target$db_con <- DQAstats::test_db(settings = rv$target$settings,
-                                                    headless = rv$headless)
+              rv$target$db_con <-
+                DQAstats::test_db(settings = rv$target$settings,
+                                  headless = rv$headless)
               if (!is.null(rv$target$db_con)) {
                 # valid
                 printme("Target db-settings seem valid. (79234d2ba0)")
@@ -335,7 +338,8 @@ module_dashboard_server <-
         # get time_interval
         # TODO hardcoded for MIRACUM
         rv$time_interval <-
-          DQAstats::time_interval(rv$results_descriptive$EpisodeOfCare_period_end)
+          DQAstats::time_interval(
+            rv$results_descriptive$EpisodeOfCare_period_end)
 
         if (!is.null(rv$data_plausibility$atemporal)) {
           # calculate plausibilites
@@ -400,7 +404,8 @@ module_dashboard_server <-
 
         # checks$value_conformance
         rv$checks$value_conformance <-
-          DQAstats::value_conformance_checks(results = rv$conformance$value_conformance)
+          DQAstats::value_conformance_checks(
+            results = rv$conformance$value_conformance)
 
         # checks$etl
         rv$checks$etl <-
@@ -409,7 +414,8 @@ module_dashboard_server <-
 
         # get time_interval
         rv$time_interval <-
-          DQAstats::time_interval(data = rv$results_descriptive$EpisodeOfCare_period_end)
+          DQAstats::time_interval(
+            data = rv$results_descriptive$EpisodeOfCare_period_end)
 
         # set flag that we have all data
         rv$getdata_target <- FALSE

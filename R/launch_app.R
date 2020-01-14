@@ -26,9 +26,10 @@
 #'   data map (`email.yml`), a JSON file containing site names (inside the
 #'   folder `MISC`) and a markdown templated to create the PDF report
 #'   (`DQA_report.Rmd` inside the folder `RMD`).
-#' @param db_source The name of the source database. Currently, the only
-#'   allowed argument is `p21csv` used for the import of the corresponding
-#'   csv files.
+#' @param mdr_filename The filename of the mdr (e.g. "mdr_example_data.csv")
+#' @param config_file The path to the configuration yaml.
+#' E.g. config_file = system.file(
+#' "demo_data/utilities/settings/demo_settings.yml", package = "DQAstats")
 #'
 #' @return DQAgui Shiny application
 #'
