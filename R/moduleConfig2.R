@@ -1,6 +1,6 @@
 # DQAgui - A graphical user interface (GUI) to the functions implemented in the
 # R package 'DQAstats'.
-# Copyright (C) 2019 Universitätsklinikum Erlangen
+# Copyright (C) 2019-2020 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,6 +31,18 @@
 module_config2_server <-
   function(input, output, session, rv, input_re) {
     debugging <- T
+
+    feedback_txt <- function(system, type) {
+      result <- paste0(
+        "\U2714 ",
+        system,
+        " will be used as ",
+        type,
+        " system.",
+        "\n\n",
+        "To change, simply select and save another one."
+      )
+    }
 
     # load mdr
     observeEvent(eventExpr = input_re()[["moduleConfig-config_load_mdr"]],
@@ -255,6 +267,8 @@ module_config2_server <-
           paste0("csv. Path is '", rv$source$settings$dir, "'")
         rv$source$system_name <- input$source_csv_presettings_list
         rv$source$system_type <- "csv"
+        output$source_system_feedback_txt <-
+          renderText({feedback_txt(system = "CSV", type = "source")})
       }
     })
 
@@ -311,6 +325,8 @@ module_config2_server <-
         outputOptions(output, "target_csv_dir", suspendWhenHidden = FALSE)
         rv$target$system_name <- input$target_csv_presettings_list
         rv$target$system_type <- "csv"
+        output$target_system_feedback_txt <-
+          renderText({feedback_txt(system = "CSV", type = "target")})
       }
     })
 
@@ -459,6 +475,8 @@ module_config2_server <-
           )
           rv$source$system_name <- input$source_pg_presettings_list
           rv$source$system_type <- "postgres"
+          output$source_system_feedback_txt <-
+            renderText({feedback_txt(system = "PostgreSQL", type = "source")})
         } else {
           showNotification(paste0(
             "\U2718 Connection to ",
@@ -509,6 +527,8 @@ module_config2_server <-
           )
           rv$target$system_name <- input$target_pg_presettings_list
           rv$target$system_type <- "postgres"
+          output$target_system_feedback_txt <-
+            renderText({feedback_txt(system = "PostgreSQL", type = "target")})
         } else {
           showNotification(paste0(
             "\U2718 Connection to ",
@@ -549,6 +569,19 @@ module_config2_server <-
         )
       }
     })
+
+    show_load_btn <- function(){
+      if (!is.null(rv$source$system_type)) {
+      # Source or target are not valid yet or not valid anymore
+      # so disable the load-data-button:
+        shinyjs::hide("action")
+        } else {
+        # Source and Target are valid: Show Button
+          shinyjs::show("action")
+      }
+    }
+
+
 
   }
 
@@ -604,16 +637,23 @@ module_config2_ui <- function(id) {
         ),
       ),
 
+
       ## This will be displayed after the MDR is loaded successfully:
       conditionalPanel(
         condition =
           "typeof output['moduleConfig-system_types'] !== 'undefined'",
-
         box(
           title =  "SOURCE settings",
           width = 6,
           solidHeader = TRUE,
           # status = "primary",
+          box(
+            # title = "Selected Source System",
+            width = 12,
+            solidHeader = T,
+            id = ns("source_system_feedback_box"),
+            h4(textOutput(ns("source_system_feedback_txt")))
+          ),
           tabBox(
             # The id lets us use input$source_tabs
             # on the server to find the current tab
@@ -739,6 +779,13 @@ module_config2_ui <- function(id) {
           width = 6,
           solidHeader = TRUE,
           # status = "warning",
+          box(
+            # title = "Selected Source System",
+            width = 12,
+            solidHeader = T,
+            id = ns("target_system_feedback_box"),
+            h4(textOutput(ns("target_system_feedback_txt")))
+          ),
           tabBox(
             # The id lets us use input$target_tabs
             # on the server to find the current tab

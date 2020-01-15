@@ -1,6 +1,6 @@
 # DQAgui - A graphical user interface (GUI) to the functions implemented in the
 # R package 'DQAstats'.
-# Copyright (C) 2019 Universitätsklinikum Erlangen
+# Copyright (C) 2019-2020 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,8 +33,8 @@ module_dashboard_server <-
     output$dash_instruction <- renderText({
       paste0(
         "Please load your metadata repository first and then configure ",
-        "and test your database connection in the settings tab.\n",
-        "Return here to load the data."
+        "and test your source and target parameters in the config tab.\n",
+        "Results will be displayed here afterwards."
       )
     })
 
@@ -585,16 +585,16 @@ module_dashboard_ui <- function(id) {
   ns <- NS(id)
 
   tagList(fluidRow(
+    box(
+      title = "Welcome to your Data-Quality-Analysis Dashboard",
+      verbatimTextOutput(ns("dash_instruction")),
+      #conditionalPanel(condition = "output['moduleConfig-db_connection']",
+      actionButton(ns("dash_load_btn"), "Load data"),
+      #),
+      width = 12
+    ),
     column(
       6,
-      box(
-        title = "Welcome to your Data-Quality-Analysis Dashboard",
-        verbatimTextOutput(ns("dash_instruction")),
-        #conditionalPanel(condition = "output['moduleConfig-db_connection']",
-        actionButton(ns("dash_load_btn"), "Load data"),
-        #),
-        width = 12
-      ),
       conditionalPanel(
         condition = "output['moduleDashboard-etl_results']",
         box(

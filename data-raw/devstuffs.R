@@ -45,7 +45,7 @@ my_desc$set("License", "GPL-3")
 my_desc$write(file = "DESCRIPTION")
 
 # License
-usethis::use_gpl3_license(name="Universitätsklinikum Erlangen")
+#usethis::use_gpl3_license(name="Universitätsklinikum Erlangen")
 
 
 # add Imports and Depends
@@ -83,8 +83,7 @@ usethis::use_package("lintr", type = "Suggests")
 # Development package
 mytag <- "v0.0.5"
 devtools::install_git(url = "https://gitlab.miracum.org/miracum-dqa/dqastats.git", ref = mytag, upgrade = "always")
-usethis::use_dev_package("DQAstats", type = "Imports")
-#usethis::use_dev_package("DQAstats", type = "Imports")
+# usethis::use_dev_package("DQAstats", type = "Imports")
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
 desc::desc_set_remotes(c(
   paste0(
