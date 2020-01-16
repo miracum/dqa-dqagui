@@ -20,7 +20,8 @@ my_desc$set_authors(c(
     "Mang",
     role = c('aut'),
     comment = c(ORCID = "0000-0003-0518-4710")
-  )
+  ),
+  person("MIRACUM - Medical Informatics in Research and Care in University Medicine", role = c("fnd"))
 ))
 #  person("Name2", "Surname2", email = "mail@2", role = 'aut')))
 # Set copyright
@@ -81,13 +82,13 @@ usethis::use_package("processx", type = "Suggests")
 usethis::use_package("lintr", type = "Suggests")
 
 # Development package
-mytag <- "v0.0.5"
-devtools::install_git(url = "https://gitlab.miracum.org/miracum-dqa/dqastats.git", ref = mytag, upgrade = "always")
+mytag <- "723aa9ee"
+devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqastats.git", ref = mytag, upgrade = "always")
 # usethis::use_dev_package("DQAstats", type = "Imports")
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
 desc::desc_set_remotes(c(
   paste0(
-    "url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/", mytag, "/dqastats-", mytag, ".zip")
+    "url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/", mytag, "/miracum/dqa/dqastats-", mytag, ".zip")
 ),
 file = usethis::proj_get())
 
