@@ -54,6 +54,7 @@ module_dashboard_server <-
         # check if sitename is present
         if (nchar(input_re()[["moduleConfig-config_sitename"]]) < 2 ||
             any(grepl("\\s", input_re()[["moduleConfig-config_sitename"]]))) {
+          # site name is missing:
           shiny::showModal(modalDialog(
             title = "Invalid values",
             paste0(
@@ -61,9 +62,11 @@ module_dashboard_server <-
               "the site name configuration."
             )
           ))
-          error_tmp <- T
-          # site name is present
+          ## TODO: Delete the demo-sitename and re-enable the error_tmp
+          rv$sitename <- "Demo"
+          # error_tmp <- T
         } else {
+          # site name is present:
           rv$sitename <- input_re()[["moduleConfig-config_sitename"]]
         }
 
