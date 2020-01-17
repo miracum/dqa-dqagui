@@ -341,8 +341,8 @@ module_dashboard_server <-
         # get time_interval
         # TODO hardcoded for MIRACUM
         rv$time_interval <-
-          DQAstats::time_interval(
-            rv$results_descriptive$EpisodeOfCare_period_end)
+          time_interval(rv$results_descriptive[["Entlassungsdatum"]])
+
 
         if (!is.null(rv$data_plausibility$atemporal)) {
           # calculate plausibilites
@@ -402,6 +402,7 @@ module_dashboard_server <-
           results = rv$results_descriptive,
           db = rv$target$system_name,
           mdr = rv$mdr,
+          rv = rv,
           headless = rv$headless
         )
 
