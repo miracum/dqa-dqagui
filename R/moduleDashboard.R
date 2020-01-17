@@ -341,7 +341,9 @@ module_dashboard_server <-
         # get time_interval
         # TODO hardcoded for MIRACUM
         rv$time_interval <-
-          time_interval(rv$results_descriptive[["Entlassungsdatum"]])
+          DQAstats::time_interval(
+            rv$results_descriptive[["Entlassungsdatum"]]
+          )
 
 
         if (!is.null(rv$data_plausibility$atemporal)) {
