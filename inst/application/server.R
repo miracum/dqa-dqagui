@@ -30,7 +30,7 @@ shiny::shinyServer(function(input, output, session) {
         expr = {
             # if existing, set email address for data-map button
             out <- DQAstats::get_config(
-                config_file = paste0(utils_path, "email.yml"),
+                config_file = paste0(utils_path, "/MISC/email.yml"),
                 config_key = "email"
             )
         }, error = function(e) {

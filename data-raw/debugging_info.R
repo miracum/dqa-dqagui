@@ -6,8 +6,9 @@ output_dir = "output/"
 utils_path = DQAstats::clean_path_name(system.file("application/_utilities",
                                                    package = "miRacumDQA"))
 mdr_filename = "mdr.csv"
-config_file = system.file("application/_settings/demo_settings_INTERNAL.yml",
-                          package = "DQAgui")
+# config_file = system.file("application/_settings/demo_settings_INTERNAL.yml",
+#                           package = "DQAgui")
+config_file <- "/home/rstudio/development/Rpackages/DQAstats/tests/testthat/testdata/demo_settings_INTERNAL.yml"
 ##	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑
 
 
