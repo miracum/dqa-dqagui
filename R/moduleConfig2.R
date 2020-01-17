@@ -45,172 +45,173 @@ module_config2_server <-
     }
 
     # load mdr
-    observeEvent(eventExpr = input_re()[["moduleConfig-config_load_mdr"]],
-                 handlerExpr = {
-                   if (is.null(rv$mdr)) {
-                     printme("Reading MDR ...")
-                     # TODO hard-coded
-                     rv$mdr_filename <- mdr_filename
+    observeEvent(
+      eventExpr = input_re()[["moduleConfig-config_load_mdr"]],
+      handlerExpr = {
+        if (is.null(rv$mdr)) {
+          printme("Reading MDR ...")
+          # TODO hard-coded
+          rv$mdr_filename <- mdr_filename
 
-                     if (debugging)
-                       printme(paste0("MDR-Filename:", mdr_filename))
-                     if (debugging)
-                       printme(paste0("rv$utilspath:", rv$utilspath))
+          if (debugging)
+            printme(paste0("MDR-Filename:", mdr_filename))
+          if (debugging)
+            printme(paste0("rv$utilspath:", rv$utilspath))
 
-                     # read MDR
-                     rv$mdr <-
-                       DQAstats::read_mdr(utils_path = rv$utilspath,
-                                          mdr_filename = mdr_filename)
-                     stopifnot(data.table::is.data.table(rv$mdr))
+          # read MDR
+          rv$mdr <-
+            DQAstats::read_mdr(utils_path = rv$utilspath,
+                               mdr_filename = mdr_filename)
+          stopifnot(data.table::is.data.table(rv$mdr))
 
-                     ## Read in the settings
-                     # - Determine the different systems from mdr:
-                     vec <-
-                       c("source_table_name",
-                         "source_system_name",
-                         "source_system_type")
-                     rv$systems <- unique(rv$mdr[, vec, with = F])
-                     cat(paste0("\nDifferent systems found in MDR:\n"))
-                     print(rv$systems)
+          ## Read in the settings
+          # - Determine the different systems from mdr:
+          vec <-
+            c("source_table_name",
+              "source_system_name",
+              "source_system_type")
+          rv$systems <- unique(rv$mdr[, vec, with = F])
+          cat(paste0("\nDifferent systems found in MDR:\n"))
+          print(rv$systems)
 
-                     # - Read the settings for all these systems:
-                     unique_systems <-
-                       rv$systems[!is.na(get("source_system_name")),
-                                  unique(get("source_system_name"))]
-                     rv$settings <-
-                       lapply(unique_systems, function(x)
-                         DQAstats::get_config(config_file = config_file,
-                                              config_key = tolower(x)))
+          # - Read the settings for all these systems:
+          unique_systems <-
+            rv$systems[!is.na(get("source_system_name")),
+                       unique(get("source_system_name"))]
+          rv$settings <-
+            lapply(unique_systems, function(x)
+              DQAstats::get_config(config_file = config_file,
+                                   config_key = tolower(x)))
 
-                     # - Different system-types:
-                     rv$system_types <-
-                       rv$systems[!is.na(get("source_system_type")),
-                                  unique(get("source_system_type"))]
+          # - Different system-types:
+          rv$system_types <-
+            rv$systems[!is.na(get("source_system_type")),
+                       unique(get("source_system_type"))]
 
-                     i <- 1
-                     for (systype in rv$system_types) {
-                       printme(paste0("System type ", i, " = ", systype))
-                       i <- i + 1
-                     }
-                     if (!("csv" %in% tolower(rv$system_types))) {
-                       # Remove CSV-Tabs:
-                       printme("Removing csv-tab from source ...")
-                       removeTab(inputId = "source_tabs", target = "CSV")
+          i <- 1
+          for (systype in rv$system_types) {
+            printme(paste0("System type ", i, " = ", systype))
+            i <- i + 1
+          }
+          if (!("csv" %in% tolower(rv$system_types))) {
+            # Remove CSV-Tabs:
+            printme("Removing csv-tab from source ...")
+            removeTab(inputId = "source_tabs", target = "CSV")
 
-                       printme("Removing csv-tab from target ...")
-                       removeTab(inputId = "target_tabs", target = "CSV")
-                     } else {
-                       csv_system_names <-
-                         rv$systems[get("source_system_type") == "csv" &
-                                      !is.na(get("source_system_name")),
-                                    unique(get("source_system_name"))]
-                       printme(cat("csv_system_names: ", csv_system_names))
+            printme("Removing csv-tab from target ...")
+            removeTab(inputId = "target_tabs", target = "CSV")
+          } else {
+            csv_system_names <-
+              rv$systems[get("source_system_type") == "csv" &
+                           !is.na(get("source_system_name")),
+                         unique(get("source_system_name"))]
+            printme(cat("csv_system_names: ", csv_system_names))
 
-                       if (length(csv_system_names) > 0) {
-                         # Show buttons to prefill diff. systems presettings:
-                         # - Add a button/choice/etc. for each system:
-                         updateSelectInput(
-                           session = session,
-                           inputId = "source_csv_presettings_list",
-                           choices = csv_system_names)
-                         updateSelectInput(
-                           session = session,
-                           inputId = "target_csv_presettings_list",
-                           choices = csv_system_names)
-                       } else {
-                         # Hide the buttons/choices:
-                         updateSelectInput(
-                           session = session,
-                           inputId = "source_csv_presettings_list",
-                           choices = "No presets available")
-                         updateSelectInput(
-                           session = session,
-                           inputId = "target_csv_presettings_list",
-                           choices = "No presets available")
-                       }
-                     }
-                     if (!("postgres" %in% tolower(rv$system_types))) {
-                       # Remove Postgres-Tabs:
-                       printme("Removing postgres-tab from source ...")
-                       removeTab(inputId = "source_tabs", target = "PostgreSQL")
+            if (length(csv_system_names) > 0) {
+              # Show buttons to prefill diff. systems presettings:
+              # - Add a button/choice/etc. for each system:
+              updateSelectInput(
+                session = session,
+                inputId = "source_csv_presettings_list",
+                choices = csv_system_names)
+              updateSelectInput(
+                session = session,
+                inputId = "target_csv_presettings_list",
+                choices = csv_system_names)
+            } else {
+              # Hide the buttons/choices:
+              updateSelectInput(
+                session = session,
+                inputId = "source_csv_presettings_list",
+                choices = "No presets available")
+              updateSelectInput(
+                session = session,
+                inputId = "target_csv_presettings_list",
+                choices = "No presets available")
+            }
+          }
+          if (!("postgres" %in% tolower(rv$system_types))) {
+            # Remove Postgres-Tabs:
+            printme("Removing postgres-tab from source ...")
+            removeTab(inputId = "source_tabs", target = "PostgreSQL")
 
-                       printme("Removing postgres-tab from target ...")
-                       removeTab(inputId = "target_tabs", target = "PostgreSQL")
-                     } else{
-                       # Fill the tab with presettings
-                       # - filter for all system_names with
-                       #% system_type == postgres
-                       #% select source_system_name from
-                       #% rv$systems where source_system_type == postgres
-                       #% GROUP BY source_system_name
-                       postgres_system_names <-
-                         rv$systems[get("source_system_type") == "postgres" &
-                                      !is.na(get("source_system_name")),
-                                    unique(get("source_system_name"))]
-                       printme(cat(
-                         "postgres_system_names: ",
-                         postgres_system_names))
+            printme("Removing postgres-tab from target ...")
+            removeTab(inputId = "target_tabs", target = "PostgreSQL")
+          } else{
+            # Fill the tab with presettings
+            # - filter for all system_names with
+            #% system_type == postgres
+            #% select source_system_name from
+            #% rv$systems where source_system_type == postgres
+            #% GROUP BY source_system_name
+            postgres_system_names <-
+              rv$systems[get("source_system_type") == "postgres" &
+                           !is.na(get("source_system_name")),
+                         unique(get("source_system_name"))]
+            printme(cat(
+              "postgres_system_names: ",
+              postgres_system_names))
 
-                       if (length(postgres_system_names) > 0) {
-                         # Show buttons to prefill diff. systems presettings:
-                         # - Add a button/choice/etc. for each system:
-                         updateSelectInput(
-                           session = session,
-                           inputId = "source_pg_presettings_list",
-                           choices = postgres_system_names)
-                         updateSelectInput(
-                           session = session,
-                           inputId = "target_pg_presettings_list",
-                           choices = postgres_system_names)
-                       } else {
-                         # Hide the buttons/choices:
-                         updateSelectInput(
-                           session = session,
-                           inputId = "source_pg_presettings_list",
-                           choices = "No presets available")
-                         updateSelectInput(
-                           session = session,
-                           inputId = "target_pg_presettings_list",
-                           choices = "No presets available")
-                       }
-                     }
-                     # Optional: Set a tab as active with:
-                     #% updateTabItems(session = session,
-                     #%                inputId = "source_tabs",
-                     #%                selected = "TAB_TITLE")
-                     #% updateTabItems(session = session,
-                     #%                inputId = "target_tabs",
-                     #%                selected = "TAB_TITLE")
+            if (length(postgres_system_names) > 0) {
+              # Show buttons to prefill diff. systems presettings:
+              # - Add a button/choice/etc. for each system:
+              updateSelectInput(
+                session = session,
+                inputId = "source_pg_presettings_list",
+                choices = postgres_system_names)
+              updateSelectInput(
+                session = session,
+                inputId = "target_pg_presettings_list",
+                choices = postgres_system_names)
+            } else {
+              # Hide the buttons/choices:
+              updateSelectInput(
+                session = session,
+                inputId = "source_pg_presettings_list",
+                choices = "No presets available")
+              updateSelectInput(
+                session = session,
+                inputId = "target_pg_presettings_list",
+                choices = "No presets available")
+            }
+          }
+          # Optional: Set a tab as active with:
+          #% updateTabItems(session = session,
+          #%                inputId = "source_tabs",
+          #%                selected = "TAB_TITLE")
+          #% updateTabItems(session = session,
+          #%                inputId = "target_tabs",
+          #%                selected = "TAB_TITLE")
 
 
 
-                     # Store the system-types in output-variable to only
-                     # show these tabs on the config page:
-                     output$system_types <- reactive({
-                       rv$system_types
-                     })
-                     outputOptions(output,
-                                   "system_types",
-                                   suspendWhenHidden = FALSE)
+          # Store the system-types in output-variable to only
+          # show these tabs on the config page:
+          output$system_types <- reactive({
+            rv$system_types
+          })
+          outputOptions(output,
+                        "system_types",
+                        suspendWhenHidden = FALSE)
 
-                     # workaround to tell ui, that mdr is there
-                     output$mdr_present <- reactive({
-                       return(TRUE)
-                     })
-                     outputOptions(output,
-                                   "mdr_present",
-                                   suspendWhenHidden = FALSE)
+          # workaround to tell ui, that mdr is there
+          output$mdr_present <- reactive({
+            return(TRUE)
+          })
+          outputOptions(output,
+                        "mdr_present",
+                        suspendWhenHidden = FALSE)
 
-                     # workaround to tell ui, that mdr is there
-                     output$source_system_type <- reactive({
-                       return(input_re()
-                              [["moduleConfig-config_source_system_type"]])
-                     })
-                     outputOptions(output,
-                                   "source_system_type",
-                                   suspendWhenHidden = FALSE)
-                   }
-                 })
+          # workaround to tell ui, that mdr is there
+          output$source_system_type <- reactive({
+            return(input_re()
+                   [["moduleConfig-config_source_system_type"]])
+          })
+          outputOptions(output,
+                        "source_system_type",
+                        suspendWhenHidden = FALSE)
+        }
+      })
 
     # If source-csv-path-button is clicked, read the path and save it:
     # root-folder of shinyFiles::shinyDirChoose
@@ -572,12 +573,12 @@ module_config2_server <-
 
     show_load_btn <- function(){
       if (!is.null(rv$source$system_type)) {
-      # Source or target are not valid yet or not valid anymore
-      # so disable the load-data-button:
+        # Source or target are not valid yet or not valid anymore
+        # so disable the load-data-button:
         shinyjs::hide("action")
-        } else {
+      } else {
         # Source and Target are valid: Show Button
-          shinyjs::show("action")
+        shinyjs::show("action")
       }
     }
 
