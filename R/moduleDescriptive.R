@@ -38,7 +38,7 @@ module_descriptive_server <-
         selectInput(
           inputId = "moduleDescriptive-var_select",
           label = "Select variable",
-          choices = rv$variable_list,
+          choices = names(rv$variable_list),
           multiple = FALSE,
           selectize = FALSE,
           size = 10

@@ -32,6 +32,125 @@ module_config2_server <-
   function(input, output, session, rv, input_re) {
     debugging <- T
 
+
+    # filepath roots dir
+    roots_src <- c(home = "/home/")
+
+    # If source-csv-path-button is clicked, read the path and save it:
+    # root-folder of shinyFiles::shinyDirChoose
+
+    shinyFiles::shinyDirChoose(
+      input = input,
+      id = "config_targetdir_in",
+      roots = roots_src
+    )
+
+    shinyFiles::shinyDirChoose(
+      input = input,
+      id = "config_sourcedir_in",
+      roots = roots_src
+    )
+    # observe source file directory
+    observeEvent(
+      input$config_sourcedir_in,
+      handlerExpr = {
+        settingsdir_src <- shinyFiles::parseDirPath(
+          roots = roots_src,
+          selection = input_re()[["moduleConfig-config_sourcedir_in"]]
+        )
+        path_tmp <-
+          as.character(DQAstats::clean_path_name(settingsdir_src))
+        if (!identical(path_tmp, character(0)) &&
+            !is.null(path_tmp) &&
+            path_tmp != "") {
+          rv$source$settings <- NULL
+          rv$source$settings$dir <- path_tmp
+        } else {
+          # New source path is empty - Backup old path if existing:
+          path_old_tmp <- rv$source$settings$dir
+          if (!identical(path_old_tmp, character(0)) &&
+              !is.null(path_old_tmp) &&
+              path_old_tmp != "") {
+            # Delete all old settings:
+            rv$source$settings <- NULL
+            # Re-assign the old path:
+            rv$source$settings$dir <- path_old_tmp
+          } else {
+            # No old path exists so delete all settings:
+            rv$source$settings <- NULL
+          }
+        }
+
+        if (!identical(rv$source$settings$dir, character(0)) &&
+            !is.null(rv$source$settings$dir) &&
+            rv$source$settings$dir != "") {
+          # workaround to tell ui, that it is there
+          output$source_csv_dir <- reactive({
+            printme(paste0("Source file dir: ",
+                           rv$source$settings$dir))
+            paste(rv$source$settings$dir)
+          })
+          outputOptions(output, "source_csv_dir", suspendWhenHidden = FALSE)
+          rv$source$system_name <- input$source_csv_presettings_list
+          rv$source$system_type <- "csv"
+          output$source_system_feedback_txt <-
+            renderText({
+              feedback_txt(system = "CSV", type = "source")
+            })
+        }
+      })
+
+    # observe target file directory
+    observeEvent(
+      input$config_targetdir_in,
+      handlerExpr = {
+        settingsdir_tar <- shinyFiles::parseDirPath(
+          roots = roots_src,
+          selection = input_re()[["moduleConfig-config_targetdir_in"]]
+        )
+        path_tmp1 <-
+          as.character(DQAstats::clean_path_name(settingsdir_tar))
+        if (!identical(path_tmp1, character(0)) &&
+            !is.null(path_tmp1) &&
+            path_tmp1 != "") {
+          rv$target$settings <- NULL
+          rv$target$settings$dir <- path_tmp1
+        } else {
+          # New target path is empty - Backup old path if existing:
+          path_old_tmp1 <- rv$target$settings$dir
+          if (!identical(path_old_tmp1, character(0)) &&
+              !is.null(path_old_tmp1) &&
+              path_old_tmp1 != "") {
+            # Delete all old settings:
+            rv$target$settings <- NULL
+            # Re-assign the old path:
+            rv$target$settings$dir <- path_old_tmp1
+          } else {
+            # No old path exists so delete all settings:
+            rv$target$settings <- NULL
+          }
+        }
+
+        if (!identical(rv$target$settings$dir, character(0)) &&
+            !is.null(rv$target$settings$dir) &&
+            rv$target$settings$dir != "") {
+          # workaround to tell ui, that it is there
+          output$target_csv_dir <- reactive({
+            printme(paste0("Target file dir: ",
+                           rv$target$settings$dir))
+            paste(rv$target$settings$dir)
+          })
+          outputOptions(output, "target_csv_dir", suspendWhenHidden = FALSE)
+          rv$target$system_name <- input$target_csv_presettings_list
+          rv$target$system_type <- "csv"
+          output$target_system_feedback_txt <-
+            renderText({
+              feedback_txt(system = "CSV", type = "target")
+            })
+        }
+      })
+
+    # TODO function definieren in utils
     feedback_txt <- function(system, type) {
       result <- paste0(
         "\U2714 ",
@@ -72,7 +191,6 @@ module_config2_server <-
               "source_system_type")
           rv$systems <- unique(rv$mdr[, vec, with = F])
           cat(paste0("\nDifferent systems found in MDR:\n"))
-          print(rv$systems)
 
           # - Read the settings for all these systems:
           unique_systems <-
@@ -213,123 +331,6 @@ module_config2_server <-
         }
       })
 
-    # If source-csv-path-button is clicked, read the path and save it:
-    # root-folder of shinyFiles::shinyDirChoose
-    roots_src <- c(home = "/home/")
-    shinyFiles::shinyDirChoose(
-      input = input,
-      id = "config_sourcedir_in",
-      updateFreq = 0,
-      session = session,
-      defaultPath = "",
-      roots = roots_src,
-      defaultRoot = "home"
-    )
-    roots_src_changed <- c(home = "/home/")
-    shinyFiles::shinyDirChoose(
-      input = input,
-      id = "config_sourcedir_in_changed",
-      updateFreq = 0,
-      session = session,
-      defaultPath = "",
-      roots = roots_src_changed,
-      defaultRoot = "home"
-    )
-    # observe source file directory
-    observeEvent(input_re()[["moduleConfig-config_sourcedir_in"]], {
-      settingsdir_src <- shinyFiles::parseDirPath(
-        roots = roots_src,
-        selection = input_re()[["moduleConfig-config_sourcedir_in"]])
-      rv$source$settings <- NULL
-      rv$source$settings$dir <-
-        as.character(DQAstats::clean_path_name(settingsdir_src))
-    })
-    observeEvent(input_re()[["moduleConfig-config_sourcedir_in_changed"]], {
-      settingsdir_src <-
-        shinyFiles::parseDirPath(
-          roots = roots_src_changed,
-          selection = input_re()[["moduleConfig-config_sourcedir_in_changed"]])
-      rv$source$settings$dir <-
-        as.character(DQAstats::clean_path_name(settingsdir_src))
-    })
-
-    observe({
-      req(rv$source$settings$dir)
-
-      if (rv$source$settings$dir != "") {
-        # workaround to tell ui, that it is there
-        output$source_csv_dir <- reactive({
-          printme(paste0("Source file dir:",
-                         rv$source$settings$dir))
-          paste(rv$source$settings$dir)
-        })
-        outputOptions(output, "source_csv_dir", suspendWhenHidden = FALSE)
-        rv$source$system <-
-          paste0("csv. Path is '", rv$source$settings$dir, "'")
-        rv$source$system_name <- input$source_csv_presettings_list
-        rv$source$system_type <- "csv"
-        output$source_system_feedback_txt <-
-          renderText({feedback_txt(system = "CSV", type = "source")})
-      }
-    })
-
-
-    roots_tar <- c(home = "/home/")
-    shinyFiles::shinyDirChoose(
-      input = input,
-      id = "config_targetdir_in",
-      updateFreq = 0,
-      session = session,
-      defaultPath = "",
-      roots = roots_tar,
-      defaultRoot = "home"
-    )
-    roots_tar_changed <- c(home = "/home/")
-    shinyFiles::shinyDirChoose(
-      input = input,
-      id = "config_targetdir_in_changed",
-      updateFreq = 0,
-      session = session,
-      defaultPath = "",
-      roots = roots_tar_changed,
-      defaultRoot = "home"
-    )
-    # observe target file directory
-    observeEvent(eventExpr = input_re()[["moduleConfig-config_targetdir_in"]],
-                 handlerExpr = {
-                   settingsdir_tar <- shinyFiles::parseDirPath(
-                     roots = roots_tar,
-                     selection = input_re()
-                     [["moduleConfig-config_targetdir_in"]])
-                   rv$target$settings$dir <-
-                     as.character(DQAstats::clean_path_name(settingsdir_tar))
-                 })
-    observeEvent(input_re()[["moduleConfig-config_targetdir_in_changed"]], {
-      settingsdir_tar <-
-        shinyFiles::parseDirPath(
-          roots = roots_tar_changed,
-          selection = input_re()[["moduleConfig-config_targetdir_in_changed"]])
-      rv$target$settings$dir <-
-        as.character(DQAstats::clean_path_name(settingsdir_tar))
-    })
-
-    observe({
-      req(rv$target$settings$dir)
-
-      if (rv$target$settings$dir != "") {
-        # workaround to tell ui, that it is there
-        output$target_csv_dir <- reactive({
-          printme(paste0("Target file dir:",
-                         rv$target$settings$dir))
-          paste(rv$target$settings$dir)
-        })
-        outputOptions(output, "target_csv_dir", suspendWhenHidden = FALSE)
-        rv$target$system_name <- input$target_csv_presettings_list
-        rv$target$system_type <- "csv"
-        output$target_system_feedback_txt <-
-          renderText({feedback_txt(system = "CSV", type = "target")})
-      }
-    })
 
     # If the "load presets"-button was pressed, startload & show the presets:
     # observeEvent(input$source_pg_presettings_btn, {
@@ -477,7 +478,9 @@ module_config2_server <-
           rv$source$system_name <- input$source_pg_presettings_list
           rv$source$system_type <- "postgres"
           output$source_system_feedback_txt <-
-            renderText({feedback_txt(system = "PostgreSQL", type = "source")})
+            renderText({
+              feedback_txt(system = "PostgreSQL", type = "source")
+            })
         } else {
           showNotification(paste0(
             "\U2718 Connection to ",
@@ -507,18 +510,6 @@ module_config2_server <-
               " successfully established\n"
             )
           )
-          # shiny::showModal(modalDialog(
-          #   title = paste0(
-          #     input$target_pg_presettings_list,
-          #     "-database connection successfully tested"
-          #   ),
-          #   paste0(
-          #     "The connection to ",
-          #     input$target_pg_presettings_list,
-          #     " has been",
-          #     " successfully established and tested."
-          #   )
-          # ))
           showNotification(
             paste0(
               "\U2714 Connection to ",
@@ -529,7 +520,9 @@ module_config2_server <-
           rv$target$system_name <- input$target_pg_presettings_list
           rv$target$system_type <- "postgres"
           output$target_system_feedback_txt <-
-            renderText({feedback_txt(system = "PostgreSQL", type = "target")})
+            renderText({
+              feedback_txt(system = "PostgreSQL", type = "target")
+            })
         } else {
           showNotification(paste0(
             "\U2718 Connection to ",
@@ -570,20 +563,6 @@ module_config2_server <-
         )
       }
     })
-
-    show_load_btn <- function(){
-      if (!is.null(rv$source$system_type)) {
-        # Source or target are not valid yet or not valid anymore
-        # so disable the load-data-button:
-        shinyjs::hide("action")
-      } else {
-        # Source and Target are valid: Show Button
-        shinyjs::show("action")
-      }
-    }
-
-
-
   }
 
 #' @title module_config_ui
@@ -687,23 +666,8 @@ module_config2_ui <- function(id) {
                 )
               ),
               br(),
-              # If there is no path set yet: Display the button to choose it
-              conditionalPanel(
-                condition = paste0(
-                  "typeof output[",
-                  "'moduleConfig-source_csv_dir'",
-                  "] == 'undefined'"
-                ),
-                shinyFiles::shinyDirButton(
-                  id = ns("config_sourcedir_in"),
-                  label = "Source Dir",
-                  title = "Please select the source directory",
-                  icon = icon("folder"),
-                ),
-                style = "text-align:center;"
-              ),
+
               # If the path is already set, display it
-              # and offer the possibility to change it:
               conditionalPanel(
                 condition = paste0(
                   "typeof ",
@@ -713,12 +677,27 @@ module_config2_ui <- function(id) {
                 verbatimTextOutput(ns("source_csv_dir")),
                 style = "text-align:center;",
 
+                # shinyFiles::shinyDirButton(
+                #   id = ns("config_sourcedir_in_changed"),
+                #   label = "Change Source Dir",
+                #   title = "Please select the new source directory",
+                #   icon = icon("folder"),
+                # ),
+              ),
+              br(),
+
+              # If there is no path set yet: Display the button to choose it
+              div(
                 shinyFiles::shinyDirButton(
-                  id = ns("config_sourcedir_in_changed"),
-                  label = "Change Source Dir",
-                  title = "Please select the new source directory",
+                  id = ns("config_sourcedir_in"),
+                  label = "Source Dir",
+                  title = "Please select the source directory",
+                  buttonType = "default",
                   icon = icon("folder"),
+                  class = NULL,
+                  style = "text-align:center;"
                 ),
+                style = "text-align:center;"
               )
             ),
 
@@ -818,23 +797,7 @@ module_config2_ui <- function(id) {
                 )
               ),
               br(),
-              # If there is no path set yet: Display the button to choose it
-              conditionalPanel(
-                condition = paste0(
-                  "typeof output[",
-                  "'moduleConfig-target_csv_dir'",
-                  "] == 'undefined'"
-                ),
-                shinyFiles::shinyDirButton(
-                  id = ns("config_targetdir_in"),
-                  label = "Target Dir",
-                  title = "Please select the target directory",
-                  icon = icon("folder"),
-                ),
-                style = "text-align:center;"
-              ),
-              # If the path is already set,
-              # display it and offer the possibility to change it:
+              # If the path is already set, display it
               conditionalPanel(
                 condition = paste0(
                   "typeof ",
@@ -844,12 +807,27 @@ module_config2_ui <- function(id) {
                 verbatimTextOutput(ns("target_csv_dir")),
                 style = "text-align:center;",
 
+                # shinyFiles::shinyDirButton(
+                #   id = ns("config_targetdir_in_changed"),
+                #   label = "Change target Dir",
+                #   title = "Please select the new target directory",
+                #   icon = icon("folder"),
+                # ),
+              ),
+              br(),
+
+              # If there is no path set yet: Display the button to choose it
+              div(
                 shinyFiles::shinyDirButton(
-                  id = ns("config_targetdir_in_changed"),
-                  label = "Change Target Dir",
-                  title = "Please select the new target directory",
+                  id = ns("config_targetdir_in"),
+                  label = "Target Dir",
+                  title = "Please select the target directory",
+                  buttonType = "default",
                   icon = icon("folder"),
+                  class = NULL,
+                  style = "text-align:center;"
                 ),
+                style = "text-align:center;"
               )
             ),
             tabPanel(

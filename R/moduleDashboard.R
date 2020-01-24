@@ -64,7 +64,7 @@ module_dashboard_server <-
           ))
           ## TODO: Delete the demo-sitename and re-enable the error_tmp
           rv$sitename <- "Demo"
-          # error_tmp <- T
+          #% error_tmp <- T
         } else {
           # site name is present:
           rv$sitename <- input_re()[["moduleConfig-config_sitename"]]
@@ -84,8 +84,24 @@ module_dashboard_server <-
             if (typeof(rv$source$settings$dir) == "character" &&
                 !is.null(rv$source$settings$dir) &&
                 length(rv$source$settings$dir) > 0) {
-              # valid path
-              printme("Source settings seem valid. (c0bcc9aa31)")
+              feedback("Source settings seem valid.",
+                       findme = "c0bcc9aa31")
+              # valid path, so check if files exist:
+              test_source_csv <- DQAstats::test_csv(
+                settings = rv$source$settings,
+                source_db = rv$source$system_name,
+                mdr = rv$mdr,
+                headless = F
+              )
+              if (isTRUE(test_source_csv)) {
+                feedback("All source csv-files were found.",
+                         findme = "794c6f3160")
+              } else{
+                feedback("Some source csv-files are MISSING.",
+                         type = "Error",
+                         findme = "926b0c567c")
+                error_tmp <- T
+              }
             } else {
               # invalid path:
               feedback(
@@ -153,14 +169,31 @@ module_dashboard_server <-
             if (typeof(rv$target$settings$dir) == "character" &&
                 !is.null(rv$target$settings$dir) &&
                 length(rv$target$settings$dir) > 0) {
-              # valid path
-              printme("Target settings seem valid. (21d4db47d3)")
+                           feedback("target settings seem valid.",
+                       findme = "9979bb57ef")
+              # valid path, so check if files exist:
+              test_target_csv <- DQAstats::test_csv(
+                settings = rv$target$settings,
+                source_db = rv$target$system_name,
+                mdr = rv$mdr,
+                headless = F
+              )
+              print(test_target_csv)
+              if (isTRUE(test_target_csv)) {
+                feedback("All target csv-files were found.",
+                         findme = "ff8203c831")
+              } else{
+                feedback("Some target csv-files are MISSING.",
+                         type = "Error",
+                         findme = "079525a7de")
+                error_tmp <- T
+              }
             } else {
               # invalid path:
               feedback(
                 print_this = "Target settings not valid.",
                 type = "Warning",
-                findme = "470b6e0217",
+                findme = "f4cc32e068",
                 ui = T
               )
               printme(paste0(
@@ -256,6 +289,7 @@ module_dashboard_server <-
 
       # load all data here
       if (isTRUE(rv$getdata_target) && isTRUE(rv$getdata_source)) {
+        # tryCatch({
 
         stopifnot(length(rv$source$system_type) == 1)
 
@@ -304,7 +338,6 @@ module_dashboard_server <-
         } else {
           rv$data_target <- rv$data_source
         }
-        printme("Schritt 8")
 
         if (nrow(rv$pl$atemp_vars) != 0) {
           # get atemporal plausibilities
@@ -316,7 +349,6 @@ module_dashboard_server <-
               headless = rv$headless
             )
 
-          printme("Schritt 9")
 
           # add the plausibility raw data to data_target and data_source
           for (i in names(rv$data_plausibility$atemporal)) {
@@ -331,7 +363,6 @@ module_dashboard_server <-
             gc()
           }
         }
-        printme("Schritt 10")
 
         # calculate descriptive results
         rv$results_descriptive <-

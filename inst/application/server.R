@@ -22,6 +22,7 @@ shiny::shinyServer(function(input, output, session) {
     # set headless
     rv$headless <- FALSE
 
+
     # set utils_path
     rv$utilspath <- DQAstats::clean_path_name(utils_path)
 
@@ -49,6 +50,8 @@ shiny::shinyServer(function(input, output, session) {
 
     # handle reset
     shiny::observeEvent(input$reset, {
+        shinyjs::reset("moduleConfig-config_sourcedir_in")
+        shinyjs::reset("moduleConfig-config_targetdir_in")
         shinyjs::js$reset()
     })
 
@@ -72,6 +75,12 @@ shiny::shinyServer(function(input, output, session) {
             !is.null(rv$getdata_source)) {
             # hide load data button
             shinyjs::hide("moduleConfig-dash_load_btn")
+
+            shinyjs::disable("moduleConfig-config_sourcedir_in")
+            shinyjs::disable("moduleConfig-config_targetdir_in")
+            shinyjs::disable("moduleConfig-source_csv_presettings_list")
+            shinyjs::disable("moduleConfig-target_csv_presettings_list")
+
 
             rv$start <- TRUE
         }
