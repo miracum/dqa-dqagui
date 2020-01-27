@@ -188,3 +188,32 @@ feedback <-
       }
     }
   }
+
+
+# This function is used in the config-tab and displays the selected system
+# to the user.
+# @param system:      (String) e.g. "i2b2", "OMOP" or "CSV"
+# @param type:        (String) "source" or "target"
+feedback_txt <- function(system, type) {
+  result <- paste0(
+    "\U2714 ",
+    system,
+    " will be used as ",
+    type,
+    " system.",
+    "\n\n",
+    "To change, simply select and save another one."
+  )
+  return(result)
+}
+
+
+# This function is called when the user clicks on the button
+# "Set target == source". It sets target settings = source settings.
+# @param rv:          The global rv-object
+set_target_equal_to_source <- function(rv) {
+  rv$target$settings <- rv$source$settings
+  rv$target$system_type <- rv$source$system_type
+  rv$target$system_name <- rv$source$system_name
+  return(rv)
+}

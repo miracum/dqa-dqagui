@@ -70,6 +70,11 @@ module_dashboard_server <-
           rv$sitename <- input_re()[["moduleConfig-config_sitename"]]
         }
 
+        # If target should be identical to source, set it here again:
+        if (isTRUE(rv$target_is_source)) {
+          rv <- set_target_equal_to_source(rv)
+        }
+
         feedback(paste0("Source system is ", rv$source$system_name),
                  findme = "1d61685355")
         feedback(paste0("Target system is ", rv$target$system_name),

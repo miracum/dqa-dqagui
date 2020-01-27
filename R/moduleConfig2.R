@@ -150,18 +150,6 @@ module_config2_server <-
         }
       })
 
-    # TODO function definieren in utils
-    feedback_txt <- function(system, type) {
-      result <- paste0(
-        "\U2714 ",
-        system,
-        " will be used as ",
-        type,
-        " system.",
-        "\n\n",
-        "To change, simply select and save another one."
-      )
-    }
 
     # load mdr
     observeEvent(
@@ -534,6 +522,42 @@ module_config2_server <-
       }
     })
 
+    observeEvent(input$target_system_to_source_system_btn, {
+      if (isTRUE(rv$target_is_source)) {
+        ## Target was == source but should become different now:
+        rv$target_is_source <- F
+        # Show target-settings-tabs again:
+        showTab(inputId = "target_tabs", target = "CSV")
+        showTab(inputId = "target_tabs", target = "PostgreSQL")
+        # Change button-label:
+        updateActionButton(session, "target_system_to_source_system_btn",
+                           label = " Set TARGET = SOURCE")
+        # Feedback to the console:
+        feedback("Target != source now.",
+                 findme = "ec51b122ee")
+      } else {
+        ## Target != source and should become equal:
+        # Change button-label:
+        updateActionButton(session, "target_system_to_source_system_btn",
+                           label = "Allow custom settings for target")
+        # Hide target-setting-tabs:
+        hideTab(inputId = "target_tabs", target = "CSV")
+        hideTab(inputId = "target_tabs", target = "PostgreSQL")
+        # Assign source-values to target:
+        rv <- set_target_equal_to_source(rv)
+        # Set internal flag that target == source:
+        rv$target_is_source <- T
+        # Show feedback-box in the UI:
+        output$target_system_feedback_txt <-
+          renderText({
+            feedback_txt(system = "The source system", type = "target")
+          })
+        # Feedback to the console:
+        feedback("Target == source now.",
+                 findme = "94d3a2090c")
+      }
+    })
+
     observe({
       if (is.null(rv$sitenames)) {
         # check, if user has provided custom site names
@@ -606,17 +630,6 @@ module_config2_ui <- function(id) {
           width = 12
         )
       ),
-      conditionalPanel(
-        condition = "typeof output['moduleConfig-mdr_present'] !== 'undefined'",
-        box(
-          title = "MDR was loaded successfully",
-          # status = "success",
-          solidHeader = TRUE,
-          width = 12,
-          "Please load the source and target data now:"
-        ),
-      ),
-
 
       ## This will be displayed after the MDR is loaded successfully:
       conditionalPanel(
@@ -755,7 +768,7 @@ module_config2_ui <- function(id) {
           )
         ),
         box(
-          title =  "Target settings",
+          title =  "TARGET settings",
           width = 6,
           solidHeader = TRUE,
           # status = "warning",
@@ -766,6 +779,17 @@ module_config2_ui <- function(id) {
             id = ns("target_system_feedback_box"),
             h4(textOutput(ns("target_system_feedback_txt")))
           ),
+          box(
+            width = 12,
+            solidHeader = T,
+            id = ns("target_system_to_source_system_box"),
+            actionButton(
+              inputId = ns("target_system_to_source_system_btn"),
+              icon = icon("cogs"),
+              label = " Set TARGET = SOURCE"
+            ),
+            style = "text-align:center;"
+          ),
           tabBox(
             # The id lets us use input$target_tabs
             # on the server to find the current tab
@@ -773,7 +797,13 @@ module_config2_ui <- function(id) {
             width = 12,
             # selected = "PostgreSQL",
             tabPanel(
+              # ATTENTION: If you change the title, you also have to change the
+              # corresponding part above for the "target == source" button
+              # reaction. Otherwise the tabs won't hide/show up anymore.
+              # >> ATTENTION <<
               title = "CSV",
+              # >> ATTENTION << for title. See above.
+              id = ns("target_tab_csv"),
               h4("Target CSV Upload"),
               box(
                 title = "Available CSV-Systems",
@@ -831,7 +861,13 @@ module_config2_ui <- function(id) {
               )
             ),
             tabPanel(
+              # ATTENTION: If you change the title, you also have to change the
+              # corresponding part above for the "target == source" button
+              # reaction. Otherwise the tabs won't hide/show up anymore.
+              # >> ATTENTION <<
               title = "PostgreSQL",
+              # >> ATTENTION << for title. See above.
+              id = ns("target_tab_pg"),
               h4("Target Database Connection"),
               box(
                 title = "Preloadings",
