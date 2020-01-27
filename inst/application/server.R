@@ -76,6 +76,16 @@ shiny::shinyServer(function(input, output, session) {
         # when load-data-button quality checks in moduleDashboard are passed
         if (!is.null(rv$getdata_target) &&
             !is.null(rv$getdata_source)) {
+
+            if (!isTRUE(rv$start)) {
+                # set active tab
+                shinydashboard::updateTabItems(
+                    session = session,
+                    inputId = "tabs",
+                    selected = "tab_dashboard"
+                )
+            }
+
             # hide load data button
             shinyjs::hide("moduleConfig-dash_load_btn")
 
@@ -85,7 +95,9 @@ shiny::shinyServer(function(input, output, session) {
             shinyjs::disable("moduleConfig-target_csv_presettings_list")
 
 
-            rv$start <- TRUE
+            if (input$tabs == "tab_dashboard") {
+                rv$start <- TRUE
+            }
         }
     })
 
