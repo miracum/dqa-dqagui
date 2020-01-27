@@ -680,33 +680,25 @@ module_config_ui <- function(id) {
     fluidRow(
       column(
         9,
-        box(
-          title = "Sitename",
-          selectInput(
-            ns("config_sitename"),
-            "Please enter the name of your site",
-            selected = F,
-            choices = NULL,
-            multiple = F
-          ),
-          width = 12
-        ),
         ## This will be displayed after the MDR is loaded successfully:
         conditionalPanel(
           condition =
             "typeof output['moduleConfig-system_types'] !== 'undefined'",
           box(
+            title = "Sitename",
+            selectInput(
+              ns("config_sitename"),
+              "Please enter the name of your site",
+              selected = F,
+              choices = NULL,
+              multiple = F
+            ),
+            width = 12
+          ),
+          box(
             title =  "SOURCE settings",
             width = 6,
             solidHeader = TRUE,
-            # status = "primary",
-            box(
-              # title = "Selected Source System",
-              width = 12,
-              solidHeader = T,
-              id = ns("source_system_feedback_box"),
-              h4(textOutput(ns("source_system_feedback_txt")))
-            ),
             tabBox(
               # The id lets us use input$source_tabs
               # on the server to find the current tab
@@ -831,15 +823,6 @@ module_config_ui <- function(id) {
             title =  "TARGET settings",
             width = 6,
             solidHeader = TRUE,
-            # status = "warning",
-            box(
-              # title = "Selected Source System",
-              width = 12,
-              solidHeader = T,
-              id = ns("target_system_feedback_box"),
-              h4(textOutput(ns("target_system_feedback_txt")))
-            ),
-
             tabBox(
               # The id lets us use input$target_tabs
               # on the server to find the current tab
@@ -847,7 +830,8 @@ module_config_ui <- function(id) {
               width = 12,
               # selected = "PostgreSQL",
               tabPanel(
-                # ATTENTION: If you change the title, you also have to change the
+                # ATTENTION: If you change the title, you also have to change
+                # the
                 # corresponding part above for the "target == source" button
                 # reaction. Otherwise the tabs won't hide/show up anymore.
                 # >> ATTENTION <<
@@ -911,7 +895,8 @@ module_config_ui <- function(id) {
                 )
               ),
               tabPanel(
-                # ATTENTION: If you change the title, you also have to change the
+                # ATTENTION: If you change the title, you also have to change
+                # the
                 # corresponding part above for the "target == source" button
                 # reaction. Otherwise the tabs won't hide/show up anymore.
                 # >> ATTENTION <<
@@ -974,7 +959,8 @@ module_config_ui <- function(id) {
       column(
         3,
         conditionalPanel(
-          condition = "typeof output['moduleConfig-mdr_present'] == 'undefined'",
+          condition =
+            "typeof output['moduleConfig-mdr_present'] == 'undefined'",
           box(
             title = "Load Metadata Repository",
             actionButton(
@@ -986,24 +972,36 @@ module_config_ui <- function(id) {
           )
         ),
         conditionalPanel(
-          condition = "typeof output['moduleConfig-mdr_present'] != 'undefined'",
+          condition =
+            "typeof output['moduleConfig-mdr_present'] != 'undefined'",
           box(
-          title = "Load the data",
-          solidHeader = T,
-          icon = icon("file-upload"),
-          actionButton(ns("dash_load_btn"), "Load data"),
-          width = 12,
-        )
-      ),
-        box(
-          title = "Analyse only on source",
-          actionButton(
-            inputId = ns("target_system_to_source_system_btn"),
-            icon = icon("cogs"),
-            label = " Set TARGET = SOURCE",
-            style = "center"
+            title = "Load the data",
+            solidHeader = T,
+            h4(textOutput(ns("source_system_feedback_txt"))),
+            br(),
+            h4(textOutput(ns("target_system_feedback_txt"))),
+            br(),
+            conditionalPanel(
+              condition = paste0(
+                "typeof output",
+                "['moduleConfig-source_system_feedback_txt'] != ",
+                "'undefined'"),
+              actionButton(ns("dash_load_btn"),
+                           "Load data",
+                           icon = icon("file-upload"))
+            ),
+            width = 12,
           ),
-          width = 12
+          box(
+            title = "Analyse only on source",
+            actionButton(
+              inputId = ns("target_system_to_source_system_btn"),
+              icon = icon("cogs"),
+              label = " Set TARGET = SOURCE",
+              style = "center"
+            ),
+            width = 12
+          )
         )
       )
     )
