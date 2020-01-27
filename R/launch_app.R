@@ -82,6 +82,4 @@ launch_app <- function(port = 3838,
   shiny::shinyAppDir(
     appDir = system.file("application", package = "DQAgui")
   )
-
-  shiny::runApp(appDir = system.file("application", package = "DQAgui"))
 }

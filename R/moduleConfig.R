@@ -28,296 +28,540 @@
 #' @export
 #'
 # module_config_server
-module_config_server <- function(input, output, session, rv, input_re) {
+module_config_server <-
+  function(input, output, session, rv, input_re) {
+    debugging <- T
 
-  observe({
-    # TODO hard-coded
-    if (is.null(rv$source)) {
 
-      config_file <- paste0(rv$utilspath, "settings/demo_settings.yml")
-      # save source/target vars
-      rv$source$system_name <- "exampleCSV_source"
-      rv$target$system_name <- "exampleCSV_target"
-    }
+    # filepath roots dir
+    roots_src <- c(home = "/home/")
 
-    # get configs
-    rv$source$settings <- DQAstats::get_config(
-      config_file = config_file,
-      config_key = tolower(rv$source$system_name)
+    # If source-csv-path-button is clicked, read the path and save it:
+    # root-folder of shinyFiles::shinyDirChoose
+
+    shinyFiles::shinyDirChoose(
+      input = input,
+      id = "config_targetdir_in",
+      roots = roots_src
     )
-    rv$target$settings <- DQAstats::get_config(
-      config_file = config_file,
-      config_key = tolower(rv$target$system_name)
+
+    shinyFiles::shinyDirChoose(
+      input = input,
+      id = "config_sourcedir_in",
+      roots = roots_src
     )
-  })
+    # observe source file directory
+    observeEvent(
+      input$config_sourcedir_in,
+      handlerExpr = {
+        settingsdir_src <- shinyFiles::parseDirPath(
+          roots = roots_src,
+          selection = input_re()[["moduleConfig-config_sourcedir_in"]]
+        )
+        path_tmp <-
+          as.character(DQAstats::clean_path_name(settingsdir_src))
+        if (!identical(path_tmp, character(0)) &&
+            !is.null(path_tmp) &&
+            path_tmp != "") {
+          rv$source$settings <- NULL
+          rv$source$settings$dir <- path_tmp
+        } else {
+          # New source path is empty - Backup old path if existing:
+          path_old_tmp <- rv$source$settings$dir
+          if (!identical(path_old_tmp, character(0)) &&
+              !is.null(path_old_tmp) &&
+              path_old_tmp != "") {
+            # Delete all old settings:
+            rv$source$settings <- NULL
+            # Re-assign the old path:
+            rv$source$settings$dir <- path_old_tmp
+          } else {
+            # No old path exists so delete all settings:
+            rv$source$settings <- NULL
+          }
+        }
+
+        if (!identical(rv$source$settings$dir, character(0)) &&
+            !is.null(rv$source$settings$dir) &&
+            rv$source$settings$dir != "") {
+          # workaround to tell ui, that it is there
+          output$source_csv_dir <- reactive({
+            printme(paste0("Source file dir: ",
+                           rv$source$settings$dir))
+            paste(rv$source$settings$dir)
+          })
+          outputOptions(output, "source_csv_dir", suspendWhenHidden = FALSE)
+          rv$source$system_name <- input$source_csv_presettings_list
+          rv$source$system_type <- "csv"
+          output$source_system_feedback_txt <-
+            renderText({
+              feedback_txt(system = "CSV", type = "source")
+            })
+        }
+      })
+
+    # observe target file directory
+    observeEvent(
+      input$config_targetdir_in,
+      handlerExpr = {
+        settingsdir_tar <- shinyFiles::parseDirPath(
+          roots = roots_src,
+          selection = input_re()[["moduleConfig-config_targetdir_in"]]
+        )
+        path_tmp1 <-
+          as.character(DQAstats::clean_path_name(settingsdir_tar))
+        if (!identical(path_tmp1, character(0)) &&
+            !is.null(path_tmp1) &&
+            path_tmp1 != "") {
+          rv$target$settings <- NULL
+          rv$target$settings$dir <- path_tmp1
+        } else {
+          # New target path is empty - Backup old path if existing:
+          path_old_tmp1 <- rv$target$settings$dir
+          if (!identical(path_old_tmp1, character(0)) &&
+              !is.null(path_old_tmp1) &&
+              path_old_tmp1 != "") {
+            # Delete all old settings:
+            rv$target$settings <- NULL
+            # Re-assign the old path:
+            rv$target$settings$dir <- path_old_tmp1
+          } else {
+            # No old path exists so delete all settings:
+            rv$target$settings <- NULL
+          }
+        }
+
+        if (!identical(rv$target$settings$dir, character(0)) &&
+            !is.null(rv$target$settings$dir) &&
+            rv$target$settings$dir != "") {
+          # workaround to tell ui, that it is there
+          output$target_csv_dir <- reactive({
+            printme(paste0("Target file dir: ",
+                           rv$target$settings$dir))
+            paste(rv$target$settings$dir)
+          })
+          outputOptions(output, "target_csv_dir", suspendWhenHidden = FALSE)
+          rv$target$system_name <- input$target_csv_presettings_list
+          rv$target$system_type <- "csv"
+          output$target_system_feedback_txt <-
+            renderText({
+              feedback_txt(system = "CSV", type = "target")
+            })
+        }
+      })
+
+
     # load mdr
     observeEvent(
       eventExpr = input_re()[["moduleConfig-config_load_mdr"]],
       handlerExpr = {
         if (is.null(rv$mdr)) {
-          cat("\nRead MDR\n")
-          # TODO hard-coded
-          rv$mdr_filename <- mdr_filename
+          printme("Reading MDR ...")
+
+          if (debugging)
+            printme(paste0("MDR-Filename:", rv$mdr_filename))
+          if (debugging)
+            printme(paste0("rv$utilspath:", rv$utilspath))
 
           # read MDR
-          rv$mdr <- DQAstats::read_mdr(utils_path = rv$utilspath,
-                                       mdr_filename = mdr_filename)
+          rv$mdr <-
+            DQAstats::read_mdr(utils_path = rv$utilspath,
+                               mdr_filename = rv$mdr_filename)
           stopifnot(data.table::is.data.table(rv$mdr))
 
-          # read system_types
-          rv$source$system_type <-
-            rv$mdr[get("source_system_name") ==
-                     rv$source$system_name, unique(get("source_system_type"))]
-          rv$target$system_type <-
-            rv$mdr[get("source_system_name") ==
-                     rv$target$system_name, unique(get("source_system_type"))]
+          ## Read in the settings
+          # - Determine the different systems from mdr:
+          vec <-
+            c("source_table_name",
+              "source_system_name",
+              "source_system_type")
+          rv$systems <- unique(rv$mdr[, vec, with = F])
+          cat(paste0("\nDifferent systems found in MDR:\n"))
 
+          # - Read the settings for all these systems:
+          unique_systems <-
+            rv$systems[!is.na(get("source_system_name")),
+                       unique(get("source_system_name"))]
+          rv$settings <-
+            lapply(unique_systems, function(x)
+              DQAstats::get_config(config_file = rv$config_file,
+                                   config_key = tolower(x)))
 
-          # We only allow one (system) type per system name. There can't e.g. be
-          # system types "csv" and "postgres" both with the system_name "data":
-          stopifnot(length(rv$source$system_type) == 1)
+          # - Different system-types:
+          rv$system_types <-
+            rv$systems[!is.na(get("source_system_type")),
+                       unique(get("source_system_type"))]
 
-          reactive_to_append <- DQAstats::create_helper_vars(
-            mdr = rv$mdr,
-            target_db = rv$target$system_name,
-            source_db = rv$source$system_name
-          )
-          # workaround, to keep "rv" an reactiveValues object in shiny app
-          # (rv <- c(rv, reactive_to_append)) does not work!
-          for (i in names(reactive_to_append)) {
-            rv[[i]] <- reactive_to_append[[i]]
+          i <- 1
+          for (systype in rv$system_types) {
+            printme(paste0("System type ", i, " = ", systype))
+            i <- i + 1
           }
-          rm(reactive_to_append)
-          invisible(gc())
+          if (!("csv" %in% tolower(rv$system_types))) {
+            # Remove CSV-Tabs:
+            printme("Removing csv-tab from source ...")
+            removeTab(inputId = "source_tabs", target = "CSV")
+
+            printme("Removing csv-tab from target ...")
+            removeTab(inputId = "target_tabs", target = "CSV")
+          } else {
+            csv_system_names <-
+              rv$systems[get("source_system_type") == "csv" &
+                           !is.na(get("source_system_name")),
+                         unique(get("source_system_name"))]
+            printme(cat("csv_system_names: ", csv_system_names))
+
+            if (length(csv_system_names) > 0) {
+              # Show buttons to prefill diff. systems presettings:
+              # - Add a button/choice/etc. for each system:
+              updateSelectInput(
+                session = session,
+                inputId = "source_csv_presettings_list",
+                choices = csv_system_names)
+              updateSelectInput(
+                session = session,
+                inputId = "target_csv_presettings_list",
+                choices = csv_system_names)
+            } else {
+              # Hide the buttons/choices:
+              updateSelectInput(
+                session = session,
+                inputId = "source_csv_presettings_list",
+                choices = "No presets available")
+              updateSelectInput(
+                session = session,
+                inputId = "target_csv_presettings_list",
+                choices = "No presets available")
+            }
+          }
+          if (!("postgres" %in% tolower(rv$system_types))) {
+            # Remove Postgres-Tabs:
+            printme("Removing postgres-tab from source ...")
+            removeTab(inputId = "source_tabs", target = "PostgreSQL")
+
+            printme("Removing postgres-tab from target ...")
+            removeTab(inputId = "target_tabs", target = "PostgreSQL")
+          } else{
+            # Fill the tab with presettings
+            # - filter for all system_names with
+            #% system_type == postgres
+            #% select source_system_name from
+            #% rv$systems where source_system_type == postgres
+            #% GROUP BY source_system_name
+            postgres_system_names <-
+              rv$systems[get("source_system_type") == "postgres" &
+                           !is.na(get("source_system_name")),
+                         unique(get("source_system_name"))]
+            printme(cat(
+              "postgres_system_names: ",
+              postgres_system_names))
+
+            if (length(postgres_system_names) > 0) {
+              # Show buttons to prefill diff. systems presettings:
+              # - Add a button/choice/etc. for each system:
+              updateSelectInput(
+                session = session,
+                inputId = "source_pg_presettings_list",
+                choices = postgres_system_names)
+              updateSelectInput(
+                session = session,
+                inputId = "target_pg_presettings_list",
+                choices = postgres_system_names)
+            } else {
+              # Hide the buttons/choices:
+              updateSelectInput(
+                session = session,
+                inputId = "source_pg_presettings_list",
+                choices = "No presets available")
+              updateSelectInput(
+                session = session,
+                inputId = "target_pg_presettings_list",
+                choices = "No presets available")
+            }
+          }
+          # Optional: Set a tab as active with:
+          #% updateTabItems(session = session,
+          #%                inputId = "source_tabs",
+          #%                selected = "TAB_TITLE")
+          #% updateTabItems(session = session,
+          #%                inputId = "target_tabs",
+          #%                selected = "TAB_TITLE")
+
+
+
+          # Store the system-types in output-variable to only
+          # show these tabs on the config page:
+          output$system_types <- reactive({
+            rv$system_types
+          })
+          outputOptions(output,
+                        "system_types",
+                        suspendWhenHidden = FALSE)
 
           # workaround to tell ui, that mdr is there
           output$mdr_present <- reactive({
             return(TRUE)
           })
-          outputOptions(output, "mdr_present", suspendWhenHidden = FALSE)
+          outputOptions(output,
+                        "mdr_present",
+                        suspendWhenHidden = FALSE)
+
+          # workaround to tell ui, that mdr is there
+          output$source_system_type <- reactive({
+            return(input_re()
+                   [["moduleConfig-config_source_system_type"]])
+          })
+          outputOptions(output,
+                        "source_system_type",
+                        suspendWhenHidden = FALSE)
         }
       })
 
-    # root-folder of shinyFiles::shinyDirChoose
-    # TODO hard-coded
-    # roots <- c(home = "/home/")
-    roots <- c(home = system.file(
-      "demo_data/",
-      package = "DQAstats"
-    ))
-    shinyFiles::shinyDirChoose(
-      input,
-      "config_sourcedir_in",
-      updateFreq = 0,
-      session = session,
-      defaultPath = "",
-      roots = roots,
-      defaultRoot = "home"
-    )
 
-    # observe source file directory
-    observeEvent(input_re()[["moduleConfig-config_sourcedir_in"]], {
-      settingsdir <- shinyFiles::parseDirPath(
-        roots = roots,
-        selection = input_re()[["moduleConfig-config_sourcedir_in"]]
+    # If the "load presets"-button was pressed, startload & show the presets:
+    # observeEvent(input$source_pg_presettings_btn, {
+    observeEvent(input$source_pg_presettings_list, {
+      printme(
+        paste0(
+          "Input-preset ",
+          input$source_pg_presettings_list,
+          " was chosen as SOURCE.",
+          " Loading presets ..."
+        )
       )
-      rv$source$settings$dir <- system.file(
-        "demo_data",
-        package = "DQAstats"
+      config_stuff <- DQAstats::get_config(
+        config_file = rv$config_file,
+        config_key = tolower(input$source_pg_presettings_list)
       )
+      printme(paste(
+        "Loaded successfully.",
+        "Filling presets to global rv-object and UI ..."
+      ))
+      if (length(config_stuff) != 0) {
+        updateTextInput(session = session,
+                        inputId = "config_sourcedb_dbname",
+                        value = config_stuff[["dbname"]])
+        updateTextInput(session = session,
+                        inputId = "config_sourcedb_host",
+                        value = config_stuff[["host"]])
+        updateTextInput(session = session,
+                        inputId = "config_sourcedb_port",
+                        value = config_stuff[["port"]])
+        updateTextInput(session = session,
+                        inputId = "config_sourcedb_user",
+                        value = config_stuff[["user"]])
+        updateTextInput(session = session,
+                        inputId = "config_sourcedb_password",
+                        value = config_stuff[["password"]])
+      } else{
+        updateTextInput(session = session,
+                        inputId = "config_sourcedb_dbname",
+                        value = "")
+        updateTextInput(session = session,
+                        inputId = "config_sourcedb_host",
+                        value = "")
+        updateTextInput(session = session,
+                        inputId = "config_sourcedb_port",
+                        value = "")
+        updateTextInput(session = session,
+                        inputId = "config_sourcedb_user",
+                        value = "")
+        updateTextInput(session = session,
+                        inputId = "config_sourcedb_password",
+                        value = "")
+      }
     })
 
-    output$config_sourcedir_out <- reactive({
-      cat("\nSource file dir input:", rv$source$settings$dir, "\n")
-      paste(rv$source$settings$dir)
-    })
-
-
-    shinyFiles::shinyDirChoose(
-      input,
-      "config_targetdir_in",
-      updateFreq = 0,
-      session = session,
-      defaultPath = "",
-      roots = roots,
-      defaultRoot = "home"
-    )
-
-    # observe source file directory
-    observeEvent(input_re()[["moduleConfig-config_targetdir_in"]], {
-      settingsdir <- shinyFiles::parseDirPath(
-        roots = roots,
-        selection = input_re()[["moduleConfig-config_targetdir_in"]]
+    #observeEvent(input$target_pg_presettings_btn, {
+    observeEvent(input$target_pg_presettings_list, {
+      printme(
+        paste0(
+          "Input-preset ",
+          input$target_pg_presettings_list,
+          " was chosen as TARGET",
+          " Loading presets ..."
+        )
       )
-      rv$target$settings$dir <- system.file(
-        "demo_data",
-        package = "DQAstats"
+      config_stuff <- DQAstats::get_config(
+        config_file = rv$config_file,
+        config_key = tolower(input$target_pg_presettings_list)
       )
+      printme(paste(
+        "Loaded successfully.",
+        "Filling presets to global rv-object and UI ..."
+      ))
+      if (length(config_stuff) != 0) {
+        updateTextInput(session = session,
+                        inputId = "config_targetdb_dbname",
+                        value = config_stuff[["dbname"]])
+        updateTextInput(session = session,
+                        inputId = "config_targetdb_host",
+                        value = config_stuff[["host"]])
+        updateTextInput(session = session,
+                        inputId = "config_targetdb_port",
+                        value = config_stuff[["port"]])
+        updateTextInput(session = session,
+                        inputId = "config_targetdb_user",
+                        value = config_stuff[["user"]])
+        updateTextInput(session = session,
+                        inputId = "config_targetdb_password",
+                        value = config_stuff[["password"]])
+      } else{
+        updateTextInput(session = session,
+                        inputId = "config_targetdb_dbname",
+                        value = "")
+        updateTextInput(session = session,
+                        inputId = "config_targetdb_host",
+                        value = "")
+        updateTextInput(session = session,
+                        inputId = "config_targetdb_port",
+                        value = "")
+        updateTextInput(session = session,
+                        inputId = "config_targetdb_user",
+                        value = "")
+        updateTextInput(session = session,
+                        inputId = "config_targetdb_password",
+                        value = "")
+      }
     })
 
-    output$config_targetdir_out <- reactive({
-      cat("\nSource file dir input:", rv$target$settings$dir, "\n")
-      paste(rv$target$settings$dir)
+    observeEvent(input$source_pg_test_connection, {
+      rv$source$settings <-
+        get_db_settings(input = input_re(), target = F)
+
+      if (!is.null(rv$source$settings)) {
+        rv$source$db_con <- DQAstats::test_db(settings = rv$source$settings,
+                                              headless = rv$headless,
+                                              timeout = 2)
+
+        if (!is.null(rv$source$db_con)) {
+          printme(
+            paste0(
+              "\nDB connection for ",
+              input$source_pg_presettings_list,
+              " successfully established\n"
+            )
+          )
+          # shiny::showModal(modalDialog(
+          #   title = paste0(
+          #     input$source_pg_presettings_list,
+          #     "-database connection successfully tested"
+          #   ),
+          #   paste0(
+          #     "The connection to ",
+          #     input$source_pg_presettings_list,
+          #     " has been",
+          #     " successfully established and tested."
+          #   )
+          # ))
+          showNotification(
+            paste0(
+              "\U2714 Connection to ",
+              input$source_pg_presettings_list,
+              " established"
+            )
+          )
+          rv$source$system_name <- input$source_pg_presettings_list
+          rv$source$system_type <- "postgres"
+          output$source_system_feedback_txt <-
+            renderText({
+              feedback_txt(system = "PostgreSQL", type = "source")
+            })
+        } else {
+          showNotification(paste0(
+            "\U2718 Connection to ",
+            input$source_pg_presettings_list,
+            " failed"
+          ))
+          rv$source$system <- ""
+        }
+      }
+
     })
 
-    # observe target database configuration
-    # observeEvent(
-    #   eventExpr = input_re()[["moduleConfig-config_targetdb_rad"]],
-    #   handlerExpr = {
-    #     # set db_target
-    #     print(input_re()[["moduleConfig-config_targetdb_rad"]])
-    #     rv$db_target <- input_re()[["moduleConfig-config_targetdb_rad"]]
-    #
-    #     # remove existing global_settings here as they will newly be created
-    #     # once loading the data
-    #     if (file.exists(
-    #       paste0(tempdir(),
-    #              "/_settings/global_settings.JSON")
-    #     )) {
-    #       if (input_re()[["moduleConfig-config_targetdb_rad"]] !=
-    #           rv$user_settings[["db"]]) {
-    #         cat("\nRemoving '_settings/global_settings.JSON'")
-    #         file.remove(paste0(
-    #           tempdir(),
-    #           "/_settings/global_settings.JSON")
-    #         )
-    #         rv$user_settings <- NULL
-    #       }
-    #     }
-    #
-    #     # if paste0(tempdir(), "/_settings/settings_"{DBname}) is not present,
-    #     # try to read default settings list here and populate textInputs
-    #     if (!file.exists(paste0(
-    #       tempdir(),
-    #       "/_settings/settings_",
-    #       input_re()[["moduleConfig-config_targetdb_rad"]],
-    #       ".JSON"
-    #     ))) {
-    #       # try to read default settings -> possible, if "utils" is defined and
-    #       # "settings_default.yml" exist:
-    #       tryCatch(
-    #         expr = {
-    #           cat("\nReading default settings\n")
-    #           rv$settings_target <- config::get(
-    #             value = input_re()[["moduleConfig-config_targetdb_rad"]],
-    #             file = paste0(rv$utils_path, "/settings_default.yml")
-    #           )
-    #
-    #           showModal(
-    #             modalDialog(
-    #               "Loading default configuration.",
-    #               title = "Loading default database configuration"
-    #             )
-    #           )
-    #         }, error = function(e) {
-    #           print(e)
-    #         })
-    #
-    #     } else {
-    #       rv$db_settings <- jsonlite::fromJSON(
-    #           paste0(
-    #             tempdir(),
-    #             "/_settings/settings_",
-    #             input_re()[["moduleConfig-config_targetdb_rad"]],
-    #             ".JSON"
-    #           )
-    #         )
-    #     }
-    #
-    #     shiny::updateTextInput(session,
-    #                            "config_targetdb_dbname",
-    #                            value = rv$settings_target$dbname)
-    #     shiny::updateTextInput(session,
-    #                            "config_targetdb_host",
-    #                            value = rv$settings_target$host)
-    #     shiny::updateTextInput(session,
-    #                            "config_targetdb_port",
-    #                            value = rv$settings_target$port)
-    #     shiny::updateTextInput(session,
-    #                            "config_targetdb_user",
-    #                            value = rv$settings_target$user)
-    #     shiny::updateTextInput(session,
-    #                            "config_targetdb_password",
-    #                            value = rv$settings_target$password)
-    #   })
-    #
-    # # observe saving of settings
-    # observeEvent(input_re()[["moduleConfig-config_targetdb_save_btn"]], {
-    #   rv$settings_target <- get_db_settings(input_re())
-    #
-    #   if (!is.null(rv$settings_target)) {
-    #     print(rv$settings_target)
-    #
-    #     if (!dir.exists(paste0(tempdir(), "/_settings/"))) {
-    #       dir.create(paste0(tempdir(), "/_settings/"))
-    #     }
-    #
-    #     writeLines(
-    #       jsonlite::toJSON(
-    #         rv$settings_target,
-    #         pretty = T,
-    #         auto_unbox = F
-    #       ),
-    #       paste0(
-    #         tempdir(),
-    #         "/_settings/settings_",
-    #         input_re()[["moduleConfig-config_targetdb_rad"]],
-    #         ".JSON"
-    #       )
-    #     )
-    #   }
-    # })
-    #
-    # # test db-connection
-    # observeEvent(input_re()[["moduleConfig-config_targetdb_test_btn"]], {
-    #   rv$settings_target <- get_db_settings(input_re())
-    #
-    #   if (!is.null(rv$settings_target)) {
-    #     rv$db_con_target <- DQAstats::test_target_db(
-    #       target_settings = rv$settings_target,
-    #       headless = rv$headless
-    #     )
-    #
-    #     if (!is.null(rv$db_con_target)) {
-    #       cat("\nDB connection successfully established\n")
-    #       shiny::showModal(
-    #         modalDialog(
-    #           title = "Database connection successfully tested",
-    #           paste0("The database connection has been ",
-    #                  "successfully established and tested.")
-    #         )
-    #       )
-    #     }
-    #   }
-    # })
-    #
-    # # load sql statements
-    # observe({
-    #   req(rv$db_con_target)
-    #
-    #   if (is.null(rv$sql_target)) {
-    #     rv$sql_target <- DQAstats::load_sqls(
-    #       utils = rv$utils_path,
-    #       db = rv$db_target
-    #     )
-    #   }
-    # })
-    #
-    # # workaround to tell ui, that db_connection is there
-    # output$db_connection <- reactive({
-    #   if (!is.null(rv$db_con_target)) {
-    #     return(TRUE)
-    #   }
-    # })
-    # shiny::outputOptions(output, "db_connection", suspendWhenHidden = FALSE)
+    observeEvent(input$target_pg_test_connection, {
+      rv$target$settings <-
+        get_db_settings(input = input_re(), target = T)
 
+      if (!is.null(rv$target$settings)) {
+        rv$target$db_con <- DQAstats::test_db(settings = rv$target$settings,
+                                              headless = rv$headless,
+                                              timeout = 2)
+
+        if (!is.null(rv$target$db_con)) {
+          printme(
+            paste0(
+              "\nDB connection for ",
+              input$target_pg_presettings_list,
+              " successfully established\n"
+            )
+          )
+          showNotification(
+            paste0(
+              "\U2714 Connection to ",
+              input$target_pg_presettings_list,
+              " established"
+            )
+          )
+          rv$target$system_name <- input$target_pg_presettings_list
+          rv$target$system_type <- "postgres"
+          output$target_system_feedback_txt <-
+            renderText({
+              feedback_txt(system = "PostgreSQL", type = "target")
+            })
+        } else {
+          showNotification(paste0(
+            "\U2718 Connection to ",
+            input$target_pg_presettings_list,
+            " failed"
+          ))
+          rv$target$system <- ""
+        }
+      }
+    })
+
+    observeEvent(input$target_system_to_source_system_btn, {
+      if (isTRUE(rv$target_is_source)) {
+        ## Target was == source but should become different now:
+        rv$target_is_source <- F
+        # Show target-settings-tabs again:
+        showTab(inputId = "target_tabs", target = "CSV")
+        showTab(inputId = "target_tabs", target = "PostgreSQL")
+        # Change button-label:
+        updateActionButton(session, "target_system_to_source_system_btn",
+                           label = " Set TARGET = SOURCE")
+        # Feedback to the console:
+        feedback("Target != source now.",
+                 findme = "ec51b122ee")
+      } else {
+        ## Target != source and should become equal:
+        # Change button-label:
+        updateActionButton(session, "target_system_to_source_system_btn",
+                           label = "Allow custom settings for target")
+        # Hide target-setting-tabs:
+        hideTab(inputId = "target_tabs", target = "CSV")
+        hideTab(inputId = "target_tabs", target = "PostgreSQL")
+        # Assign source-values to target:
+        rv <- set_target_equal_to_source(rv)
+        # Set internal flag that target == source:
+        rv$target_is_source <- T
+        # Show feedback-box in the UI:
+        output$target_system_feedback_txt <-
+          renderText({
+            feedback_txt(system = "The source system", type = "target")
+          })
+        # Feedback to the console:
+        feedback("Target == source now.",
+                 findme = "94d3a2090c")
+      }
+    })
 
     observe({
       if (is.null(rv$sitenames)) {
         # check, if user has provided custom site names
         rv$sitenames <- tryCatch({
           outlist <- jsonlite::fromJSON(
-            paste0(rv$utils_path, "/MISC/sitenames.JSON")
+            paste0(rv$utilspath, "/MISC/sitenames.JSON")
           )
           outlist
         }, error = function(e) {
@@ -353,85 +597,9 @@ module_config_server <- function(input, output, session, rv, input_re) {
 module_config_ui <- function(id) {
   ns <- NS(id)
 
-  tagList(fluidRow(
-    conditionalPanel(
-      condition = "typeof output['moduleConfig-mdr_present'] == 'undefined'",
-      box(
-        title = "Load Metadata Repository",
-        actionButton(ns("config_load_mdr"), "Load MDR"),
-        width = 6
-      )
-    ),
-    conditionalPanel(
-      condition = "output['moduleConfig-mdr_present']",
-      column(
-        6,
-        # TODO hard-coded
-        box(
-          title = "Target File Directory",
-          h5(tags$b(
-            paste(
-              "Please choose the directory of your",
-              "\u00A7",
-              "21 source data in csv format (default: '/home/input')."
-            )
-          )),
-          div(
-            class = "row",
-            div(
-              class = "col-sm-3",
-              shinyFiles::shinyDirButton(
-                ns("config_targetdir_in"),
-                "Target Dir",
-                "Please select the target file directory",
-                buttonType = "default",
-                class = NULL,
-                icon = NULL,
-                style = NULL
-              )
-            ),
-            div(class = "col-sm-9", verbatimTextOutput(ns(
-              "config_targetdir_out"
-            )))
-          ),
-          width = 12
-        )
-        # box(
-        #   title = "Target Database Configuration",
-        #   radioButtons(
-        #     inputId = ns("config_targetdb_rad"),
-        #     label = "Please select the target database",
-        #     choices = list("i2b2" = "i2b2",
-        #                    "OMOP" = "omop"),
-        #     selected = NULL,
-        #     inline = TRUE
-        #   ),
-        #   textInput(ns("config_targetdb_dbname"),
-        #             label = "Database name"),
-        #   textInput(ns("config_targetdb_host"),
-        #             label = "Host name / IP-Address"),
-        #   textInput(ns("config_targetdb_port"),
-        #             label = "Port"),
-        #   textInput(ns("config_targetdb_user"),
-        #             label = "Username"),
-        #   passwordInput(ns("config_targetdb_password"),
-        #                 label = "Password"),
-        #   div(
-        #     class = "row",
-        #     style = "text-align: center;",
-        #     actionButton(ns("config_targetdb_save_btn"),
-        #                  "Save settings"),
-        #     actionButton(ns("config_targetdb_test_btn"),
-        #                  "Test connection")
-        #   ),
-        #   width = 12
-        # )
-      ),
-      column(
-        6,
-
-        box(
-          title = "Sitename",
+  tagList(
+    fluidRow(
+      box(title = "Sitename",
           div(
             class = "row",
             div(
@@ -446,37 +614,310 @@ module_config_ui <- function(id) {
             ),
             div(class = "col-sm-4")
           ),
-          width = 12
-        ),
+          width = 12),
+
+      conditionalPanel(
+        condition = "typeof output['moduleConfig-mdr_present'] == 'undefined'",
         box(
-          title = "Source File Directory",
-          h5(tags$b(
-            paste(
-              "Please choose the directory of your",
-              "\u00A7",
-              "21 source data in csv format (default: '/home/input')."
-            )
-          )),
-          div(
-            class = "row",
-            div(
-              class = "col-sm-3",
-              shinyFiles::shinyDirButton(
-                ns("config_sourcedir_in"),
-                "Source Dir",
-                "Please select the source file directory",
-                buttonType = "default",
-                class = NULL,
-                icon = NULL,
-                style = NULL
-              )
-            ),
-            div(class = "col-sm-9", verbatimTextOutput(ns(
-              "config_sourcedir_out"
-            )))
+          title = "Load Metadata Repository",
+          actionButton(
+            inputId = ns("config_load_mdr"),
+            label = "Load MDR",
+            icon = icon("table")
           ),
           width = 12
         )
-      ))
-  ))
+      ),
+
+      ## This will be displayed after the MDR is loaded successfully:
+      conditionalPanel(
+        condition =
+          "typeof output['moduleConfig-system_types'] !== 'undefined'",
+        box(
+          title =  "SOURCE settings",
+          width = 6,
+          solidHeader = TRUE,
+          # status = "primary",
+          box(
+            # title = "Selected Source System",
+            width = 12,
+            solidHeader = T,
+            id = ns("source_system_feedback_box"),
+            h4(textOutput(ns("source_system_feedback_txt")))
+          ),
+          tabBox(
+            # The id lets us use input$source_tabs
+            # on the server to find the current tab
+            id = ns("source_tabs"),
+            width = 12,
+            # selected = "CSV",
+
+            tabPanel(
+              title = "CSV",
+              h4("Source CSV Upload"),
+              box(
+                title = "Available CSV-Systems",
+                # background = "blue",
+                # solidHeader = TRUE,
+                width = 12,
+                selectInput(
+                  # This will be filled in the server part.
+                  inputId = ns("source_csv_presettings_list"),
+                  label = NULL,
+                  choices = NULL,
+                  selected = NULL
+                ),
+                style = "text-align:center;"
+              ),
+              div(
+                paste(
+                  "Please choose the directory of your",
+                  "\u00A7",
+                  "21 source data in csv format (default: '/home/input')."
+                )
+              ),
+              br(),
+
+              # If the path is already set, display it
+              conditionalPanel(
+                condition = paste0(
+                  "typeof ",
+                  "output['moduleConfig-source_csv_dir']",
+                  " !== 'undefined'"
+                ),
+                verbatimTextOutput(ns("source_csv_dir")),
+                style = "text-align:center;",
+
+                # shinyFiles::shinyDirButton(
+                #   id = ns("config_sourcedir_in_changed"),
+                #   label = "Change Source Dir",
+                #   title = "Please select the new source directory",
+                #   icon = icon("folder"),
+                # ),
+              ),
+              br(),
+
+              # If there is no path set yet: Display the button to choose it
+              div(
+                shinyFiles::shinyDirButton(
+                  id = ns("config_sourcedir_in"),
+                  label = "Source Dir",
+                  title = "Please select the source directory",
+                  buttonType = "default",
+                  icon = icon("folder"),
+                  class = NULL,
+                  style = "text-align:center;"
+                ),
+                style = "text-align:center;"
+              )
+            ),
+
+            tabPanel(
+              title = "PostgreSQL",
+              h4("Source Database Connection"),
+              box(
+                title = "Preloadings",
+                # background = "blue",
+                #solidHeader = TRUE,
+                width = 12,
+                selectInput(
+                  # This will be filled in the server part.
+                  inputId = ns("source_pg_presettings_list"),
+                  label = NULL,
+                  choices = NULL,
+                  selected = NULL
+                ),
+                style = "text-align:center;"
+              ),
+              textInput(
+                inputId = ns("config_sourcedb_dbname"),
+                label = "DB Name",
+                placeholder = "Enter the name of the database ..."
+              ),
+              textInput(
+                inputId = ns("config_sourcedb_host"),
+                label = "IP",
+                placeholder = "Enter the IP here in format '192.168.1.1' ..."
+              ),
+              textInput(
+                inputId = ns("config_sourcedb_port"),
+                label = "Port",
+                placeholder = "Enter the Port of the database connection ..."
+              ),
+              textInput(
+                inputId = ns("config_sourcedb_user"),
+                label = "Username",
+                placeholder =
+                  "Enter the Username for the database connection ..."
+              ),
+              passwordInput(
+                inputId = ns("config_sourcedb_password"),
+                label = "Password",
+                placeholder = "Enter the database password ..."
+              ),
+              br(),
+              actionButton(
+                inputId = ns("source_pg_test_connection"),
+                label = "Test & Save connection",
+                icon = icon("database"),
+                style = "text-align:center;"
+              )
+            )
+          )
+        ),
+        box(
+          title =  "TARGET settings",
+          width = 6,
+          solidHeader = TRUE,
+          # status = "warning",
+          box(
+            # title = "Selected Source System",
+            width = 12,
+            solidHeader = T,
+            id = ns("target_system_feedback_box"),
+            h4(textOutput(ns("target_system_feedback_txt")))
+          ),
+          box(
+            width = 12,
+            solidHeader = T,
+            id = ns("target_system_to_source_system_box"),
+            actionButton(
+              inputId = ns("target_system_to_source_system_btn"),
+              icon = icon("cogs"),
+              label = " Set TARGET = SOURCE"
+            ),
+            style = "text-align:center;"
+          ),
+          tabBox(
+            # The id lets us use input$target_tabs
+            # on the server to find the current tab
+            id = ns("target_tabs"),
+            width = 12,
+            # selected = "PostgreSQL",
+            tabPanel(
+              # ATTENTION: If you change the title, you also have to change the
+              # corresponding part above for the "target == source" button
+              # reaction. Otherwise the tabs won't hide/show up anymore.
+              # >> ATTENTION <<
+              title = "CSV",
+              # >> ATTENTION << for title. See above.
+              id = ns("target_tab_csv"),
+              h4("Target CSV Upload"),
+              box(
+                title = "Available CSV-Systems",
+                # background = "blue",
+                # solidHeader = TRUE,
+                width = 12,
+                selectInput(
+                  # This will be filled in the server part.
+                  inputId = ns("target_csv_presettings_list"),
+                  label = NULL,
+                  choices = NULL,
+                  selected = NULL
+                ),
+                style = "text-align:center;"
+              ),
+              div(
+                paste(
+                  "Please choose the directory of your",
+                  "\u00A7",
+                  "21 target data in csv format (default: '/home/input')."
+                )
+              ),
+              br(),
+              # If the path is already set, display it
+              conditionalPanel(
+                condition = paste0(
+                  "typeof ",
+                  "output['moduleConfig-target_csv_dir']",
+                  " !== 'undefined'"
+                ),
+                verbatimTextOutput(ns("target_csv_dir")),
+                style = "text-align:center;",
+
+                # shinyFiles::shinyDirButton(
+                #   id = ns("config_targetdir_in_changed"),
+                #   label = "Change target Dir",
+                #   title = "Please select the new target directory",
+                #   icon = icon("folder"),
+                # ),
+              ),
+              br(),
+
+              # If there is no path set yet: Display the button to choose it
+              div(
+                shinyFiles::shinyDirButton(
+                  id = ns("config_targetdir_in"),
+                  label = "Target Dir",
+                  title = "Please select the target directory",
+                  buttonType = "default",
+                  icon = icon("folder"),
+                  class = NULL,
+                  style = "text-align:center;"
+                ),
+                style = "text-align:center;"
+              )
+            ),
+            tabPanel(
+              # ATTENTION: If you change the title, you also have to change the
+              # corresponding part above for the "target == source" button
+              # reaction. Otherwise the tabs won't hide/show up anymore.
+              # >> ATTENTION <<
+              title = "PostgreSQL",
+              # >> ATTENTION << for title. See above.
+              id = ns("target_tab_pg"),
+              h4("Target Database Connection"),
+              box(
+                title = "Preloadings",
+                # background = "blue",
+                #solidHeader = TRUE,
+                width = 12,
+                selectInput(
+                  # This will be filled in the server part.
+                  inputId = ns("target_pg_presettings_list"),
+                  label = NULL,
+                  choices = NULL,
+                  selected = NULL
+                ),
+                style = "text-align:center;"
+              ),
+              textInput(
+                inputId = ns("config_targetdb_dbname"),
+                label = "DB Name",
+                placeholder = "Enter the name of the database ..."
+              ),
+              textInput(
+                inputId = ns("config_targetdb_host"),
+                label = "IP",
+                placeholder = "Enter the IP here in format '192.168.1.1' ..."
+              ),
+              textInput(
+                inputId = ns("config_targetdb_port"),
+                label = "Port",
+                placeholder = "Enter the Port of the database connection ..."
+              ),
+              textInput(
+                inputId = ns("config_targetdb_user"),
+                label = "Username",
+                placeholder =
+                  "Enter the Username for the database connection ..."
+              ),
+              passwordInput(
+                inputId = ns("config_targetdb_password"),
+                label = "Password",
+                placeholder = "Enter the database password ..."
+              ),
+              br(),
+              actionButton(
+                inputId = ns("target_pg_test_connection"),
+                label = "Test & Save connection",
+                icon = icon("database"),
+                style = "text-align:center;"
+              )
+            )
+          )
+        )
+      )
+    )
+  )
 }

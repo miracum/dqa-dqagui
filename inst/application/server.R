@@ -22,6 +22,9 @@ shiny::shinyServer(function(input, output, session) {
     # set headless
     rv$headless <- FALSE
 
+    # set launch_app arguments
+    rv$config_file <- config_file
+    rv$mdr_filename <- mdr_filename
 
     # set utils_path
     rv$utilspath <- DQAstats::clean_path_name(utils_path)
@@ -63,7 +66,7 @@ shiny::shinyServer(function(input, output, session) {
     # # tab_config
     # ########################
 
-    shiny::callModule(module_config2_server,
+    shiny::callModule(module_config_server,
                       "moduleConfig",
                       rv,
                       input_re = input_reactive)

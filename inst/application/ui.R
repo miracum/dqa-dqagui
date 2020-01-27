@@ -80,7 +80,7 @@ shiny::shinyUI(
 
           shinydashboard::tabItem(
             tabName = "tab_config",
-            module_config2_ui("moduleConfig")
+            module_config_ui("moduleConfig")
           ),
 
           shinydashboard::tabItem(
