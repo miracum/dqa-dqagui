@@ -166,6 +166,8 @@ printme <- function(print_this, type = "Info") {
 #                     to the user in form of a modal.
 # @param console:     (Optional) If true, the message will also be printed
 #                     to the console as is.
+# @param prefix:      Prefix (String)
+# @param suffix:      Suffix (String)
 # @param findme:      (Optional) String to find the message in the code.
 #                     E.g. 10-digit random hex from
 #                     https://www.browserling.com/tools/random-hex
@@ -174,6 +176,8 @@ feedback <-
            type = "Info",
            ui = FALSE,
            console = TRUE,
+           prefix = "",
+           suffix = "",
            findme = "") {
     if (ui) {
       shiny::showModal(modalDialog(title = type,
@@ -181,10 +185,29 @@ feedback <-
                                    print_this))
     }
     if (console) {
-      if (findme == "") {
-        message(paste0("[", type, "] ", print_this))
-      } else {
-        message(paste0("[", type, "] ", print_this, " (", findme, ")"))
+      if (length(print_this) == 1) {
+        if (findme == "") {
+          message(paste0("[", type, "] ", prefix, print_this, suffix))
+        } else {
+          message(paste0("[", type, "] ",
+                         prefix, print_this, suffix, " (", findme, ")"))
+        }
+      } else if (length(print_this) > 1) {
+        if (findme == "") {
+          i <- 1
+          for (tmp in print_this) {
+            message(paste0("[", type, "] ", prefix, i, ": ", tmp, suffix))
+            i <- i + 1
+          }
+        } else {
+          i <- 1
+          for (tmp in print_this) {
+            message(
+              paste0("[", type, "] ",
+                     prefix, i, ": ", tmp, suffix, " (", findme, ")"))
+            i <- i + 1
+          }
+        }
       }
     }
   }
@@ -216,4 +239,191 @@ set_target_equal_to_source <- function(rv) {
   rv$target$system_type <- rv$source$system_type
   rv$target$system_name <- rv$source$system_name
   return(rv)
+}
+
+# This function checks if all necessary input parameters
+# for source and target exist and are valid.
+# @param rv:          The global rv-object
+validate_inputs <- function(rv) {
+  error_tmp <- F
+  if (!is.null(rv$source$system_type) &&
+      !is.null(rv$target$system_type)) {
+    # Check source setting:
+    if (rv$source$system_type == "csv") {
+      # Check if source-path is valid:
+      if (typeof(rv$source$settings$dir) == "character" &&
+          !is.null(rv$source$settings$dir) &&
+          length(rv$source$settings$dir) > 0) {
+        feedback("Source settings seem valid.",
+                 findme = "c0bcc9aa31")
+        # valid path, so check if files exist:
+        test_source_csv <- DQAstats::test_csv(
+          settings = rv$source$settings,
+          source_db = rv$source$system_name,
+          mdr = rv$mdr,
+          headless = F
+        )
+        if (isTRUE(test_source_csv)) {
+          feedback("All source csv-files were found.",
+                   findme = "794c6f3160")
+        } else{
+          feedback("Some source csv-files are MISSING.",
+                   type = "Error",
+                   findme = "926b0c567c")
+          error_tmp <- T
+        }
+      } else {
+        # invalid path:
+        feedback(
+          print_this = "Source settings not valid.",
+          type = "warning",
+          findme = "10d5e79d44",
+          ui = T
+        )
+        printme(
+          paste0(
+            "rv$source$settings$dir = ",
+            rv$source$settings$dir,
+            "(d9b43110bb)"
+          )
+        )
+        error_tmp <- T
+      }
+    } else if (rv$source$system_type == "postgres") {
+      # Check if source-db settings are valid:
+      if (!is.null(rv$source$settings)) {
+        rv$source$db_con <-
+          DQAstats::test_db(settings = rv$source$settings,
+                            headless = rv$headless)
+        if (!is.null(rv$source$db_con)) {
+          # valid
+          printme("Source db-settings seem valid. (29cc920472)")
+        } else {
+          # invalid:
+          feedback(
+            print_this = "Source db-settings not valid.",
+            type = "Warning",
+            findme = "c63e1ccaf0",
+            ui = T
+          )
+          printme(paste0(
+            "rv$source$settings = ",
+            rv$source$settings,
+            "(2d47f163a9)"
+          ))
+          error_tmp <- T
+        }
+      } else {
+        # invalid 2:
+        feedback(
+          print_this = "Source db-settings are empty.",
+          type = "Warning",
+          findme = "127deaebca",
+          ui = T
+        )
+        error_tmp <- T
+      }
+    } else {
+      feedback(
+        print_this = "Source system not yet implemented.",
+        type = "Warning",
+        findme = "d0f0bfa2f3",
+        ui = T
+      )
+      error_tmp <- T
+    }
+
+    # Check target setting:
+    if (rv$target$system_type == "csv") {
+      # Check if target-path is valid:
+      if (typeof(rv$target$settings$dir) == "character" &&
+          !is.null(rv$target$settings$dir) &&
+          length(rv$target$settings$dir) > 0) {
+        feedback("target settings seem valid.",
+                 findme = "9979bb57ef")
+        # valid path, so check if files exist:
+        test_target_csv <- DQAstats::test_csv(
+          settings = rv$target$settings,
+          source_db = rv$target$system_name,
+          mdr = rv$mdr,
+          headless = F
+        )
+        print(test_target_csv)
+        if (isTRUE(test_target_csv)) {
+          feedback("All target csv-files were found.",
+                   findme = "ff8203c831")
+        } else{
+          feedback("Some target csv-files are MISSING.",
+                   type = "Error",
+                   findme = "079525a7de")
+          error_tmp <- T
+        }
+      } else {
+        # invalid path:
+        feedback(
+          print_this = "Target settings not valid.",
+          type = "Warning",
+          findme = "f4cc32e068",
+          ui = T
+        )
+        printme(paste0(
+          "rv$target$settings$dir = ",
+          rv$target$dir,
+          "(43c81cb723)"
+        ))
+        error_tmp <- T
+      }
+    } else if (rv$target$system_type == "postgres") {
+      # Check if target-db settings are valid:
+      if (!is.null(rv$target$settings)) {
+        rv$target$db_con <-
+          DQAstats::test_db(settings = rv$target$settings,
+                            headless = rv$headless)
+        if (!is.null(rv$target$db_con)) {
+          # valid
+          printme("Target db-settings seem valid. (79234d2ba0)")
+        } else {
+          # invalid:
+          feedback(
+            print_this = "Target db-settings not valid.",
+            type = "Warning",
+            findme = "096341c4c1",
+            ui = T
+          )
+          printme(paste0(
+            "rv$target$settings = ",
+            rv$target$settings,
+            "(2d47f163a9)"
+          ))
+          error_tmp <- T
+        }
+      } else {
+        # invalid 2:
+        feedback(
+          print_this = "Target db-settings are empty.",
+          type = "Warning",
+          findme = "8440a9e683",
+          ui = T
+        )
+        error_tmp <- T
+      }
+    } else {
+      feedback(
+        print_this = "Target system not yet implemented.",
+        type = "Warning",
+        findme = "57b314a1a3",
+        ui = T
+      )
+      error_tmp <- T
+    }
+  } else {
+    feedback(
+      print_this = "Either source or target system is not set.",
+      type = "Warning",
+      findme = "4e9400f8c9",
+      ui = T
+    )
+    error_tmp <- T
+  }
+return(!error_tmp)
 }

@@ -176,7 +176,7 @@ module_config_server <-
               "source_system_name",
               "source_system_type")
           rv$systems <- unique(rv$mdr[, vec, with = F])
-          cat(paste0("\nDifferent systems found in MDR:\n"))
+          feedback("Different systems found in MDR:", findme = "4451da82ad")
 
           # - Read the settings for all these systems:
           unique_systems <-
@@ -192,24 +192,25 @@ module_config_server <-
             rv$systems[!is.na(get("source_system_type")),
                        unique(get("source_system_type"))]
 
-          i <- 1
-          for (systype in rv$system_types) {
-            printme(paste0("System type ", i, " = ", systype))
-            i <- i + 1
-          }
+          feedback(rv$system_types,
+                   prefix = "System type ",
+                   findme = "9aec84fcca")
+
           if (!("csv" %in% tolower(rv$system_types))) {
             # Remove CSV-Tabs:
-            printme("Removing csv-tab from source ...")
+            feedback("Removing csv-tab from source ...", findme = "3c2f368001")
             removeTab(inputId = "source_tabs", target = "CSV")
 
-            printme("Removing csv-tab from target ...")
+            feedback("Removing csv-tab from target ...", findme = "337b20a126")
             removeTab(inputId = "target_tabs", target = "CSV")
           } else {
             csv_system_names <-
               rv$systems[get("source_system_type") == "csv" &
                            !is.na(get("source_system_name")),
                          unique(get("source_system_name"))]
-            printme(cat("csv_system_names: ", csv_system_names))
+            feedback(csv_system_names,
+                     prefix = "csv_system_names: ",
+                     findme = "5a083a3d53")
 
             if (length(csv_system_names) > 0) {
               # Show buttons to prefill diff. systems presettings:
@@ -252,9 +253,9 @@ module_config_server <-
               rv$systems[get("source_system_type") == "postgres" &
                            !is.na(get("source_system_name")),
                          unique(get("source_system_name"))]
-            printme(cat(
-              "postgres_system_names: ",
-              postgres_system_names))
+            feedback(postgres_system_names,
+                     prefix = "postgres_system_names: ",
+                     findme = "be136f5ab6")
 
             if (length(postgres_system_names) > 0) {
               # Show buttons to prefill diff. systems presettings:
@@ -321,22 +322,22 @@ module_config_server <-
     # If the "load presets"-button was pressed, startload & show the presets:
     # observeEvent(input$source_pg_presettings_btn, {
     observeEvent(input$source_pg_presettings_list, {
-      printme(
+      feedback(
         paste0(
           "Input-preset ",
           input$source_pg_presettings_list,
           " was chosen as SOURCE.",
           " Loading presets ..."
-        )
+        ), findme = "e9832b3092"
       )
       config_stuff <- DQAstats::get_config(
         config_file = rv$config_file,
         config_key = tolower(input$source_pg_presettings_list)
       )
-      printme(paste(
+      feedback(paste(
         "Loaded successfully.",
         "Filling presets to global rv-object and UI ..."
-      ))
+      ), findme = "3c9136d49f")
       if (length(config_stuff) != 0) {
         updateTextInput(session = session,
                         inputId = "config_sourcedb_dbname",
@@ -374,22 +375,22 @@ module_config_server <-
 
     #observeEvent(input$target_pg_presettings_btn, {
     observeEvent(input$target_pg_presettings_list, {
-      printme(
+      feedback(
         paste0(
           "Input-preset ",
           input$target_pg_presettings_list,
           " was chosen as TARGET",
           " Loading presets ..."
-        )
+        ), findme = "d603f8127a"
       )
       config_stuff <- DQAstats::get_config(
         config_file = rv$config_file,
         config_key = tolower(input$target_pg_presettings_list)
       )
-      printme(paste(
+      feedback(paste(
         "Loaded successfully.",
         "Filling presets to global rv-object and UI ..."
-      ))
+      ), findme = "fa908f0035")
       if (length(config_stuff) != 0) {
         updateTextInput(session = session,
                         inputId = "config_targetdb_dbname",
@@ -435,12 +436,12 @@ module_config_server <-
                                               timeout = 2)
 
         if (!is.null(rv$source$db_con)) {
-          printme(
+          feedback(
             paste0(
               "\nDB connection for ",
               input$source_pg_presettings_list,
               " successfully established\n"
-            )
+            ), findme = "e35eaa306e"
           )
           # shiny::showModal(modalDialog(
           #   title = paste0(
@@ -489,12 +490,12 @@ module_config_server <-
                                               timeout = 2)
 
         if (!is.null(rv$target$db_con)) {
-          printme(
+          feedback(
             paste0(
               "\nDB connection for ",
               input$target_pg_presettings_list,
               " successfully established\n"
-            )
+            ), findme = "1dc68937b8"
           )
           showNotification(
             paste0(
@@ -599,11 +600,18 @@ module_config_ui <- function(id) {
 
   tagList(
     fluidRow(
+      box(
+        title = "Load the data",
+        solidHeader = T,
+        icon = icon("file-upload"),
+        actionButton(ns("dash_load_btn"), "Load data"),
+        width = 12,
+      ),
       box(title = "Sitename",
           div(
             class = "row",
             div(
-              class = "col-sm-8",
+              class = "col-sm-6",
               selectInput(
                 ns("config_sitename"),
                 "Please enter the name of your site",
@@ -612,7 +620,16 @@ module_config_ui <- function(id) {
                 multiple = F
               )
             ),
-            div(class = "col-sm-4")
+            # div(class = "col-sm-4"),
+            div(
+              class = "col-sm-6",
+              actionButton(
+                inputId = ns("target_system_to_source_system_btn"),
+                icon = icon("cogs"),
+                label = " Set TARGET = SOURCE"
+              ),
+              style = "text-align:center;"
+            ),
           ),
           width = 12),
 
@@ -777,17 +794,7 @@ module_config_ui <- function(id) {
             id = ns("target_system_feedback_box"),
             h4(textOutput(ns("target_system_feedback_txt")))
           ),
-          box(
-            width = 12,
-            solidHeader = T,
-            id = ns("target_system_to_source_system_box"),
-            actionButton(
-              inputId = ns("target_system_to_source_system_btn"),
-              icon = icon("cogs"),
-              label = " Set TARGET = SOURCE"
-            ),
-            style = "text-align:center;"
-          ),
+
           tabBox(
             # The id lets us use input$target_tabs
             # on the server to find the current tab

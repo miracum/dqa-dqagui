@@ -13,7 +13,7 @@ test_that(
   code = {
     lintlist <- list(
       "R" = list(
-        "app_utils.R" = NULL,
+        "app_utils.R" = "cyclomatic complexity",
         "launch_app.R" = NULL,
         "moduleAtempPlausibility.R" = NULL,
         "moduleCompleteness.R" = NULL,
