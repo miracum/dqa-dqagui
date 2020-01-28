@@ -54,8 +54,6 @@ shiny::shinyServer(
 
         # handle reset
         shiny::observeEvent(input$reset, {
-            shinyjs::reset("moduleConfig-config_sourcedir_in")
-            shinyjs::reset("moduleConfig-config_targetdir_in")
             shinyjs::js$reset()
         })
 

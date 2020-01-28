@@ -34,47 +34,72 @@ module_config_server <-
 
 
     # filepath roots dir
-    roots_src <- c(home = "/home/")
+    roots <- c(home = "/home/")
 
     # If source-csv-path-button is clicked, read the path and save it:
     # root-folder of shinyFiles::shinyDirChoose
+    shinyFiles::shinyDirChoose(
+      input = input,
+      id = "config_sourcedir_in",
+      roots = roots,
+      session = session
+    )
 
     shinyFiles::shinyDirChoose(
       input = input,
       id = "config_targetdir_in",
-      roots = roots_src
+      roots = roots,
+      session = session
     )
 
-    shinyFiles::shinyDirChoose(
-      input = input,
-      id = "config_sourcedir_in",
-      roots = roots_src
-    )
-    # observe source file directory
+    # observe click button event
     observeEvent(
       eventExpr = input$config_sourcedir_in,
       handlerExpr = {
-        settingsdir_src <- shinyFiles::parseDirPath(
-          roots = roots_src,
-          selection = input_re()[["moduleConfig-config_sourcedir_in"]]
-        )
-        path_tmp <-
-          as.character(DQAstats::clean_path_name(settingsdir_src))
-        if (!identical(path_tmp, character(0)) &&
-            !is.null(path_tmp) &&
-            path_tmp != "") {
+        rv$csv_dir_src_clicked <- NULL
+        rv$csv_dir_src <- as.character(DQAstats::clean_path_name(
+          shinyFiles::parseDirPath(
+            roots = roots,
+            selection = input$config_sourcedir_in
+          )))
+        print(rv$csv_dir_src)
+      }
+    )
+    observeEvent(
+      eventExpr = input$config_targetdir_in,
+      handlerExpr = {
+        rv$csv_dir_tar_clicked <- NULL
+        rv$csv_dir_tar <- as.character(DQAstats::clean_path_name(
+          shinyFiles::parseDirPath(
+            roots = roots,
+            selection = input$config_targetdir_in
+          )))
+        print(rv$csv_dir_tar)
+      }
+    )
+
+    # observe source file directory
+    observe({
+      req(rv$csv_dir_src)
+
+      if (is.null(rv$csv_dir_src_clicked)) {
+        rv$csv_dir_src_clicked <- TRUE
+
+        if (!identical(rv$csv_dir_src, character(0)) &&
+            !is.null(rv$csv_dir_src) &&
+            rv$csv_dir_src != "") {
           rv$source$settings <- NULL
-          rv$source$settings$dir <- path_tmp
+          rv$source$settings$dir <- rv$csv_dir_src
         } else {
           # New source path is empty - Backup old path if existing:
-          path_old_tmp <- rv$source$settings$dir
-          if (!identical(path_old_tmp, character(0)) &&
-              !is.null(path_old_tmp) &&
-              path_old_tmp != "") {
+          path_old_tmp1 <- rv$source$settings$dir
+          if (!identical(path_old_tmp1, character(0)) &&
+              !is.null(path_old_tmp1) &&
+              path_old_tmp1 != "") {
             # Delete all old settings:
             rv$source$settings <- NULL
             # Re-assign the old path:
-            rv$source$settings$dir <- path_old_tmp
+            rv$source$settings$dir <- path_old_tmp1
           } else {
             # No old path exists so delete all settings:
             rv$source$settings <- NULL
@@ -98,98 +123,21 @@ module_config_server <-
               feedback_txt(system = "CSV", type = "source")
             })
         }
-      })
-
-    observeEvent(
-      input_re()[["moduleConfig-dash_load_btn"]], {
-        # The button is on "moduleConfig".
-        # This tab here will be set active below if all inputs are valid.
-
-        # Error flag: If an error occurs, the flag will be set to true
-        # and the main calculation won't start:
-        error_tmp <- F
-
-        # check, if mdr is present. without mdr, we cannot perform any
-        # further operations
-        if (is.null(rv$mdr)) {
-          feedback(
-            "No MDR found. Please provide a metadata repository (MDR).",
-            type = "Warning",
-            findme = "1dc68937b8"
-          )
-          error_tmp <- T
-          # mdr is present:
-        } else {
-          # check if sitename is present
-          if (nchar(input_re()[["moduleConfig-config_sitename"]]) < 2 ||
-              any(grepl("\\s", input_re()[["moduleConfig-config_sitename"]]))) {
-            # site name is missing:
-            shiny::showModal(modalDialog(
-              title = "Invalid values",
-              paste0(
-                "No empty strings or spaces allowed in ",
-                "the site name configuration."
-              )
-            ))
-            error_tmp <- T
-          } else {
-            # site name is present:
-            rv$sitename <- input_re()[["moduleConfig-config_sitename"]]
-          }
-
-          # If target should be identical to source, set it here again:
-          if (isTRUE(rv$target_is_source)) {
-            rv <- set_target_equal_to_source(rv)
-          }
-
-          feedback(paste0("Source system is ", rv$source$system_name),
-                   findme = "1d61685355")
-          feedback(paste0("Target system is ", rv$target$system_name),
-                   findme = "eaf72ed747")
-        }
-
-
-        if (validate_inputs(rv) && !error_tmp) {
-          # set flags to inactivate config-widgets and start loading of
-          # data
-          rv$getdata_target <- TRUE
-          rv$getdata_source <- TRUE
-
-          if (!dir.exists(paste0(tempdir(), "/_settings/"))) {
-            dir.create(paste0(tempdir(), "/_settings/"))
-          }
-
-          # save user settings
-          writeLines(
-            jsonlite::toJSON(
-              list(
-                "source_system" = rv$source$settings,
-                "target_system" = rv$target$settings,
-                "site_name" = rv$sitename
-              ),
-              pretty = T,
-              auto_unbox = F
-            ),
-            paste0(tempdir(), "/_settings/global_settings.JSON")
-          )
-        }
-      })
+      }
+    })
 
     # observe target file directory
-    observeEvent(
-      eventExpr = input$config_targetdir_in,
-      handlerExpr = {
-        settingsdir_tar <- shinyFiles::parseDirPath(
-          roots = roots_src,
-          selection = input_re()[["moduleConfig-config_targetdir_in"]]
-        )
-        path_tmp1 <-
-          as.character(DQAstats::clean_path_name(settingsdir_tar))
-        if (!identical(path_tmp1, character(0)) &&
-            !is.null(path_tmp1) &&
-            path_tmp1 != "") {
+    observe({
+      req(rv$csv_dir_tar)
+
+      if (is.null(rv$csv_dir_tar_clicked)) {
+        rv$csv_dir_tar_clicked <- TRUE
+
+        if (!identical(rv$csv_dir_tar, character(0)) &&
+            !is.null(rv$csv_dir_tar) &&
+            rv$csv_dir_tar != "") {
           rv$target$settings <- NULL
-          rv$target$settings$dir <- path_tmp1
+          rv$target$settings$dir <- rv$csv_dir_tar
         } else {
           # New target path is empty - Backup old path if existing:
           path_old_tmp1 <- rv$target$settings$dir
@@ -223,8 +171,8 @@ module_config_server <-
               feedback_txt(system = "CSV", type = "target")
             })
         }
-      })
-
+      }
+    })
 
     # load mdr
     observeEvent(
@@ -304,6 +252,7 @@ module_config_server <-
                 inputId = "target_csv_presettings_list",
                 choices = csv_system_names)
             } else {
+              # TODO ist das notwendig? Tab sollte eigentlich gar nicht vorhanden sein, wenn length(csv_system_names) == 0
               # Hide the buttons/choices:
               updateSelectInput(
                 session = session,
@@ -360,15 +309,6 @@ module_config_server <-
                 choices = "No presets available")
             }
           }
-          # Optional: Set a tab as active with:
-          #% updateTabItems(session = session,
-          #%                inputId = "source_tabs",
-          #%                selected = "TAB_TITLE")
-          #% updateTabItems(session = session,
-          #%                inputId = "target_tabs",
-          #%                selected = "TAB_TITLE")
-
-
 
           # Store the system-types in output-variable to only
           # show these tabs on the config page:
@@ -523,18 +463,6 @@ module_config_server <-
               " successfully established\n"
             ), findme = "e35eaa306e"
           )
-          # shiny::showModal(modalDialog(
-          #   title = paste0(
-          #     input$source_pg_presettings_list,
-          #     "-database connection successfully tested"
-          #   ),
-          #   paste0(
-          #     "The connection to ",
-          #     input$source_pg_presettings_list,
-          #     " has been",
-          #     " successfully established and tested."
-          #   )
-          # ))
           showNotification(
             paste0(
               "\U2714 Connection to ",
@@ -668,6 +596,82 @@ module_config_server <-
         )
       }
     })
+
+
+    observeEvent(
+      input_re()[["moduleConfig-dash_load_btn"]], {
+        # The button is on "moduleConfig".
+        # This tab here will be set active below if all inputs are valid.
+
+        # Error flag: If an error occurs, the flag will be set to true
+        # and the main calculation won't start:
+        error_tmp <- F
+
+        # check, if mdr is present. without mdr, we cannot perform any
+        # further operations
+        if (is.null(rv$mdr)) {
+          feedback(
+            "No MDR found. Please provide a metadata repository (MDR).",
+            type = "Warning",
+            findme = "1dc68937b8"
+          )
+          error_tmp <- T
+          # mdr is present:
+        } else {
+          # check if sitename is present
+          if (nchar(input_re()[["moduleConfig-config_sitename"]]) < 2 ||
+              any(grepl("\\s", input_re()[["moduleConfig-config_sitename"]]))) {
+            # site name is missing:
+            shiny::showModal(modalDialog(
+              title = "Invalid values",
+              paste0(
+                "No empty strings or spaces allowed in ",
+                "the site name configuration."
+              )
+            ))
+            error_tmp <- T
+          } else {
+            # site name is present:
+            rv$sitename <- input_re()[["moduleConfig-config_sitename"]]
+          }
+
+          # If target should be identical to source, set it here again:
+          if (isTRUE(rv$target_is_source)) {
+            rv <- set_target_equal_to_source(rv)
+          }
+
+          feedback(paste0("Source system is ", rv$source$system_name),
+                   findme = "1d61685355")
+          feedback(paste0("Target system is ", rv$target$system_name),
+                   findme = "eaf72ed747")
+        }
+
+
+        if (validate_inputs(rv) && !error_tmp) {
+          # set flags to inactivate config-widgets and start loading of
+          # data
+          rv$getdata_target <- TRUE
+          rv$getdata_source <- TRUE
+
+          if (!dir.exists(paste0(tempdir(), "/_settings/"))) {
+            dir.create(paste0(tempdir(), "/_settings/"))
+          }
+
+          # save user settings
+          writeLines(
+            jsonlite::toJSON(
+              list(
+                "source_system" = rv$source$settings,
+                "target_system" = rv$target$settings,
+                "site_name" = rv$sitename
+              ),
+              pretty = T,
+              auto_unbox = F
+            ),
+            paste0(tempdir(), "/_settings/global_settings.JSON")
+          )
+        }
+      })
   }
 
 #' @title module_config_ui
@@ -708,10 +712,16 @@ module_config_ui <- function(id) {
               # on the server to find the current tab
               id = ns("source_tabs"),
               width = 12,
-              # selected = "CSV",
-
+              # selected = "PostgreSQL",
               tabPanel(
+                # ATTENTION: If you change the title, you also have to change
+                # the
+                # corresponding part above for the "source == source" button
+                # reaction. Otherwise the tabs won't hide/show up anymore.
+                # >> ATTENTION <<
                 title = "CSV",
+                # >> ATTENTION << for title. See above.
+                id = ns("source_tab_csv"),
                 h4("Source CSV Upload"),
                 box(
                   title = "Available CSV-Systems",
@@ -735,7 +745,6 @@ module_config_ui <- function(id) {
                   )
                 ),
                 br(),
-
                 # If the path is already set, display it
                 conditionalPanel(
                   condition = paste0(
@@ -744,34 +753,30 @@ module_config_ui <- function(id) {
                     " !== 'undefined'"
                   ),
                   verbatimTextOutput(ns("source_csv_dir")),
-                  style = "text-align:center;",
-
-                  # shinyFiles::shinyDirButton(
-                  #   id = ns("config_sourcedir_in_changed"),
-                  #   label = "Change Source Dir",
-                  #   title = "Please select the new source directory",
-                  #   icon = icon("folder"),
-                  # ),
+                  style = "text-align:center;"
                 ),
                 br(),
 
                 # If there is no path set yet: Display the button to choose it
-                div(
-                  shinyFiles::shinyDirButton(
-                    id = ns("config_sourcedir_in"),
-                    label = "Source Dir",
-                    title = "Please select the source directory",
-                    buttonType = "default",
-                    icon = icon("folder"),
-                    class = NULL,
-                    style = "text-align:center;"
-                  ),
+                shinyFiles::shinyDirButton(
+                  id = ns("config_sourcedir_in"),
+                  label = "Source Dir",
+                  title = "Please select the source directory",
+                  buttonType = "default",
+                  icon = icon("folder"),
+                  class = NULL,
                   style = "text-align:center;"
                 )
               ),
-
               tabPanel(
+                # ATTENTION: If you change the title, you also have to change
+                # the
+                # corresponding part above for the "source == source" button
+                # reaction. Otherwise the tabs won't hide/show up anymore.
+                # >> ATTENTION <<
                 title = "PostgreSQL",
+                # >> ATTENTION << for title. See above.
+                id = ns("source_tab_pg"),
                 h4("Source Database Connection"),
                 box(
                   title = "Preloadings",
@@ -873,28 +878,18 @@ module_config_ui <- function(id) {
                     " !== 'undefined'"
                   ),
                   verbatimTextOutput(ns("target_csv_dir")),
-                  style = "text-align:center;",
-
-                  # shinyFiles::shinyDirButton(
-                  #   id = ns("config_targetdir_in_changed"),
-                  #   label = "Change target Dir",
-                  #   title = "Please select the new target directory",
-                  #   icon = icon("folder"),
-                  # ),
+                  style = "text-align:center;"
                 ),
                 br(),
 
                 # If there is no path set yet: Display the button to choose it
-                div(
-                  shinyFiles::shinyDirButton(
-                    id = ns("config_targetdir_in"),
-                    label = "Target Dir",
-                    title = "Please select the target directory",
-                    buttonType = "default",
-                    icon = icon("folder"),
-                    class = NULL,
-                    style = "text-align:center;"
-                  ),
+                shinyFiles::shinyDirButton(
+                  id = ns("config_targetdir_in"),
+                  label = "Target Dir",
+                  title = "Please select the target directory",
+                  buttonType = "default",
+                  icon = icon("folder"),
+                  class = NULL,
                   style = "text-align:center;"
                 )
               ),
