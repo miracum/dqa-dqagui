@@ -105,7 +105,14 @@ render_quick_checks <- function(dat_table) {
   return(out)
 }
 
-
+#' @title get_db_settings
+#'
+#' @param target A boolean (default: TRUE).
+#'
+#' @inheritParams on_start
+#'
+#' @export
+#'
 get_db_settings <- function(input, target = T) {
   # create description of column selections
   vec <- c("dbname", "host", "port", "user", "password")
@@ -146,31 +153,34 @@ get_db_settings <- function(input, target = T) {
 
 
 
-# Simply prints stuff to the console.
-# @param print_this:  The string to be printed.
-# @param type:        (Optional) The type of message as string.
-#                     If type is e.g. "Warning"
-#                     the printed line will be "[Warning] print_this".
+#' @title Simply prints stuff to the console.
+#' @param print_this:  The string to be printed.
+#' @param type: (Optional) The type of message as string.
+#'   If type is e.g. "Warning" the printed line will be "[Warning] print_this".
+#' @export
+#'
 printme <- function(print_this, type = "Info") {
   feedback(print_this, type)
 }
 
-# Simple method to feedback messages either to the user and/or to the console.
-# Extended version of the printme-function.
-# @param print_this:  The string to be showed
-# @param type:        (Optional) The type of message as string.
-#                     This is also the headline of the modal.
-#                     If type is e.g. "Warning"
-#                     the printed line will be "[Warning] print_this".
-# @param ui:          (Optional) If true, the message will also be printed
-#                     to the user in form of a modal.
-# @param console:     (Optional) If true, the message will also be printed
-#                     to the console as is.
-# @param prefix:      Prefix (String)
-# @param suffix:      Suffix (String)
-# @param findme:      (Optional) String to find the message in the code.
-#                     E.g. 10-digit random hex from
-#                     https://www.browserling.com/tools/random-hex
+#' @title Simple method to feedback messages either to the user and/or to the console.
+#' @description  Extended version of the printme-function.
+#' @param print_this:  The string to be showed
+#' @param type: (Optional) The type of message as string.
+#'   This is also the headline of the modal.
+#'   If type is e.g. "Warning"
+#'   the printed line will be "[Warning] print_this".
+#' @param ui: (Optional) If true, the message will also be printed
+#'   to the user in form of a modal.
+#' @param console: (Optional) If true, the message will also be printed
+#'   to the console as is.
+#' @param prefix: Prefix (String)
+#' @param suffix: Suffix (String)
+#' @param findme: (Optional) String to find the message in the code.
+#'   E.g. 10-digit random hex from https://www.browserling.com/tools/random-hex
+#'
+#' @export
+#'
 feedback <-
   function(print_this,
            type = "Info",
@@ -213,10 +223,13 @@ feedback <-
   }
 
 
-# This function is used in the config-tab and displays the selected system
-# to the user.
-# @param system:      (String) e.g. "i2b2", "OMOP" or "CSV"
-# @param type:        (String) "source" or "target"
+#' @title This function is used in the config-tab and displays the selected
+#'   system to the user.
+#' @param system: (String) e.g. "i2b2", "OMOP" or "CSV"
+#' @param type: (String) "source" or "target"
+#'
+#' @export
+#'
 feedback_txt <- function(system, type) {
   result <- paste0(
     "\U2714 ",
@@ -231,9 +244,13 @@ feedback_txt <- function(system, type) {
 }
 
 
-# This function is called when the user clicks on the button
-# "Set target == source". It sets target settings = source settings.
-# @param rv:          The global rv-object
+#' @title This function is called when the user clicks on the button
+#' @description "Set target == source". It sets target settings = source
+#'   settings.
+#' @param rv: The global rv-object
+#'
+#' @export
+#'
 set_target_equal_to_source <- function(rv) {
   rv$target$settings <- rv$source$settings
   rv$target$system_type <- rv$source$system_type
@@ -241,9 +258,12 @@ set_target_equal_to_source <- function(rv) {
   return(rv)
 }
 
-# This function checks if all necessary input parameters
-# for source and target exist and are valid.
-# @param rv:          The global rv-object
+#' @title This function checks if all necessary input parameters
+#'   for source and target exist and are valid.
+#' @param rv: The global rv-object
+#'
+#' @export
+#'
 validate_inputs <- function(rv) {
   error_tmp <- F
   if (!is.null(rv$source$system_type) &&

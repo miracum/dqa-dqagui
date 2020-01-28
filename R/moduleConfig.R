@@ -238,10 +238,15 @@ module_config_server <-
           if (debugging)
             printme(paste0("rv$utilspath:", rv$utilspath))
 
-          # read MDR
-          rv$mdr <-
-            DQAstats::read_mdr(utils_path = rv$utilspath,
-                               mdr_filename = rv$mdr_filename)
+          withProgress(message = "Loading MDR", value = 0, {
+            incProgress(
+              1 / 1,
+              detail = "... from local file ...")
+            # read MDR
+            rv$mdr <-
+              DQAstats::read_mdr(utils_path = rv$utilspath,
+                                 mdr_filename = rv$mdr_filename)
+          })
           stopifnot(data.table::is.data.table(rv$mdr))
 
           ## Read in the settings
