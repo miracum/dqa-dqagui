@@ -37,9 +37,9 @@ my_desc$set(Description = "A graphical user interface (GUI) to the functions imp
 # The description of your package
 my_desc$set("Date" = as.character(Sys.Date()))
 # The urls
-my_desc$set("URL", "https://gitlab.miracum.org/miracum-dqa/dqagui")
+my_desc$set("URL", "https://gitlab.miracum.org/miracum/dqa/dqagui")
 my_desc$set("BugReports",
-            "https://gitlab.miracum.org/miracum-dqa/dqagui/issues")
+            "https://gitlab.miracum.org/miracum/dqa/dqagui/issues")
 # License
 my_desc$set("License", "GPL-3")
 # Save everyting
