@@ -2,7 +2,8 @@
 % Please edit documentation in R/app_utils.R
 \name{feedback}
 \alias{feedback}
-\title{Simple method to feedback messages either to the user and/or to the console.}
+\title{Simple method to feedback messages either to the user and/or to the
+  console.}
 \usage{
 feedback(
   print_this,
@@ -15,24 +16,22 @@ feedback(
 )
 }
 \arguments{
-\item{print_this:}{The string to be showed}
+\item{print_this}{The string to be printed.}
 
-\item{type:}{(Optional) The type of message as string.
-This is also the headline of the modal.
-If type is e.g. "Warning"
-the printed line will be "[Warning] print_this".}
+\item{type}{(Optional) The type of message as string.
+If type is e.g. "Warning" the printed line will be "[Warning] print_this".}
 
-\item{ui:}{(Optional) If true, the message will also be printed
+\item{ui}{(Optional) If true, the message will also be printed
 to the user in form of a modal.}
 
-\item{console:}{(Optional) If true, the message will also be printed
+\item{console}{(Optional) If true, the message will also be printed
 to the console as is.}
 
-\item{prefix:}{Prefix (String)}
+\item{prefix}{Prefix (String)}
 
-\item{suffix:}{Suffix (String)}
+\item{suffix}{Suffix (String)}
 
-\item{findme:}{(Optional) String to find the message in the code.
+\item{findme}{(Optional) String to find the message in the code.
 E.g. 10-digit random hex from https://www.browserling.com/tools/random-hex}
 }
 \description{

@@ -299,7 +299,7 @@ module_descriptive_server <-
           } else if (desc_out$target_data$checks$var_type ==
                      "string") {
             output$descr_checks_target_valueset <- renderText({
-              json_obj_src$regex
+              json_obj_tar$regex
             })
           }
 

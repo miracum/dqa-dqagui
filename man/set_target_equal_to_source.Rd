@@ -7,7 +7,7 @@
 set_target_equal_to_source(rv)
 }
 \arguments{
-\item{rv:}{The global rv-object}
+\item{rv}{The global 'reactiveValues()' object, defined in server.R}
 }
 \description{
 "Set target == source". It sets target settings = source

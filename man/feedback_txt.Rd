@@ -8,9 +8,9 @@
 feedback_txt(system, type)
 }
 \arguments{
-\item{system:}{(String) e.g. "i2b2", "OMOP" or "CSV"}
+\item{system}{(String) e.g. "i2b2", "OMOP" or "CSV"}
 
-\item{type:}{(String) "source" or "target"}
+\item{type}{(String) "source" or "target"}
 }
 \description{
 This function is used in the config-tab and displays the selected

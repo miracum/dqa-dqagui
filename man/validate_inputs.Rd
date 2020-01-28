@@ -8,7 +8,7 @@
 validate_inputs(rv)
 }
 \arguments{
-\item{rv:}{The global rv-object}
+\item{rv}{The global 'reactiveValues()' object, defined in server.R}
 }
 \description{
 This function checks if all necessary input parameters

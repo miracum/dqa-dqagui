@@ -154,8 +154,8 @@ get_db_settings <- function(input, target = T) {
 
 
 #' @title Simply prints stuff to the console.
-#' @param print_this:  The string to be printed.
-#' @param type: (Optional) The type of message as string.
+#' @param print_this  The string to be printed.
+#' @param type (Optional) The type of message as string.
 #'   If type is e.g. "Warning" the printed line will be "[Warning] print_this".
 #' @export
 #'
@@ -163,21 +163,20 @@ printme <- function(print_this, type = "Info") {
   feedback(print_this, type)
 }
 
-#' @title Simple method to feedback messages either to the user and/or to the console.
+#' @title Simple method to feedback messages either to the user and/or to the
+#'   console.
 #' @description  Extended version of the printme-function.
-#' @param print_this:  The string to be showed
-#' @param type: (Optional) The type of message as string.
-#'   This is also the headline of the modal.
-#'   If type is e.g. "Warning"
-#'   the printed line will be "[Warning] print_this".
-#' @param ui: (Optional) If true, the message will also be printed
+#'
+#' @param ui (Optional) If true, the message will also be printed
 #'   to the user in form of a modal.
-#' @param console: (Optional) If true, the message will also be printed
+#' @param console (Optional) If true, the message will also be printed
 #'   to the console as is.
-#' @param prefix: Prefix (String)
-#' @param suffix: Suffix (String)
-#' @param findme: (Optional) String to find the message in the code.
+#' @param prefix Prefix (String)
+#' @param suffix Suffix (String)
+#' @param findme (Optional) String to find the message in the code.
 #'   E.g. 10-digit random hex from https://www.browserling.com/tools/random-hex
+#'
+#' @inheritParams printme
 #'
 #' @export
 #'
@@ -225,8 +224,8 @@ feedback <-
 
 #' @title This function is used in the config-tab and displays the selected
 #'   system to the user.
-#' @param system: (String) e.g. "i2b2", "OMOP" or "CSV"
-#' @param type: (String) "source" or "target"
+#' @param system (String) e.g. "i2b2", "OMOP" or "CSV"
+#' @param type (String) "source" or "target"
 #'
 #' @export
 #'
@@ -247,7 +246,8 @@ feedback_txt <- function(system, type) {
 #' @title This function is called when the user clicks on the button
 #' @description "Set target == source". It sets target settings = source
 #'   settings.
-#' @param rv: The global rv-object
+#'
+#' @inheritParams module_dashboard_server
 #'
 #' @export
 #'
@@ -260,7 +260,8 @@ set_target_equal_to_source <- function(rv) {
 
 #' @title This function checks if all necessary input parameters
 #'   for source and target exist and are valid.
-#' @param rv: The global rv-object
+#'
+#' @inheritParams module_dashboard_server
 #'
 #' @export
 #'
@@ -445,5 +446,5 @@ validate_inputs <- function(rv) {
     )
     error_tmp <- T
   }
-return(!error_tmp)
+  return(!error_tmp)
 }

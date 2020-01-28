@@ -7,9 +7,9 @@
 printme(print_this, type = "Info")
 }
 \arguments{
-\item{print_this:}{The string to be printed.}
+\item{print_this}{The string to be printed.}
 
-\item{type:}{(Optional) The type of message as string.
+\item{type}{(Optional) The type of message as string.
 If type is e.g. "Warning" the printed line will be "[Warning] print_this".}
 }
 \description{
