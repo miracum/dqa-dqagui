@@ -379,9 +379,6 @@ module_dashboard_ui <- function(id) {
     box(
       title = "Welcome to your Data-Quality-Analysis Dashboard",
       verbatimTextOutput(ns("dash_instruction")),
-      #conditionalPanel(condition = "output['moduleConfig-db_connection']",
-      # actionButton(ns("dash_load_btn"), "Load data"),
-      #),
       width = 12
     ),
     column(

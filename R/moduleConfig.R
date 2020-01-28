@@ -131,9 +131,7 @@ module_config_server <-
                 "the site name configuration."
               )
             ))
-            ## TODO: Delete the demo-sitename and re-enable the error_tmp
-            rv$sitename <- "Demo"
-            #% error_tmp <- T
+            error_tmp <- T
           } else {
             # site name is present:
             rv$sitename <- input_re()[["moduleConfig-config_sitename"]]
@@ -602,6 +600,7 @@ module_config_server <-
       if (isTRUE(rv$target_is_source)) {
         ## Target was == source but should become different now:
         rv$target_is_source <- F
+        rv$target <- NULL
         output$target_system_feedback_txt <- NULL
         # Show target-settings-tabs again:
         showTab(inputId = "target_tabs", target = "CSV")
@@ -644,7 +643,7 @@ module_config_server <-
           )
           outlist
         }, error = function(e) {
-          outlist <- list("No sitenames provided" = "No sitenames provided")
+          outlist <- list("undefined" = "undefined")
           outlist
           # TODO instead of dropdown menu, render text input field in the
           # case, users have not provided sitenames. This allows them
@@ -993,12 +992,16 @@ module_config_ui <- function(id) {
             width = 12,
           ),
           box(
-            title = "Analyse only on source",
+            title = "Analyse only the source system",
             actionButton(
               inputId = ns("target_system_to_source_system_btn"),
               icon = icon("cogs"),
               label = " Set TARGET = SOURCE",
-              style = "center"
+              style = paste0(
+                "white-space: normal; ",
+                "text-align:center; ",
+                "padding: 9.5px 9.5px 9.5px 9.5px; ",
+                "margin: 6px 10px 6px 10px;")
             ),
             width = 12
           )
