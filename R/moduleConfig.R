@@ -56,67 +56,26 @@ module_config_server <-
     observeEvent(
       eventExpr = input$config_sourcedir_in,
       handlerExpr = {
-        rv$csv_dir_src_clicked <- NULL
+        rv$csv_dir_src_clicked <- FALSE
         rv$csv_dir_src <- as.character(DQAstats::clean_path_name(
           shinyFiles::parseDirPath(
             roots = roots,
             selection = input$config_sourcedir_in
           )))
         print(rv$csv_dir_src)
-      }
-    )
-    observeEvent(
-      eventExpr = input$config_targetdir_in,
-      handlerExpr = {
-        rv$csv_dir_tar_clicked <- NULL
-        rv$csv_dir_tar <- as.character(DQAstats::clean_path_name(
-          shinyFiles::parseDirPath(
-            roots = roots,
-            selection = input$config_targetdir_in
-          )))
-        print(rv$csv_dir_tar)
-      }
-    )
-
-    # observe source file directory
-    observe({
-      req(rv$csv_dir_src)
-
-      if (is.null(rv$csv_dir_src_clicked)) {
-        rv$csv_dir_src_clicked <- TRUE
-
-        if (!identical(rv$csv_dir_src, character(0)) &&
-            !is.null(rv$csv_dir_src) &&
-            rv$csv_dir_src != "") {
-          rv$source$settings <- NULL
-          rv$source$settings$dir <- rv$csv_dir_src
-        } else {
-          # New source path is empty - Backup old path if existing:
-          path_old_tmp1 <- rv$source$settings$dir
-          if (!identical(path_old_tmp1, character(0)) &&
-              !is.null(path_old_tmp1) &&
-              path_old_tmp1 != "") {
-            # Delete all old settings:
-            rv$source$settings <- NULL
-            # Re-assign the old path:
-            rv$source$settings$dir <- path_old_tmp1
-          } else {
-            # No old path exists so delete all settings:
-            rv$source$settings <- NULL
-          }
-        }
+        rv$source$settings$dir <- rv$csv_dir_src
 
         if (!identical(rv$source$settings$dir, character(0)) &&
             !is.null(rv$source$settings$dir) &&
             rv$source$settings$dir != "") {
           # workaround to tell ui, that it is there
           output$source_csv_dir <- reactive({
-            printme(paste0("Source file dir: ",
-                           rv$source$settings$dir))
+            # printme(paste0("Source file dir: ",
+            #                rv$source$settings$dir))
             paste(rv$source$settings$dir)
           })
           outputOptions(output, "source_csv_dir", suspendWhenHidden = FALSE)
-          rv$source$system_name <- input$source_csv_presettings_list
+          rv$source$system_name <- input_re()[["moduleConfig-source_csv_presettings_list"]]
           rv$source$system_type <- "csv"
           output$source_system_feedback_txt <-
             renderText({
@@ -124,47 +83,31 @@ module_config_server <-
             })
         }
       }
-    })
+    )
 
-    # observe target file directory
-    observe({
-      req(rv$csv_dir_tar)
-
-      if (is.null(rv$csv_dir_tar_clicked)) {
-        rv$csv_dir_tar_clicked <- TRUE
-
-        if (!identical(rv$csv_dir_tar, character(0)) &&
-            !is.null(rv$csv_dir_tar) &&
-            rv$csv_dir_tar != "") {
-          rv$target$settings <- NULL
-          rv$target$settings$dir <- rv$csv_dir_tar
-        } else {
-          # New target path is empty - Backup old path if existing:
-          path_old_tmp1 <- rv$target$settings$dir
-          if (!identical(path_old_tmp1, character(0)) &&
-              !is.null(path_old_tmp1) &&
-              path_old_tmp1 != "") {
-            # Delete all old settings:
-            rv$target$settings <- NULL
-            # Re-assign the old path:
-            rv$target$settings$dir <- path_old_tmp1
-          } else {
-            # No old path exists so delete all settings:
-            rv$target$settings <- NULL
-          }
-        }
+    observeEvent(
+      eventExpr = input$config_targetdir_in,
+      handlerExpr = {
+        rv$csv_dir_tar_clicked <- FALSE
+        rv$csv_dir_tar <- as.character(DQAstats::clean_path_name(
+          shinyFiles::parseDirPath(
+            roots = roots,
+            selection = input$config_targetdir_in
+          )))
+        print(rv$csv_dir_tar)
+        rv$target$settings$dir <- rv$csv_dir_tar
 
         if (!identical(rv$target$settings$dir, character(0)) &&
             !is.null(rv$target$settings$dir) &&
             rv$target$settings$dir != "") {
           # workaround to tell ui, that it is there
           output$target_csv_dir <- reactive({
-            printme(paste0("Target file dir: ",
-                           rv$target$settings$dir))
+            # printme(paste0("Target file dir: ",
+            #                rv$target$settings$dir))
             paste(rv$target$settings$dir)
           })
           outputOptions(output, "target_csv_dir", suspendWhenHidden = FALSE)
-          rv$target$system_name <- input$target_csv_presettings_list
+          rv$target$system_name <- input_re()[["moduleConfig-target_csv_presettings_list"]]
           rv$target$system_type <- "csv"
           output$target_system_feedback_txt <-
             renderText({
@@ -172,7 +115,71 @@ module_config_server <-
             })
         }
       }
-    })
+    )
+
+    # # observe source file directory
+    # observe({
+    #   req(rv$csv_dir_src)
+    #
+    #   if (isFALSE(rv$csv_dir_src_clicked)) {
+    #     rv$csv_dir_src_clicked <- TRUE
+    #
+    #     # if (!identical(rv$csv_dir_src, character(0)) &&
+    #     #     !is.null(rv$csv_dir_src) &&
+    #     #     rv$csv_dir_src != "") {
+    #     #   rv$source$settings <- NULL
+    #     #   rv$source$settings$dir <- rv$csv_dir_src
+    #     # } else {
+    #     #   # New source path is empty - Backup old path if existing:
+    #     #   path_old_tmp1 <- rv$source$settings$dir
+    #     #   if (!identical(path_old_tmp1, character(0)) &&
+    #     #       !is.null(path_old_tmp1) &&
+    #     #       path_old_tmp1 != "") {
+    #     #     # Delete all old settings:
+    #     #     rv$source$settings <- NULL
+    #     #     # Re-assign the old path:
+    #     #     rv$source$settings$dir <- path_old_tmp1
+    #     #   } else {
+    #     #     # No old path exists so delete all settings:
+    #     #     rv$source$settings <- NULL
+    #     #   }
+    #     # }
+    #
+    #
+    #   }
+    # })
+
+    # observe target file directory
+    # observe({
+    #   req(rv$csv_dir_tar)
+    #
+    #   if (isFALSE(rv$csv_dir_tar_clicked)) {
+    #     rv$csv_dir_tar_clicked <- TRUE
+    #
+    #     # if (!identical(rv$csv_dir_tar, character(0)) &&
+    #     #     !is.null(rv$csv_dir_tar) &&
+    #     #     rv$csv_dir_tar != "") {
+    #     #   rv$target$settings <- NULL
+    #     #   rv$target$settings$dir <- rv$csv_dir_tar
+    #     # } else {
+    #     #   # New target path is empty - Backup old path if existing:
+    #     #   path_old_tmp1 <- rv$target$settings$dir
+    #     #   if (!identical(path_old_tmp1, character(0)) &&
+    #     #       !is.null(path_old_tmp1) &&
+    #     #       path_old_tmp1 != "") {
+    #     #     # Delete all old settings:
+    #     #     rv$target$settings <- NULL
+    #     #     # Re-assign the old path:
+    #     #     rv$target$settings$dir <- path_old_tmp1
+    #     #   } else {
+    #     #     # No old path exists so delete all settings:
+    #     #     rv$target$settings <- NULL
+    #     #   }
+    #     # }
+    #
+    #
+    #   }
+    # })
 
     # load mdr
     observeEvent(
@@ -251,17 +258,17 @@ module_config_server <-
                 session = session,
                 inputId = "target_csv_presettings_list",
                 choices = csv_system_names)
-            } else {
-              # TODO ist das notwendig? Tab sollte eigentlich gar nicht vorhanden sein, wenn length(csv_system_names) == 0
-              # Hide the buttons/choices:
-              updateSelectInput(
-                session = session,
-                inputId = "source_csv_presettings_list",
-                choices = "No presets available")
-              updateSelectInput(
-                session = session,
-                inputId = "target_csv_presettings_list",
-                choices = "No presets available")
+            # } else {
+            #   # TODO ist das notwendig? Tab sollte eigentlich gar nicht vorhanden sein, wenn length(csv_system_names) == 0
+            #   # Hide the buttons/choices:
+            #   updateSelectInput(
+            #     session = session,
+            #     inputId = "source_csv_presettings_list",
+            #     choices = "No presets available")
+            #   updateSelectInput(
+            #     session = session,
+            #     inputId = "target_csv_presettings_list",
+            #     choices = "No presets available")
             }
           }
           if (!("postgres" %in% tolower(rv$system_types))) {
@@ -297,16 +304,16 @@ module_config_server <-
                 session = session,
                 inputId = "target_pg_presettings_list",
                 choices = postgres_system_names)
-            } else {
-              # Hide the buttons/choices:
-              updateSelectInput(
-                session = session,
-                inputId = "source_pg_presettings_list",
-                choices = "No presets available")
-              updateSelectInput(
-                session = session,
-                inputId = "target_pg_presettings_list",
-                choices = "No presets available")
+            # } else {
+            #   # Hide the buttons/choices:
+            #   updateSelectInput(
+            #     session = session,
+            #     inputId = "source_pg_presettings_list",
+            #     choices = "No presets available")
+            #   updateSelectInput(
+            #     session = session,
+            #     inputId = "target_pg_presettings_list",
+            #     choices = "No presets available")
             }
           }
 
@@ -706,7 +713,7 @@ module_config_ui <- function(id) {
           box(
             title =  "SOURCE settings",
             width = 6,
-            solidHeader = TRUE,
+            #solidHeader = TRUE,
             tabBox(
               # The id lets us use input$source_tabs
               # on the server to find the current tab
@@ -831,7 +838,7 @@ module_config_ui <- function(id) {
           box(
             title =  "TARGET settings",
             width = 6,
-            solidHeader = TRUE,
+            #solidHeader = TRUE,
             tabBox(
               # The id lets us use input$target_tabs
               # on the server to find the current tab
@@ -975,7 +982,7 @@ module_config_ui <- function(id) {
             "typeof output['moduleConfig-mdr_present'] != 'undefined'",
           box(
             title = "Load the data",
-            solidHeader = T,
+            #solidHeader = T,
             h4(textOutput(ns("source_system_feedback_txt"))),
             br(),
             h4(textOutput(ns("target_system_feedback_txt"))),
