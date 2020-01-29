@@ -300,9 +300,9 @@ module_dashboard_server <-
         json_string <-
           jsonlite::toJSON(c(
             list(
-              "Sitename" = rv$sitename,
-              "Lastrun" = as.character(rv$end_time),
-              "Run duration" = as.character(round(rv$duration, 2))
+              "sitename" = rv$sitename,
+              "lastrun" = as.character(rv$end_time),
+              "run_duration" = as.character(round(rv$duration, 2))
             ),
             lapply(rv$datamap, function(x) {
               unname(split(x, seq_len(nrow(x))))
