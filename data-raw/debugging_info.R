@@ -3,11 +3,11 @@ output_dir = "output/"
 
 ## debugging the MIRACUM stuff (JM):
 ## ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-# utils_path = DQAstats::clean_path_name(system.file("application/_utilities",
-#                                                    package = "miRacumDQA"))
-# mdr_filename = "mdr.csv"
-# config_file = system.file("application/_settings/demo_settings_INTERNAL.yml",
-#                           package = "DQAgui")
+utils_path = DQAstats::clean_path_name(system.file("application/_utilities",
+                                                   package = "miRacumDQA"))
+mdr_filename = "mdr.csv"
+config_file = system.file("application/_settings/demo_settings_INTERNAL.yml",
+                          package = "DQAgui")
 ##	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑
 
 
@@ -22,11 +22,11 @@ output_dir = "output/"
 
 ## debugging testdata:
 ## ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-utils_path = system.file("demo_data/utilities",
-                         package = "DQAstats")
-mdr_filename = "mdr_example_data.csv"
-config_file = system.file("demo_data/utilities/settings/demo_settings.yml",
-                          package = "DQAstats")
+# utils_path = system.file("demo_data/utilities",
+#                          package = "DQAstats")
+# mdr_filename = "mdr_example_data.csv"
+# config_file = system.file("demo_data/utilities/settings/demo_settings.yml",
+#                           package = "DQAstats")
 ##	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑
 
 

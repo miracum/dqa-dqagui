@@ -62,7 +62,6 @@ module_config_server <-
             roots = roots,
             selection = input$config_sourcedir_in
           )))
-        print(rv$csv_dir_src)
         rv$source$settings$dir <- rv$csv_dir_src
 
         if (!identical(rv$source$settings$dir, character(0)) &&
@@ -70,12 +69,13 @@ module_config_server <-
             rv$source$settings$dir != "") {
           # workaround to tell ui, that it is there
           output$source_csv_dir <- reactive({
-            # printme(paste0("Source file dir: ",
-            #                rv$source$settings$dir))
+            feedback(paste0("Source file dir: ",
+                            rv$source$settings$dir), findme = "ad440c9fcb")
             paste(rv$source$settings$dir)
           })
           outputOptions(output, "source_csv_dir", suspendWhenHidden = FALSE)
-          rv$source$system_name <- input_re()[["moduleConfig-source_csv_presettings_list"]]
+          rv$source$system_name <-
+            input_re()[["moduleConfig-source_csv_presettings_list"]]
           rv$source$system_type <- "csv"
           output$source_system_feedback_txt <-
             renderText({
@@ -94,7 +94,6 @@ module_config_server <-
             roots = roots,
             selection = input$config_targetdir_in
           )))
-        print(rv$csv_dir_tar)
         rv$target$settings$dir <- rv$csv_dir_tar
 
         if (!identical(rv$target$settings$dir, character(0)) &&
@@ -102,12 +101,13 @@ module_config_server <-
             rv$target$settings$dir != "") {
           # workaround to tell ui, that it is there
           output$target_csv_dir <- reactive({
-            # printme(paste0("Target file dir: ",
-            #                rv$target$settings$dir))
+            feedback(paste0("Target file dir: ",
+                            rv$target$settings$dir), findme = "6f18c181e5")
             paste(rv$target$settings$dir)
           })
           outputOptions(output, "target_csv_dir", suspendWhenHidden = FALSE)
-          rv$target$system_name <- input_re()[["moduleConfig-target_csv_presettings_list"]]
+          rv$target$system_name <-
+            input_re()[["moduleConfig-target_csv_presettings_list"]]
           rv$target$system_type <- "csv"
           output$target_system_feedback_txt <-
             renderText({
@@ -117,69 +117,65 @@ module_config_server <-
       }
     )
 
-    # # observe source file directory
-    # observe({
-    #   req(rv$csv_dir_src)
-    #
-    #   if (isFALSE(rv$csv_dir_src_clicked)) {
-    #     rv$csv_dir_src_clicked <- TRUE
-    #
-    #     # if (!identical(rv$csv_dir_src, character(0)) &&
-    #     #     !is.null(rv$csv_dir_src) &&
-    #     #     rv$csv_dir_src != "") {
-    #     #   rv$source$settings <- NULL
-    #     #   rv$source$settings$dir <- rv$csv_dir_src
-    #     # } else {
-    #     #   # New source path is empty - Backup old path if existing:
-    #     #   path_old_tmp1 <- rv$source$settings$dir
-    #     #   if (!identical(path_old_tmp1, character(0)) &&
-    #     #       !is.null(path_old_tmp1) &&
-    #     #       path_old_tmp1 != "") {
-    #     #     # Delete all old settings:
-    #     #     rv$source$settings <- NULL
-    #     #     # Re-assign the old path:
-    #     #     rv$source$settings$dir <- path_old_tmp1
-    #     #   } else {
-    #     #     # No old path exists so delete all settings:
-    #     #     rv$source$settings <- NULL
-    #     #   }
-    #     # }
-    #
-    #
-    #   }
-    # })
+    # observe source file directory
+    observe({
+      req(rv$csv_dir_src)
+
+      if (isFALSE(rv$csv_dir_src_clicked)) {
+        rv$csv_dir_src_clicked <- TRUE
+
+        if (!identical(rv$csv_dir_src, character(0)) &&
+            !is.null(rv$csv_dir_src) &&
+            rv$csv_dir_src != "") {
+          rv$source$settings <- NULL
+          rv$source$settings$dir <- rv$csv_dir_src
+        } else {
+          # New source path is empty - Backup old path if existing:
+          path_old_tmp1 <- rv$source$settings$dir
+          if (!identical(path_old_tmp1, character(0)) &&
+              !is.null(path_old_tmp1) &&
+              path_old_tmp1 != "") {
+            # Delete all old settings:
+            rv$source$settings <- NULL
+            # Re-assign the old path:
+            rv$source$settings$dir <- path_old_tmp1
+          } else {
+            # No old path exists so delete all settings:
+            rv$source$settings <- NULL
+          }
+        }
+      }
+    })
 
     # observe target file directory
-    # observe({
-    #   req(rv$csv_dir_tar)
-    #
-    #   if (isFALSE(rv$csv_dir_tar_clicked)) {
-    #     rv$csv_dir_tar_clicked <- TRUE
-    #
-    #     # if (!identical(rv$csv_dir_tar, character(0)) &&
-    #     #     !is.null(rv$csv_dir_tar) &&
-    #     #     rv$csv_dir_tar != "") {
-    #     #   rv$target$settings <- NULL
-    #     #   rv$target$settings$dir <- rv$csv_dir_tar
-    #     # } else {
-    #     #   # New target path is empty - Backup old path if existing:
-    #     #   path_old_tmp1 <- rv$target$settings$dir
-    #     #   if (!identical(path_old_tmp1, character(0)) &&
-    #     #       !is.null(path_old_tmp1) &&
-    #     #       path_old_tmp1 != "") {
-    #     #     # Delete all old settings:
-    #     #     rv$target$settings <- NULL
-    #     #     # Re-assign the old path:
-    #     #     rv$target$settings$dir <- path_old_tmp1
-    #     #   } else {
-    #     #     # No old path exists so delete all settings:
-    #     #     rv$target$settings <- NULL
-    #     #   }
-    #     # }
-    #
-    #
-    #   }
-    # })
+    observe({
+      req(rv$csv_dir_tar)
+
+      if (isFALSE(rv$csv_dir_tar_clicked)) {
+        rv$csv_dir_tar_clicked <- TRUE
+
+        if (!identical(rv$csv_dir_tar, character(0)) &&
+            !is.null(rv$csv_dir_tar) &&
+            rv$csv_dir_tar != "") {
+          rv$target$settings <- NULL
+          rv$target$settings$dir <- rv$csv_dir_tar
+        } else {
+          # New target path is empty - Backup old path if existing:
+          path_old_tmp1 <- rv$target$settings$dir
+          if (!identical(path_old_tmp1, character(0)) &&
+              !is.null(path_old_tmp1) &&
+              path_old_tmp1 != "") {
+            # Delete all old settings:
+            rv$target$settings <- NULL
+            # Re-assign the old path:
+            rv$target$settings$dir <- path_old_tmp1
+          } else {
+            # No old path exists so delete all settings:
+            rv$target$settings <- NULL
+          }
+        }
+      }
+    })
 
     # load mdr
     observeEvent(
@@ -250,25 +246,12 @@ module_config_server <-
             if (length(csv_system_names) > 0) {
               # Show buttons to prefill diff. systems presettings:
               # - Add a button/choice/etc. for each system:
-              updateSelectInput(
-                session = session,
-                inputId = "source_csv_presettings_list",
-                choices = csv_system_names)
-              updateSelectInput(
-                session = session,
-                inputId = "target_csv_presettings_list",
-                choices = csv_system_names)
-            # } else {
-            #   # TODO ist das notwendig? Tab sollte eigentlich gar nicht vorhanden sein, wenn length(csv_system_names) == 0
-            #   # Hide the buttons/choices:
-            #   updateSelectInput(
-            #     session = session,
-            #     inputId = "source_csv_presettings_list",
-            #     choices = "No presets available")
-            #   updateSelectInput(
-            #     session = session,
-            #     inputId = "target_csv_presettings_list",
-            #     choices = "No presets available")
+              updateSelectInput(session = session,
+                                inputId = "source_csv_presettings_list",
+                                choices = csv_system_names)
+              updateSelectInput(session = session,
+                                inputId = "target_csv_presettings_list",
+                                choices = csv_system_names)
             }
           }
           if (!("postgres" %in% tolower(rv$system_types))) {
@@ -296,24 +279,12 @@ module_config_server <-
             if (length(postgres_system_names) > 0) {
               # Show buttons to prefill diff. systems presettings:
               # - Add a button/choice/etc. for each system:
-              updateSelectInput(
-                session = session,
-                inputId = "source_pg_presettings_list",
-                choices = postgres_system_names)
-              updateSelectInput(
-                session = session,
-                inputId = "target_pg_presettings_list",
-                choices = postgres_system_names)
-            # } else {
-            #   # Hide the buttons/choices:
-            #   updateSelectInput(
-            #     session = session,
-            #     inputId = "source_pg_presettings_list",
-            #     choices = "No presets available")
-            #   updateSelectInput(
-            #     session = session,
-            #     inputId = "target_pg_presettings_list",
-            #     choices = "No presets available")
+              updateSelectInput(session = session,
+                                inputId = "source_pg_presettings_list",
+                                choices = postgres_system_names)
+              updateSelectInput(session = session,
+                                inputId = "target_pg_presettings_list",
+                                choices = postgres_system_names)
             }
           }
 
