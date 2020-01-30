@@ -161,6 +161,9 @@ module_config_server <-
               ]
             )
 
+            print("creds1:", Sys.getenv("I2B2_PASSWORD"))
+            print("creds2:", Sys.getenv("OMOP_PASSWORD"))
+
             for (db in databases) {
               feedback(paste0(
                 "Using environment variables for ",
