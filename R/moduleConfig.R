@@ -62,49 +62,6 @@ module_config_server <-
             roots = roots,
             selection = input$config_sourcedir_in
           )))
-        print(rv$csv_dir_src)
-      }
-    )
-    observeEvent(
-      eventExpr = input$config_targetdir_in,
-      handlerExpr = {
-        rv$csv_dir_tar_clicked <- NULL
-        rv$csv_dir_tar <- as.character(DQAstats::clean_path_name(
-          shinyFiles::parseDirPath(
-            roots = roots,
-            selection = input$config_targetdir_in
-          )))
-        print(rv$csv_dir_tar)
-      }
-    )
-
-    # observe source file directory
-    observe({
-      req(rv$csv_dir_src)
-
-      if (is.null(rv$csv_dir_src_clicked)) {
-        rv$csv_dir_src_clicked <- TRUE
-
-        if (!identical(rv$csv_dir_src, character(0)) &&
-            !is.null(rv$csv_dir_src) &&
-            rv$csv_dir_src != "") {
-          rv$source$settings <- NULL
-          rv$source$settings$dir <- rv$csv_dir_src
-        } else {
-          # New source path is empty - Backup old path if existing:
-          path_old_tmp1 <- rv$source$settings$dir
-          if (!identical(path_old_tmp1, character(0)) &&
-              !is.null(path_old_tmp1) &&
-              path_old_tmp1 != "") {
-            # Delete all old settings:
-            rv$source$settings <- NULL
-            # Re-assign the old path:
-            rv$source$settings$dir <- path_old_tmp1
-          } else {
-            # No old path exists so delete all settings:
-            rv$source$settings <- NULL
-          }
-        }
 
         if (!identical(rv$source$settings$dir, character(0)) &&
             !is.null(rv$source$settings$dir) &&
@@ -124,35 +81,16 @@ module_config_server <-
             })
         }
       }
-    })
-
-    # observe target file directory
-    observe({
-      req(rv$csv_dir_tar)
-
-      if (is.null(rv$csv_dir_tar_clicked)) {
-        rv$csv_dir_tar_clicked <- TRUE
-
-        if (!identical(rv$csv_dir_tar, character(0)) &&
-            !is.null(rv$csv_dir_tar) &&
-            rv$csv_dir_tar != "") {
-          rv$target$settings <- NULL
-          rv$target$settings$dir <- rv$csv_dir_tar
-        } else {
-          # New target path is empty - Backup old path if existing:
-          path_old_tmp1 <- rv$target$settings$dir
-          if (!identical(path_old_tmp1, character(0)) &&
-              !is.null(path_old_tmp1) &&
-              path_old_tmp1 != "") {
-            # Delete all old settings:
-            rv$target$settings <- NULL
-            # Re-assign the old path:
-            rv$target$settings$dir <- path_old_tmp1
-          } else {
-            # No old path exists so delete all settings:
-            rv$target$settings <- NULL
-          }
-        }
+    )
+    observeEvent(
+      eventExpr = input$config_targetdir_in,
+      handlerExpr = {
+        rv$csv_dir_tar_clicked <- NULL
+        rv$csv_dir_tar <- as.character(DQAstats::clean_path_name(
+          shinyFiles::parseDirPath(
+            roots = roots,
+            selection = input$config_targetdir_in
+          )))
 
         if (!identical(rv$target$settings$dir, character(0)) &&
             !is.null(rv$target$settings$dir) &&
@@ -172,7 +110,7 @@ module_config_server <-
             })
         }
       }
-    })
+    )
 
     # load mdr
     observeEvent(
@@ -181,20 +119,14 @@ module_config_server <-
         if (is.null(rv$mdr)) {
           printme("Reading MDR ...")
 
-          if (debugging)
+          if (debugging) {
             printme(paste0("MDR-Filename:", rv$mdr_filename))
-          if (debugging)
+          }
+          if (debugging) {
             printme(paste0("rv$utilspath:", rv$utilspath))
-
-          withProgress(message = "Loading MDR", value = 0, {
-            incProgress(
-              1 / 1,
-              detail = "... from local file ...")
-            # read MDR
-            rv$mdr <-
-              DQAstats::read_mdr(utils_path = rv$utilspath,
-                                 mdr_filename = rv$mdr_filename)
-          })
+          }
+          rv$mdr <- button_mdr(utils_path = rv$utilspath,
+                               mdr_filename = rv$mdr_filename)
           stopifnot(data.table::is.data.table(rv$mdr))
 
           ## Read in the settings

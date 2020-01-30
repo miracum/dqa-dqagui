@@ -14,6 +14,7 @@ test_that(
     lintlist <- list(
       "R" = list(
         "app_utils.R" = "cyclomatic complexity",
+        "custom_buttons.R" = NULL,
         "launch_app.R" = NULL,
         "moduleAtempPlausibility.R" = NULL,
         "moduleCompleteness.R" = NULL,
@@ -21,6 +22,7 @@ test_that(
         "moduleDashboard.R" = "cyclomatic complexity",
         "moduleDescriptive.R" = NULL,
         "moduleMDR.R" = NULL,
+        "moduleReport.R" = NULL,
         "moduleUniquePlausibility.R" = NULL,
         "moduleVisualizations.R" = NULL
       ),

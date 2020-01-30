@@ -13,10 +13,10 @@ output_dir = "output/"
 
 ## debugging the MIRACUM stuff (LK):
 ## ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-# utils_path = DQAstats::clean_path_name(system.file("application/_utilities",
-#                                                    package = "miRacumDQA"))
-# mdr_filename = "mdr.csv"
-# config_file <- "/home/rstudio/development/Rpackages/DQAstats/tests/testthat/testdata/demo_settings_INTERNAL.yml"
+utils_path = DQAstats::clean_path_name(system.file("application/_utilities",
+                                                   package = "miRacumDQA"))
+mdr_filename = "mdr.csv"
+config_file <- "/home/rstudio/development/Rpackages/DQAstats/tests/testthat/testdata/demo_settings_INTERNAL.yml"
 ##	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑
 
 
