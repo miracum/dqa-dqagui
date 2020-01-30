@@ -292,75 +292,8 @@ module_dashboard_server <-
           " min."
         )
       })
+      rv$send_datamap <- button_send_datamap(rv)
       shinyjs::show("dash_instruction")
-
-      # render mail button
-      output$dash_mail_button <- renderUI({
-        # encode datamap to json string
-        json_string <-
-          jsonlite::toJSON(c(
-            list(
-              "sitename" = rv$sitename,
-              "lastrun" = as.character(rv$end_time),
-              "run_duration" = as.character(round(rv$duration, 2))
-            ),
-            lapply(rv$datamap, function(x) {
-              unname(split(x, seq_len(nrow(x))))
-            })
-          ))
-        # to decode do
-        #% jsonlite::fromJSON(jsonstring)
-
-        tags$a(
-          actionButton(
-            "moduleDashboard-dash_send_datamap",
-            "Send Data Map",
-            icon = icon("envelope", lib = "font-awesome")
-          ),
-          # https://stackoverflow.com/questions/27650331/adding-an-email-
-          # button-in-shiny-using-tabletools-or-otherwise
-          # https://stackoverflow.com/questions/37795760/r-shiny-add-
-          # weblink-to-actionbutton
-          # https://stackoverflow.com/questions/45880437/r-shiny-use-onclick-
-          # option-of-actionbutton-on-the-server-side
-          # https://stackoverflow.com/questions/45376976/use-actionbutton-to-
-          # send-email-in-rshiny
-
-          href = paste0(
-            "mailto:",
-            rv$datamap_email,
-            "?",
-            "body=",
-            utils::URLencode(
-              paste0(
-                "Site name: ",
-                rv$sitename,
-                "\n\n(this is an automatically created email)\n\n",
-                "\n\nR-Package version 'DQAstats': ",
-                utils::packageVersion("DQAstats"),
-                "\nR-Package version 'DQAgui': ",
-                utils::packageVersion("DQAgui"),
-                "\n\nLast run: ",
-                rv$end_time,
-                "\nRun duration: ",
-                round(rv$duration, 2),
-                " min.",
-                "\n\nDatamap (JSON):\n",
-                json_string
-              )
-            ),
-            "&subject=",
-            paste0("'Data Map - '", rv$sitename)
-          )
-        )
-      })
-    })
-
-
-    observeEvent(input_re()[["moduleDashboard-dash_send_datamap"]], {
-      # https://stackoverflow.com/questions/27650331/adding-an-email-button-
-      # in-shiny-using-tabletools-or-otherwise
-      shinyjs::logjs("Send datamap")
     })
   }
 
@@ -427,7 +360,11 @@ module_dashboard_ui <- function(id) {
           title = "Target System Overview (Data Map)",
           tableOutput(ns("dash_datamap_target")),
           tags$hr(),
-          uiOutput(ns("dash_mail_button")),
+          actionButton(
+            ns("dash_send_datamap"),
+            "Send Data Map",
+            icon = icon("envelope", lib = "font-awesome")
+          ),
           width = 12
         ),
         box(title = "Source System Overview",

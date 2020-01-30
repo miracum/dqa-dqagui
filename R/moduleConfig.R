@@ -62,6 +62,7 @@ module_config_server <-
             roots = roots,
             selection = input$config_sourcedir_in
           )))
+
         rv$source$settings$dir <- rv$csv_dir_src
 
         if (!identical(rv$source$settings$dir, character(0)) &&
@@ -84,7 +85,6 @@ module_config_server <-
         }
       }
     )
-
     observeEvent(
       eventExpr = input$config_targetdir_in,
       handlerExpr = {
@@ -117,66 +117,6 @@ module_config_server <-
       }
     )
 
-    # observe source file directory
-    observe({
-      req(rv$csv_dir_src)
-
-      if (isFALSE(rv$csv_dir_src_clicked)) {
-        rv$csv_dir_src_clicked <- TRUE
-
-        if (!identical(rv$csv_dir_src, character(0)) &&
-            !is.null(rv$csv_dir_src) &&
-            rv$csv_dir_src != "") {
-          rv$source$settings <- NULL
-          rv$source$settings$dir <- rv$csv_dir_src
-        } else {
-          # New source path is empty - Backup old path if existing:
-          path_old_tmp1 <- rv$source$settings$dir
-          if (!identical(path_old_tmp1, character(0)) &&
-              !is.null(path_old_tmp1) &&
-              path_old_tmp1 != "") {
-            # Delete all old settings:
-            rv$source$settings <- NULL
-            # Re-assign the old path:
-            rv$source$settings$dir <- path_old_tmp1
-          } else {
-            # No old path exists so delete all settings:
-            rv$source$settings <- NULL
-          }
-        }
-      }
-    })
-
-    # observe target file directory
-    observe({
-      req(rv$csv_dir_tar)
-
-      if (isFALSE(rv$csv_dir_tar_clicked)) {
-        rv$csv_dir_tar_clicked <- TRUE
-
-        if (!identical(rv$csv_dir_tar, character(0)) &&
-            !is.null(rv$csv_dir_tar) &&
-            rv$csv_dir_tar != "") {
-          rv$target$settings <- NULL
-          rv$target$settings$dir <- rv$csv_dir_tar
-        } else {
-          # New target path is empty - Backup old path if existing:
-          path_old_tmp1 <- rv$target$settings$dir
-          if (!identical(path_old_tmp1, character(0)) &&
-              !is.null(path_old_tmp1) &&
-              path_old_tmp1 != "") {
-            # Delete all old settings:
-            rv$target$settings <- NULL
-            # Re-assign the old path:
-            rv$target$settings$dir <- path_old_tmp1
-          } else {
-            # No old path exists so delete all settings:
-            rv$target$settings <- NULL
-          }
-        }
-      }
-    })
-
     # load mdr
     observeEvent(
       eventExpr = input_re()[["moduleConfig-config_load_mdr"]],
@@ -184,27 +124,20 @@ module_config_server <-
         if (is.null(rv$mdr)) {
           printme("Reading MDR ...")
 
-          if (debugging)
+          if (debugging) {
             printme(paste0("MDR-Filename:", rv$mdr_filename))
-          if (debugging)
+          }
+          if (debugging) {
             printme(paste0("rv$utilspath:", rv$utilspath))
-
-          withProgress(message = "Loading MDR", value = 0, {
-            incProgress(
-              1 / 1,
-              detail = "... from local file ...")
-            # read MDR
-            rv$mdr <-
-              DQAstats::read_mdr(utils_path = rv$utilspath,
-                                 mdr_filename = rv$mdr_filename)
-          })
+          }
+          rv$mdr <- button_mdr(utils_path = rv$utilspath,
+                               mdr_filename = rv$mdr_filename)
           stopifnot(data.table::is.data.table(rv$mdr))
 
           ## Read in the settings
           # - Determine the different systems from mdr:
           vec <-
-            c("source_table_name",
-              "source_system_name",
+            c("source_system_name",
               "source_system_type")
           rv$systems <- unique(rv$mdr[, vec, with = F])
           feedback("Different systems found in MDR:", findme = "4451da82ad")
@@ -213,10 +146,32 @@ module_config_server <-
           unique_systems <-
             rv$systems[!is.na(get("source_system_name")),
                        unique(get("source_system_name"))]
+
           rv$settings <-
-            lapply(unique_systems, function(x)
+            sapply(unique_systems, function(x) {
               DQAstats::get_config(config_file = rv$config_file,
-                                   config_key = tolower(x)))
+                                   config_key = tolower(x))
+              }, USE.NAMES = T, simplify = F)
+
+          if (rv$use_env_credentials) {
+            databases <- unique(
+              rv$systems[!is.na(get("source_system_name")), ][
+                get("source_system_type") == "postgres",
+                get("source_system_name")
+              ]
+            )
+
+            for (db in databases) {
+              feedback(paste0(
+                "Using environment variables for ",
+                db),
+                findme = "dc97a93ce645d1d50a7d"
+              )
+              rv$settings[[db]]$password <- Sys.getenv(
+                paste0(toupper(db), "_PASSWORD")
+              )
+            }
+          }
 
           # - Different system-types:
           rv$system_types <-
@@ -328,10 +283,8 @@ module_config_server <-
           " Loading presets ..."
         ), findme = "e9832b3092"
       )
-      config_stuff <- DQAstats::get_config(
-        config_file = rv$config_file,
-        config_key = tolower(input$source_pg_presettings_list)
-      )
+      config_stuff <- rv$settings[[tolower(input$source_pg_presettings_list)]]
+
       feedback(paste(
         "Loaded successfully.",
         "Filling presets to global rv-object and UI ..."
@@ -381,10 +334,8 @@ module_config_server <-
           " Loading presets ..."
         ), findme = "d603f8127a"
       )
-      config_stuff <- DQAstats::get_config(
-        config_file = rv$config_file,
-        config_key = tolower(input$target_pg_presettings_list)
-      )
+      config_stuff <- rv$settings[[tolower(input$target_pg_presettings_list)]]
+
       feedback(paste(
         "Loaded successfully.",
         "Filling presets to global rv-object and UI ..."

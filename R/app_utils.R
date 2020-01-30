@@ -109,7 +109,6 @@ get_db_settings <- function(input, target = T) {
 #' @param print_this  The string to be printed.
 #' @param type (Optional) The type of message as string.
 #'   If type is e.g. "Warning" the printed line will be "[Warning] print_this".
-#' @export
 #'
 printme <- function(print_this, type = "Info") {
   feedback(print_this, type)
@@ -127,10 +126,10 @@ printme <- function(print_this, type = "Info") {
 #' @param suffix Suffix (String)
 #' @param findme (Optional) String to find the message in the code.
 #'   E.g. 10-digit random hex from https://www.browserling.com/tools/random-hex
+#'   or https://onlinerandomtools.com/generate-random-hexadecimal-numbers
 #'
 #' @inheritParams printme
 #'
-#' @export
 #'
 feedback <-
   function(print_this,
@@ -145,6 +144,7 @@ feedback <-
                                    easyClose = TRUE,
                                    print_this))
     }
+    type <- firstup(type)
     if (console) {
       if (length(print_this) == 1) {
         if (findme == "") {
@@ -179,14 +179,13 @@ feedback <-
 #' @param system (String) e.g. "i2b2", "OMOP" or "CSV"
 #' @param type (String) "source" or "target"
 #'
-#' @export
 #'
 feedback_txt <- function(system, type) {
   result <- paste0(
     "\U2714 ",
     system,
     " will be used as ",
-    type,
+    firstup(type),
     " system.",
     "\n\n",
     "To change, simply select and save another one."
@@ -201,7 +200,6 @@ feedback_txt <- function(system, type) {
 #'
 #' @inheritParams module_dashboard_server
 #'
-#' @export
 #'
 set_target_equal_to_source <- function(rv) {
   rv$target$settings <- rv$source$settings
@@ -215,7 +213,6 @@ set_target_equal_to_source <- function(rv) {
 #'
 #' @inheritParams module_dashboard_server
 #'
-#' @export
 #'
 validate_inputs <- function(rv) {
   error_tmp <- F
@@ -399,4 +396,14 @@ validate_inputs <- function(rv) {
     error_tmp <- T
   }
   return(!error_tmp)
+}
+
+#' @title Converts the first letter of the input string to uppercase
+#' @description Converts the first letter of the input string to uppercase
+#'
+#' @param x A character string. E.g. "hello world" will become "Hello world".
+#'
+firstup <- function(x) {
+  substr(x, 1, 1) <- toupper(substr(x, 1, 1))
+  return(x)
 }

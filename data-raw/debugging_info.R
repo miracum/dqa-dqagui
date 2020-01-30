@@ -36,3 +36,17 @@ launch_app(
   mdr_filename = mdr_filename,
   config_file = config_file
 )
+
+# with environment variables
+# Sys.setenv(
+#   I2B2_PASSWORD = "i2b2",
+#   OMOP_PASSWORD = "admin1"
+# )
+#
+# launch_app(
+#   port = port,
+#   utils_path = utils_path,
+#   mdr_filename = mdr_filename,
+#   config_file = config_file,
+#   use_env_credentials = TRUE
+# )

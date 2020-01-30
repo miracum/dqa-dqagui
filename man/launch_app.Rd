@@ -9,7 +9,8 @@ launch_app(
   utils_path = system.file("demo_data/utilities", package = "DQAstats"),
   mdr_filename = "mdr_example_data.csv",
   config_file = system.file("demo_data/utilities/settings/demo_settings.yml", package =
-    "DQAstats")
+    "DQAstats"),
+  use_env_credentials = FALSE
 )
 }
 \arguments{
@@ -25,9 +26,17 @@ folder `MISC`) and a markdown templated to create the PDF report
 
 \item{mdr_filename}{The filename of the mdr (e.g. "mdr_example_data.csv")}
 
-\item{config_file}{The path to the configuration yaml.
-E.g. config_file = system.file(
-"demo_data/utilities/settings/demo_settings.yml", package = "DQAstats")}
+\item{config_file}{The path to the configuration yaml. E.g. config_file =
+system.file("demo_data/utilities/settings/demo_settings.yml",
+package = "DQAstats")}
+
+\item{use_env_credentials}{A boolean. If environment variables should
+be used to pass database credentials (default: FALSE). If you want
+to use environment variables to pass database credentials, please
+provide one variable for the respective data system (the name, which
+is stored in the default settings file and correspsondingly in the MDR)
+with the following format: *SYSTEMNAME*_PASSWORD, where *SYSTEMNAME*
+should be replaced with the name of the datasystem.}
 }
 \value{
 DQAgui Shiny application
