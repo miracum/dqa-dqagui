@@ -149,7 +149,7 @@ module_config_server <-
 
           rv$settings <-
             sapply(unique_systems, function(x) {
-              DQAstats::get_config(config_file = config_file,
+              DQAstats::get_config(config_file = rv$config_file,
                                    config_key = tolower(x))
               }, USE.NAMES = T, simplify = F)
 

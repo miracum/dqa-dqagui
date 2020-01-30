@@ -191,10 +191,8 @@ shiny::shinyServer(
 
         # !!! trigger shinyjs from server.R only
         shinyjs::onclick(
-            # https://stackoverflow.com/questions/27650331/adding-an-email-button-
-            # in-shiny-using-tabletools-or-otherwise
-
-
+            # https://stackoverflow.com/questions/27650331/adding-an-email-
+            # button-in-shiny-using-tabletools-or-otherwise
             # https://stackoverflow.com/questions/27650331/adding-an-email-
             # button-in-shiny-using-tabletools-or-otherwise
             # https://stackoverflow.com/questions/37795760/r-shiny-add-
