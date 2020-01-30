@@ -1,6 +1,6 @@
 button_mdr <- function(utils_path, mdr_filename) {
 
-  withProgress(message = "Loading MDR", value = 0, {
+  shiny::withProgress(message = "Loading MDR", value = 0, {
     incProgress(
       1 / 1,
       detail = "... from local file ...")
@@ -19,7 +19,9 @@ button_send_datamap <- function(rv) {
       list(
         "sitename" = rv$sitename,
         "lastrun" = as.character(rv$end_time),
-        "run_duration" = as.character(round(rv$duration, 2))
+        "run_duration" = as.character(round(rv$duration, 2)),
+        "version_dqastats" = as.character(utils::packageVersion("DQAstats")),
+        "version_dqagui" = as.character(utils::packageVersion("DQAgui"))
       ),
       lapply(rv$datamap, function(x) {
         unname(split(x, seq_len(nrow(x))))
@@ -36,7 +38,7 @@ button_send_datamap <- function(rv) {
   # send-email-in-rshiny
 
   return(paste0(
-    "location.href='mailto:",
+    "window.open('mailto:",
     rv$datamap_email,
     "?",
     "body=",
@@ -45,10 +47,6 @@ button_send_datamap <- function(rv) {
         "Site name: ",
         rv$sitename,
         "\n\n(this is an automatically created email)\n\n",
-        "\n\nR-Package version 'DQAstats': ",
-        utils::packageVersion("DQAstats"),
-        "\nR-Package version 'DQAgui': ",
-        utils::packageVersion("DQAgui"),
         "\n\nLast run: ",
         rv$end_time,
         "\nRun duration: ",
@@ -59,7 +57,7 @@ button_send_datamap <- function(rv) {
       )
     ),
     "&subject=",
-    paste0("'Data Map - '", rv$sitename),
-    "'"
+    paste0("Data Map - ", rv$sitename),
+    "')"
   ))
 }

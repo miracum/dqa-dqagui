@@ -56,24 +56,27 @@ module_config_server <-
     observeEvent(
       eventExpr = input$config_sourcedir_in,
       handlerExpr = {
-        rv$csv_dir_src_clicked <- NULL
+        rv$csv_dir_src_clicked <- FALSE
         rv$csv_dir_src <- as.character(DQAstats::clean_path_name(
           shinyFiles::parseDirPath(
             roots = roots,
             selection = input$config_sourcedir_in
           )))
 
+        rv$source$settings$dir <- rv$csv_dir_src
+
         if (!identical(rv$source$settings$dir, character(0)) &&
             !is.null(rv$source$settings$dir) &&
             rv$source$settings$dir != "") {
           # workaround to tell ui, that it is there
           output$source_csv_dir <- reactive({
-            printme(paste0("Source file dir: ",
-                           rv$source$settings$dir))
+            feedback(paste0("Source file dir: ",
+                            rv$source$settings$dir), findme = "ad440c9fcb")
             paste(rv$source$settings$dir)
           })
           outputOptions(output, "source_csv_dir", suspendWhenHidden = FALSE)
-          rv$source$system_name <- input$source_csv_presettings_list
+          rv$source$system_name <-
+            input_re()[["moduleConfig-source_csv_presettings_list"]]
           rv$source$system_type <- "csv"
           output$source_system_feedback_txt <-
             renderText({
@@ -85,24 +88,26 @@ module_config_server <-
     observeEvent(
       eventExpr = input$config_targetdir_in,
       handlerExpr = {
-        rv$csv_dir_tar_clicked <- NULL
+        rv$csv_dir_tar_clicked <- FALSE
         rv$csv_dir_tar <- as.character(DQAstats::clean_path_name(
           shinyFiles::parseDirPath(
             roots = roots,
             selection = input$config_targetdir_in
           )))
+        rv$target$settings$dir <- rv$csv_dir_tar
 
         if (!identical(rv$target$settings$dir, character(0)) &&
             !is.null(rv$target$settings$dir) &&
             rv$target$settings$dir != "") {
           # workaround to tell ui, that it is there
           output$target_csv_dir <- reactive({
-            printme(paste0("Target file dir: ",
-                           rv$target$settings$dir))
+            feedback(paste0("Target file dir: ",
+                            rv$target$settings$dir), findme = "6f18c181e5")
             paste(rv$target$settings$dir)
           })
           outputOptions(output, "target_csv_dir", suspendWhenHidden = FALSE)
-          rv$target$system_name <- input$target_csv_presettings_list
+          rv$target$system_name <-
+            input_re()[["moduleConfig-target_csv_presettings_list"]]
           rv$target$system_type <- "csv"
           output$target_system_feedback_txt <-
             renderText({
@@ -132,8 +137,7 @@ module_config_server <-
           ## Read in the settings
           # - Determine the different systems from mdr:
           vec <-
-            c("source_table_name",
-              "source_system_name",
+            c("source_system_name",
               "source_system_type")
           rv$systems <- unique(rv$mdr[, vec, with = F])
           feedback("Different systems found in MDR:", findme = "4451da82ad")
@@ -142,10 +146,32 @@ module_config_server <-
           unique_systems <-
             rv$systems[!is.na(get("source_system_name")),
                        unique(get("source_system_name"))]
+
           rv$settings <-
-            lapply(unique_systems, function(x)
-              DQAstats::get_config(config_file = rv$config_file,
-                                   config_key = tolower(x)))
+            sapply(unique_systems, function(x) {
+              DQAstats::get_config(config_file = config_file,
+                                   config_key = tolower(x))
+              }, USE.NAMES = T, simplify = F)
+
+          if (rv$use_env_credentials) {
+            databases <- unique(
+              rv$systems[!is.na(get("source_system_name")), ][
+                get("source_system_type") == "postgres",
+                get("source_system_name")
+              ]
+            )
+
+            for (db in databases) {
+              feedback(paste0(
+                "Using environment variables for ",
+                db),
+                findme = "dc97a93ce645d1d50a7d"
+              )
+              rv$settings[[db]]$password <- Sys.getenv(
+                paste0(toupper(db), "_PASSWORD")
+              )
+            }
+          }
 
           # - Different system-types:
           rv$system_types <-
@@ -175,25 +201,12 @@ module_config_server <-
             if (length(csv_system_names) > 0) {
               # Show buttons to prefill diff. systems presettings:
               # - Add a button/choice/etc. for each system:
-              updateSelectInput(
-                session = session,
-                inputId = "source_csv_presettings_list",
-                choices = csv_system_names)
-              updateSelectInput(
-                session = session,
-                inputId = "target_csv_presettings_list",
-                choices = csv_system_names)
-            } else {
-              # TODO ist das notwendig? Tab sollte eigentlich gar nicht vorhanden sein, wenn length(csv_system_names) == 0
-              # Hide the buttons/choices:
-              updateSelectInput(
-                session = session,
-                inputId = "source_csv_presettings_list",
-                choices = "No presets available")
-              updateSelectInput(
-                session = session,
-                inputId = "target_csv_presettings_list",
-                choices = "No presets available")
+              updateSelectInput(session = session,
+                                inputId = "source_csv_presettings_list",
+                                choices = csv_system_names)
+              updateSelectInput(session = session,
+                                inputId = "target_csv_presettings_list",
+                                choices = csv_system_names)
             }
           }
           if (!("postgres" %in% tolower(rv$system_types))) {
@@ -221,24 +234,12 @@ module_config_server <-
             if (length(postgres_system_names) > 0) {
               # Show buttons to prefill diff. systems presettings:
               # - Add a button/choice/etc. for each system:
-              updateSelectInput(
-                session = session,
-                inputId = "source_pg_presettings_list",
-                choices = postgres_system_names)
-              updateSelectInput(
-                session = session,
-                inputId = "target_pg_presettings_list",
-                choices = postgres_system_names)
-            } else {
-              # Hide the buttons/choices:
-              updateSelectInput(
-                session = session,
-                inputId = "source_pg_presettings_list",
-                choices = "No presets available")
-              updateSelectInput(
-                session = session,
-                inputId = "target_pg_presettings_list",
-                choices = "No presets available")
+              updateSelectInput(session = session,
+                                inputId = "source_pg_presettings_list",
+                                choices = postgres_system_names)
+              updateSelectInput(session = session,
+                                inputId = "target_pg_presettings_list",
+                                choices = postgres_system_names)
             }
           }
 
@@ -282,10 +283,8 @@ module_config_server <-
           " Loading presets ..."
         ), findme = "e9832b3092"
       )
-      config_stuff <- DQAstats::get_config(
-        config_file = rv$config_file,
-        config_key = tolower(input$source_pg_presettings_list)
-      )
+      config_stuff <- rv$settings[[tolower(input$source_pg_presettings_list)]]
+
       feedback(paste(
         "Loaded successfully.",
         "Filling presets to global rv-object and UI ..."
@@ -335,10 +334,8 @@ module_config_server <-
           " Loading presets ..."
         ), findme = "d603f8127a"
       )
-      config_stuff <- DQAstats::get_config(
-        config_file = rv$config_file,
-        config_key = tolower(input$target_pg_presettings_list)
-      )
+      config_stuff <- rv$settings[[tolower(input$target_pg_presettings_list)]]
+
       feedback(paste(
         "Loaded successfully.",
         "Filling presets to global rv-object and UI ..."
@@ -638,7 +635,7 @@ module_config_ui <- function(id) {
           box(
             title =  "SOURCE settings",
             width = 6,
-            solidHeader = TRUE,
+            #solidHeader = TRUE,
             tabBox(
               # The id lets us use input$source_tabs
               # on the server to find the current tab
@@ -763,7 +760,7 @@ module_config_ui <- function(id) {
           box(
             title =  "TARGET settings",
             width = 6,
-            solidHeader = TRUE,
+            #solidHeader = TRUE,
             tabBox(
               # The id lets us use input$target_tabs
               # on the server to find the current tab
@@ -907,7 +904,7 @@ module_config_ui <- function(id) {
             "typeof output['moduleConfig-mdr_present'] != 'undefined'",
           box(
             title = "Load the data",
-            solidHeader = T,
+            #solidHeader = T,
             h4(textOutput(ns("source_system_feedback_txt"))),
             br(),
             h4(textOutput(ns("target_system_feedback_txt"))),

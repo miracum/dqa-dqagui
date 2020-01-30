@@ -292,30 +292,8 @@ module_dashboard_server <-
           " min."
         )
       })
+      rv$send_datamap <- button_send_datamap(rv)
       shinyjs::show("dash_instruction")
-    })
-
-
-    observeEvent(input_re()[["moduleDashboard-dash_send_datamap"]], {
-      # https://stackoverflow.com/questions/27650331/adding-an-email-button-
-      # in-shiny-using-tabletools-or-otherwise
-
-
-      # https://stackoverflow.com/questions/27650331/adding-an-email-
-      # button-in-shiny-using-tabletools-or-otherwise
-      # https://stackoverflow.com/questions/37795760/r-shiny-add-
-      # weblink-to-actionbutton
-      # https://stackoverflow.com/questions/45880437/r-shiny-use-onclick-
-      # option-of-actionbutton-on-the-server-side
-      # https://stackoverflow.com/questions/45376976/use-actionbutton-to-
-      # send-email-in-rshiny
-      # https://stackoverflow.com/questions/45880437/r-shiny-use-onclick-#
-      # option-of-actionbutton-on-the-server-side
-
-      shinyjs::onclick("moduleConfig-dash_send_datamap",
-                       button_send_datamap(rv))
-
-      shinyjs::logjs("Send datamap")
     })
   }
 

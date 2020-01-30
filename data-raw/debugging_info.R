@@ -22,11 +22,11 @@ config_file <- "/home/rstudio/development/Rpackages/DQAstats/tests/testthat/test
 
 ## debugging testdata:
 ## ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-utils_path = system.file("demo_data/utilities",
-                         package = "DQAstats")
-mdr_filename = "mdr_example_data.csv"
-config_file = system.file("demo_data/utilities/settings/demo_settings.yml",
-                          package = "DQAstats")
+# utils_path = system.file("demo_data/utilities",
+#                          package = "DQAstats")
+# mdr_filename = "mdr_example_data.csv"
+# config_file = system.file("demo_data/utilities/settings/demo_settings.yml",
+#                           package = "DQAstats")
 ##	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑
 
 
@@ -36,3 +36,17 @@ launch_app(
   mdr_filename = mdr_filename,
   config_file = config_file
 )
+
+# with environment variables
+# Sys.setenv(
+#   I2B2_PASSWORD = "i2b2",
+#   OMOP_PASSWORD = "admin1"
+# )
+#
+# launch_app(
+#   port = port,
+#   utils_path = utils_path,
+#   mdr_filename = mdr_filename,
+#   config_file = config_file,
+#   use_env_credentials = TRUE
+# )
