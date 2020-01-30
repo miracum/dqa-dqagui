@@ -109,7 +109,6 @@ get_db_settings <- function(input, target = T) {
 #' @param print_this  The string to be printed.
 #' @param type (Optional) The type of message as string.
 #'   If type is e.g. "Warning" the printed line will be "[Warning] print_this".
-#' @export
 #'
 printme <- function(print_this, type = "Info") {
   feedback(print_this, type)
@@ -131,7 +130,6 @@ printme <- function(print_this, type = "Info") {
 #'
 #' @inheritParams printme
 #'
-#' @export
 #'
 feedback <-
   function(print_this,
@@ -181,7 +179,6 @@ feedback <-
 #' @param system (String) e.g. "i2b2", "OMOP" or "CSV"
 #' @param type (String) "source" or "target"
 #'
-#' @export
 #'
 feedback_txt <- function(system, type) {
   result <- paste0(
@@ -203,7 +200,6 @@ feedback_txt <- function(system, type) {
 #'
 #' @inheritParams module_dashboard_server
 #'
-#' @export
 #'
 set_target_equal_to_source <- function(rv) {
   rv$target$settings <- rv$source$settings
@@ -217,7 +213,6 @@ set_target_equal_to_source <- function(rv) {
 #'
 #' @inheritParams module_dashboard_server
 #'
-#' @export
 #'
 validate_inputs <- function(rv) {
   error_tmp <- F
