@@ -401,7 +401,7 @@ validate_inputs <- function(rv) {
 #' @title Converts the first letter of the input string to uppercase
 #' @description Converts the first letter of the input string to uppercase
 #'
-#' @inheritParams x String. E.g. "hello world" will become "Hello world"
+#' @param x A character string. E.g. "hello world" will become "Hello world".
 #'
 firstup <- function(x) {
   substr(x, 1, 1) <- toupper(substr(x, 1, 1))

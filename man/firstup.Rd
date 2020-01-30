@@ -6,6 +6,9 @@
 \usage{
 firstup(x)
 }
+\arguments{
+\item{x}{A character string. E.g. "hello world" will become "Hello world".}
+}
 \description{
 Converts the first letter of the input string to uppercase
 }
