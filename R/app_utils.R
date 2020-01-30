@@ -127,6 +127,7 @@ printme <- function(print_this, type = "Info") {
 #' @param suffix Suffix (String)
 #' @param findme (Optional) String to find the message in the code.
 #'   E.g. 10-digit random hex from https://www.browserling.com/tools/random-hex
+#'   or https://onlinerandomtools.com/generate-random-hexadecimal-numbers
 #'
 #' @inheritParams printme
 #'
@@ -145,6 +146,7 @@ feedback <-
                                    easyClose = TRUE,
                                    print_this))
     }
+    type <- firstup(type)
     if (console) {
       if (length(print_this) == 1) {
         if (findme == "") {
@@ -186,7 +188,7 @@ feedback_txt <- function(system, type) {
     "\U2714 ",
     system,
     " will be used as ",
-    type,
+    firstup(type),
     " system.",
     "\n\n",
     "To change, simply select and save another one."
@@ -399,4 +401,14 @@ validate_inputs <- function(rv) {
     error_tmp <- T
   }
   return(!error_tmp)
+}
+
+#' @title Converts the first letter of the input string to uppercase
+#' @description Converts the first letter of the input string to uppercase
+#'
+#' @inheritParams x String. E.g. "hello world" will become "Hello world"
+#'
+firstup <- function(x) {
+  substr(x, 1, 1) <- toupper(substr(x, 1, 1))
+  return(x)
 }
