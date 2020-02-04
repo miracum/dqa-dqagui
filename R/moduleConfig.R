@@ -170,6 +170,9 @@ module_config_server <-
               rv$settings[[db]]$password <- Sys.getenv(
                 paste0(toupper(db), "_PASSWORD")
               )
+              rv$settings[[db]]$host <- Sys.getenv(
+                paste0(toupper(db), "_HOST")
+              )
             }
           }
 
