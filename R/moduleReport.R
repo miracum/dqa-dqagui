@@ -53,40 +53,9 @@ module_report_server <- function(input,
   observe({
     req(rv$report_created)
 
-    # create export dir
-    exportdir <- paste0(tempdir(), "/export/")
-    cat("\nCreate ", exportdir, "\n\n")
-    dir.create(exportdir)
-
-    # write files
-    # datamap
-     if (!is.null(rv$datamap$target_data)) {
-       data.table::fwrite(
-         x = rv$datamap$target_data,
-         file = paste0(exportdir, "datamap_target.csv")
-       )
-     }
-    if (!is.null(rv$datamap$source_data)) {
-       data.table::fwrite(
-         x = rv$datamap$source_data,
-         file = paste0(exportdir, "datamap_source.csv")
-       )
-     }
-
-    # completeness
-    data.table::fwrite(
-      x = rv$checks$etl,
-      file = paste0(exportdir, "etl_checks.csv")
-    )
-    data.table::fwrite(
-      x = rv$completeness,
-      file = paste0(exportdir, "completeness.csv")
-    )
-
-    # conformance
-    data.table::fwrite(
-      x = rv$checks$value_conformance,
-      file = paste0(exportdir, "value_conformance.csv")
+    DQAstats::export_aggregated(
+      output_dir = tempdir(),
+      rv = rv
     )
   })
 
