@@ -16,8 +16,8 @@ You can install `DQAgui` with:
 
 ``` r
 install.packages("devtools")
-devtools::install_git("https://gitlab.miracum.org/miracum-dqa/dqastats.git")
-devtools::install_git("https://gitlab.miracum.org/miracum-dqa/dqagui.git")
+devtools::install_git("https://gitlab.miracum.org/miracum/dqa/dqastats.git")
+devtools::install_git("https://gitlab.miracum.org/miracum/dqa/dqagui.git")
 ```
 
 ## Example
