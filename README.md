@@ -26,7 +26,7 @@ This is a basic example to demonstrate how to perform the data quality assessmen
 
 ``` r
 library(DQAgui)
-launchApp(utilspath = "./_utilities/", db_source = "p21csv")
+launch_app()
 ```
 To open the shiny application in your webbrowser, go to http://localhost:3838.
 
