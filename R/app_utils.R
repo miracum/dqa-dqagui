@@ -130,6 +130,7 @@ printme <- function(print_this, type = "Info") {
 #'
 #' @inheritParams printme
 #'
+#' @export
 #'
 feedback <-
   function(print_this,

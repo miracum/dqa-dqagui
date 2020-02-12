@@ -201,7 +201,7 @@ shiny::shinyServer(
             # option-of-actionbutton-on-the-server-side
             # https://stackoverflow.com/questions/45376976/use-actionbutton-to-
             # send-email-in-rshiny
-            id = "moduleDashboard-dash_send_datamap",
+            id = "moduleDashboard-dash_send_datamap_mail",
             expr = shinyjs::runjs(rv$send_datamap)
         )
 

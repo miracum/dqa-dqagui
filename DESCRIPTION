@@ -20,7 +20,7 @@ URL: https://gitlab.miracum.org/miracum/dqa/dqagui
 BugReports: https://gitlab.miracum.org/miracum/dqa/dqagui/issues
 Encoding: UTF-8
 Copyright: Universitätsklinikum Erlangen
-Date: 2020-02-05
+Date: 2020-02-12
 Imports: 
     data.table,
     magrittr,
@@ -32,7 +32,8 @@ Imports:
     shinyjs,
     knitr,
     jsonlite,
-    config
+    config,
+    httr
 Suggests: 
     testthat,
     processx,

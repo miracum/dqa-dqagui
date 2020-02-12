@@ -15,6 +15,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+require("jsonlite")
+require("httr")
+
 
 #' @title module_dashboard_server
 #'
@@ -192,6 +195,7 @@ module_dashboard_server <-
           rv = rv,
           headless = rv$headless
         )
+        print(rv$datamap)
 
         # checks$value_conformance
         rv$checks$value_conformance <-
@@ -295,6 +299,13 @@ module_dashboard_server <-
       rv$send_datamap <- button_send_datamap(rv)
       shinyjs::show("dash_instruction")
     })
+
+    observeEvent(input$dash_send_datamap_api, {
+      # TODO: Move the file to miracum and use it here:
+      # miRacumDQA::send_datamap_to_influxdb(rv)
+      ## Delete this afterwards:
+      send_datamap_to_influxdb(rv)
+    })
   }
 
 
@@ -361,9 +372,14 @@ module_dashboard_ui <- function(id) {
           tableOutput(ns("dash_datamap_target")),
           tags$hr(),
           actionButton(
-            ns("dash_send_datamap"),
-            "Send Data Map",
+            ns("dash_send_datamap_mail"),
+            "Send Data Map as e-mail",
             icon = icon("envelope", lib = "font-awesome")
+          ),
+          actionButton(
+            ns("dash_send_datamap_api"),
+            "Send Data Map to API",
+            icon = icon("network-wired", lib = "font-awesome")
           ),
           width = 12
         ),
