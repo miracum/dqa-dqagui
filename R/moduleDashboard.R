@@ -296,15 +296,27 @@ module_dashboard_server <-
           " min."
         )
       })
-      rv$send_datamap <- button_send_datamap(rv)
+      # rv$send_datamap <- button_send_datamap(rv)
       shinyjs::show("dash_instruction")
     })
 
+    observeEvent(input$dash_send_datamap_mail, {
+      rv$send_datamap <- button_send_datamap(rv)
+    })
+
+    # After button to export datamap to API is pressed:
     observeEvent(input$dash_send_datamap_api, {
-      # TODO: Move the file to miracum and use it here:
-      # miRacumDQA::send_datamap_to_influxdb(rv)
-      ## Delete this afterwards:
-      send_datamap_to_influxdb(rv)
+      miRacumDQA::send_datamap_to_api(rv)
+    })
+
+    # After the datamap was exportet successfully,
+    # disable the export-button to avoid duplicates:
+    observeEvent(rv$datamap$exported2influx, {
+      if (isTRUE(rv$datamap$exported2influx)) {
+        shinyjs::disable("dash_send_datamap_api")
+      } else {
+        shinyjs::enable("dash_send_datamap_api")
+      }
     })
   }
 
@@ -379,7 +391,7 @@ module_dashboard_ui <- function(id) {
           actionButton(
             ns("dash_send_datamap_api"),
             "Send Data Map to API",
-            icon = icon("network-wired", lib = "font-awesome")
+            icon = icon("server")
           ),
           width = 12
         ),

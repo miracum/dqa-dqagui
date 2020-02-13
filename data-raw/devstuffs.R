@@ -75,7 +75,7 @@ usethis::use_package("shinyjs", type = "Imports")
 usethis::use_package("knitr", type = "Imports")
 usethis::use_package("jsonlite", type = "Imports")
 usethis::use_package("config", type = "Imports")
-usethis::use_package("httr", type = "Imports")
+usethis::use_package("influxdbr", type = "Imports")
 
 # Suggests
 usethis::use_package("testthat", type = "Suggests")
