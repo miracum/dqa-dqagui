@@ -15,9 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-require("jsonlite")
-require("httr")
-
 
 #' @title module_dashboard_server
 #'
@@ -300,22 +297,25 @@ module_dashboard_server <-
       shinyjs::show("dash_instruction")
     })
 
-    observeEvent(input$dash_send_datamap_mail, {
+    observeEvent(input$dash_send_datamap_btn, {
       rv$send_datamap <- button_send_datamap(rv)
-    })
-
-    # After button to export datamap to API is pressed:
-    observeEvent(input$dash_send_datamap_api, {
-      miRacumDQA::send_datamap_to_api(rv)
-    })
-
-    # After the datamap was exportet successfully,
-    # disable the export-button to avoid duplicates:
-    observeEvent(rv$datamap$exported2influx, {
-      if (isTRUE(rv$datamap$exported2influx)) {
-        shinyjs::disable("dash_send_datamap_api")
+      # To allow only one export, disable button afterwards:
+      if (isTRUE(rv$datamap$exported)) {
+        shinyjs::disable("dash_send_datamap_btn")
+        updateActionButton(
+          session = session,
+          inputId = "dash_send_datamap_btn",
+          label = "Datamap successfully sent", # so don't send it again
+          icon = icon("check")
+        )
       } else {
-        shinyjs::enable("dash_send_datamap_api")
+        shinyjs::enable("dash_send_datamap_btn")
+        updateActionButton(
+          session = session,
+          inputId = "dash_send_datamap_btn",
+          label = "Send Datamap",
+          icon = icon("server")
+        )
       }
     })
   }
@@ -384,13 +384,8 @@ module_dashboard_ui <- function(id) {
           tableOutput(ns("dash_datamap_target")),
           tags$hr(),
           actionButton(
-            ns("dash_send_datamap_mail"),
-            "Send Data Map as e-mail",
-            icon = icon("envelope", lib = "font-awesome")
-          ),
-          actionButton(
-            ns("dash_send_datamap_api"),
-            "Send Data Map to API",
+            ns("dash_send_datamap_btn"),
+            "Send Datamap",
             icon = icon("server")
           ),
           width = 12

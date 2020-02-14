@@ -1,9 +1,7 @@
 button_mdr <- function(utils_path, mdr_filename) {
-
   shiny::withProgress(message = "Loading MDR", value = 0, {
-    incProgress(
-      1 / 1,
-      detail = "... from local file ...")
+    incProgress(1 / 1,
+                detail = "... from local file ...")
     # read MDR
     mdr <- DQAstats::read_mdr(utils_path = utils_path,
                               mdr_filename = mdr_filename)
@@ -13,6 +11,10 @@ button_mdr <- function(utils_path, mdr_filename) {
 
 
 button_send_datamap <- function(rv) {
+  return(send_datamap_to_mail(rv))
+}
+
+send_datamap_to_mail <- function(rv) {
   # encode datamap to json string
   json_string <-
     jsonlite::toJSON(c(
@@ -37,27 +39,29 @@ button_send_datamap <- function(rv) {
   # https://stackoverflow.com/questions/45376976/use-actionbutton-to-
   # send-email-in-rshiny
 
-  return(paste0(
-    "window.open('mailto:",
-    rv$datamap_email,
-    "?",
-    "body=",
-    utils::URLencode(
-      paste0(
-        "Site name: ",
-        rv$sitename,
-        "\n\n(this is an automatically created email)\n\n",
-        "\n\nLast run: ",
-        rv$end_time,
-        "\nRun duration: ",
-        round(rv$duration, 2),
-        " min.",
-        "\n\nDatamap (JSON):\n",
-        json_string
-      )
-    ),
-    "&subject=",
-    paste0("Data Map - ", rv$sitename),
-    "')"
-  ))
+  return(
+    paste0(
+      "window.open('mailto:",
+      rv$datamap_email,
+      "?",
+      "body=",
+      utils::URLencode(
+        paste0(
+          "Site name: ",
+          rv$sitename,
+          "\n\n(this is an automatically created email)\n\n",
+          "\n\nLast run: ",
+          rv$end_time,
+          "\nRun duration: ",
+          round(rv$duration, 2),
+          " min.",
+          "\n\nDatamap (JSON):\n",
+          json_string
+        )
+      ),
+      "&subject=",
+      paste0("Data Map - ", rv$sitename),
+      "')"
+    )
+  )
 }

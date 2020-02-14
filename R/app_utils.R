@@ -95,7 +95,6 @@ get_db_settings <- function(input, target = T) {
     return(NULL)
 
   } else {
-    print(tab)
     outlist <- lapply(stats::setNames(vec, vec), function(g) {
       tab[get("keys") == g, get("value")]
     })
@@ -319,7 +318,6 @@ validate_inputs <- function(rv) {
           mdr = rv$mdr,
           headless = F
         )
-        print(test_target_csv)
         if (isTRUE(test_target_csv)) {
           feedback("All target csv-files were found.",
                    findme = "ff8203c831")
