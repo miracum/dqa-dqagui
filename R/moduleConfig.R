@@ -271,6 +271,10 @@ module_config_server <-
           outputOptions(output,
                         "source_system_type",
                         suspendWhenHidden = FALSE)
+          output$source_system_feedback_txt <-
+            renderText({
+              "\U26A0 Please select a source system to load the data."
+            })
         }
       })
 
@@ -904,7 +908,7 @@ module_config_ui <- function(id) {
         ),
         conditionalPanel(
           condition =
-            "typeof output['moduleConfig-mdr_present'] != 'undefined'",
+            "typeof output['moduleConfig-mdr_present'] !== 'undefined'",
           box(
             title = "Load the data",
             #solidHeader = T,
@@ -914,9 +918,9 @@ module_config_ui <- function(id) {
             br(),
             conditionalPanel(
               condition = paste0(
-                "typeof output",
+                "output",
                 "['moduleConfig-source_system_feedback_txt'] != ",
-                "'undefined'"),
+                "'\U26A0 Please select a source system to load the data.'"),
               actionButton(ns("dash_load_btn"),
                            "Load data",
                            icon = icon("file-upload"))

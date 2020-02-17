@@ -293,12 +293,13 @@ module_dashboard_server <-
           " min."
         )
       })
-      # rv$send_datamap <- button_send_datamap(rv)
       shinyjs::show("dash_instruction")
     })
 
     observeEvent(input$dash_send_datamap_btn, {
+
       rv$send_datamap <- button_send_datamap(rv)
+
       # To allow only one export, disable button afterwards:
       if (isTRUE(rv$datamap$exported)) {
         shinyjs::disable("dash_send_datamap_btn")
@@ -318,6 +319,7 @@ module_dashboard_server <-
         )
       }
     })
+
   }
 
 

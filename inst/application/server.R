@@ -189,21 +189,27 @@ shiny::shinyServer(
         })
 
 
-        # !!! trigger shinyjs from server.R only
-        shinyjs::onclick(
-            # https://stackoverflow.com/questions/27650331/adding-an-email-
-            # button-in-shiny-using-tabletools-or-otherwise
-            # https://stackoverflow.com/questions/27650331/adding-an-email-
-            # button-in-shiny-using-tabletools-or-otherwise
-            # https://stackoverflow.com/questions/37795760/r-shiny-add-
-            # weblink-to-actionbutton
-            # https://stackoverflow.com/questions/45880437/r-shiny-use-onclick-
-            # option-of-actionbutton-on-the-server-side
-            # https://stackoverflow.com/questions/45376976/use-actionbutton-to-
-            # send-email-in-rshiny
-            id = "moduleDashboard-dash_send_datamap_mail",
-            expr = shinyjs::runjs(rv$send_datamap)
-        )
+        observe({
+            req(rv$send_datamap)
+
+            # !!! trigger shinyjs from server.R only
+            shinyjs::onclick(
+                # https://stackoverflow.com/questions/27650331/adding-an-email-
+                # button-in-shiny-using-tabletools-or-otherwise
+                # https://stackoverflow.com/questions/27650331/adding-an-email-
+                # button-in-shiny-using-tabletools-or-otherwise
+                # https://stackoverflow.com/questions/37795760/r-shiny-add-
+                # weblink-to-actionbutton
+                # https://stackoverflow.com/questions/45880437/r-shiny-use-
+                # onclick-option-of-actionbutton-on-the-server-side
+                # https://stackoverflow.com/questions/45376976/use-
+                # actionbutton-to-send-email-in-rshiny
+                id = "moduleDashboard-dash_send_datamap_btn",
+                expr =  {
+                    shinyjs::runjs(rv$send_datamap)
+                }
+            )
+        })
 
         ########################
         # tab_dashboard

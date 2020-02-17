@@ -29,7 +29,7 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.0.6.9001")
+my_desc$set_version("0.0.6.9002")
 # The title of your package
 my_desc$set(Title = "DQA GUI")
 # The description of your package
@@ -75,7 +75,6 @@ usethis::use_package("shinyjs", type = "Imports")
 usethis::use_package("knitr", type = "Imports")
 usethis::use_package("jsonlite", type = "Imports")
 usethis::use_package("config", type = "Imports")
-usethis::use_package("influxdbr", type = "Imports")
 
 # Suggests
 usethis::use_package("testthat", type = "Suggests")

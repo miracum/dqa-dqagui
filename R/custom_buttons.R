@@ -38,7 +38,6 @@ send_datamap_to_mail <- function(rv) {
   # option-of-actionbutton-on-the-server-side
   # https://stackoverflow.com/questions/45376976/use-actionbutton-to-
   # send-email-in-rshiny
-
   return(
     paste0(
       "window.open('mailto:",
