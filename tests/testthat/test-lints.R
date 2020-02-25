@@ -20,7 +20,7 @@ test_that(
         "moduleCompleteness.R" = NULL,
         "moduleConfig.R" = "cyclomatic complexity",
         "moduleDashboard.R" = "cyclomatic complexity",
-        "moduleDescriptive.R" = NULL,
+        "moduleDescriptive.R" = "cyclomatic complexity",
         "moduleMDR.R" = NULL,
         "moduleReport.R" = NULL,
         "moduleUniquePlausibility.R" = NULL,
