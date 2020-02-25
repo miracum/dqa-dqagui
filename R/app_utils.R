@@ -406,3 +406,11 @@ firstup <- function(x) {
   substr(x, 1, 1) <- toupper(substr(x, 1, 1))
   return(x)
 }
+
+
+fix_sql_display <- function(text) {
+  t <- text
+  t <- gsub("\\\n", "<br>\n", t)
+  t <- gsub("\\\t", "&nbsp;&nbsp;&nbsp;&nbsp;", t)
+  return(t)
+}

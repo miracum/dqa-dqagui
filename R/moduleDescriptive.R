@@ -333,6 +333,62 @@ module_descriptive_server <-
 
       })
     })
+
+    observe({
+      req(rv$source$system_type)
+
+      if (rv$source$system_type == "postgres") {
+        output$descr_source_sql <- renderUI({
+          actionButton(
+            inputId = "moduleDescriptive-descr_source_sql_btn",
+            label = "Source SQL"
+          )
+        })
+      }
+    })
+
+    observe({
+      req(rv$target$system_type)
+
+      if (rv$target$system_type == "postgres") {
+        output$descr_target_sql <- renderUI({
+          actionButton(
+            inputId = "moduleDescriptive-descr_target_sql_btn",
+            label = "Target SQL"
+          )
+        })
+      }
+    })
+
+    observeEvent(
+      eventExpr = input_re()[["moduleDescriptive-descr_source_sql_btn"]],
+      handlerExpr = {
+        sel_ob <- input_re()[["moduleDescriptive-var_select"]]
+        sel_map <- unique(rv$dqa_assessment[get("designation") == sel_ob,
+                                            get("key")])
+        showModal(modalDialog(
+          title = "Source SQL statement",
+          shiny::HTML(fix_sql_display(rv$source$sql[[sel_map]])),
+          easyClose = TRUE,
+          footer = NULL
+        ))
+      }
+    )
+
+    observeEvent(
+      eventExpr = input_re()[["moduleDescriptive-descr_target_sql_btn"]],
+      handlerExpr = {
+        sel_ob <- input_re()[["moduleDescriptive-var_select"]]
+        sel_map <- unique(rv$dqa_assessment[get("designation") == sel_ob,
+                                            get("key")])
+        showModal(modalDialog(
+          title = "Target SQL statement",
+          shiny::HTML(fix_sql_display(rv$target$sql[[sel_map]])),
+          easyClose = TRUE,
+          footer = NULL
+        ))
+      }
+    )
   }
 
 
@@ -386,7 +442,9 @@ module_descriptive_ui <- function(id) {
             4,
             conditionalPanel(
               condition = "output['moduleDescriptive-got_valueset_s']",
-              uiOutput(ns("descr_checks_source")))
+              uiOutput(ns("descr_checks_source"))),
+            tags$hr(),
+            uiOutput(ns("descr_source_sql"))
           ))
       ),
       box(
@@ -419,7 +477,9 @@ module_descriptive_ui <- function(id) {
             4,
             conditionalPanel(
               condition = "output['moduleDescriptive-got_valueset_t']",
-              uiOutput(ns("descr_checks_target")))
+              uiOutput(ns("descr_checks_target"))),
+            tags$hr(),
+            uiOutput(ns("descr_target_sql"))
           ))
       )
     ))
