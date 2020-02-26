@@ -109,75 +109,154 @@ get_db_settings <- function(input, target = T) {
 #' @param type (Optional) The type of message as string.
 #'   If type is e.g. "Warning" the printed line will be "[Warning] print_this".
 #'
-printme <- function(print_this, type = "Info") {
-  feedback(print_this, type)
-}
+#' CAUTION: This function is no longer used and only here to save
+#'   downwards compatibility
+#% printme <- function(print_this, type = "Info") {
+#%   feedback(print_this, type)
+#% }
 
 #' @title Simple method to feedback messages either to the user and/or to the
 #'   console.
-#' @description  Extended version of the printme-function.
-#'
-#' @param ui (Optional) If true, the message will also be printed
-#'   to the user in form of a modal.
-#' @param console (Optional) If true, the message will also be printed
-#'   to the console as is.
-#' @param prefix Prefix (String)
-#' @param suffix Suffix (String)
-#' @param findme (Optional) String to find the message in the code.
+#' @description This functino is to provide feedback for any kind of
+#'   information.  This might be a simple info, a warning or an error.
+#'   The function can be used to select the output (console, ui, logfile).
+#'   If no output is selected, the printme string will be printed to the
+#'   console and to logfile.
+#'   One of these must be a string with length > 0: print_me, console, ui
+#' @param print_this (Optional, String)
+#' @param type (Optional, String)
+#' @param ui (Optional, Boolean/String) If true, the message will
+#'   also be printed to the user in form of a modal. Can also be a string.
+#' @param console (Optional, Boolean/String) If true, the message will also
+#'   be printed to the console as is. Can also be a string.
+#' @param prefix Prefix (Optional, String) This is useful if
+#'   print_this is an array/list.
+#'   Each entry will then be new row with this prefix.
+#' @param suffix Suffix (Optional, String). Same like prefix but at the
+#'   end of each line.
+#' @param findme (Optional, String) String to find the message in the code.
 #'   E.g. 10-digit random hex from https://www.browserling.com/tools/random-hex
 #'   or https://onlinerandomtools.com/generate-random-hexadecimal-numbers
-#'
-#' @inheritParams printme
 #'
 #' @export
 #'
 feedback <-
-  function(print_this,
+  function(print_this = "",
            type = "Info",
            ui = FALSE,
            console = TRUE,
+           logfile = TRUE,
            prefix = "",
            suffix = "",
            findme = "") {
-    if (ui) {
-      shiny::showModal(modalDialog(title = type,
-                                   easyClose = TRUE,
-                                   print_this))
-    }
+    # Make the first letter of type Uppercase:
     type <- firstup(type)
-    if (console) {
-      if (length(print_this) == 1) {
-        if (findme == "") {
-          message(paste0("[", type, "] ", prefix, print_this, suffix))
-        } else {
-          message(paste0("[", type, "] ",
-                         prefix, print_this, suffix, " (", findme, ")"))
-        }
-      } else if (length(print_this) > 1) {
-        if (findme == "") {
-          i <- 1
-          for (tmp in print_this) {
-            message(paste0("[", type, "] ", prefix, i, ": ", tmp, suffix))
-            i <- i + 1
-          }
-        } else {
-          i <- 1
-          for (tmp in print_this) {
-            message(
-              paste0("[", type, "] ",
-                     prefix, i, ": ", tmp, suffix, " (", findme, ")"))
-            i <- i + 1
-          }
-        }
-      }
+
+    # If there is an error and the gui is active, show the error message
+    # to the user. Also show the error messages if the user did not explicitely .
+    if ((isTRUE(ui) &&
+         isTRUE(type != "Error")) || (isFALSE(rv$headless) &&
+                                      isTRUE(type == "Error") &&
+                                      isFALSE(ui))) {
+
+    } else if (isTRUE(ui)) {
+
+    }
+
+    if (isTRUE(console) && isFALSE(print_this == "")) {
+      feedback_to_console(print_this, findme, prefix, suffix)
+    }
+
+    # If there is text defined in the ui and/or the console, print this one
+    # (this is uesful if one will provide both, feedback to the ui AND
+    # feedback to the console but with different texts)
+    if (isTRUE(typeof(ui) == "character")) {
+      feedback_to_ui()
+    }
+    if (isTRUE(typeof(console) == "character")) {
+      feedback_to_console(print_this, findme, prefix, suffix)
     }
   }
 
+#' @title Print to the console. Internal use.
+#' @description  Helper function for the feedback function to print
+#'   stuff to the console. Everything will also be added to the logfile.
+#'   Internal use. Use the robust 'feedback' function instead.
+#'
+#' @inheritParams feedback
+#'
+feedback_to_console <- function(print_this, findme, prefix, suffix) {
+  if (length(print_this) == 1) {
+    if (findme == "") {
+      res <- paste0("[", type, "] ", prefix, print_this, suffix)
+      message(res)
+      feedback_to_logfile(res)
+    } else {
+      res <- paste0("[", type, "] ",
+                     prefix, print_this, suffix, " (", findme, ")")
+      message(res)
+      feedback_to_logfile(res)
+    }
+  } else if (length(print_this) > 1) {
+    if (findme == "") {
+      i <- 1
+      for (tmp in print_this) {
+        res <- paste0("[", type, "] ", prefix, i, ": ", tmp, suffix)
+        message(res)
+        feedback_to_logfile(res)
+        i <- i + 1
+      }
+    } else {
+      i <- 1
+      for (tmp in print_this) {
+        res <-
+          paste0("[", type, "] ",
+                 prefix, i, ": ", tmp, suffix, " (", findme, ")")
+        message(res)
+        feedback_to_logfile(res)
+        i <- i + 1
+      }
+    }
+  }
+}
+
+#' @title Feedback to the user with a modal. Internal use.
+#' @description  Helper function for the feedback function to show modals
+#'   to the gui/user. Everything will also be added to the logfile.
+#'   Internal use. Use the robust 'feedback' function instead.
+#' @inheritParams feedback
+#'
+feedback_to_ui <- function(print_this, type) {
+  if (isTRUE(type == "Error")) {
+    title <- "Sorry, an error has occured"
+  } else {
+    title <- type
+  }
+  shiny::showModal(modalDialog(title = title,
+                               easyClose = TRUE,
+                               print_this))
+}
+
+#' @title Add to the logfile. Internal use.
+#' @description  Helper function for the feedback function to add content
+#'   to the logfile. Internal use.
+#'   Use the robust 'feedback' function instead.
+#' @param input The input string to be added to the logfile.
+#'
+feedback_to_logfile <- function(input) {
+  # Set the string for the logfile containing the current time and date:
+  res <- paste0("[", Sys.time(), "] ", input)
+  # Open the connection to the logfile:
+  log_con <- file("logfile.log", open = "a")
+  # Write to the logfile:
+  cat(res, file = log_con)
+}
 
 #' @title This function is used in the config-tab and displays the selected
 #'   system to the user.
 #' @param system (String) e.g. "i2b2", "OMOP" or "CSV"
 #' @param type (String) "source" or "target"
+#' @return String containing the input params in a propper manner
 #'
 #'
 feedback_txt <- function(system, type) {
