@@ -152,29 +152,46 @@ feedback <-
     # Make the first letter of type Uppercase:
     type <- firstup(type)
 
-    # If there is an error and the gui is active, show the error message
-    # to the user. Also show the error messages if the user did not explicitely .
-    if ((isTRUE(ui) &&
-         isTRUE(type != "Error")) || (isFALSE(rv$headless) &&
-                                      isTRUE(type == "Error") &&
-                                      isFALSE(ui))) {
-
-    } else if (isTRUE(ui)) {
-
+    # If the gui is active, show the message to the user.
+    # If its an error message, also show the error messages in the gui
+    # even if the user did not explicitely said it should be displayed
+    # in the gui
+    if (isTRUE(ui) ||
+        (isFALSE(rv$headless) && isTRUE(type == "Error") && isFALSE(ui))) {
+      feedback_to_ui(print_this = print_this, type = type)
     }
 
     if (isTRUE(console) && isFALSE(print_this == "")) {
-      feedback_to_console(print_this, findme, prefix, suffix)
+      feedback_to_console(
+        print_this = print_this,
+        findme = findme,
+        prefix = prefix,
+        suffix = suffix
+      )
     }
 
-    # If there is text defined in the ui and/or the console, print this one
+    # If there is text defined in 'ui' and/or 'console', print this one
     # (this is uesful if one will provide both, feedback to the ui AND
     # feedback to the console but with different texts)
     if (isTRUE(typeof(ui) == "character")) {
-      feedback_to_ui()
+      feedback_to_ui(print_this = print_this, type = type)
     }
     if (isTRUE(typeof(console) == "character")) {
-      feedback_to_console(print_this, findme, prefix, suffix)
+      feedback_to_console(
+        print_this = print_this,
+        findme = findme,
+        prefix = prefix,
+        suffix = suffix
+      )
+    }
+
+    if(isTRUE(console)){
+      feedback_to_logfile(
+        print_this = print_this,
+        findme = findme,
+        prefix = prefix,
+        suffix = suffix
+      )
     }
   }
 
@@ -187,35 +204,23 @@ feedback <-
 #'
 feedback_to_console <- function(print_this, findme, prefix, suffix) {
   if (length(print_this) == 1) {
-    if (findme == "") {
-      res <- paste0("[", type, "] ", prefix, print_this, suffix)
-      message(res)
-      feedback_to_logfile(res)
-    } else {
-      res <- paste0("[", type, "] ",
-                     prefix, print_this, suffix, " (", findme, ")")
-      message(res)
-      feedback_to_logfile(res)
-    }
+    res <-
+      feedback_get_formatted_string(print_this, findme, prefix, suffix)
+    message(res)
+    feedback_to_logfile(res)
   } else if (length(print_this) > 1) {
-    if (findme == "") {
-      i <- 1
-      for (tmp in print_this) {
-        res <- paste0("[", type, "] ", prefix, i, ": ", tmp, suffix)
-        message(res)
-        feedback_to_logfile(res)
-        i <- i + 1
-      }
-    } else {
-      i <- 1
-      for (tmp in print_this) {
-        res <-
-          paste0("[", type, "] ",
-                 prefix, i, ": ", tmp, suffix, " (", findme, ")")
-        message(res)
-        feedback_to_logfile(res)
-        i <- i + 1
-      }
+    i <- 1
+    for (tmp in print_this) {
+      res <-
+        feedback_get_formatted_string(
+          print_this = tmp,
+          findme = findme,
+          prefix = paste0(prefix, i, ": "),
+          suffix = suffix
+        )
+      message(res)
+      feedback_to_logfile(res)
+      i <- i + 1
     }
   }
 }
@@ -243,13 +248,43 @@ feedback_to_ui <- function(print_this, type) {
 #'   Use the robust 'feedback' function instead.
 #' @param input The input string to be added to the logfile.
 #'
-feedback_to_logfile <- function(input) {
+feedback_to_logfile <- function(print_this, findme, prefix, suffix) {
+  # Get the formatted string out of the parameters which looks like
+  # "[Info] System is running (1234567890)":
+  res <- feedback_get_formatted_string(print_this = print_this,
+                                       findme = findme,
+                                       prefix = prefix,
+                                       suffix = suffix)
   # Set the string for the logfile containing the current time and date:
-  res <- paste0("[", Sys.time(), "] ", input)
+  res <- paste0("[", Sys.time(), "] ", res)
   # Open the connection to the logfile:
   log_con <- file("logfile.log", open = "a")
   # Write to the logfile:
   cat(res, file = log_con)
+}
+
+#' @title Format the feedback string
+#' @description  Helper function for the feedback function to combine the input
+#'   parameters in proper manner to ge a pretty and informative string which
+#'   than can be added to the logfile and/or be displayed in the console.
+#'   CAUTION: 'print_this' must be of length 1! For arrays loop through them
+#'   by hand and call this function several times!
+#'   Internal use. Use the robust 'feedback' function instead.
+#' @inheritParams feedback
+#'
+feedback_get_formatted_string <- function(print_this, findme, prefix, suffix){
+  if (length(print_this) == 1) {
+    if (findme == "") {
+      res <- paste0("[", type, "] ", prefix, print_this, suffix)
+    } else {
+      res <- paste0("[", type, "] ",
+                    prefix, print_this, suffix, " (", findme, ")")
+    }
+  } else {
+        res <- paste0("Length of input 'print_this' is not == 1. ",
+                      "See function description. (55a445fe57)")
+  }
+  return(res)
 }
 
 #' @title This function is used in the config-tab and displays the selected
