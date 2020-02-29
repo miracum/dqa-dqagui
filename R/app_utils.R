@@ -152,6 +152,12 @@ feedback <-
     # Make the first letter of type Uppercase:
     type <- firstup(type)
 
+    # we need parts of the rv object here so if it is not set yet
+    # initialize it now:
+    if (!exists("rv")) {
+      rv <- c()
+    }
+
     # If the gui is active, show the message to the user.
     # If its an error message, also show the error messages in the gui
     # even if the user did not explicitely said it should be displayed
