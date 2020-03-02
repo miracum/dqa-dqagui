@@ -88,7 +88,7 @@ devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqastats.git
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
 desc::desc_set_remotes(c(
   paste0(
-    "url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/", mytag, "/miracum/dqa/dqastats-", mytag, ".zip")
+    "url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/", mytag, "/dqastats-", mytag, ".zip")
 ),
 file = usethis::proj_get())
 
