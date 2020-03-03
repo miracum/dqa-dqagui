@@ -273,4 +273,12 @@ shiny::shinyServer(
                           rv,
                           input_re = input_reactive)
 
+        ########################
+        # tab_log
+        ########################
+        shiny::callModule(module_log_server,
+                          "moduleLog",
+                          rv,
+                          input_re = input_reactive)
+
     })

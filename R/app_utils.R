@@ -102,19 +102,6 @@ get_db_settings <- function(input, target = T) {
   }
 }
 
-
-
-#' @title Simply prints stuff to the console.
-#' @param print_this  The string to be printed.
-#' @param type (Optional) The type of message as string.
-#'   If type is e.g. "Warning" the printed line will be "[Warning] print_this".
-#'
-#' CAUTION: This function is no longer used and only here to save
-#'   downwards compatibility
-#% printme <- function(print_this, type = "Info") {
-#%   feedback(print_this, type)
-#% }
-
 #' @title Simple method to feedback messages either to the user and/or to the
 #'   console.
 #' @description This functino is to provide feedback for any kind of
@@ -318,43 +305,6 @@ feedback_to_logfile <- function(print_this, type, findme, prefix, suffix) {
       close(log_con)
     }
   }
-
-
-  # # If there already is a logfile for this session,
-  # # search in the logfile_dir for the next free filename:
-  # count <- 0
-  #
-  # while (isTRUE(file.exists(path_with_file)) &&
-  #        check_file_current_wd(path_with_file)) {
-  #   if (count > 1000) {
-  #     # If there are more than 1000 logfiles, delete the whole folder
-  #     # and recreate it:
-  #     unlink(logfile_dir, recursive = TRUE)
-  #     dir.create(logfile_dir)
-  #     path_with_file <- paste0(logfile_dir, "/logfile.log")
-  #   } else {
-  #     # Otherwise just increment the number of the logfile:
-  #     count <- count + 1
-  #     path_with_file <- paste0(logfile_dir, "/logfile", count, ".log")
-  #   }
-  # }
-  #
-  # if (!file.exists(path_with_file)) {
-  #   # Open the connection to the logfile:
-  #   log_con <- file(path_with_file, open = "a")
-  #   # Write working directory to the logfile:
-  #   wd <- paste0("wd=", getwd(), "\n\n")
-  #   cat(wd, file = log_con)
-  #   # Close the connection to logfile:
-  #   close(log_con)
-  # }
-  #
-  # # Open the connection to the logfile:
-  # log_con <- file(path_with_file, open = "a")
-  # # Write to the logfile:
-  # cat(res, file = log_con)
-  # # Close the connection to logfile:
-  # close(log_con)
 }
 
 #' @title Returns the current runtime_id and stores it to rv$runtime_id
@@ -419,19 +369,19 @@ check_file_current_runtime_id <- function(path_with_file) {
 feedback_get_formatted_string <-
   function(print_this, type, findme, prefix, suffix) {
 
-  if (length(print_this) == 1) {
-    if (findme == "") {
-      res <- paste0("[", type, "] ", prefix, print_this, suffix)
+    if (length(print_this) == 1) {
+      if (findme == "") {
+        res <- paste0("[", type, "] ", prefix, print_this, suffix)
+      } else {
+        res <- paste0("[", type, "] ",
+                      prefix, print_this, suffix, " (", findme, ")")
+      }
     } else {
-      res <- paste0("[", type, "] ",
-                    prefix, print_this, suffix, " (", findme, ")")
+      res <- paste0("Length of input 'print_this' is not == 1. ",
+                    "See function description. (55a445fe57)")
     }
-  } else {
-        res <- paste0("Length of input 'print_this' is not == 1. ",
-                      "See function description. (55a445fe57)")
+    return(res)
   }
-  return(res)
-}
 
 #' @title This function is used in the config-tab and displays the selected
 #'   system to the user.

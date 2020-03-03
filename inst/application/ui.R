@@ -49,6 +49,11 @@ shiny::shinyUI(
             tabName = "tab_config",
             icon = icon("cogs")
           ),
+          shinydashboard::menuItem(
+            text = "Logfile",
+            tabName = "tab_log",
+            icon = icon("terminal")
+          ),
           shinydashboard::sidebarMenuOutput("mdr"),
           shiny::tags$hr(),
           shiny::actionButton(
@@ -116,6 +121,11 @@ shiny::shinyUI(
           shinydashboard::tabItem(
             tabName = "tab_mdr",
             module_mdr_ui("moduleMDR")
+          ),
+
+          shinydashboard::tabItem(
+            tabName = "tab_log",
+            module_log_ui("moduleLog")
           )
 
         )

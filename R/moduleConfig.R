@@ -122,14 +122,13 @@ module_config_server <-
       eventExpr = input_re()[["moduleConfig-config_load_mdr"]],
       handlerExpr = {
         if (is.null(rv$mdr)) {
-          feedback("Reading MDR ...")
+          feedback(print_this = "Reading MDR ...",
+                   findme = "f877fee7d2")
+          feedback(print_this = paste0("MDR-Filename:", rv$mdr_filename),
+                   findme = "582d6a39c6")
+          feedback(print_this = paste0("rv$utilspath:", rv$utilspath),
+                   findme = "b5c71849f9")
 
-          if (debugging) {
-            feedback(paste0("MDR-Filename:", rv$mdr_filename))
-          }
-          if (debugging) {
-            feedback(paste0("rv$utilspath:", rv$utilspath))
-          }
           rv$mdr <- button_mdr(utils_path = rv$utilspath,
                                mdr_filename = rv$mdr_filename)
           stopifnot(data.table::is.data.table(rv$mdr))
@@ -140,7 +139,8 @@ module_config_server <-
             c("source_system_name",
               "source_system_type")
           rv$systems <- unique(rv$mdr[, vec, with = F])
-          feedback("Different systems found in MDR:", findme = "4451da82ad")
+          feedback(print_this = "Different systems found in MDR:",
+                   findme = "4451da82ad")
 
           # - Read the settings for all these systems:
           unique_systems <-
@@ -162,11 +162,9 @@ module_config_server <-
             )
 
             for (db in databases) {
-              feedback(paste0(
-                "Using environment variables for ",
-                db),
-                findme = "dc97a93ce645d1d50a7d"
-              )
+              feedback(print_this = paste0("Using environment variables for ",
+                                           db),
+                       findme = "dc97a93ce645d1d50a7d")
               rv$settings[[db]]$password <- Sys.getenv(
                 paste0(toupper(db), "_PASSWORD")
               )
@@ -181,7 +179,7 @@ module_config_server <-
             rv$systems[!is.na(get("source_system_type")),
                        unique(get("source_system_type"))]
 
-          feedback(rv$system_types,
+          feedback(print_this = rv$system_types,
                    prefix = "System type ",
                    findme = "9aec84fcca")
 

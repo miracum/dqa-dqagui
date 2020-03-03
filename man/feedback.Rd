@@ -2,7 +2,8 @@
 % Please edit documentation in R/app_utils.R
 \name{feedback}
 \alias{feedback}
-\title{Simply prints stuff to the console.}
+\title{Simple method to feedback messages either to the user and/or to the
+  console.}
 \usage{
 feedback(
   print_this = "",
