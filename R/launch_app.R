@@ -37,13 +37,15 @@
 #'   is stored in the default settings file and correspsondingly in the MDR)
 #'   with the following format: *SYSTEMNAME*_PASSWORD, where *SYSTEMNAME*
 #'   should be replaced with the name of the datasystem.
+#' @param logfile_dir Is the absolute path to the directory where the logfile
+#'   will be stored. If not path is provided the tempdir() will be used.
 #'
 #' @return DQAgui Shiny application
 #'
 #' @import shiny shinydashboard
 #' @importFrom magrittr "%>%"
 #' @importFrom data.table .N ":="
-#' @importFrom DQAstats feedback
+# @importFrom DQAstats feedback
 #'
 #' @export
 #'
@@ -55,8 +57,8 @@ launch_app <- function(port = 3838,
                        config_file = system.file(
                          "demo_data/utilities/settings/demo_settings.yml",
                                                  package = "DQAstats"),
-                       use_env_credentials = FALSE) {
-
+                       use_env_credentials = FALSE,
+                       logfile_dir = tempdir()) {
 
   global_env_hack <- function(key,
                               val,
@@ -89,6 +91,18 @@ launch_app <- function(port = 3838,
   global_env_hack(
     key = "use_env_credentials",
     val = use_env_credentials,
+    pos = 1L
+  )
+
+  global_env_hack(
+    key = "logfile_dir",
+    val = logfile_dir,
+    pos = 1L
+  )
+
+  global_env_hack(
+    key = "runtime_id",
+    val = get_runtime_id(force = T),
     pos = 1L
   )
 

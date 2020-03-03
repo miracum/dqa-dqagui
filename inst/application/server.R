@@ -23,6 +23,8 @@ shiny::shinyServer(
             config_file = config_file,
             mdr_filename = mdr_filename,
             use_env_credentials = use_env_credentials,
+            logfile_dir = logfile_dir,
+            runtime_id = runtime_id,
             utilspath = DQAstats::clean_path_name(utils_path),
             current_date = format(Sys.Date(), "%d. %B %Y", tz = "CET")
         )

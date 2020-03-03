@@ -10,7 +10,8 @@ launch_app(
   mdr_filename = "mdr_example_data.csv",
   config_file = system.file("demo_data/utilities/settings/demo_settings.yml", package =
     "DQAstats"),
-  use_env_credentials = FALSE
+  use_env_credentials = FALSE,
+  logfile_dir = tempdir()
 )
 }
 \arguments{
@@ -37,6 +38,9 @@ provide one variable for the respective data system (the name, which
 is stored in the default settings file and correspsondingly in the MDR)
 with the following format: *SYSTEMNAME*_PASSWORD, where *SYSTEMNAME*
 should be replaced with the name of the datasystem.}
+
+\item{logfile_dir}{Is the absolute path to the directory where the logfile
+will be stored. If not path is provided the tempdir() will be used.}
 }
 \value{
 DQAgui Shiny application

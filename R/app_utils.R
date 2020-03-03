@@ -120,7 +120,7 @@ get_db_settings <- function(input, target = T) {
 #' @description This functino is to provide feedback for any kind of
 #'   information.  This might be a simple info, a warning or an error.
 #'   The function can be used to select the output (console, ui, logfile).
-#'   If no output is selected, the printme string will be printed to the
+#'   If no output is selected, the print_this string will be printed to the
 #'   console and to logfile.
 #'   One of these must be a string with length > 0: print_me, console, ui
 #' @param print_this (Optional, String)
@@ -170,6 +170,7 @@ feedback <-
     if (isTRUE(console) && isFALSE(print_this == "")) {
       feedback_to_console(
         print_this = print_this,
+        type = type,
         findme = findme,
         prefix = prefix,
         suffix = suffix
@@ -178,22 +179,16 @@ feedback <-
 
     # If there is text defined in 'ui' and/or 'console', print this one
     # (this is uesful if one will provide both, feedback to the ui AND
-    # feedback to the console but with different texts)
+    # feedback to the console but with different texts).
+    # Hint: Everything printed to the console will also
+    #       be printed to the logfile.
     if (isTRUE(typeof(ui) == "character")) {
       feedback_to_ui(print_this = print_this, type = type)
     }
     if (isTRUE(typeof(console) == "character")) {
       feedback_to_console(
         print_this = print_this,
-        findme = findme,
-        prefix = prefix,
-        suffix = suffix
-      )
-    }
-
-    if(isTRUE(console)){
-      feedback_to_logfile(
-        print_this = print_this,
+        type = type,
         findme = findme,
         prefix = prefix,
         suffix = suffix
@@ -208,24 +203,43 @@ feedback <-
 #'
 #' @inheritParams feedback
 #'
-feedback_to_console <- function(print_this, findme, prefix, suffix) {
+feedback_to_console <- function(print_this, type, findme, prefix, suffix) {
   if (length(print_this) == 1) {
     res <-
-      feedback_get_formatted_string(print_this, findme, prefix, suffix)
+      feedback_get_formatted_string(
+        print_this = print_this,
+        type = type,
+        findme = findme,
+        prefix = prefix,
+        suffix = suffix
+      )
     message(res)
-    feedback_to_logfile(res)
+    feedback_to_logfile(
+      print_this = print_this,
+      type = type,
+      findme = findme,
+      prefix = prefix,
+      suffix = suffix
+    )
   } else if (length(print_this) > 1) {
     i <- 1
     for (tmp in print_this) {
       res <-
         feedback_get_formatted_string(
           print_this = tmp,
+          type = type,
           findme = findme,
           prefix = paste0(prefix, i, ": "),
           suffix = suffix
         )
       message(res)
-      feedback_to_logfile(res)
+      feedback_to_logfile(
+        print_this = tmp,
+        type = type,
+        findme = findme,
+        prefix = prefix,
+        suffix = suffix
+      )
       i <- i + 1
     }
   }
@@ -254,19 +268,143 @@ feedback_to_ui <- function(print_this, type) {
 #'   Use the robust 'feedback' function instead.
 #' @param input The input string to be added to the logfile.
 #'
-feedback_to_logfile <- function(print_this, findme, prefix, suffix) {
+feedback_to_logfile <- function(print_this, type, findme, prefix, suffix) {
   # Get the formatted string out of the parameters which looks like
   # "[Info] System is running (1234567890)":
   res <- feedback_get_formatted_string(print_this = print_this,
+                                       type = type,
                                        findme = findme,
                                        prefix = prefix,
                                        suffix = suffix)
-  # Set the string for the logfile containing the current time and date:
-  res <- paste0("[", Sys.time(), "] ", res)
-  # Open the connection to the logfile:
-  log_con <- file("logfile.log", open = "a")
-  # Write to the logfile:
-  cat(res, file = log_con)
+  # Set the string for the logfile containing the current time and date
+  # and a linebreak at the end:
+  res <- paste0("[", Sys.time(), "] ", res, "\n")
+
+  # Check if last character of the path is a slash and add one if not:
+  if (substr(logfile_dir, nchar(logfile_dir), nchar(logfile_dir)) != "/") {
+    logfile_dir <- paste0(logfile_dir, "/")
+  }
+
+  path_with_file <- paste0(logfile_dir, "logfile.log")
+
+  # Check if logfile.log is already the logfile for this session:
+  if (isTRUE(check_file_current_runtime_id(path_with_file = path_with_file))) {
+    # There is a logfile for the current runtime id,
+    # so append the existing logfile:
+    # Open the connection to the logfile:
+    log_con <- file(path_with_file, open = "a")
+    # Write to the logfile:
+    cat(res, file = log_con)
+    # Close the connection to logfile:
+    close(log_con)
+  } else {
+    # There is no logfile for the current runtime id,
+    # so rename the logfile.log to logfile_2020-01-01-1234h and
+    # create a new logfile and write the current runtime id to it:
+    filename_datetime <- format(Sys.time(), "%Y-%m-%d-%H%M%OS")
+    path_with_file_datetime <-
+      paste0(logfile_dir, "logfile_", filename_datetime, ".log")
+    file.rename(from = path_with_file, to = path_with_file_datetime)
+    # ... create a new logfile.log and paste the current runtime_id here:
+    if (!file.exists(path_with_file)) {
+      # Open the connection to the logfile:
+      log_con <- file(path_with_file, open = "a")
+      # Write current runtime_id to the logfile:
+      runtime_id <- paste0("runtime_id=", get_runtime_id(), "\n\n")
+      cat(runtime_id, file = log_con)
+      # Write current message to the logfile:
+      cat(res, file = log_con)
+      # Close the connection to logfile:
+      close(log_con)
+    }
+  }
+
+
+  # # If there already is a logfile for this session,
+  # # search in the logfile_dir for the next free filename:
+  # count <- 0
+  #
+  # while (isTRUE(file.exists(path_with_file)) &&
+  #        check_file_current_wd(path_with_file)) {
+  #   if (count > 1000) {
+  #     # If there are more than 1000 logfiles, delete the whole folder
+  #     # and recreate it:
+  #     unlink(logfile_dir, recursive = TRUE)
+  #     dir.create(logfile_dir)
+  #     path_with_file <- paste0(logfile_dir, "/logfile.log")
+  #   } else {
+  #     # Otherwise just increment the number of the logfile:
+  #     count <- count + 1
+  #     path_with_file <- paste0(logfile_dir, "/logfile", count, ".log")
+  #   }
+  # }
+  #
+  # if (!file.exists(path_with_file)) {
+  #   # Open the connection to the logfile:
+  #   log_con <- file(path_with_file, open = "a")
+  #   # Write working directory to the logfile:
+  #   wd <- paste0("wd=", getwd(), "\n\n")
+  #   cat(wd, file = log_con)
+  #   # Close the connection to logfile:
+  #   close(log_con)
+  # }
+  #
+  # # Open the connection to the logfile:
+  # log_con <- file(path_with_file, open = "a")
+  # # Write to the logfile:
+  # cat(res, file = log_con)
+  # # Close the connection to logfile:
+  # close(log_con)
+}
+
+#' @title Returns the current runtime_id and stores it to rv$runtime_id
+#' @description  Helper function for the feedback function, especially
+#'   the logfile function. If there is already a runtime_id, the current
+#'   one will be returned. Otherwise a new one will be set,
+#'   stored to rv$runtime_id and also be returned.
+#' @param force If true, a new runtime_id will be created.
+#'   If false (default) it depends wether there already is one or not.
+#'
+get_runtime_id <- function(force = FALSE) {
+  runtime_id_length <- 20
+  if (isTRUE(exists("runtime_id") &&
+             !is.na(runtime_id)) &&
+      nchar(runtime_id) == runtime_id_length && isFALSE(force)) {
+    return(runtime_id)
+  } else {
+    print("Getting a new runtime_id...")
+    # runtime_id <- sample(x = 0:10e6, size = 1)
+    runtime_id <-
+      paste0(sample(c(0:9, LETTERS[1:6]), runtime_id_length, T), collapse = "")
+    return(runtime_id)
+  }
+}
+
+#' @title Is current runtime_id the one in this file?
+#' @description  Helper function for the feedback function, especially
+#'   the logfile function. Extracts the runtime_id from the
+#'   logfile and compares it to the current runtime_id.
+#'   If equal, return = TRUE.
+#' @param path_with_file The path with the file to look at
+#'
+check_file_current_runtime_id <- function(path_with_file) {
+  tryCatch({
+    con <- file(path_with_file, "r")
+    first_line <- readLines(con, n = 1)
+    runtime_id_tmp <- gsub("([runtime_id\\=])", "", first_line)
+    if (isTRUE(runtime_id_tmp == runtime_id)) {
+      return(TRUE)
+    } else {
+      return(FALSE)
+    }
+    close(con)
+  },
+  error = function(cond) {
+    return(FALSE)
+  },
+  warning = function(cond) {
+    return(FALSE)
+  }, finally = close(con))
 }
 
 #' @title Format the feedback string
@@ -278,7 +416,9 @@ feedback_to_logfile <- function(print_this, findme, prefix, suffix) {
 #'   Internal use. Use the robust 'feedback' function instead.
 #' @inheritParams feedback
 #'
-feedback_get_formatted_string <- function(print_this, findme, prefix, suffix){
+feedback_get_formatted_string <-
+  function(print_this, type, findme, prefix, suffix) {
+
   if (length(print_this) == 1) {
     if (findme == "") {
       res <- paste0("[", type, "] ", prefix, print_this, suffix)
@@ -370,8 +510,8 @@ validate_inputs <- function(rv) {
           findme = "10d5e79d44",
           ui = T
         )
-        printme(
-          paste0(
+        feedback(
+          print_this = paste0(
             "rv$source$settings$dir = ",
             rv$source$settings$dir,
             "(d9b43110bb)"
@@ -387,7 +527,8 @@ validate_inputs <- function(rv) {
                             headless = rv$headless)
         if (!is.null(rv$source$db_con)) {
           # valid
-          printme("Source db-settings seem valid. (29cc920472)")
+          feedback(print_this = "Source db-settings seem valid.",
+                   findme = "29cc920472")
         } else {
           # invalid:
           feedback(
@@ -396,11 +537,11 @@ validate_inputs <- function(rv) {
             findme = "c63e1ccaf0",
             ui = T
           )
-          printme(paste0(
-            "rv$source$settings = ",
-            rv$source$settings,
-            "(2d47f163a9)"
-          ))
+          feedback(
+            print_this = paste0("rv$source$settings = ",
+                                rv$source$settings),
+            findme = "2d47f163a9"
+          )
           error_tmp <- T
         }
       } else {
@@ -455,11 +596,11 @@ validate_inputs <- function(rv) {
           findme = "f4cc32e068",
           ui = T
         )
-        printme(paste0(
-          "rv$target$settings$dir = ",
-          rv$target$dir,
-          "(43c81cb723)"
-        ))
+        feedback(
+          print_this = paste0("rv$target$settings$dir = ",
+                              rv$target$dir),
+          findme = "(43c81cb723)"
+        )
         error_tmp <- T
       }
     } else if (rv$target$system_type == "postgres") {
@@ -470,7 +611,7 @@ validate_inputs <- function(rv) {
                             headless = rv$headless)
         if (!is.null(rv$target$db_con)) {
           # valid
-          printme("Target db-settings seem valid. (79234d2ba0)")
+          feedback("Target db-settings seem valid. (79234d2ba0)")
         } else {
           # invalid:
           feedback(
@@ -479,7 +620,7 @@ validate_inputs <- function(rv) {
             findme = "096341c4c1",
             ui = T
           )
-          printme(paste0(
+          feedback(paste0(
             "rv$target$settings = ",
             rv$target$settings,
             "(2d47f163a9)"

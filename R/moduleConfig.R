@@ -122,13 +122,13 @@ module_config_server <-
       eventExpr = input_re()[["moduleConfig-config_load_mdr"]],
       handlerExpr = {
         if (is.null(rv$mdr)) {
-          printme("Reading MDR ...")
+          feedback("Reading MDR ...")
 
           if (debugging) {
-            printme(paste0("MDR-Filename:", rv$mdr_filename))
+            feedback(paste0("MDR-Filename:", rv$mdr_filename))
           }
           if (debugging) {
-            printme(paste0("rv$utilspath:", rv$utilspath))
+            feedback(paste0("rv$utilspath:", rv$utilspath))
           }
           rv$mdr <- button_mdr(utils_path = rv$utilspath,
                                mdr_filename = rv$mdr_filename)
@@ -214,10 +214,10 @@ module_config_server <-
           }
           if (!("postgres" %in% tolower(rv$system_types))) {
             # Remove Postgres-Tabs:
-            printme("Removing postgres-tab from source ...")
+            feedback("Removing postgres-tab from source ...")
             removeTab(inputId = "source_tabs", target = "PostgreSQL")
 
-            printme("Removing postgres-tab from target ...")
+            feedback("Removing postgres-tab from target ...")
             removeTab(inputId = "target_tabs", target = "PostgreSQL")
           } else{
             # Fill the tab with presettings
@@ -283,19 +283,24 @@ module_config_server <-
     # observeEvent(input$source_pg_presettings_btn, {
     observeEvent(input$source_pg_presettings_list, {
       feedback(
-        paste0(
-          "Input-preset ",
-          input$source_pg_presettings_list,
-          " was chosen as SOURCE.",
-          " Loading presets ..."
-        ), findme = "e9832b3092"
+        print_this =
+          paste0(
+            "Input-preset ",
+            input$source_pg_presettings_list,
+            " was chosen as SOURCE.",
+            " Loading presets ..."
+          ),
+        findme = "e9832b3092"
       )
       config_stuff <- rv$settings[[tolower(input$source_pg_presettings_list)]]
 
-      feedback(paste(
-        "Loaded successfully.",
-        "Filling presets to global rv-object and UI ..."
-      ), findme = "3c9136d49f")
+      feedback(
+        print_this = paste(
+          "Loaded successfully.",
+          "Filling presets to global rv-object and UI ..."
+        ),
+        findme = "3c9136d49f"
+      )
       if (length(config_stuff) != 0) {
         updateTextInput(session = session,
                         inputId = "config_sourcedb_dbname",

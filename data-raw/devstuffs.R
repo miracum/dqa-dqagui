@@ -29,7 +29,7 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.0.7")
+my_desc$set_version("0.0.7.9001")
 # The title of your package
 my_desc$set(Title = "DQA GUI")
 # The description of your package
@@ -82,7 +82,7 @@ usethis::use_package("processx", type = "Suggests")
 usethis::use_package("lintr", type = "Suggests")
 
 # Development package
-mytag <- "v0.0.7"
+mytag <- "development"
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqastats.git", ref = mytag, upgrade = "always")
 # usethis::use_dev_package("DQAstats", type = "Imports")
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html

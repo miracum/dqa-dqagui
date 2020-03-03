@@ -2,39 +2,46 @@
 % Please edit documentation in R/app_utils.R
 \name{feedback}
 \alias{feedback}
-\title{Simple method to feedback messages either to the user and/or to the
-  console.}
+\title{Simply prints stuff to the console.}
 \usage{
 feedback(
-  print_this,
+  print_this = "",
   type = "Info",
   ui = FALSE,
   console = TRUE,
+  logfile = TRUE,
   prefix = "",
   suffix = "",
   findme = ""
 )
 }
 \arguments{
-\item{print_this}{The string to be printed.}
+\item{print_this}{(Optional, String)}
 
-\item{type}{(Optional) The type of message as string.
-If type is e.g. "Warning" the printed line will be "[Warning] print_this".}
+\item{type}{(Optional, String)}
 
-\item{ui}{(Optional) If true, the message will also be printed
-to the user in form of a modal.}
+\item{ui}{(Optional, Boolean/String) If true, the message will
+also be printed to the user in form of a modal. Can also be a string.}
 
-\item{console}{(Optional) If true, the message will also be printed
-to the console as is.}
+\item{console}{(Optional, Boolean/String) If true, the message will also
+be printed to the console as is. Can also be a string.}
 
-\item{prefix}{Prefix (String)}
+\item{prefix}{Prefix (Optional, String) This is useful if
+print_this is an array/list.
+Each entry will then be new row with this prefix.}
 
-\item{suffix}{Suffix (String)}
+\item{suffix}{Suffix (Optional, String). Same like prefix but at the
+end of each line.}
 
-\item{findme}{(Optional) String to find the message in the code.
+\item{findme}{(Optional, String) String to find the message in the code.
 E.g. 10-digit random hex from https://www.browserling.com/tools/random-hex
 or https://onlinerandomtools.com/generate-random-hexadecimal-numbers}
 }
 \description{
-Extended version of the printme-function.
+This functino is to provide feedback for any kind of
+  information.  This might be a simple info, a warning or an error.
+  The function can be used to select the output (console, ui, logfile).
+  If no output is selected, the print_this string will be printed to the
+  console and to logfile.
+  One of these must be a string with length > 0: print_me, console, ui
 }

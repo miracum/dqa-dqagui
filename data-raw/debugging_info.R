@@ -8,6 +8,7 @@ utils_path = DQAstats::clean_path_name(system.file("application/_utilities",
 mdr_filename = "mdr.csv"
 config_file = system.file("application/_settings/demo_settings_INTERNAL.yml",
                           package = "DQAgui")
+logfile_dir = "~/share/logfiles/"
 ##	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑
 
 
@@ -34,7 +35,8 @@ launch_app(
   port = port,
   utils_path = utils_path,
   mdr_filename = mdr_filename,
-  config_file = config_file
+  config_file = config_file,
+  logfile_dir = logfile_dir
 )
 
 # with environment variables

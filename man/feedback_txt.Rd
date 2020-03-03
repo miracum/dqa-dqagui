@@ -12,6 +12,9 @@ feedback_txt(system, type)
 
 \item{type}{(String) "source" or "target"}
 }
+\value{
+String containing the input params in a propper manner
+}
 \description{
 This function is used in the config-tab and displays the selected
   system to the user.
