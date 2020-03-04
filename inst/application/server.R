@@ -24,10 +24,14 @@ shiny::shinyServer(
             mdr_filename = mdr_filename,
             use_env_credentials = use_env_credentials,
             logfile_dir = logfile_dir,
-            runtime_id = runtime_id,
             utilspath = DQAstats::clean_path_name(utils_path),
             current_date = format(Sys.Date(), "%d. %B %Y", tz = "CET")
         )
+
+        observe({
+            print(logfile_dir)
+        })
+
 
         # read datamap email
         rv$datamap_email <- tryCatch(

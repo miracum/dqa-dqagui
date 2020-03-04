@@ -45,7 +45,7 @@
 #' @import shiny shinydashboard
 #' @importFrom magrittr "%>%"
 #' @importFrom data.table .N ":="
-# @importFrom DQAstats feedback
+#' @importFrom DQAstats feedback
 #'
 #' @export
 #'
@@ -100,11 +100,7 @@ launch_app <- function(port = 3838,
     pos = 1L
   )
 
-  global_env_hack(
-    key = "runtime_id",
-    val = get_runtime_id(force = T),
-    pos = 1L
-  )
+  DQAstats::cleanup_old_logfile()
 
   options(shiny.port = port)
 

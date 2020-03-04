@@ -32,7 +32,7 @@ module_log_server <-
     observeEvent(input$moduleLog_log_refresh_btn, {
       path_with_file <- paste0(logfile_dir, "logfile.log")
 
-      output$textWithHTML <- renderUI({
+      output$moduleLog_log_logging_content <- renderUI({
         rawText <- readLines(path_with_file) # get raw text
 
         # split the text into a list of character vectors
@@ -45,6 +45,8 @@ module_log_server <-
         return(replacedText)
       })
     })
+
+
   }
 
 #' @title module_log_ui
@@ -66,7 +68,7 @@ module_log_ui <- function(id) {
         icon = icon("sync")
       ),
       tags$br(),
-      uiOutput(ns('textWithHTML'), style = "font-family: 'consolas'")
+      uiOutput(ns('moduleLog_log_logging_content'), style = "font-family: 'consolas'"),
     )
   ))
 }
