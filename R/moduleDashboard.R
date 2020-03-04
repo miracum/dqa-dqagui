@@ -230,16 +230,40 @@ module_dashboard_server <-
 
     # render dashboard summary
     observe({
-      req(rv$datamap$target_data)
+      req(rv$datamap)
+
+      output$dash_datamap <- renderUI({
+        outlist <- list(
+          box(
+            title = "Target System Overview (Data Map)",
+            h5(tags$b(paste0("System name: ", rv$target$system_name))),
+            tags$hr(),
+            tableOutput("moduleDashboard-dash_datamap_target"),
+            tags$hr(),
+            actionButton(
+              "moduleDashboard-dash_send_datamap_btn",
+              "Send Datamap",
+              icon = icon("server")
+            ),
+            width = 12
+          ),
+          box(title = "Source System Overview",
+              h5(tags$b(paste0("System name: ", rv$source$system_name))),
+              tags$hr(),
+              tableOutput("moduleDashboard-dash_datamap_source"),
+              width = 12)
+        )
+        do.call(tagList, outlist)
+      })
+
+
       output$dash_datamap_target <- renderTable({
         tab <- rv$datamap$target_data
         colnames(tab) <-
           c("Variable", "# n", "# Valid", "# Missing", "# Distinct")
         tab
       })
-    })
-    observe({
-      req(rv$datamap$source_data)
+
       output$dash_datamap_source <- renderTable({
         tab <- rv$datamap$source_data
         colnames(tab) <-
@@ -381,22 +405,7 @@ module_dashboard_ui <- function(id) {
       6,
       conditionalPanel(
         condition = "output['moduleDashboard-etl_results']",
-        box(
-          title = "Target System Overview (Data Map)",
-          tableOutput(ns("dash_datamap_target")),
-          tags$hr(),
-          actionButton(
-            ns("dash_send_datamap_btn"),
-            "Send Datamap",
-            icon = icon("server")
-          ),
-          width = 12
-        ),
-        box(title = "Source System Overview",
-            tableOutput(ns(
-              "dash_datamap_source"
-            )),
-            width = 12)
+        uiOutput(ns("dash_datamap"))
       )
     )
   ))
