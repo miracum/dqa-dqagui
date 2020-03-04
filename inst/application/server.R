@@ -207,6 +207,29 @@ shiny::shinyServer(
                 id = "moduleDashboard-dash_send_datamap_btn",
                 expr =  {
                     shinyjs::runjs(rv$send_datamap)
+                    # To allow only one export, disable button afterwards:
+                    if (isTRUE(rv$datamap$exported)) {
+                        shinyjs::disable(
+                            "moduleDashboard-dash_send_datamap_btn"
+                        )
+                        updateActionButton(
+                            session = session,
+                            inputId = "moduleDashboard-dash_send_datamap_btn",
+                            label = "Datamap successfully sent",
+                            # so don't send it again
+                            icon = icon("check")
+                        )
+                    } else {
+                        shinyjs::enable(
+                            "moduleDashboard-dash_send_datamap_btn"
+                        )
+                        updateActionButton(
+                            session = session,
+                            inputId = "moduleDashboard-dash_send_datamap_btn",
+                            label = "Send Datamap",
+                            icon = icon("server")
+                        )
+                    }
                 }
             )
         })

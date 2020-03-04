@@ -324,24 +324,6 @@ module_dashboard_server <-
 
       rv$send_datamap <- button_send_datamap(rv)
 
-      # To allow only one export, disable button afterwards:
-      if (isTRUE(rv$datamap$exported)) {
-        shinyjs::disable("dash_send_datamap_btn")
-        updateActionButton(
-          session = session,
-          inputId = "dash_send_datamap_btn",
-          label = "Datamap successfully sent", # so don't send it again
-          icon = icon("check")
-        )
-      } else {
-        shinyjs::enable("dash_send_datamap_btn")
-        updateActionButton(
-          session = session,
-          inputId = "dash_send_datamap_btn",
-          label = "Send Datamap",
-          icon = icon("server")
-        )
-      }
     })
 
   }
