@@ -190,7 +190,7 @@ shiny::shinyServer(
 
 
         observe({
-            req(rv$send_datamap)
+            req(rv$datamap)
 
             # !!! trigger shinyjs from server.R only
             shinyjs::onclick(
@@ -206,32 +206,30 @@ shiny::shinyServer(
                 # actionbutton-to-send-email-in-rshiny
                 id = "moduleDashboard-dash_send_datamap_btn",
                 expr =  {
+                    rv$send_datamap <- button_send_datamap(rv)
                     shinyjs::runjs(rv$send_datamap)
-                    # To allow only one export, disable button afterwards:
-                    if (isTRUE(rv$datamap$exported)) {
-                        shinyjs::disable(
-                            "moduleDashboard-dash_send_datamap_btn"
-                        )
-                        updateActionButton(
-                            session = session,
-                            inputId = "moduleDashboard-dash_send_datamap_btn",
-                            label = "Datamap successfully sent",
-                            # so don't send it again
-                            icon = icon("check")
-                        )
-                    } else {
-                        shinyjs::enable(
-                            "moduleDashboard-dash_send_datamap_btn"
-                        )
-                        updateActionButton(
-                            session = session,
-                            inputId = "moduleDashboard-dash_send_datamap_btn",
-                            label = "Send Datamap",
-                            icon = icon("server")
-                        )
-                    }
                 }
             )
+        })
+
+        observe({
+            req(rv$datamap)
+            # To allow only one export, disable button afterwards:
+            if (is.null(rv$send_btn_disabled)) {
+                if (isTRUE(rv$datamap$exported)) {
+                    updateActionButton(
+                        session = session,
+                        inputId = "moduleDashboard-dash_send_datamap_btn",
+                        label = "Datamap successfully sent",
+                        # so don't send it again
+                        icon = icon("check")
+                    )
+                    shinyjs::disable(
+                        "moduleDashboard-dash_send_datamap_btn"
+                    )
+                    rv$send_btn_disabled <- TRUE
+                }
+            }
         })
 
         ########################

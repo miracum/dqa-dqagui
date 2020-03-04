@@ -230,41 +230,38 @@ module_dashboard_server <-
 
     # render dashboard summary
     observe({
-      req(rv$datamap)
+      req(rv$datamap$target_data)
 
-      output$dash_datamap <- renderUI({
+      output$dash_datamap_target <- renderUI({
         outlist <- list(
-          box(
-            title = "Target System Overview (Data Map)",
-            h5(tags$b(paste0("System name: ", rv$target$system_name))),
-            tags$hr(),
-            tableOutput("moduleDashboard-dash_datamap_target"),
-            tags$hr(),
-            actionButton(
-              "moduleDashboard-dash_send_datamap_btn",
-              "Send Datamap",
-              icon = icon("server")
-            ),
-            width = 12
-          ),
-          box(title = "Source System Overview",
-              h5(tags$b(paste0("System name: ", rv$source$system_name))),
-              tags$hr(),
-              tableOutput("moduleDashboard-dash_datamap_source"),
-              width = 12)
+          h5(tags$b(paste0("System name: ", rv$target$system_name))),
+          tags$hr(),
+          tableOutput("moduleDashboard-dash_datamap_target_tbl")
         )
         do.call(tagList, outlist)
       })
 
-
-      output$dash_datamap_target <- renderTable({
+      output$dash_datamap_target_tbl <- renderTable({
         tab <- rv$datamap$target_data
         colnames(tab) <-
           c("Variable", "# n", "# Valid", "# Missing", "# Distinct")
         tab
       })
+    })
 
-      output$dash_datamap_source <- renderTable({
+    observe({
+      req(rv$datamap$source_data)
+
+      output$dash_datamap_source <- renderUI({
+        outlist <- list(
+          h5(tags$b(paste0("System name: ", rv$source$system_name))),
+          tags$hr(),
+          tableOutput("moduleDashboard-dash_datamap_source")
+        )
+        do.call(tagList, outlist)
+      })
+
+      output$dash_datamap_source_tbl <- renderTable({
         tab <- rv$datamap$source_data
         colnames(tab) <-
           c("Variable", "# n", "# Valid", "# Missing", "# Distinct")
@@ -319,13 +316,6 @@ module_dashboard_server <-
       })
       shinyjs::show("dash_instruction")
     })
-
-    observeEvent(input$dash_send_datamap_btn, {
-
-      rv$send_datamap <- button_send_datamap(rv)
-
-    })
-
   }
 
 
@@ -387,7 +377,22 @@ module_dashboard_ui <- function(id) {
       6,
       conditionalPanel(
         condition = "output['moduleDashboard-etl_results']",
-        uiOutput(ns("dash_datamap"))
+        box(
+          title = "Target System Overview (Data Map)",
+          uiOutput(ns("dash_datamap_target")),
+          tags$hr(),
+          actionButton(
+            ns("dash_send_datamap_btn"),
+            "Send Datamap",
+            icon = icon("server")
+          ),
+          width = 12
+        ),
+        box(
+          title = "Source System Overview",
+          uiOutput(ns("dash_datamap_source")),
+          width = 12
+        )
       )
     )
   ))

@@ -9,7 +9,14 @@ button_mdr <- function(utils_path, mdr_filename) {
   return(mdr)
 }
 
-
+#' @title button_send_datamap
+#' @description This function is an exporte wrapper around the actual function
+#'   to send the datamap. This actual function can be customized by the user.
+#'
+#' @param rv The global rv object. rv$datamap and rv$config_file need to
+#'   be valid.
+#'
+#' @export
 button_send_datamap <- function(rv) {
   return(send_datamap_to_mail(rv))
 }
