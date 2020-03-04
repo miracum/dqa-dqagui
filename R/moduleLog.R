@@ -68,7 +68,9 @@ module_log_ui <- function(id) {
         icon = icon("sync")
       ),
       tags$br(),
-      uiOutput(ns('moduleLog_log_logging_content'), style = "font-family: 'consolas'"),
+      tags$br(),
+
+      uiOutput(ns('moduleLog_log_logging_content'), style = "font-family: 'consolas'; line-height: 0.5;")
     )
   ))
 }

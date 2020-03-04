@@ -49,12 +49,13 @@ shiny::shinyUI(
             tabName = "tab_config",
             icon = icon("cogs")
           ),
+
+          shinydashboard::sidebarMenuOutput("mdr"),
           shinydashboard::menuItem(
             text = "Logfile",
             tabName = "tab_log",
             icon = icon("terminal")
           ),
-          shinydashboard::sidebarMenuOutput("mdr"),
           shiny::tags$hr(),
           shiny::actionButton(
             inputId = "reset",
