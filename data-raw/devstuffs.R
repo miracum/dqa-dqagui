@@ -29,7 +29,7 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.0.7.9001")
+my_desc$set_version("0.0.7.9004")
 # The title of your package
 my_desc$set(Title = "DQA GUI")
 # The description of your package
@@ -88,7 +88,7 @@ devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqastats.git
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
 desc::desc_set_remotes(c(
   paste0(
-    "url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/", mytag, "/miracum/dqa/dqastats-", mytag, ".zip")
+    "url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/", mytag, "/dqastats-", mytag, ".zip")
 ),
 file = usethis::proj_get())
 

@@ -231,16 +231,37 @@ module_dashboard_server <-
     # render dashboard summary
     observe({
       req(rv$datamap$target_data)
-      output$dash_datamap_target <- renderTable({
+
+      output$dash_datamap_target <- renderUI({
+        outlist <- list(
+          h5(tags$b(paste0("System name: ", rv$target$system_name))),
+          tags$hr(),
+          tableOutput("moduleDashboard-dash_datamap_target_tbl")
+        )
+        do.call(tagList, outlist)
+      })
+
+      output$dash_datamap_target_tbl <- renderTable({
         tab <- rv$datamap$target_data
         colnames(tab) <-
           c("Variable", "# n", "# Valid", "# Missing", "# Distinct")
         tab
       })
     })
+
     observe({
       req(rv$datamap$source_data)
-      output$dash_datamap_source <- renderTable({
+
+      output$dash_datamap_source <- renderUI({
+        outlist <- list(
+          h5(tags$b(paste0("System name: ", rv$source$system_name))),
+          tags$hr(),
+          tableOutput("moduleDashboard-dash_datamap_source")
+        )
+        do.call(tagList, outlist)
+      })
+
+      output$dash_datamap_source_tbl <- renderTable({
         tab <- rv$datamap$source_data
         colnames(tab) <-
           c("Variable", "# n", "# Valid", "# Missing", "# Distinct")
@@ -295,31 +316,6 @@ module_dashboard_server <-
       })
       shinyjs::show("dash_instruction")
     })
-
-    observeEvent(input$dash_send_datamap_btn, {
-
-      rv$send_datamap <- button_send_datamap(rv)
-
-      # To allow only one export, disable button afterwards:
-      if (isTRUE(rv$datamap$exported)) {
-        shinyjs::disable("dash_send_datamap_btn")
-        updateActionButton(
-          session = session,
-          inputId = "dash_send_datamap_btn",
-          label = "Datamap successfully sent", # so don't send it again
-          icon = icon("check")
-        )
-      } else {
-        shinyjs::enable("dash_send_datamap_btn")
-        updateActionButton(
-          session = session,
-          inputId = "dash_send_datamap_btn",
-          label = "Send Datamap",
-          icon = icon("server")
-        )
-      }
-    })
-
   }
 
 
@@ -383,7 +379,7 @@ module_dashboard_ui <- function(id) {
         condition = "output['moduleDashboard-etl_results']",
         box(
           title = "Target System Overview (Data Map)",
-          tableOutput(ns("dash_datamap_target")),
+          uiOutput(ns("dash_datamap_target")),
           tags$hr(),
           actionButton(
             ns("dash_send_datamap_btn"),
@@ -392,11 +388,11 @@ module_dashboard_ui <- function(id) {
           ),
           width = 12
         ),
-        box(title = "Source System Overview",
-            tableOutput(ns(
-              "dash_datamap_source"
-            )),
-            width = 12)
+        box(
+          title = "Source System Overview",
+          uiOutput(ns("dash_datamap_source")),
+          width = 12
+        )
       )
     )
   ))

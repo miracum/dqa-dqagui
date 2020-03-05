@@ -69,7 +69,14 @@ shiny::shinyUI(
                          "padding: 9.5px 9.5px 9.5px 9.5px; ",
                          "margin: 6px 10px 6px 10px; ",
                          "box-sizing:border-box; heigth: auto; width: 230px;"),
-          shiny::HTML("\u00A9 Universitätsklinikum Erlangen<br/>")
+          shiny::HTML(
+            paste0(
+              "Version:",
+              "<br/>DQAstats: ", utils::packageVersion("DQAstats"),
+              "<br/>DQAgui: ", utils::packageVersion("DQAgui"),
+              "<br/><br/>\u00A9 Universitätsklinikum Erlangen<br/>"
+            )
+          )
         )
       ),
 
@@ -128,7 +135,6 @@ shiny::shinyUI(
             tabName = "tab_log",
             module_log_ui("moduleLog")
           )
-
         )
       )
     )
