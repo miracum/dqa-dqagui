@@ -397,9 +397,9 @@ module_config_server <-
         if (!is.null(rv$source$db_con)) {
           feedback(
             paste0(
-              "\nDB connection for ",
+              "DB connection for ",
               input$source_pg_presettings_list,
-              " successfully established\n"
+              " successfully established."
             ), findme = "e35eaa306e"
           )
           showNotification(

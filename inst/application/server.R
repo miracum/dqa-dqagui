@@ -28,11 +28,6 @@ shiny::shinyServer(
             current_date = format(Sys.Date(), "%d. %B %Y", tz = "CET")
         )
 
-        observe({
-            print(logfile_dir)
-        })
-
-
         # read datamap email
         rv$datamap_email <- tryCatch(
             expr = {
@@ -51,6 +46,12 @@ shiny::shinyServer(
 
         # handle reset
         shiny::observeEvent(input$reset, {
+            DQAstats::feedback(print_this = "\U2304")
+            DQAstats::feedback(
+                print_this = "############ APP WAS RESETTED ############",
+                findme = "9c57ce125a"
+            )
+            DQAstats::feedback(print_this = "\U2303")
             shinyjs::js$reset()
         })
 

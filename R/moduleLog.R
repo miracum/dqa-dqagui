@@ -29,23 +29,37 @@
 # module_log_server
 module_log_server <-
   function(input, output, session, rv, input_re) {
-    observeEvent(input$moduleLog_log_refresh_btn, {
-      path_with_file <- paste0(logfile_dir, "logfile.log")
+    path_with_file <- paste0(logfile_dir, "logfile.log")
 
-      output$moduleLog_log_logging_content <- renderUI({
-        rawText <- readLines(path_with_file) # get raw text
+    # This reader scans the logfile for changes every 500 ms and
+    # pupulates the changes to the GUI.
+    rawText <-
+      reactiveFileReader(
+        intervalMillis = 500,
+        filePath = path_with_file,
+        readFunc = readLines,
+        session = session
+      )
 
-        # split the text into a list of character vectors
-        # Each element in the list contains one line
-        splitText <- stringi::stri_split(str = rawText, regex = '\\n')
-
-        # wrap a paragraph tag around each element in the list
-        replacedText <- lapply(splitText, p)
-
-        return(replacedText)
-      })
+    output$moduleLog_log_logging_content <- renderUI({
+      # Split the text into a list of character vectors so
+      # each element in the list contains one line:
+      splitText <-
+        stringi::stri_split(str = rawText(), regex = '\\n')
+      # wrap a paragraph tag around each element in the list:
+      replacedText <- lapply(splitText, p)
+      return(replacedText)
     })
 
+    # Button to scroll down:
+    observeEvent(input$moduleLog_scrolldown_btn, {
+      shinyjs::runjs("window.scrollTo(0,document.body.scrollHeight);")
+    })
+
+    # Button to scroll up:
+    observeEvent(input$moduleLog_scrollup_btn, {
+      shinyjs::runjs("window.scrollTo(0,0);")
+    })
 
   }
 
@@ -63,14 +77,20 @@ module_log_ui <- function(id) {
     box(
       width = 12,
       actionButton(
-        inputId = ns("moduleLog_log_refresh_btn"),
-        label = "Refresh",
-        icon = icon("sync")
+        inputId = ns("moduleLog_scrolldown_btn"),
+        label = "Scroll to bottom",
+        icon = icon("chevron-down")
       ),
       tags$br(),
       tags$br(),
-
-      uiOutput(ns('moduleLog_log_logging_content'), style = "font-family: 'consolas'; line-height: 0.5;")
+      uiOutput(ns('moduleLog_log_logging_content'),
+               style = "font-family: 'consolas';
+               line-height: 0.5"),
+      actionButton(
+        inputId = ns("moduleLog_scrollup_btn"),
+        label = "Scroll to top",
+        icon = icon("chevron-up")
+      ),
     )
   ))
 }
