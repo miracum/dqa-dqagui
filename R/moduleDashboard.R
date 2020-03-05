@@ -256,7 +256,7 @@ module_dashboard_server <-
         outlist <- list(
           h5(tags$b(paste0("System name: ", rv$source$system_name))),
           tags$hr(),
-          tableOutput("moduleDashboard-dash_datamap_source")
+          tableOutput("moduleDashboard-dash_datamap_source_tbl")
         )
         do.call(tagList, outlist)
       })

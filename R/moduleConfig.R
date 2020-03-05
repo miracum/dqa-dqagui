@@ -340,7 +340,7 @@ module_config_server <-
         paste0(
           "Input-preset ",
           input$target_pg_presettings_list,
-          " was chosen as TARGET",
+          " was chosen as TARGET.",
           " Loading presets ..."
         ), findme = "d603f8127a"
       )

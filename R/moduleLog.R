@@ -74,6 +74,13 @@ module_log_ui <- function(id) {
   ns <- NS(id)
   tagList(fluidRow(
     h2('Logging information'),
+    tags$head(tags$style(".logmsg p {
+                                      font-family: 'consolas';
+                                      line-height: 1;
+                                      margin: 0px 0px 2px 0px;
+                                      padding-left: 5%;
+                                      text-indent:-5%;
+                                    }")),
     box(
       width = 12,
       actionButton(
@@ -84,8 +91,7 @@ module_log_ui <- function(id) {
       tags$br(),
       tags$br(),
       uiOutput(ns('moduleLog_log_logging_content'),
-               style = "font-family: 'consolas';
-               line-height: 0.5"),
+               class = "logmsg"),
       actionButton(
         inputId = ns("moduleLog_scrollup_btn"),
         label = "Scroll to top",
