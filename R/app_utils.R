@@ -153,7 +153,7 @@ validate_inputs <- function(rv) {
       if (typeof(rv$source$settings$dir) == "character" &&
           !is.null(rv$source$settings$dir) &&
           length(rv$source$settings$dir) > 0) {
-        feedback("Source settings seem valid.",
+        DQAstats::feedback("Source settings seem valid.",
                  findme = "c0bcc9aa31")
         # valid path, so check if files exist:
         test_source_csv <- DQAstats::test_csv(
@@ -163,23 +163,23 @@ validate_inputs <- function(rv) {
           headless = F
         )
         if (isTRUE(test_source_csv)) {
-          feedback("All source csv-files were found.",
+          DQAstats::feedback("All source csv-files were found.",
                    findme = "794c6f3160")
         } else{
-          feedback("Some source csv-files are MISSING.",
+          DQAstats::feedback("Some source csv-files are MISSING.",
                    type = "Error",
                    findme = "926b0c567c")
           error_tmp <- T
         }
       } else {
         # invalid path:
-        feedback(
+        DQAstats::feedback(
           print_this = "Source settings not valid.",
           type = "warning",
           findme = "10d5e79d44",
           ui = T
         )
-        feedback(
+        DQAstats::feedback(
           print_this = paste0(
             "rv$source$settings$dir = ",
             rv$source$settings$dir,
@@ -196,17 +196,17 @@ validate_inputs <- function(rv) {
                             headless = rv$headless)
         if (!is.null(rv$source$db_con)) {
           # valid
-          feedback(print_this = "Source db-settings seem valid.",
+          DQAstats::feedback(print_this = "Source db-settings seem valid.",
                    findme = "29cc920472")
         } else {
           # invalid:
-          feedback(
+          DQAstats::feedback(
             print_this = "Source db-settings not valid.",
             type = "Warning",
             findme = "c63e1ccaf0",
             ui = T
           )
-          feedback(
+          DQAstats::feedback(
             print_this = paste0("rv$source$settings = ",
                                 rv$source$settings),
             findme = "2d47f163a9"
@@ -215,7 +215,7 @@ validate_inputs <- function(rv) {
         }
       } else {
         # invalid 2:
-        feedback(
+        DQAstats::feedback(
           print_this = "Source db-settings are empty.",
           type = "Warning",
           findme = "127deaebca",
@@ -224,7 +224,7 @@ validate_inputs <- function(rv) {
         error_tmp <- T
       }
     } else {
-      feedback(
+      DQAstats::feedback(
         print_this = "Source system not yet implemented.",
         type = "Warning",
         findme = "d0f0bfa2f3",
@@ -239,7 +239,7 @@ validate_inputs <- function(rv) {
       if (typeof(rv$target$settings$dir) == "character" &&
           !is.null(rv$target$settings$dir) &&
           length(rv$target$settings$dir) > 0) {
-        feedback("target settings seem valid.",
+        DQAstats::feedback("target settings seem valid.",
                  findme = "9979bb57ef")
         # valid path, so check if files exist:
         test_target_csv <- DQAstats::test_csv(
@@ -249,23 +249,23 @@ validate_inputs <- function(rv) {
           headless = F
         )
         if (isTRUE(test_target_csv)) {
-          feedback("All target csv-files were found.",
+          DQAstats::feedback("All target csv-files were found.",
                    findme = "ff8203c831")
         } else{
-          feedback("Some target csv-files are MISSING.",
+          DQAstats::feedback("Some target csv-files are MISSING.",
                    type = "Error",
                    findme = "079525a7de")
           error_tmp <- T
         }
       } else {
         # invalid path:
-        feedback(
+        DQAstats::feedback(
           print_this = "Target settings not valid.",
           type = "Warning",
           findme = "f4cc32e068",
           ui = T
         )
-        feedback(
+        DQAstats::feedback(
           print_this = paste0("rv$target$settings$dir = ",
                               rv$target$dir),
           findme = "(43c81cb723)"
@@ -280,16 +280,16 @@ validate_inputs <- function(rv) {
                             headless = rv$headless)
         if (!is.null(rv$target$db_con)) {
           # valid
-          feedback("Target db-settings seem valid. (79234d2ba0)")
+          DQAstats::feedback("Target db-settings seem valid. (79234d2ba0)")
         } else {
           # invalid:
-          feedback(
+          DQAstats::feedback(
             print_this = "Target db-settings not valid.",
             type = "Warning",
             findme = "096341c4c1",
             ui = T
           )
-          feedback(paste0(
+          DQAstats::feedback(paste0(
             "rv$target$settings = ",
             rv$target$settings,
             "(2d47f163a9)"
@@ -298,7 +298,7 @@ validate_inputs <- function(rv) {
         }
       } else {
         # invalid 2:
-        feedback(
+        DQAstats::feedback(
           print_this = "Target db-settings are empty.",
           type = "Warning",
           findme = "8440a9e683",
@@ -307,7 +307,7 @@ validate_inputs <- function(rv) {
         error_tmp <- T
       }
     } else {
-      feedback(
+      DQAstats::feedback(
         print_this = "Target system not yet implemented.",
         type = "Warning",
         findme = "57b314a1a3",
@@ -316,7 +316,7 @@ validate_inputs <- function(rv) {
       error_tmp <- T
     }
   } else {
-    feedback(
+    DQAstats::feedback(
       print_this = "Either source or target system is not set.",
       type = "Warning",
       findme = "4e9400f8c9",

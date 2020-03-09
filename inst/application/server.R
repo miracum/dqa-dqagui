@@ -23,10 +23,19 @@ shiny::shinyServer(
             config_file = config_file,
             mdr_filename = mdr_filename,
             use_env_credentials = use_env_credentials,
-            logfile_dir = logfile_dir,
+            logfile_dir = DQAstats::clean_path_name(logfile_dir),
             utilspath = DQAstats::clean_path_name(utils_path),
             current_date = format(Sys.Date(), "%d. %B %Y", tz = "CET")
         )
+
+        # Create new logfile:
+        DQAstats::cleanup_old_logfile()
+
+        # Clean old connections (e.g. after reloading the app):
+        session$onSessionEnded(function() {
+            DQAstats::close_all_connections()
+        })
+
 
         # read datamap email
         rv$datamap_email <- tryCatch(
@@ -52,6 +61,7 @@ shiny::shinyServer(
                 findme = "9c57ce125a"
             )
             DQAstats::feedback(print_this = "\U2303")
+            DQAstats::close_all_connections()
             shinyjs::js$reset()
         })
 
@@ -306,5 +316,18 @@ shiny::shinyServer(
                           "moduleLog",
                           rv,
                           input_re = input_reactive)
+
+
+        observe({
+            if (input$tabs == "tab_log") {
+                updateSelectInput(
+                    session = session,
+                    inputId = "moduleLog-old_logfiles_list",
+                    selected = "logfile.log"
+                )
+                shinyjs::click("moduleLog-moduleLog_scrolldown_btn")
+            }
+        })
+
 
     })

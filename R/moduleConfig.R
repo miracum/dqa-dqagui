@@ -30,8 +30,6 @@
 # module_config_server
 module_config_server <-
   function(input, output, session, rv, input_re) {
-    debugging <- T
-
 
     # filepath roots dir
     roots <- c(home = "/home/")
@@ -70,8 +68,9 @@ module_config_server <-
             rv$source$settings$dir != "") {
           # workaround to tell ui, that it is there
           output$source_csv_dir <- reactive({
-            feedback(paste0("Source file dir: ",
-                            rv$source$settings$dir), findme = "ad440c9fcb")
+            DQAstats::feedback(paste0("Source file dir: ",
+                                      rv$source$settings$dir),
+                               findme = "ad440c9fcb")
             paste(rv$source$settings$dir)
           })
           outputOptions(output, "source_csv_dir", suspendWhenHidden = FALSE)
@@ -101,8 +100,10 @@ module_config_server <-
             rv$target$settings$dir != "") {
           # workaround to tell ui, that it is there
           output$target_csv_dir <- reactive({
-            feedback(paste0("Target file dir: ",
-                            rv$target$settings$dir), findme = "6f18c181e5")
+            DQAstats::feedback(
+              paste0("Target file dir: ",
+                     rv$target$settings$dir),
+              findme = "6f18c181e5")
             paste(rv$target$settings$dir)
           })
           outputOptions(output, "target_csv_dir", suspendWhenHidden = FALSE)
@@ -122,12 +123,16 @@ module_config_server <-
       eventExpr = input_re()[["moduleConfig-config_load_mdr"]],
       handlerExpr = {
         if (is.null(rv$mdr)) {
-          feedback(print_this = "Reading MDR ...",
-                   findme = "f877fee7d2")
-          feedback(print_this = paste0("MDR-Filename:", rv$mdr_filename),
-                   findme = "582d6a39c6")
-          feedback(print_this = paste0("rv$utilspath:", rv$utilspath),
-                   findme = "b5c71849f9")
+          DQAstats::feedback(print_this = "Reading MDR ...",
+                             findme = "f877fee7d2")
+          DQAstats::feedback(
+            print_this = paste0("MDR-Filename:",
+                                rv$mdr_filename),
+            findme = "582d6a39c6")
+          DQAstats::feedback(
+            print_this = paste0("rv$utilspath:",
+                                rv$utilspath),
+            findme = "b5c71849f9")
 
           rv$mdr <- button_mdr(utils_path = rv$utilspath,
                                mdr_filename = rv$mdr_filename)
@@ -139,8 +144,8 @@ module_config_server <-
             c("source_system_name",
               "source_system_type")
           rv$systems <- unique(rv$mdr[, vec, with = F])
-          feedback(print_this = "Different systems found in MDR:",
-                   findme = "4451da82ad")
+          DQAstats::feedback(print_this = "Different systems found in MDR:",
+                             findme = "4451da82ad")
 
           # - Read the settings for all these systems:
           unique_systems <-
@@ -151,20 +156,21 @@ module_config_server <-
             sapply(unique_systems, function(x) {
               DQAstats::get_config(config_file = rv$config_file,
                                    config_key = tolower(x))
-              }, USE.NAMES = T, simplify = F)
+            }, USE.NAMES = T, simplify = F)
 
           if (rv$use_env_credentials) {
             databases <- unique(
               rv$systems[!is.na(get("source_system_name")), ][
                 get("source_system_type") == "postgres",
                 get("source_system_name")
-              ]
+                ]
             )
 
             for (db in databases) {
-              feedback(print_this = paste0("Using environment variables for ",
-                                           db),
-                       findme = "dc97a93ce645d1d50a7d")
+              DQAstats::feedback(
+                print_this = paste0("Using environment variables for ",
+                                    db),
+                findme = "dc97a93ce645d1d50a7d")
               rv$settings[[db]]$password <- Sys.getenv(
                 paste0(toupper(db), "_PASSWORD")
               )
@@ -179,25 +185,29 @@ module_config_server <-
             rv$systems[!is.na(get("source_system_type")),
                        unique(get("source_system_type"))]
 
-          feedback(print_this = rv$system_types,
-                   prefix = "System type ",
-                   findme = "9aec84fcca")
+          DQAstats::feedback(print_this = rv$system_types,
+                             prefix = "System type ",
+                             findme = "9aec84fcca")
 
           if (!("csv" %in% tolower(rv$system_types))) {
             # Remove CSV-Tabs:
-            feedback("Removing csv-tab from source ...", findme = "3c2f368001")
+            DQAstats::feedback(
+              "Removing csv-tab from source ...",
+              findme = "3c2f368001")
             removeTab(inputId = "source_tabs", target = "CSV")
 
-            feedback("Removing csv-tab from target ...", findme = "337b20a126")
+            DQAstats::feedback(
+              "Removing csv-tab from target ...",
+              findme = "337b20a126")
             removeTab(inputId = "target_tabs", target = "CSV")
           } else {
             csv_system_names <-
               rv$systems[get("source_system_type") == "csv" &
                            !is.na(get("source_system_name")),
                          unique(get("source_system_name"))]
-            feedback(csv_system_names,
-                     prefix = "csv_system_names: ",
-                     findme = "5a083a3d53")
+            DQAstats::feedback(csv_system_names,
+                               prefix = "csv_system_names: ",
+                               findme = "5a083a3d53")
 
             if (length(csv_system_names) > 0) {
               # Show buttons to prefill diff. systems presettings:
@@ -212,10 +222,10 @@ module_config_server <-
           }
           if (!("postgres" %in% tolower(rv$system_types))) {
             # Remove Postgres-Tabs:
-            feedback("Removing postgres-tab from source ...")
+            DQAstats::feedback("Removing postgres-tab from source ...")
             removeTab(inputId = "source_tabs", target = "PostgreSQL")
 
-            feedback("Removing postgres-tab from target ...")
+            DQAstats::feedback("Removing postgres-tab from target ...")
             removeTab(inputId = "target_tabs", target = "PostgreSQL")
           } else{
             # Fill the tab with presettings
@@ -228,9 +238,9 @@ module_config_server <-
               rv$systems[get("source_system_type") == "postgres" &
                            !is.na(get("source_system_name")),
                          unique(get("source_system_name"))]
-            feedback(postgres_system_names,
-                     prefix = "postgres_system_names: ",
-                     findme = "be136f5ab6")
+            DQAstats::feedback(postgres_system_names,
+                               prefix = "postgres_system_names: ",
+                               findme = "be136f5ab6")
 
             if (length(postgres_system_names) > 0) {
               # Show buttons to prefill diff. systems presettings:
@@ -280,7 +290,7 @@ module_config_server <-
     # If the "load presets"-button was pressed, startload & show the presets:
     # observeEvent(input$source_pg_presettings_btn, {
     observeEvent(input$source_pg_presettings_list, {
-      feedback(
+      DQAstats::feedback(
         print_this =
           paste0(
             "Input-preset ",
@@ -292,7 +302,7 @@ module_config_server <-
       )
       config_stuff <- rv$settings[[tolower(input$source_pg_presettings_list)]]
 
-      feedback(
+      DQAstats::feedback(
         print_this = paste(
           "Loaded successfully.",
           "Filling presets to global rv-object and UI ..."
@@ -336,7 +346,7 @@ module_config_server <-
 
     #observeEvent(input$target_pg_presettings_btn, {
     observeEvent(input$target_pg_presettings_list, {
-      feedback(
+      DQAstats::feedback(
         paste0(
           "Input-preset ",
           input$target_pg_presettings_list,
@@ -346,7 +356,7 @@ module_config_server <-
       )
       config_stuff <- rv$settings[[tolower(input$target_pg_presettings_list)]]
 
-      feedback(paste(
+      DQAstats::feedback(paste(
         "Loaded successfully.",
         "Filling presets to global rv-object and UI ..."
       ), findme = "fa908f0035")
@@ -395,7 +405,7 @@ module_config_server <-
                                               timeout = 2)
 
         if (!is.null(rv$source$db_con)) {
-          feedback(
+          DQAstats::feedback(
             paste0(
               "DB connection for ",
               input$source_pg_presettings_list,
@@ -437,7 +447,7 @@ module_config_server <-
                                               timeout = 2)
 
         if (!is.null(rv$target$db_con)) {
-          feedback(
+          DQAstats::feedback(
             paste0(
               "DB connection for ",
               input$target_pg_presettings_list,
@@ -481,8 +491,8 @@ module_config_server <-
         updateActionButton(session, "target_system_to_source_system_btn",
                            label = " Set TARGET = SOURCE")
         # Feedback to the console:
-        feedback("Target != source now.",
-                 findme = "ec51b122ee")
+        DQAstats::feedback("Target != source now.",
+                           findme = "ec51b122ee")
       } else {
         ## Target != source and should become equal:
         # Change button-label:
@@ -501,8 +511,8 @@ module_config_server <-
             feedback_txt(system = "The source system", type = "target")
           })
         # Feedback to the console:
-        feedback("Target == source now.",
-                 findme = "94d3a2090c")
+        DQAstats::feedback("Target == source now.",
+                           findme = "94d3a2090c")
       }
     })
 
@@ -549,7 +559,7 @@ module_config_server <-
         # check, if mdr is present. without mdr, we cannot perform any
         # further operations
         if (is.null(rv$mdr)) {
-          feedback(
+          DQAstats::feedback(
             "No MDR found. Please provide a metadata repository (MDR).",
             type = "Warning",
             findme = "1dc68937b8"
@@ -579,10 +589,10 @@ module_config_server <-
             rv <- set_target_equal_to_source(rv)
           }
 
-          feedback(paste0("Source system is ", rv$source$system_name),
-                   findme = "1d61685355")
-          feedback(paste0("Target system is ", rv$target$system_name),
-                   findme = "eaf72ed747")
+          DQAstats::feedback(paste0("Source system is ", rv$source$system_name),
+                             findme = "1d61685355")
+          DQAstats::feedback(paste0("Target system is ", rv$target$system_name),
+                             findme = "eaf72ed747")
         }
 
 

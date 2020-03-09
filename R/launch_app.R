@@ -45,7 +45,6 @@
 #' @import shiny shinydashboard
 #' @importFrom magrittr "%>%"
 #' @importFrom data.table .N ":="
-#' @importFrom DQAstats feedback
 #'
 #' @export
 #'
@@ -60,47 +59,25 @@ launch_app <- function(port = 3838,
                        use_env_credentials = FALSE,
                        logfile_dir = tempdir()) {
 
-  global_env_hack <- function(key,
-                              val,
-                              pos) {
-    assign(
-      key,
-      val,
-      envir = as.environment(pos)
-    )
-  }
+  DQAstats::global_env_hack(key = "utils_path",
+                            val = utils_path,
+                            pos = 1L)
 
-  global_env_hack(
-    key = "utils_path",
-    val = utils_path,
-    pos = 1L
-  )
+  DQAstats::global_env_hack(key = "config_file",
+                            val = config_file,
+                            pos = 1L)
 
-  global_env_hack(
-    key = "config_file",
-    val = config_file,
-    pos = 1L
-  )
+  DQAstats::global_env_hack(key = "mdr_filename",
+                            val = mdr_filename,
+                            pos = 1L)
 
-  global_env_hack(
-    key = "mdr_filename",
-    val = mdr_filename,
-    pos = 1L
-  )
+  DQAstats::global_env_hack(key = "use_env_credentials",
+                            val = use_env_credentials,
+                            pos = 1L)
 
-  global_env_hack(
-    key = "use_env_credentials",
-    val = use_env_credentials,
-    pos = 1L
-  )
-
-  global_env_hack(
-    key = "logfile_dir",
-    val = logfile_dir,
-    pos = 1L
-  )
-
-  DQAstats::cleanup_old_logfile()
+  DQAstats::global_env_hack(key = "logfile_dir",
+                            val = logfile_dir,
+                            pos = 1L)
 
   options(shiny.port = port)
 

@@ -21,6 +21,7 @@ test_that(
         "moduleConfig.R" = "cyclomatic complexity",
         "moduleDashboard.R" = "cyclomatic complexity",
         "moduleDescriptive.R" = "cyclomatic complexity",
+        "moduleLog.R" = NULL,
         "moduleMDR.R" = NULL,
         "moduleReport.R" = NULL,
         "moduleUniquePlausibility.R" = NULL,
