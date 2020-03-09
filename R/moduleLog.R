@@ -74,6 +74,12 @@ module_log_ui <- function(id) {
   ns <- NS(id)
   tagList(fluidRow(
     h2('Logging information'),
+    # Appearance of the console output:
+    # 'padding-left' & 'text-intend' are for auto intending every line
+    #   except the first one so that over-long sentences will clearly
+    #   be intended after the word/line-wrap.
+    # 'margin' & 'line-heigth' reduce the gap between two lines to show
+    #   as much information as possible while still be good readable.
     tags$head(tags$style(".logmsg p {
                                       font-family: 'consolas';
                                       line-height: 1;
@@ -92,6 +98,7 @@ module_log_ui <- function(id) {
       tags$br(),
       uiOutput(ns('moduleLog_log_logging_content'),
                class = "logmsg"),
+      tags$br(),
       actionButton(
         inputId = ns("moduleLog_scrollup_btn"),
         label = "Scroll to top",
