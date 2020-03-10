@@ -55,11 +55,12 @@ module_config_server <-
       eventExpr = input$config_sourcedir_in,
       handlerExpr = {
         rv$csv_dir_src_clicked <- FALSE
-        rv$csv_dir_src <- as.character(DQAstats::clean_path_name(
-          shinyFiles::parseDirPath(
-            roots = roots,
-            selection = input$config_sourcedir_in
-          )))
+        rv$csv_dir_src <- as.character(
+          DQAstats::clean_path_name(
+            shinyFiles::parseDirPath(
+              roots = roots,
+              selection = input$config_sourcedir_in
+            )))
 
         rv$source$settings$dir <- rv$csv_dir_src
 
@@ -92,11 +93,12 @@ module_config_server <-
       eventExpr = input$config_targetdir_in,
       handlerExpr = {
         rv$csv_dir_tar_clicked <- FALSE
-        rv$csv_dir_tar <- as.character(DQAstats::clean_path_name(
-          shinyFiles::parseDirPath(
-            roots = roots,
-            selection = input$config_targetdir_in
-          )))
+        rv$csv_dir_tar <- as.character(
+          DQAstats::clean_path_name(
+            shinyFiles::parseDirPath(
+              roots = roots,
+              selection = input$config_targetdir_in
+            )))
         rv$target$settings$dir <- rv$csv_dir_tar
 
         if (!identical(rv$target$settings$dir, character(0)) &&
@@ -470,9 +472,12 @@ module_config_server <-
         get_db_settings(input = input_re(), target = F)
 
       if (!is.null(rv$source$settings)) {
-        rv$source$db_con <- DQAstats::test_db(settings = rv$source$settings,
-                                              headless = rv$headless,
-                                              timeout = 2)
+        rv$source$db_con <- DQAstats::test_db(
+          settings = rv$source$settings,
+          headless = rv$headless,
+          timeout = 2,
+          logfile_dir = rv$log$logfile_dir
+        )
 
         if (!is.null(rv$source$db_con)) {
           DQAstats::feedback(
@@ -515,9 +520,12 @@ module_config_server <-
         get_db_settings(input = input_re(), target = T)
 
       if (!is.null(rv$target$settings)) {
-        rv$target$db_con <- DQAstats::test_db(settings = rv$target$settings,
-                                              headless = rv$headless,
-                                              timeout = 2)
+        rv$target$db_con <- DQAstats::test_db(
+          settings = rv$target$settings,
+          headless = rv$headless,
+          timeout = 2,
+          logfile_dir = rv$log$logfile_dir
+        )
 
         if (!is.null(rv$target$db_con)) {
           DQAstats::feedback(
@@ -657,13 +665,14 @@ module_config_server <-
           if (nchar(input_re()[["moduleConfig-config_sitename"]]) < 2 ||
               any(grepl("\\s", input_re()[["moduleConfig-config_sitename"]]))) {
             # site name is missing:
-            shiny::showModal(modalDialog(
-              title = "Invalid values",
-              paste0(
-                "No empty strings or spaces allowed in ",
-                "the site name configuration."
-              )
-            ))
+            shiny::showModal(
+              shiny::modalDialog(
+                title = "Invalid values",
+                paste0(
+                  "No empty strings or spaces allowed in ",
+                  "the site name configuration."
+                )
+              ))
             error_tmp <- T
           } else {
             # site name is present:

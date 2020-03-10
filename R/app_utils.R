@@ -162,7 +162,8 @@ validate_inputs <- function(rv) {
           settings = rv$source$settings,
           source_db = rv$source$system_name,
           mdr = rv$mdr,
-          headless = F
+          logfile_dir = rv$log$logfile_dir,
+          headless = rv$headless
         )
         if (isTRUE(test_source_csv)) {
           DQAstats::feedback("All source csv-files were found.",
@@ -202,8 +203,11 @@ validate_inputs <- function(rv) {
       # Check if source-db settings are valid:
       if (!is.null(rv$source$settings)) {
         rv$source$db_con <-
-          DQAstats::test_db(settings = rv$source$settings,
-                            headless = rv$headless)
+          DQAstats::test_db(
+            settings = rv$source$settings,
+            headless = rv$headless,
+            logfile_dir = rv$log$logfile_dir
+          )
         if (!is.null(rv$source$db_con)) {
           # valid
           DQAstats::feedback(print_this = "Source db-settings seem valid.",
@@ -268,7 +272,8 @@ validate_inputs <- function(rv) {
           settings = rv$target$settings,
           source_db = rv$target$system_name,
           mdr = rv$mdr,
-          headless = F
+          logfile_dir = rv$log$logfile_dir,
+          headless = rv$headless
         )
         if (isTRUE(test_target_csv)) {
           DQAstats::feedback("All target csv-files were found.",
@@ -306,8 +311,11 @@ validate_inputs <- function(rv) {
       # Check if target-db settings are valid:
       if (!is.null(rv$target$settings)) {
         rv$target$db_con <-
-          DQAstats::test_db(settings = rv$target$settings,
-                            headless = rv$headless)
+          DQAstats::test_db(
+            settings = rv$target$settings,
+            headless = rv$headless,
+            logfile_dir = rv$log$logfile_dir
+          )
         if (!is.null(rv$target$db_con)) {
           # valid
           DQAstats::feedback("Target db-settings seem valid. (79234d2ba0)",
