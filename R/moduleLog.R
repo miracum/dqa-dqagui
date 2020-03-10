@@ -37,14 +37,24 @@ module_log_server <-
         updateSelectInput(
           session = session,
           inputId = "old_logfiles_list",
-          choices = sort(list.files(rv$log$logfile_dir), decreasing = T)
+          choices = sort(
+            list.files(
+              path = rv$log$logfile_dir,
+              pattern = paste0(
+                "^logfile",
+                "(\\_[[:digit:]]{4}\\-",
+                "[[:digit:]]{2}\\-",
+                "[[:digit:]]{2}\\-",
+                "[[:digit:]]{6}){0,1}\\.log$"
+              )),
+            decreasing = T
+          )
         )
         rv$log$populated_old_logfiles_list <- TRUE
       }
     })
 
     observeEvent(input$old_logfiles_list, {
-      print(input$old_logfiles_list)
 
       if (input$old_logfiles_list != "logfile.log") {
         shinyjs::show("show_current_logfile_btn")
@@ -77,10 +87,6 @@ module_log_server <-
       })
     })
 
-
-
-
-
     observeEvent(input$show_current_logfile_btn, {
       if (!is.null(rv$log$raw_text())) {
         # Show the current log:
@@ -95,9 +101,6 @@ module_log_server <-
                           selected = "logfile.log")
       }
     })
-
-
-
 
     # Button to scroll down:
     observeEvent(input$moduleLog_scrolldown_btn, {
@@ -118,8 +121,6 @@ module_log_server <-
         )
       )
     })
-
-
 
     output$download_logfile <- downloadHandler(
       filename = function() {

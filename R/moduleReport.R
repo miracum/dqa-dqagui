@@ -29,10 +29,10 @@
 #'
 # module_report_server
 module_report_server <- function(input,
-                               output,
-                               session,
-                               rv,
-                               input_re) {
+                                 output,
+                                 session,
+                                 rv,
+                                 input_re) {
 
   observe({
     # wait here for flag to create report; this can be done, when everything
@@ -53,10 +53,13 @@ module_report_server <- function(input,
   observe({
     req(rv$report_created)
 
-    DQAstats::export_aggregated(
-      output_dir = tempdir(),
-      rv = rv
-    )
+    if (is.null(rv$aggregated_exported)) {
+      DQAstats::export_aggregated(
+        output_dir = tempdir(),
+        rv = rv
+      )
+      rv$aggregated_exported <- TRUE
+    }
   })
 
 

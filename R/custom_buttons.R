@@ -18,6 +18,11 @@ button_mdr <- function(utils_path, mdr_filename) {
 #'
 #' @export
 button_send_datamap <- function(rv) {
+  DQAstats::feedback(
+    print_this = "Sending the datamap",
+    logfile_dir = rv$log$logfile_dir,
+    headless = rv$headless
+  )
   return(send_datamap_to_mail(rv))
 }
 

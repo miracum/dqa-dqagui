@@ -28,36 +28,84 @@ shiny::shinyServer(
             current_date = format(Sys.Date(), "%d. %B %Y", tz = "CET")
         )
 
-        # Create new logfile:
-        DQAstats::cleanup_old_logfile(
-            logfile_dir = rv$log$logfile_dir
-        )
+        shiny::observe({
+            if (is.null(rv$finished_onstart)) {
 
-        # Clean old connections (e.g. after reloading the app):
-        session$onSessionEnded(function() {
-            DQAstats::close_all_connections(
-                logfile_dir = rv$log$logfile_dir,
-                headless = rv$headless
-            )
-        })
-
-        # read datamap email
-        rv$datamap_email <- tryCatch(
-            expr = {
-                # if existing, set email address for data-map button
-                out <- DQAstats::get_config(
-                    config_file = paste0(utils_path, "/MISC/email.yml"),
-                    config_key = "email",
+                # Clean old connections (e.g. after reloading the app):
+                DQAstats::close_all_connections(
                     logfile_dir = rv$log$logfile_dir,
                     headless = rv$headless
                 )
-            }, error = function(e) {
-                print(e)
-                # otherwise set it to empty string
-                out <- ""
-            }, finally = function(f) {
-                return(out)
-            })
+
+                # Create new logfile:
+                DQAstats::cleanup_old_logfile(
+                    logfile_dir = rv$log$logfile_dir
+                )
+
+                # feedback directories
+                DQAstats::feedback(
+                    print_this = paste0(
+                        "Logfile dir: ",
+                        rv$log$logfile_dir
+                    ),
+                    logfile_dir = rv$log$logfile_dir,
+                    headless = rv$headless
+                )
+                DQAstats::feedback(
+                    print_this = paste0(
+                        "Utils path: ",
+                        rv$utilspath
+                    ),
+                    logfile_dir = rv$log$logfile_dir,
+                    headless = rv$headless
+                )
+                DQAstats::feedback(
+                    print_this = paste0(
+                        "Config file: ",
+                        rv$config_file
+                    ),
+                    logfile_dir = rv$log$logfile_dir,
+                    headless = rv$headless
+                )
+                DQAstats::feedback(
+                    print_this = paste0(
+                        "MDR filename: ",
+                        rv$mdr_filename
+                    ),
+                    logfile_dir = rv$log$logfile_dir,
+                    headless = rv$headless
+                )
+                DQAstats::feedback(
+                    print_this = paste0(
+                        "Using environment variables: ",
+                        rv$use_env_credentials
+                    ),
+                    logfile_dir = rv$log$logfile_dir,
+                    headless = rv$headless
+                )
+
+                # read datamap email
+                rv$datamap_email <- tryCatch(
+                    expr = {
+                        # if existing, set email address for data-map button
+                        out <- DQAstats::get_config(
+                            config_file = paste0(
+                                utils_path, "/MISC/email.yml"
+                            ),
+                            config_key = "email",
+                            logfile_dir = rv$log$logfile_dir,
+                            headless = rv$headless
+                        )
+                    }, error = function(e) {
+                        print(e)
+                        # otherwise set it to empty string
+                        out <- ""
+                    }, finally = function(f) {
+                        return(out)
+                    })
+                rv$finished_onstart <- TRUE
+            }
+        })
 
         # handle reset
         shiny::observeEvent(input$reset, {
@@ -225,7 +273,7 @@ shiny::shinyServer(
         })
 
 
-        observe({
+        shiny::observe({
             req(rv$datamap)
 
             # !!! trigger shinyjs from server.R only
@@ -248,7 +296,7 @@ shiny::shinyServer(
             )
         })
 
-        observe({
+        shiny::observe({
             req(rv$datamap)
             # To allow only one export, disable button afterwards:
             if (is.null(rv$send_btn_disabled)) {
@@ -336,7 +384,7 @@ shiny::shinyServer(
                           rv,
                           input_re = input_reactive)
 
-        observe({
+        shiny::observe({
             if (input$tabs == "tab_log") {
                 updateSelectInput(
                     session = session,
