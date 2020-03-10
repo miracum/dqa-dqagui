@@ -29,11 +29,16 @@ shiny::shinyServer(
         )
 
         # Create new logfile:
-        DQAstats::cleanup_old_logfile()
+        DQAstats::cleanup_old_logfile(
+            logfile_dir = rv$log$logfile_dir
+        )
 
         # Clean old connections (e.g. after reloading the app):
         session$onSessionEnded(function() {
-            DQAstats::close_all_connections()
+            DQAstats::close_all_connections(
+                logfile_dir = rv$log$logfile_dir,
+                headless = rv$headless
+            )
         })
 
 
@@ -43,7 +48,9 @@ shiny::shinyServer(
                 # if existing, set email address for data-map button
                 out <- DQAstats::get_config(
                     config_file = paste0(utils_path, "/MISC/email.yml"),
-                    config_key = "email"
+                    config_key = "email",
+                    logfile_dir = rv$log$logfile_dir,
+                    headless = rv$headless
                 )
             }, error = function(e) {
                 print(e)
@@ -55,13 +62,26 @@ shiny::shinyServer(
 
         # handle reset
         shiny::observeEvent(input$reset, {
-            DQAstats::feedback(print_this = "\U2304")
+            DQAstats::feedback(
+                print_this = "\U2304",
+                logfile_dir = rv$log$logfile_dir,
+                headless = rv$headless
+            )
             DQAstats::feedback(
                 print_this = "############ APP WAS RESETTED ############",
-                findme = "9c57ce125a"
+                findme = "9c57ce125a",
+                logfile_dir = rv$log$logfile_dir,
+                headless = rv$headless
             )
-            DQAstats::feedback(print_this = "\U2303")
-            DQAstats::close_all_connections()
+            DQAstats::feedback(
+                print_this = "\U2303",
+                logfile_dir = rv$log$logfile_dir,
+                headless = rv$headless
+            )
+            DQAstats::close_all_connections(
+                logfile_dir = rv$log$logfile_dir,
+                headless = rv$headless
+            )
             shinyjs::js$reset()
         })
 

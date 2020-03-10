@@ -158,8 +158,11 @@ module_dashboard_server <-
 
         # conformance
         rv$conformance$value_conformance <-
-          DQAstats::value_conformance(results = rv$results_descriptive,
-                                      headless = rv$headless)
+          DQAstats::value_conformance(
+            results = rv$results_descriptive,
+            logfile_dir = rv$log$logfile_dir,
+            headless = rv$headless
+          )
 
         # reduce categorical variables to display max. 25 values
         rv$results_descriptive <-
@@ -170,6 +173,7 @@ module_dashboard_server <-
         if (!is.null(rv$results_plausibility_atemporal)) {
           add_value_conformance <- DQAstats::value_conformance(
             results = rv$results_plausibility_atemporal,
+            logfile_dir = rv$log$logfile_dir,
             headless = rv$headless
           )
 
@@ -181,8 +185,11 @@ module_dashboard_server <-
         }
         # completeness
         rv$completeness <-
-          DQAstats::completeness(results = rv$results_descriptive,
-                                 headless = rv$headless)
+          DQAstats::completeness(
+            results = rv$results_descriptive,
+            logfile_dir = rv$log$logfile_dir,
+            headless = rv$headless
+          )
 
         # generate datamap
         rv$datamap <- DQAstats::generate_datamap(
