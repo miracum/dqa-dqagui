@@ -41,7 +41,6 @@ shiny::shinyServer(
             )
         })
 
-
         # read datamap email
         rv$datamap_email <- tryCatch(
             expr = {
@@ -254,11 +253,11 @@ shiny::shinyServer(
             # To allow only one export, disable button afterwards:
             if (is.null(rv$send_btn_disabled)) {
                 if (isTRUE(rv$datamap$exported)) {
+                    # so don't send it again
                     updateActionButton(
                         session = session,
                         inputId = "moduleDashboard-dash_send_datamap_btn",
                         label = "Datamap successfully sent",
-                        # so don't send it again
                         icon = icon("check")
                     )
                     shinyjs::disable(
@@ -337,7 +336,6 @@ shiny::shinyServer(
                           rv,
                           input_re = input_reactive)
 
-
         observe({
             if (input$tabs == "tab_log") {
                 updateSelectInput(
@@ -348,6 +346,4 @@ shiny::shinyServer(
                 shinyjs::click("moduleLog-moduleLog_scrolldown_btn")
             }
         })
-
-
     })
