@@ -151,8 +151,12 @@ module_config_server <-
             headless = rv$headless
           )
 
-          rv$mdr <- button_mdr(utils_path = rv$utilspath,
-                               mdr_filename = rv$mdr_filename)
+          rv$mdr <- button_mdr(
+            utils_path = rv$utilspath,
+            mdr_filename = rv$mdr_filename,
+            logfile_dir = rv$log$logfile_dir,
+            headless = rv$headless
+          )
           stopifnot(data.table::is.data.table(rv$mdr))
 
           ## Read in the settings

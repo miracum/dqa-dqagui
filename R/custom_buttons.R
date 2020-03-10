@@ -1,4 +1,9 @@
-button_mdr <- function(utils_path, mdr_filename) {
+button_mdr <- function(utils_path, mdr_filename, logfile_dir, headless) {
+  DQAstats::feedback(
+    print_this = "Loading the metadata repository",
+    logfile_dir = logfile_dir,
+    headless = headless
+  )
   shiny::withProgress(message = "Loading MDR", value = 0, {
     incProgress(1 / 1,
                 detail = "... from local file ...")
