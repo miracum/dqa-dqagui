@@ -29,76 +29,74 @@
 # module_log_server
 module_log_server <-
   function(input, output, session, rv, input_re) {
-    logfile_name <- "logfile.log"
-    path_with_file <- paste0(rv$logfile_dir, logfile_name)
 
-    updateSelectInput(
-      session = session,
-      inputId = "old_logfiles_list",
-      choices = sort(list.files(rv$logfile_dir), decreasing = T)
-    )
+    observe({
+      req(rv$log$logfile_dir)
 
-    observeEvent(input$old_logfiles_list, {
-      logfile_name_old <- input$old_logfiles_list
-      path_with_file_old <- paste0(rv$logfile_dir, logfile_name_old)
-      if (logfile_name_old == "logfile.log") {
-        # The current logfile was choosen so show it:
-        rv$current_log <-
-          reactive({
-            paste0(raw_text(), collapse = "\n")
-          })
-        # ... and disable the button:
-        shinyjs::hide("show_current_logfile_btn")
-      } else if (logfile_name_old != "") {
-        # An old logfile was choosen:
-        DQAstats::feedback(
-          print_this = paste0("Old logfile ",
-                              logfile_name_old,
-                              " was chosen to display."),
-          findme = "0c1611bc47"
+      if (is.null(rv$log$populated_old_logfiles_list)) {
+        updateSelectInput(
+          session = session,
+          inputId = "old_logfiles_list",
+          choices = sort(list.files(rv$log$logfile_dir), decreasing = T)
         )
-        # ... so show it:
-        path_with_file_old <- paste0(rv$logfile_dir, logfile_name_old)
-        con <- file(path_with_file_old)
-        rv$current_log <-
-          reactive({
-            paste(readLines(con), collapse = "\n")
-          })
-        close(con = con)
-        # ... and show the button so switch back to current logfile:
-        shinyjs::show("show_current_logfile_btn")
+        rv$log$populated_old_logfiles_list <- TRUE
       }
     })
 
-    observeEvent(input$show_current_logfile_btn, {
-      # Show the current log:
-      rv$current_log <-
-        reactive({
-          paste0(raw_text(), collapse = "\n")
+    observeEvent(input$old_logfiles_list, {
+      print(input$old_logfiles_list)
+
+      if (input$old_logfiles_list != "logfile.log") {
+        shinyjs::show("show_current_logfile_btn")
+      } else {
+        shinyjs::hide("show_current_logfile_btn")
+      }
+
+      if (input$old_logfiles_list != "") {
+
+        path_of_selected_file <-
+          paste0(rv$log$logfile_dir, input$old_logfiles_list)
+
+        rv$log$raw_text <-
+          reactiveFileReader(
+            intervalMillis = 500,
+            filePath = path_of_selected_file,
+            readFunc = readLines,
+            session = session
+          )
+
+        rv$log$current_log <- reactive({
+          paste0(rv$log$raw_text(), collapse = "\n")
         })
-      # ... and show update the list of old logfiles to have the current
-      # one selected:
-      updateSelectInput(session = session,
-                        inputId = "old_logfiles_list",
-                        selected = "logfile.log")
+      }
     })
 
     observe({
       output$log_out <- renderText({
-        rv$current_log()
+        rv$log$current_log()
       })
     })
 
 
-    # This reader scans the logfile for changes every 500 ms and
-    # pupulates the changes to the GUI.
-    raw_text <-
-      reactiveFileReader(
-        intervalMillis = 500,
-        filePath = path_with_file,
-        readFunc = readLines,
-        session = session
-      )
+
+
+
+    observeEvent(input$show_current_logfile_btn, {
+      if (!is.null(rv$log$raw_text())) {
+        # Show the current log:
+        rv$current_log <-
+          reactive({
+            paste0(rv$log$raw_text(), collapse = "\n")
+          })
+        # ... and show update the list of old logfiles to have the current
+        # one selected:
+        updateSelectInput(session = session,
+                          inputId = "old_logfiles_list",
+                          selected = "logfile.log")
+      }
+    })
+
+
 
 
     # Button to scroll down:
@@ -129,7 +127,7 @@ module_log_server <-
         paste0("logfile_", filename_datetime, ".log")
       },
       content = function(file) {
-        file.copy(from = path_with_file, file)
+        file.copy(from = rv$log$path_with_file, file)
       },
       contentType = "text/plain"
     )
