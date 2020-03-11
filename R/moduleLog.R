@@ -124,11 +124,11 @@ module_log_server <-
 
     output$download_logfile <- downloadHandler(
       filename = function() {
-        filename_datetime <- format(Sys.time(), "%Y-%m-%d-%H%M%OS")
-        paste0("logfile_", filename_datetime, ".log")
+        input$old_logfiles_list
       },
       content = function(file) {
-        file.copy(from = rv$log$path_with_file, file)
+        path_with_file <- paste0(rv$log$logfile_dir, input$old_logfiles_list)
+        file.copy(from = path_with_file, file)
       },
       contentType = "text/plain"
     )
