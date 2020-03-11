@@ -3,22 +3,22 @@ output_dir = "output/"
 
 ## debugging the MIRACUM stuff (JM):
 ## ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-utils_path = DQAstats::clean_path_name(system.file("application/_utilities",
-                                                   package = "miRacumDQA"))
-mdr_filename = "mdr.csv"
-config_file = system.file("application/_settings/demo_settings_INTERNAL.yml",
-                          package = "DQAgui")
-logfile_dir = "~/share/logfiles/"
+# utils_path = DQAstats::clean_path_name(system.file("application/_utilities",
+#                                                    package = "miRacumDQA"))
+# mdr_filename = "mdr.csv"
+# config_file = system.file("application/_settings/demo_settings_INTERNAL.yml",
+#                           package = "DQAgui")
+# logfile_dir = "~/share/logfiles/"
 ##	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑
 
 
 ## debugging the MIRACUM stuff (LK):
 ## ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-# utils_path = DQAstats::clean_path_name(system.file("application/_utilities",
-#                                                    package = "miRacumDQA"))
-# mdr_filename = "mdr.csv"
-# config_file <- "/home/rstudio/development/Rpackages/dqa/DQAstats/tests/testthat/testdata/demo_settings_INTERNAL.yml"
-# logfile_dir <- tempdir()
+utils_path = DQAstats::clean_path_name(system.file("application/_utilities",
+                                                   package = "miRacumDQA"))
+mdr_filename = "mdr.csv"
+config_file <- "/home/rstudio/development/Rpackages/dqa/DQAstats/tests/testthat/testdata/demo_settings_INTERNAL.yml"
+logfile_dir <- tempdir()
 ##	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑
 
 
