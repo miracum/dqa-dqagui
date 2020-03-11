@@ -277,7 +277,7 @@ module_dashboard_server <-
     })
 
     observe({
-      req(rv$checks$etl)
+      req(rv$aggregated_exported)
 
       # workaround to tell ui, that db_connection is there
       output$etl_results <- reactive({
@@ -291,7 +291,7 @@ module_dashboard_server <-
     })
 
     observe({
-      req(rv$checks$value_conformance)
+      req(rv$aggregated_exported)
 
       # workaround to tell ui, that db_connection is there
       output$valueconformance_results <- reactive({
