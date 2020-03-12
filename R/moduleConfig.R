@@ -482,6 +482,11 @@ module_config_server <-
     })
 
     observeEvent(input$source_pg_test_connection, {
+      # If we don't assign (= copy) it (input$source_pg_presettings_list)
+      # here, the value will stay reactive and change every time we
+      # select another system. But it should only change if
+      # we also successfully tested the connection:
+      input_system <- input$source_pg_presettings_list
       rv$source$settings <-
         get_db_settings(input = input_re(), target = F)
 
@@ -496,8 +501,8 @@ module_config_server <-
         if (!is.null(rv$source$db_con)) {
           DQAstats::feedback(
             paste0(
-              "DB connection for ",
-              input$source_pg_presettings_list,
+              "Connection to ",
+              input_system,
               " successfully established."
             ),
             findme = "e35eaa306e",
@@ -507,8 +512,8 @@ module_config_server <-
           showNotification(
             paste0(
               "\U2714 Connection to ",
-              input$source_pg_presettings_list,
-              " established"
+              input_system,
+              " successfully established"
             )
           )
           updateActionButton(
@@ -516,22 +521,23 @@ module_config_server <-
             inputId = "source_pg_test_connection",
             label = paste0(
               "Connection to ",
-              input$source_pg_presettings_list,
+              input_system,
               " established"
             ),
             icon = icon("check")
           )
           shinyjs::disable("source_pg_test_connection")
-          rv$source$system_name <- input$source_pg_presettings_list
+          rv$source$system_name <- input_system
           rv$source$system_type <- "postgres"
           output$source_system_feedback_txt <-
             renderText({
-              feedback_txt(system = "PostgreSQL", type = "source")
+              feedback_txt(system = input_system,
+                           type = "source")
             })
         } else {
           showNotification(paste0(
             "\U2718 Connection to ",
-            input$source_pg_presettings_list,
+            input_system,
             " failed"
           ))
           rv$source$system <- ""
@@ -541,6 +547,11 @@ module_config_server <-
     })
 
     observeEvent(input$target_pg_test_connection, {
+      # If we don't assign (= copy) it (input$target_pg_presettings_list)
+      # here, the value will stay reactive and change every time we
+      # select another system. But it should only change if
+      # we also successfully tested the connection:
+      input_system <- input$target_pg_presettings_list
       rv$target$settings <-
         get_db_settings(input = input_re(), target = T)
 
@@ -555,8 +566,8 @@ module_config_server <-
         if (!is.null(rv$target$db_con)) {
           DQAstats::feedback(
             paste0(
-              "DB connection for ",
-              input$target_pg_presettings_list,
+              "Connection to ",
+              input_system,
               " successfully established."
             ),
             findme = "1dc68937b8",
@@ -566,8 +577,8 @@ module_config_server <-
           showNotification(
             paste0(
               "\U2714 Connection to ",
-              input$target_pg_presettings_list,
-              " established"
+              input_system,
+              " successfully established"
             )
           )
           updateActionButton(
@@ -575,22 +586,23 @@ module_config_server <-
             inputId = "target_pg_test_connection",
             label = paste0(
               "Connection to ",
-              input$target_pg_presettings_list,
+              input_system,
               " established"
             ),
             icon = icon("check")
           )
           shinyjs::disable("target_pg_test_connection")
-          rv$target$system_name <- input$target_pg_presettings_list
+          rv$target$system_name <- input_system
           rv$target$system_type <- "postgres"
           output$target_system_feedback_txt <-
             renderText({
-              feedback_txt(system = "PostgreSQL", type = "target")
+              feedback_txt(system = input_system,
+                           type = "target")
             })
         } else {
           showNotification(paste0(
             "\U2718 Connection to ",
-            input$target_pg_presettings_list,
+            input_system,
             " failed"
           ))
           rv$target$system <- ""
@@ -703,10 +715,11 @@ module_config_server <-
             # site name is missing:
             shiny::showModal(
               shiny::modalDialog(
-                title = "Invalid values",
+                title = "The sitename is missing",
                 paste0(
-                  "No empty strings or spaces allowed in ",
-                  "the site name configuration."
+                  "There are no empty strings or spaces allowed in",
+                  " the site name configuration.",
+                  " Please select your site name."
                 )
               ))
             error_tmp <- T
@@ -1064,9 +1077,9 @@ module_config_ui <- function(id) {
           box(
             title = "Load the data",
             #solidHeader = T,
-            h4(textOutput(ns("source_system_feedback_txt"))),
+            h4(htmlOutput(ns("source_system_feedback_txt"))),
             br(),
-            h4(textOutput(ns("target_system_feedback_txt"))),
+            h4(htmlOutput(ns("target_system_feedback_txt"))),
             br(),
             conditionalPanel(
               condition = paste0(

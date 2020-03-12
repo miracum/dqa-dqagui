@@ -88,7 +88,7 @@ get_db_settings <- function(input, target = T) {
       any(tab[, grepl("\\s", get("value"))])) {
     shiny::showModal(
       modalDialog(
-        title = "Invalid values",
+        title = "Invalid database configuration",
         "No empty strings or spaces allowed in database configurations."
       )
     )
@@ -112,7 +112,7 @@ get_db_settings <- function(input, target = T) {
 feedback_txt <- function(system, type) {
   result <- paste0(
     "\U2714 ",
-    system,
+    tags$b(system),
     " will be used as ",
     DQAstats::firstup(type),
     " system.",
