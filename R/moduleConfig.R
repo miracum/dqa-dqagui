@@ -406,6 +406,13 @@ module_config_server <-
                         inputId = "config_sourcedb_password",
                         value = "")
       }
+      updateActionButton(
+        session = session,
+        inputId = "source_pg_test_connection",
+        label = "Test & Save connection",
+        icon = icon("database")
+      )
+      shinyjs::enable("source_pg_test_connection")
     })
 
     #observeEvent(input$target_pg_presettings_btn, {
@@ -465,6 +472,13 @@ module_config_server <-
                         inputId = "config_targetdb_password",
                         value = "")
       }
+      updateActionButton(
+        session = session,
+        inputId = "target_pg_test_connection",
+        label = "Test & Save connection",
+        icon = icon("database")
+      )
+      shinyjs::enable("target_pg_test_connection")
     })
 
     observeEvent(input$source_pg_test_connection, {
@@ -497,6 +511,17 @@ module_config_server <-
               " established"
             )
           )
+          updateActionButton(
+            session = session,
+            inputId = "source_pg_test_connection",
+            label = paste0(
+              "Connection to ",
+              input$source_pg_presettings_list,
+              " established"
+            ),
+            icon = icon("check")
+          )
+          shinyjs::disable("source_pg_test_connection")
           rv$source$system_name <- input$source_pg_presettings_list
           rv$source$system_type <- "postgres"
           output$source_system_feedback_txt <-
@@ -545,6 +570,17 @@ module_config_server <-
               " established"
             )
           )
+          updateActionButton(
+            session = session,
+            inputId = "target_pg_test_connection",
+            label = paste0(
+              "Connection to ",
+              input$target_pg_presettings_list,
+              " established"
+            ),
+            icon = icon("check")
+          )
+          shinyjs::disable("target_pg_test_connection")
           rv$target$system_name <- input$target_pg_presettings_list
           rv$target$system_type <- "postgres"
           output$target_system_feedback_txt <-
