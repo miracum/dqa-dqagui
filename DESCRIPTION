@@ -38,4 +38,4 @@ Suggests:
     processx,
     lintr
 Remotes:  
-    url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/development/dqastats-development.zip
+    url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/v0.1.0/dqastats-v0.1.0.zip
