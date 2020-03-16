@@ -17,7 +17,7 @@ logfile_dir = "~/share/logfiles/"
 # utils_path = DQAstats::clean_path_name(system.file("application/_utilities",
 #                                                    package = "miRacumDQA"))
 # mdr_filename = "mdr.csv"
-# config_file <- "/home/rstudio/development/Rpackages/dqa/DQAstats/tests/testthat/testdata/demo_settings_INTERNAL.yml"
+# config_file <- "/home/rstudio/development/Rpackages/dqa/demo_settings_INTERNAL.yml"
 # logfile_dir <- tempdir()
 ##	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑
 
