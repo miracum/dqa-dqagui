@@ -123,14 +123,6 @@ module_dashboard_server <-
           DQAstats::descriptive_results(rv = rv,
                                         headless = rv$headless)
 
-        # get time_interval
-        # TODO hardcoded for MIRACUM
-        rv$time_interval <-
-          DQAstats::time_interval(
-            rv$results_descriptive[["Entlassungsdatum"]]
-          )
-
-
         if (!is.null(rv$data_plausibility$atemporal)) {
           # calculate plausibilites
           rv$results_plausibility_atemporal <-
@@ -209,12 +201,6 @@ module_dashboard_server <-
         # checks$etl
         rv$checks$etl <-
           DQAstats::etl_checks(results = rv$results_descriptive)
-
-
-        # get time_interval
-        rv$time_interval <-
-          DQAstats::time_interval(
-            data = rv$results_descriptive$EpisodeOfCare_period_end)
 
         # set flag that we have all data
         rv$getdata_target <- FALSE
