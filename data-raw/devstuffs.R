@@ -29,7 +29,7 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.0.7.9013")
+my_desc$set_version("0.1.0")
 # The title of your package
 my_desc$set(Title = "DQA GUI")
 # The description of your package
@@ -82,7 +82,7 @@ usethis::use_package("processx", type = "Suggests")
 usethis::use_package("lintr", type = "Suggests")
 
 # Development package
-mytag <- "development"
+mytag <- "v0.1.0"
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqastats.git", ref = mytag, upgrade = "always")
 # usethis::use_dev_package("DQAstats", type = "Imports")
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
@@ -92,11 +92,29 @@ desc::desc_set_remotes(c(
 ),
 file = usethis::proj_get())
 
-# buildignore and gitignore
-usethis::use_build_ignore("docker")
-usethis::use_build_ignore("inst/application/_settings/")
-usethis::use_git_ignore("inst/application/_settings/")
+## .Rbuildignore: ##
+usethis::use_build_ignore("data-raw")
+usethis::use_build_ignore("LICENSE.md")
+usethis::use_build_ignore(".gitlab-ci.yml")
 
-usethis::use_git_ignore(".Rhistory")
-usethis::use_git_ignore("*.Rproj")
-usethis::use_git_ignore(".Rproj*")
+## .gitignore:
+usethis::use_git_ignore("/*")
+usethis::use_git_ignore("/*/")
+usethis::use_git_ignore("*.log")
+usethis::use_git_ignore("!/.gitignore")
+usethis::use_git_ignore("!/data-raw/")
+usethis::use_git_ignore("!/DESCRIPTION")
+usethis::use_git_ignore("!/inst/")
+usethis::use_git_ignore("!/LICENSE.md")
+usethis::use_git_ignore("!/man/")
+usethis::use_git_ignore("!NAMESPACE")
+usethis::use_git_ignore("!/R/")
+usethis::use_git_ignore("!/README.md")
+usethis::use_git_ignore("!/tests/")
+usethis::use_git_ignore("/.Rhistory")
+usethis::use_git_ignore("!/*.Rproj")
+usethis::use_git_ignore("/.Rproj*")
+usethis::use_git_ignore("/.RData")
+#usethis::use_git_ignore("/inst/demo_data/utilities/MDR/.~lock.mdr_example_data.csv#")
+usethis::use_git_ignore(".~lock.*.csv#")
+
