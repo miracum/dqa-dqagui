@@ -156,13 +156,13 @@ module_report_server <- function(input,
       setwd(tempdir())
       print(getwd())
 
-      exportdir <- paste0(tempdir(), "/affected_ids/")
+      exportdir <- paste0(tempdir(), "/conspicuous_ids/")
 
       # export files
       utils::zip(
         zipfile = fname,
         files = c(
-          paste0("affected_ids/",
+          paste0("conspicuous_ids/",
                  list.files(exportdir))
         ))
 
