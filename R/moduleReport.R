@@ -60,6 +60,23 @@ module_report_server <- function(input,
       )
       rv$aggregated_exported <- TRUE
     }
+
+    if (is.null(rv$affectedids_exported)) {
+      # export descriptive results (inkl. atemporal plausbility)
+      DQAstats::export_affected_ids(
+        output_dir = tempdir(),
+        rv = rv,
+        object = rv$conformance$value_conformance
+      )
+
+      # export uniqueness results
+      DQAstats::export_affected_ids(
+        output_dir = tempdir(),
+        rv = rv,
+        object = rv$results_plausibility_unique
+      )
+      rv$affectedids_exported <- TRUE
+    }
   })
 
 
@@ -121,6 +138,40 @@ module_report_server <- function(input,
     },
     contentType = "application/zip"
   )
+
+  output$download_affected <- downloadHandler(
+    filename = function() {
+      paste0("DQA_conspicuous_IDs_",
+             gsub("\\-|\\:| ",
+                  "",
+                  substr(rv$start_time, 1, 16)),
+             "_",
+             rv$sitename,
+             ".zip")
+    },
+    content = function(fname) {
+
+      # temporarily set tempdir as wd
+      oldwd <- getwd()
+      setwd(tempdir())
+      print(getwd())
+
+      exportdir <- paste0(tempdir(), "/affected_ids/")
+
+      # export files
+      utils::zip(
+        zipfile = fname,
+        files = c(
+          paste0("affected_ids/",
+                 list.files(exportdir))
+        ))
+
+      # return to old wd
+      setwd(oldwd)
+      print(getwd())
+    },
+    contentType = "application/zip"
+  )
 }
 
 #' @title module_report_ui
@@ -135,33 +186,47 @@ module_report_ui <- function(id) {
 
   tagList(
     fluidRow(
-      column(6,
-             box(
-               title = "Reporting",
-               downloadButton(
-                 ns("download_report"),
-                 "Download Report",
-                 style = paste0(
-                   "white-space: normal; ",
-                   "text-align:center; ",
-                   "padding: 9.5px 9.5px 9.5px 9.5px; ",
-                   "margin: 6px 10px 6px 10px;")),
-               width = 12
-             )
+      column(
+        6,
+        box(
+          title = "Reporting",
+          downloadButton(
+            ns("download_report"),
+            "Download Report",
+            style = paste0(
+              "white-space: normal; ",
+              "text-align:center; ",
+              "padding: 9.5px 9.5px 9.5px 9.5px; ",
+              "margin: 6px 10px 6px 10px;")),
+          width = 12
+        )
       ),
-      column(6,
-             box(
-               title = "Results",
-               downloadButton(
-                 ns("download_results"),
-                 "Download Results (ZIP)",
-                 style = paste0(
-                   "white-space: normal; ",
-                   "text-align:center; ",
-                   "padding: 9.5px 9.5px 9.5px 9.5px; ",
-                   "margin: 6px 10px 6px 10px;")),
-               width = 12
-             )
+      column(
+        6,
+        box(
+          title = "Results",
+          downloadButton(
+            ns("download_results"),
+            "Download Results (ZIP)",
+            style = paste0(
+              "white-space: normal; ",
+              "text-align:center; ",
+              "padding: 9.5px 9.5px 9.5px 9.5px; ",
+              "margin: 6px 10px 6px 10px;")),
+          width = 12
+        ),
+        box(
+          title = "Conspicuous IDs",
+          downloadButton(
+            ns("download_affected"),
+            "Download IDs (ZIP)",
+            style = paste0(
+              "white-space: normal; ",
+              "text-align:center; ",
+              "padding: 9.5px 9.5px 9.5px 9.5px; ",
+              "margin: 6px 10px 6px 10px;")),
+          width = 12
+        )
       )
     )
   )
