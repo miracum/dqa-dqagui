@@ -147,6 +147,7 @@ module_dashboard_server <-
         rv$conformance$value_conformance <-
           DQAstats::value_conformance(
             rv = rv,
+            scope = "descriptive",
             results = rv$results_descriptive,
             logfile_dir = rv$log$logfile_dir,
             headless = rv$headless
@@ -174,6 +175,7 @@ module_dashboard_server <-
         if (!is.null(rv$results_plausibility_atemporal)) {
           add_value_conformance <- DQAstats::value_conformance(
             rv = rv,
+            scope = "plausibility",
             results = rv$results_plausibility_atemporal,
             logfile_dir = rv$log$logfile_dir,
             headless = rv$headless
