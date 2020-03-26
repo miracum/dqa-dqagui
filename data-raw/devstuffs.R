@@ -96,6 +96,7 @@ file = usethis::proj_get())
 usethis::use_build_ignore("data-raw")
 usethis::use_build_ignore("LICENSE.md")
 usethis::use_build_ignore(".gitlab-ci.yml")
+usethis::use_build_ignore(".vscode")
 
 ## .gitignore:
 usethis::use_git_ignore("/*")
@@ -115,6 +116,7 @@ usethis::use_git_ignore("/.Rhistory")
 usethis::use_git_ignore("!/*.Rproj")
 usethis::use_git_ignore("/.Rproj*")
 usethis::use_git_ignore("/.RData")
+usethis::use_git_ignore("/.vscode")
 #usethis::use_git_ignore("/inst/demo_data/utilities/MDR/.~lock.mdr_example_data.csv#")
 usethis::use_git_ignore(".~lock.*.csv#")
 
