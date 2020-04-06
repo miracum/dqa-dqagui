@@ -45,7 +45,7 @@ module_log_server <-
                 "(\\_[[:digit:]]{4}\\-",
                 "[[:digit:]]{2}\\-",
                 "[[:digit:]]{2}\\-",
-                "[[:digit:]]{6}){0,1}\\.log$"
+                "[[:digit:]]{6}){0,1}\\.log$" # nolint
               )),
             decreasing = T
           )

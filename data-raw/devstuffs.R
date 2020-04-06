@@ -29,7 +29,7 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.1.1")
+my_desc$set_version("0.1.1.9001")
 # The title of your package
 my_desc$set(Title = "DQA GUI")
 # The description of your package
@@ -97,6 +97,7 @@ usethis::use_build_ignore("data-raw")
 usethis::use_build_ignore("LICENSE.md")
 usethis::use_build_ignore(".gitlab-ci.yml")
 usethis::use_build_ignore(".vscode")
+usethis::use_build_ignore(".lintr")
 
 ## .gitignore:
 usethis::use_git_ignore("/*")
