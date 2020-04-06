@@ -18,3 +18,4 @@
 /.RData
 .~lock.*.csv#
 /.vscode
+!/.lintr
