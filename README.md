@@ -10,6 +10,10 @@ This is the repository of the R package 'DQAgui'. It provides a graphical user i
 Currently, this packages is to be used together with the R packages `DQAstat` and `miRacumDQA` in order to work properly.
 Future work aims to make `DQAgui` and `DQAstats` applicable to other EHR data sources than those used within the MIRACUM consortium.
 
+Currently supported data formats / databases:  
+* CSV files
+* PostgreSQL (via `RPostgres`)
+
 ## Installation
 
 You can install `DQAgui` with:
