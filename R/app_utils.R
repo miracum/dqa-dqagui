@@ -203,8 +203,9 @@ validate_inputs <- function(rv) {
       # Check if source-db settings are valid:
       if (!is.null(rv$source$settings)) {
         rv$source$db_con <-
-          DQAstats::test_db(
-            settings = rv$source$settings,
+          DIZutils::db_connection(
+            db_name = rv$source$system_name,
+            db_type = rv$source$system_type,
             headless = rv$headless,
             logfile_dir = rv$log$logfile_dir
           )
@@ -311,8 +312,9 @@ validate_inputs <- function(rv) {
       # Check if target-db settings are valid:
       if (!is.null(rv$target$settings)) {
         rv$target$db_con <-
-          DQAstats::test_db(
-            settings = rv$target$settings,
+          DIZutils::db_connection(
+            db_name = rv$target$system_name,
+            db_type = rv$target$system_type,
             headless = rv$headless,
             logfile_dir = rv$log$logfile_dir
           )

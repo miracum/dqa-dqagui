@@ -179,6 +179,7 @@ module_config_server <-
             rv$systems[!is.na(get("source_system_name")),
                        unique(get("source_system_name"))]
 
+          # FIXME remove settings reading in the future
           rv$settings <-
             sapply(unique_systems, function(x) {
               DIZutils::get_config(
@@ -197,6 +198,7 @@ module_config_server <-
                 ]
             )
 
+            # FIXME remove loading from env vars here.
             for (db in databases) {
               DIZutils::feedback(
                 print_this = paste0("Using environment variables for ",
@@ -490,9 +492,11 @@ module_config_server <-
       rv$source$settings <-
         get_db_settings(input = input_re(), target = F)
 
+      # FIXME renovate db_type, remove settings file
       if (!is.null(rv$source$settings)) {
-        rv$source$db_con <- DQAstats::test_db(
-          settings = rv$source$settings,
+        rv$source$db_con <- DIZutils::db_connection(
+          db_name = input$source_pg_presettings_list,
+          db_type = "postgres",
           headless = rv$headless,
           timeout = 2,
           logfile_dir = rv$log$logfile_dir
@@ -556,8 +560,9 @@ module_config_server <-
         get_db_settings(input = input_re(), target = T)
 
       if (!is.null(rv$target$settings)) {
-        rv$target$db_con <- DQAstats::test_db(
-          settings = rv$target$settings,
+        rv$target$db_con <- DIZutils::db_connection(
+          db_name = input$target_pg_presettings_list,
+          db_type = "postgres",
           headless = rv$headless,
           timeout = 2,
           logfile_dir = rv$log$logfile_dir

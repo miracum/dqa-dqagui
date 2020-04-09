@@ -15,4 +15,3 @@ test_that(
     skip_if(dir.exists("../../00_pkg_src"))
     lintr::expect_lint_free(path = prefix)
   })
-

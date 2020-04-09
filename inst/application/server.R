@@ -38,7 +38,7 @@ shiny::shinyServer(
                 )
 
                 # Create new logfile:
-                DQAstats::cleanup_old_logfile(
+                DIZutils::cleanup_old_logfile(
                     logfile_dir = rv$log$logfile_dir
                 )
 

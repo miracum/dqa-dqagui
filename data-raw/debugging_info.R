@@ -31,6 +31,7 @@ logfile_dir <- tempdir()
 #                           package = "DQAstats")
 ##	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑
 
+DIZutils::set_env_vars("../env_INTERNAL")
 
 launch_app(
   port = port,
