@@ -56,7 +56,7 @@ module_config_server <-
       handlerExpr = {
         rv$csv_dir_src_clicked <- FALSE
         rv$csv_dir_src <- as.character(
-          DQAstats::clean_path_name(
+          DIZutils::clean_path_name(
             shinyFiles::parseDirPath(
               roots = roots,
               selection = input$config_sourcedir_in
@@ -69,7 +69,7 @@ module_config_server <-
             rv$source$settings$dir != "") {
           # workaround to tell ui, that it is there
           output$source_csv_dir <- reactive({
-            DQAstats::feedback(
+            DIZutils::feedback(
               paste0("Source file dir: ",
                      rv$source$settings$dir),
               findme = "ad440c9fcb",
@@ -94,7 +94,7 @@ module_config_server <-
       handlerExpr = {
         rv$csv_dir_tar_clicked <- FALSE
         rv$csv_dir_tar <- as.character(
-          DQAstats::clean_path_name(
+          DIZutils::clean_path_name(
             shinyFiles::parseDirPath(
               roots = roots,
               selection = input$config_targetdir_in
@@ -106,7 +106,7 @@ module_config_server <-
             rv$target$settings$dir != "") {
           # workaround to tell ui, that it is there
           output$target_csv_dir <- reactive({
-            DQAstats::feedback(
+            DIZutils::feedback(
               paste0("Target file dir: ",
                      rv$target$settings$dir),
               findme = "6f18c181e5",
@@ -132,20 +132,20 @@ module_config_server <-
       eventExpr = input_re()[["moduleConfig-config_load_mdr"]],
       handlerExpr = {
         if (is.null(rv$mdr)) {
-          DQAstats::feedback(
+          DIZutils::feedback(
             print_this = "Reading MDR ...",
             findme = "f877fee7d2",
             logfile_dir = rv$log$logfile_dir,
             headless = rv$headless
           )
-          DQAstats::feedback(
+          DIZutils::feedback(
             print_this = paste0("MDR-Filename:",
                                 rv$mdr_filename),
             findme = "582d6a39c6",
             logfile_dir = rv$log$logfile_dir,
             headless = rv$headless
           )
-          DQAstats::feedback(
+          DIZutils::feedback(
             print_this = paste0("rv$utilspath:",
                                 rv$utilspath),
             findme = "b5c71849f9",
@@ -167,7 +167,7 @@ module_config_server <-
             c("source_system_name",
               "source_system_type")
           rv$systems <- unique(rv$mdr[, vec, with = F])
-          DQAstats::feedback(
+          DIZutils::feedback(
             print_this = "Different systems found in MDR:",
             findme = "4451da82ad",
             logfile_dir = rv$log$logfile_dir,
@@ -181,7 +181,7 @@ module_config_server <-
 
           rv$settings <-
             sapply(unique_systems, function(x) {
-              DQAstats::get_config(
+              DIZutils::get_config(
                 config_file = rv$config_file,
                 config_key = tolower(x),
                 logfile_dir = rv$log$logfile_dir,
@@ -198,7 +198,7 @@ module_config_server <-
             )
 
             for (db in databases) {
-              DQAstats::feedback(
+              DIZutils::feedback(
                 print_this = paste0("Using environment variables for ",
                                     db),
                 findme = "dc97a93ce645d1d50a7d",
@@ -219,7 +219,7 @@ module_config_server <-
             rv$systems[!is.na(get("source_system_type")),
                        unique(get("source_system_type"))]
 
-          DQAstats::feedback(
+          DIZutils::feedback(
             print_this = rv$system_types,
             prefix = "System type ",
             findme = "9aec84fcca",
@@ -229,7 +229,7 @@ module_config_server <-
 
           if (!("csv" %in% tolower(rv$system_types))) {
             # Remove CSV-Tabs:
-            DQAstats::feedback(
+            DIZutils::feedback(
               "Removing csv-tab from source ...",
               findme = "3c2f368001",
               logfile_dir = rv$log$logfile_dir,
@@ -237,7 +237,7 @@ module_config_server <-
             )
             removeTab(inputId = "source_tabs", target = "CSV")
 
-            DQAstats::feedback(
+            DIZutils::feedback(
               "Removing csv-tab from target ...",
               findme = "337b20a126",
               logfile_dir = rv$log$logfile_dir,
@@ -249,7 +249,7 @@ module_config_server <-
               rv$systems[get("source_system_type") == "csv" &
                            !is.na(get("source_system_name")),
                          unique(get("source_system_name"))]
-            DQAstats::feedback(
+            DIZutils::feedback(
               csv_system_names,
               prefix = "csv_system_names: ",
               findme = "5a083a3d53",
@@ -270,14 +270,14 @@ module_config_server <-
           }
           if (!("postgres" %in% tolower(rv$system_types))) {
             # Remove Postgres-Tabs:
-            DQAstats::feedback(
+            DIZutils::feedback(
               "Removing postgres-tab from source ...",
               logfile_dir = rv$log$logfile_dir,
               headless = rv$headless
             )
             removeTab(inputId = "source_tabs", target = "PostgreSQL")
 
-            DQAstats::feedback(
+            DIZutils::feedback(
               "Removing postgres-tab from target ...",
               logfile_dir = rv$log$logfile_dir,
               headless = rv$headless
@@ -294,7 +294,7 @@ module_config_server <-
               rv$systems[get("source_system_type") == "postgres" &
                            !is.na(get("source_system_name")),
                          unique(get("source_system_name"))]
-            DQAstats::feedback(
+            DIZutils::feedback(
               postgres_system_names,
               prefix = "postgres_system_names: ",
               findme = "be136f5ab6",
@@ -350,7 +350,7 @@ module_config_server <-
     # If the "load presets"-button was pressed, startload & show the presets:
     # observeEvent(input$source_pg_presettings_btn, {
     observeEvent(input$source_pg_presettings_list, {
-      DQAstats::feedback(
+      DIZutils::feedback(
         print_this =
           paste0(
             "Input-preset ",
@@ -364,7 +364,7 @@ module_config_server <-
       )
       config_stuff <- rv$settings[[tolower(input$source_pg_presettings_list)]]
 
-      DQAstats::feedback(
+      DIZutils::feedback(
         print_this = paste(
           "Loaded successfully.",
           "Filling presets to global rv-object and UI ..."
@@ -417,7 +417,7 @@ module_config_server <-
 
     #observeEvent(input$target_pg_presettings_btn, {
     observeEvent(input$target_pg_presettings_list, {
-      DQAstats::feedback(
+      DIZutils::feedback(
         paste0(
           "Input-preset ",
           input$target_pg_presettings_list,
@@ -430,7 +430,7 @@ module_config_server <-
       )
       config_stuff <- rv$settings[[tolower(input$target_pg_presettings_list)]]
 
-      DQAstats::feedback(
+      DIZutils::feedback(
         paste(
           "Loaded successfully.",
           "Filling presets to global rv-object and UI ..."
@@ -499,7 +499,7 @@ module_config_server <-
         )
 
         if (!is.null(rv$source$db_con)) {
-          DQAstats::feedback(
+          DIZutils::feedback(
             paste0(
               "Connection to ",
               input_system,
@@ -564,7 +564,7 @@ module_config_server <-
         )
 
         if (!is.null(rv$target$db_con)) {
-          DQAstats::feedback(
+          DIZutils::feedback(
             paste0(
               "Connection to ",
               input_system,
@@ -623,7 +623,7 @@ module_config_server <-
         updateActionButton(session, "target_system_to_source_system_btn",
                            label = " Set TARGET = SOURCE")
         # Feedback to the console:
-        DQAstats::feedback(
+        DIZutils::feedback(
           "Target != source now.",
           findme = "ec51b122ee",
           logfile_dir = rv$log$logfile_dir,
@@ -647,7 +647,7 @@ module_config_server <-
             feedback_txt(system = "The source system", type = "target")
           })
         # Feedback to the console:
-        DQAstats::feedback(
+        DIZutils::feedback(
           "Target == source now.",
           findme = "94d3a2090c",
           logfile_dir = rv$log$logfile_dir,
@@ -699,7 +699,7 @@ module_config_server <-
         # check, if mdr is present. without mdr, we cannot perform any
         # further operations
         if (is.null(rv$mdr)) {
-          DQAstats::feedback(
+          DIZutils::feedback(
             "No MDR found. Please provide a metadata repository (MDR).",
             type = "Warning",
             findme = "1dc68937b8",
@@ -733,13 +733,13 @@ module_config_server <-
             rv <- set_target_equal_to_source(rv)
           }
 
-          DQAstats::feedback(
+          DIZutils::feedback(
             paste0("Source system is ", rv$source$system_name),
             findme = "1d61685355",
             logfile_dir = rv$log$logfile_dir,
             headless = rv$headless
           )
-          DQAstats::feedback(
+          DIZutils::feedback(
             paste0("Target system is ", rv$target$system_name),
             findme = "eaf72ed747",
             logfile_dir = rv$log$logfile_dir,

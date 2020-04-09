@@ -1,5 +1,5 @@
 button_mdr <- function(utils_path, mdr_filename, logfile_dir, headless) {
-  DQAstats::feedback(
+  DIZutils::feedback(
     print_this = "Loading the metadata repository",
     logfile_dir = logfile_dir,
     headless = headless
@@ -23,7 +23,7 @@ button_mdr <- function(utils_path, mdr_filename, logfile_dir, headless) {
 #'
 #' @export
 button_send_datamap <- function(rv) {
-  DQAstats::feedback(
+  DIZutils::feedback(
     print_this = "Sending the datamap",
     logfile_dir = rv$log$logfile_dir,
     headless = rv$headless

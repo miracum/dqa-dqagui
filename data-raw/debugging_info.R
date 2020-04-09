@@ -3,7 +3,7 @@ output_dir = "output/"
 
 ## debugging the MIRACUM stuff (JM):
 ## ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-# utils_path = DQAstats::clean_path_name(system.file("application/_utilities",
+# utils_path = DIZutils::clean_path_name(system.file("application/_utilities",
 #                                                    package = "miRacumDQA"))
 # mdr_filename = "mdr.csv"
 # config_file = system.file("application/_settings/demo_settings_INTERNAL.yml",
@@ -14,7 +14,7 @@ output_dir = "output/"
 
 ## debugging the MIRACUM stuff (LK):
 ## ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-utils_path = DQAstats::clean_path_name(system.file("application/_utilities",
+utils_path = DIZutils::clean_path_name(system.file("application/_utilities",
                                                    package = "miRacumDQA"))
 mdr_filename = "mdr.csv"
 config_file <- "/home/user/development/Rpackages/dqa/demo_settings_INTERNAL.yml"

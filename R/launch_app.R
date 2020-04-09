@@ -59,23 +59,23 @@ launch_app <- function(port = 3838,
                        use_env_credentials = FALSE,
                        logfile_dir = tempdir()) {
 
-  DQAstats::global_env_hack(key = "utils_path",
+  DIZutils::global_env_hack(key = "utils_path",
                             val = utils_path,
                             pos = 1L)
 
-  DQAstats::global_env_hack(key = "config_file",
+  DIZutils::global_env_hack(key = "config_file",
                             val = config_file,
                             pos = 1L)
 
-  DQAstats::global_env_hack(key = "mdr_filename",
+  DIZutils::global_env_hack(key = "mdr_filename",
                             val = mdr_filename,
                             pos = 1L)
 
-  DQAstats::global_env_hack(key = "use_env_credentials",
+  DIZutils::global_env_hack(key = "use_env_credentials",
                             val = use_env_credentials,
                             pos = 1L)
 
-  DQAstats::global_env_hack(key = "logfile_dir",
+  DIZutils::global_env_hack(key = "logfile_dir",
                             val = logfile_dir,
                             pos = 1L)
 
