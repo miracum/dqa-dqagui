@@ -150,9 +150,9 @@ validate_inputs <- function(rv) {
     # Check source setting:
     if (rv$source$system_type == "csv") {
       # Check if source-path is valid:
-      if (typeof(rv$source$settings$dir) == "character" &&
-          !is.null(rv$source$settings$dir) &&
-          length(rv$source$settings$dir) > 0) {
+      if (typeof(rv$source$settings$path) == "character" &&
+          !is.null(rv$source$settings$path) &&
+          length(rv$source$settings$path) > 0) {
         DIZutils::feedback("Source settings seem valid.",
                            findme = "c0bcc9aa31",
                            logfile_dir = rv$log$logfile_dir,
@@ -190,8 +190,8 @@ validate_inputs <- function(rv) {
         )
         DIZutils::feedback(
           print_this = paste0(
-            "rv$source$settings$dir = ",
-            rv$source$settings$dir,
+            "rv$source$settings$path = ",
+            rv$source$settings$path,
             "(d9b43110bb)",
             logfile_dir = rv$log$logfile_dir,
             headless = rv$headless
@@ -261,9 +261,9 @@ validate_inputs <- function(rv) {
     # Check target setting:
     if (rv$target$system_type == "csv") {
       # Check if target-path is valid:
-      if (typeof(rv$target$settings$dir) == "character" &&
-          !is.null(rv$target$settings$dir) &&
-          length(rv$target$settings$dir) > 0) {
+      if (typeof(rv$target$settings$path) == "character" &&
+          !is.null(rv$target$settings$path) &&
+          length(rv$target$settings$path) > 0) {
         DIZutils::feedback("target settings seem valid.",
                            findme = "9979bb57ef",
                            logfile_dir = rv$log$logfile_dir,
@@ -300,7 +300,7 @@ validate_inputs <- function(rv) {
           headless = rv$headless
         )
         DIZutils::feedback(
-          print_this = paste0("rv$target$settings$dir = ",
+          print_this = paste0("rv$target$settings$path = ",
                               rv$target$dir),
           findme = "(43c81cb723)",
           logfile_dir = rv$log$logfile_dir,

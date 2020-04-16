@@ -6,8 +6,6 @@ output_dir = "output/"
 # utils_path = DIZutils::clean_path_name(system.file("application/_utilities",
 #                                                    package = "miRacumDQA"))
 # mdr_filename = "mdr.csv"
-# config_file = system.file("application/_settings/demo_settings_INTERNAL.yml",
-#                           package = "DQAgui")
 # logfile_dir = "~/share/logfiles/"
 ##	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑
 
@@ -17,7 +15,6 @@ output_dir = "output/"
 utils_path = DIZutils::clean_path_name(system.file("application/_utilities",
                                                    package = "miRacumDQA"))
 mdr_filename = "mdr.csv"
-config_file <- "/home/user/development/Rpackages/dqa/demo_settings_INTERNAL.yml"
 logfile_dir <- tempdir()
 ##	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑
 
@@ -27,8 +24,6 @@ logfile_dir <- tempdir()
 # utils_path = system.file("demo_data/utilities",
 #                          package = "DQAstats")
 # mdr_filename = "mdr_example_data.csv"
-# config_file = system.file("demo_data/utilities/settings/demo_settings.yml",
-#                           package = "DQAstats")
 ##	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑
 
 DIZutils::set_env_vars("../env_INTERNAL")
@@ -37,7 +32,6 @@ launch_app(
   port = port,
   utils_path = utils_path,
   mdr_filename = mdr_filename,
-  config_file = config_file,
   logfile_dir = logfile_dir
 )
 
@@ -50,7 +44,5 @@ launch_app(
 # launch_app(
 #   port = port,
 #   utils_path = utils_path,
-#   mdr_filename = mdr_filename,
-#   config_file = config_file,
-#   use_env_credentials = TRUE
+#   mdr_filename = mdr_filename
 # )

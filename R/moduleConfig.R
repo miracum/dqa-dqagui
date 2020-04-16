@@ -62,21 +62,21 @@ module_config_server <-
               selection = input$config_sourcedir_in
             )))
 
-        rv$source$settings$dir <- rv$csv_dir_src
+        rv$source$settings$path <- rv$csv_dir_src
 
-        if (!identical(rv$source$settings$dir, character(0)) &&
-            !is.null(rv$source$settings$dir) &&
-            rv$source$settings$dir != "") {
+        if (!identical(rv$source$settings$path, character(0)) &&
+            !is.null(rv$source$settings$path) &&
+            rv$source$settings$path != "") {
           # workaround to tell ui, that it is there
           output$source_csv_dir <- reactive({
             DIZutils::feedback(
               paste0("Source file dir: ",
-                     rv$source$settings$dir),
+                     rv$source$settings$path),
               findme = "ad440c9fcb",
               logfile_dir = rv$log$logfile_dir,
               headless = rv$headless
             )
-            paste(rv$source$settings$dir)
+            paste(rv$source$settings$path)
           })
           outputOptions(output, "source_csv_dir", suspendWhenHidden = FALSE)
           rv$source$system_name <-
@@ -99,21 +99,21 @@ module_config_server <-
               roots = roots,
               selection = input$config_targetdir_in
             )))
-        rv$target$settings$dir <- rv$csv_dir_tar
+        rv$target$settings$path <- rv$csv_dir_tar
 
-        if (!identical(rv$target$settings$dir, character(0)) &&
-            !is.null(rv$target$settings$dir) &&
-            rv$target$settings$dir != "") {
+        if (!identical(rv$target$settings$path, character(0)) &&
+            !is.null(rv$target$settings$path) &&
+            rv$target$settings$path != "") {
           # workaround to tell ui, that it is there
           output$target_csv_dir <- reactive({
             DIZutils::feedback(
               paste0("Target file dir: ",
-                     rv$target$settings$dir),
+                     rv$target$settings$path),
               findme = "6f18c181e5",
               logfile_dir = rv$log$logfile_dir,
               headless = rv$headless
             )
-            paste(rv$target$settings$dir)
+            paste(rv$target$settings$path)
           })
           outputOptions(output, "target_csv_dir", suspendWhenHidden = FALSE)
           rv$target$system_name <-
@@ -182,39 +182,12 @@ module_config_server <-
           # FIXME remove settings reading in the future
           rv$settings <-
             sapply(unique_systems, function(x) {
-              DIZutils::get_config(
-                config_file = rv$config_file,
-                config_key = tolower(x),
+              DIZutils::get_config_env(
+                system_name = x,
                 logfile_dir = rv$log$logfile_dir,
                 headless = rv$headless
               )
             }, USE.NAMES = T, simplify = F)
-
-          if (rv$use_env_credentials) {
-            databases <- unique(
-              rv$systems[!is.na(get("source_system_name")), ][
-                get("source_system_type") == "postgres",
-                get("source_system_name")
-                ]
-            )
-
-            # FIXME remove loading from env vars here.
-            for (db in databases) {
-              DIZutils::feedback(
-                print_this = paste0("Using environment variables for ",
-                                    db),
-                findme = "dc97a93ce645d1d50a7d",
-                logfile_dir = rv$log$logfile_dir,
-                headless = rv$headless
-              )
-              rv$settings[[db]]$password <- Sys.getenv(
-                paste0(toupper(db), "_PASSWORD")
-              )
-              rv$settings[[db]]$host <- Sys.getenv(
-                paste0(toupper(db), "_HOST")
-              )
-            }
-          }
 
           # - Different system-types:
           rv$system_types <-
