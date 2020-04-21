@@ -12,18 +12,19 @@ output_dir = "output/"
 
 ## debugging the MIRACUM stuff (LK):
 ## ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-utils_path = DIZutils::clean_path_name(system.file("application/_utilities",
-                                                   package = "miRacumDQA"))
-mdr_filename = "mdr.csv"
-logfile_dir <- tempdir()
+# utils_path = DIZutils::clean_path_name(system.file("application/_utilities",
+#                                                    package = "miRacumDQA"))
+# mdr_filename = "mdr.csv"
+# logfile_dir <- tempdir()
 ##	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑
 
 
 ## debugging testdata:
 ## ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-# utils_path = system.file("demo_data/utilities",
-#                          package = "DQAstats")
-# mdr_filename = "mdr_example_data.csv"
+utils_path = system.file("demo_data/utilities",
+                         package = "DQAstats")
+mdr_filename = "mdr_example_data.csv"
+logfile_dir <- tempdir()
 ##	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑
 
 DIZutils::set_env_vars("../env_INTERNAL")
