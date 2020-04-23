@@ -93,7 +93,7 @@ module_dashboard_server <-
           rv$data_target <- rv$data_source
         }
 
-        if (nrow(rv$pl$atemp_vars) != 0) {
+        if (nrow(rv$pl$atemp_vars) != 0 && rv$pl$atemp_possible) {
           # get atemporal plausibilities
           rv$data_plausibility$atemporal <-
             DQAstats::get_atemp_plausis(
@@ -134,7 +134,7 @@ module_dashboard_server <-
             )
         }
 
-        if (nrow(rv$pl$uniq_vars) != 0) {
+        if (nrow(rv$pl$uniq_vars) != 0 && rv$pl$uniq_possible) {
           rv$results_plausibility_unique <- DQAstats::uniq_plausi_results(
             rv = rv,
             uniq_vars = rv$pl$uniq_vars,
