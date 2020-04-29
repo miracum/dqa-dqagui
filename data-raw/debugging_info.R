@@ -3,10 +3,10 @@ output_dir = "output/"
 
 ## debugging the MIRACUM stuff (JM):
 ## ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-# utils_path = DIZutils::clean_path_name(system.file("application/_utilities",
-#                                                    package = "miRacumDQA"))
-# mdr_filename = "mdr.csv"
-# logfile_dir = "~/share/logfiles/"
+utils_path = DIZutils::clean_path_name(system.file("application/_utilities",
+                                                   package = "miRacumDQA"))
+mdr_filename = "mdr.csv"
+logfile_dir = "~/share/logfiles/"
 ##	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑
 
 
@@ -21,19 +21,19 @@ output_dir = "output/"
 
 ## debugging testdata:
 ## ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-utils_path = system.file("demo_data/utilities",
-                         package = "DQAstats")
-mdr_filename = "mdr_example_data.csv"
-logfile_dir <- tempdir()
+# utils_path = system.file("demo_data/utilities",
+#                          package = "DQAstats")
+# mdr_filename = "mdr_example_data.csv"
+# logfile_dir <- tempdir()
 ##	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑
 ##
 ##
-devtools::load_all()
-logfile_dir = tempdir()
-utils_path = "/home/user/development/Rpackages/dqa/miracumdqa/inst/application/_utilities/"
-mdr_filename = "mdr.csv"
-DIZutils::set_env_vars("../env_INTERNAL")
-shiny::shinyAppDir("inst/application/")
+# devtools::load_all()
+# logfile_dir = tempdir()
+# utils_path = "/home/user/development/Rpackages/dqa/miracumdqa/inst/application/_utilities/"
+# mdr_filename = "mdr.csv"
+# DIZutils::set_env_vars("../env_INTERNAL")
+# shiny::shinyAppDir("inst/application/")
 
 launch_app(
   port = port,

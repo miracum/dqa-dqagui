@@ -82,11 +82,16 @@ module_config_server <-
           rv$source$system_name <-
             input_re()[["moduleConfig-source_csv_presettings_list"]]
           rv$source$system_type <- "csv"
+          DIZutils::feedback(
+            paste0("rv$source$system_type = ",
+                   rv$source$system_type),
+            findme = "91ebdd5a1d")
           output$source_system_feedback_txt <-
             renderText({
               feedback_txt(system = "CSV", type = "source")
             })
         }
+        check_load_data_button(rv)
       }
     )
     observeEvent(
@@ -119,11 +124,16 @@ module_config_server <-
           rv$target$system_name <-
             input_re()[["moduleConfig-target_csv_presettings_list"]]
           rv$target$system_type <- "csv"
+          DIZutils::feedback(
+            paste0("rv$target$system_type = ",
+                   rv$target$system_type),
+            findme = "4690c52739")
           output$target_system_feedback_txt <-
             renderText({
               feedback_txt(system = "CSV", type = "target")
             })
         }
+        check_load_data_button(rv)
       }
     )
 
@@ -319,6 +329,7 @@ module_config_server <-
               "\U26A0 Please select a source system to load the data."
             })
         }
+        check_load_data_button(rv)
       })
 
 
@@ -520,7 +531,7 @@ module_config_server <-
           rv$source$system <- ""
         }
       }
-
+      check_load_data_button(rv)
     })
 
     observeEvent(input$target_pg_test_connection, {
@@ -586,6 +597,7 @@ module_config_server <-
           rv$target$system <- ""
         }
       }
+      check_load_data_button(rv)
     })
 
     observeEvent(input$target_system_to_source_system_btn, {
@@ -632,6 +644,7 @@ module_config_server <-
           headless = rv$headless
         )
       }
+      check_load_data_button(rv)
     })
 
     observe({
@@ -663,7 +676,6 @@ module_config_server <-
         )
       }
     })
-
 
     observeEvent(
       input_re()[["moduleConfig-dash_load_btn"]], {
@@ -1059,16 +1071,10 @@ module_config_ui <- function(id) {
             br(),
             h4(htmlOutput(ns("target_system_feedback_txt"))),
             br(),
-            conditionalPanel(
-              condition = paste0(
-                "output",
-                "['moduleConfig-source_system_feedback_txt'] != ",
-                "'\U26A0 Please select a source system to load the data.'"),
-              actionButton(ns("dash_load_btn"),
-                           "Load data",
-                           icon = icon("file-upload"))
-            ),
-            width = 12,
+            actionButton(ns("dash_load_btn"),
+                         "Load data",
+                         icon = icon("file-upload")),
+            width = 12
           ),
           box(
             title = "Analyse only the source system",
@@ -1082,6 +1088,13 @@ module_config_ui <- function(id) {
                 "padding: 9.5px 9.5px 9.5px 9.5px; ",
                 "margin: 6px 10px 6px 10px;")
             ),
+            width = 12
+          ),
+          box(
+            title = "Analyse the following data elements",
+            checkboxGroupInput(inputId = "dqa_assessment_variables",
+                               label = "Variables to analyse:",
+                               choices = NULL),
             width = 12
           )
         )

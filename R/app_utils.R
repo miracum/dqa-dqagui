@@ -386,3 +386,43 @@ fix_sql_display <- function(text) {
   t <- gsub("\\\t", "&nbsp;&nbsp;&nbsp;&nbsp;", t)
   return(t)
 }
+
+
+#' @title Evaluates whether the load-data button needs to be shown or not.
+#' @description If there is a valid source system and a valid target system
+#'   (this is also the case if the user set target == source), the result
+#'   of this function will be TRUE and the button will be displayed via
+#'   shinyjs. Otherwise the result is FALSE and the button will be hidden.
+#'
+#' @inheritParams module_config_server
+#'
+#'
+check_load_data_button <- function(rv) {
+  #TODO: Read the systems from mdr:
+  systems <- c("csv", "postgres")
+
+  res <- ""
+  if (!is.null(rv$source$system_type)) {
+    if (rv$source$system_type %in% systems &&
+        isTRUE(rv$target_is_source)) {
+      # Source is set and target is not necessary:
+      res <- T
+    } else if (rv$source$system_type %in% systems &&
+               !is.null(rv$target$system_type) &&
+               rv$target$system_type %in% systems) {
+      # Source and target are set:
+      res <- T
+    } else {
+      res <- F
+    }
+  } else {
+    res <- F
+  }
+
+  if (res) {
+    shinyjs::show("dash_load_btn")
+  } else {
+    shinyjs::hide("dash_load_btn")
+  }
+  return(res)
+}
