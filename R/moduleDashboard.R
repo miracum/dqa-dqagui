@@ -47,9 +47,18 @@ module_dashboard_server <-
 
         stopifnot(length(rv$source$system_type) == 1)
 
+        selection_intersect <- input_re()[[paste0(
+          "moduleConfig-config_select_dqa_assessment_variables"
+        )]]
+
+        print("\n\nHier 1:")
+        print(rv$dqa_assessment)
+
+        intersect_keys <- rv$dqa_assessment[
+          get("designation") %in% selection_intersect, get("key")]
 
         reactive_to_append <- DQAstats::create_helper_vars(
-          mdr = rv$mdr,
+          mdr = rv$mdr[get("key") %in% intersect_keys, ],
           target_db = rv$target$system_name,
           source_db = rv$source$system_name
         )

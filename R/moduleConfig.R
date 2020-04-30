@@ -30,7 +30,6 @@
 # module_config_server
 module_config_server <-
   function(input, output, session, rv, input_re) {
-
     # filepath roots dir
     roots <- c(home = "/home/")
 
@@ -91,7 +90,7 @@ module_config_server <-
               feedback_txt(system = "CSV", type = "source")
             })
         }
-        check_load_data_button(rv)
+        check_load_data_button(rv, session)
       }
     )
     observeEvent(
@@ -133,7 +132,7 @@ module_config_server <-
               feedback_txt(system = "CSV", type = "target")
             })
         }
-        check_load_data_button(rv)
+        check_load_data_button(rv, session)
       }
     )
 
@@ -329,7 +328,7 @@ module_config_server <-
               "\U26A0 Please select a source system to load the data."
             })
         }
-        check_load_data_button(rv)
+        check_load_data_button(rv, session)
       })
 
 
@@ -531,7 +530,7 @@ module_config_server <-
           rv$source$system <- ""
         }
       }
-      check_load_data_button(rv)
+      check_load_data_button(rv, session)
     })
 
     observeEvent(input$target_pg_test_connection, {
@@ -597,7 +596,7 @@ module_config_server <-
           rv$target$system <- ""
         }
       }
-      check_load_data_button(rv)
+      check_load_data_button(rv, session)
     })
 
     observeEvent(input$target_system_to_source_system_btn, {
@@ -620,10 +619,12 @@ module_config_server <-
           headless = rv$headless
         )
       } else {
+        ## This can also be the case if the app initially starts so nothing
+        ## is specified yet!
         ## Target != source and should become equal:
         # Change button-label:
         updateActionButton(session, "target_system_to_source_system_btn",
-                           label = "Allow custom settings for target")
+                           label = "Compare the source system with itself")
         # Hide target-setting-tabs:
         hideTab(inputId = "target_tabs", target = "CSV")
         hideTab(inputId = "target_tabs", target = "PostgreSQL")
@@ -644,7 +645,7 @@ module_config_server <-
           headless = rv$headless
         )
       }
-      check_load_data_button(rv)
+      check_load_data_button(rv, session)
     })
 
     observe({
@@ -763,6 +764,39 @@ module_config_server <-
           )
         }
       })
+
+    observeEvent(input$config_select_all_assessment_variables, {
+      updateCheckboxGroupInput(
+        session = session,
+        inputId = "config_select_dqa_assessment_variables",
+        choices = rv$dqa_assessment[["designation"]],
+        selected = rv$dqa_assessment[["designation"]]
+      )
+    })
+
+    observeEvent(input$config_select_no_assessment_variables, {
+      updateCheckboxGroupInput(
+        session = session,
+        inputId = "config_select_dqa_assessment_variables",
+        choices = rv$dqa_assessment[["designation"]],
+        selected = NULL
+      )
+    })
+
+    # observeEvent(input$config_select_all_or_no_assessment_variables, {
+    #   input_tmp <- input$config_select_all_or_no_assessment_variables
+    #   print(input_tmp)
+    #   res <- rv$dqa_assessment[["designation"]]
+    #   if (input_tmp == "no") {
+    #     res <- NULL
+    #   }
+    #   updateCheckboxGroupInput(
+    #     session = session,
+    #     inputId = "config_select_dqa_assessment_variables",
+    #     choices = rv$dqa_assessment[["designation"]],
+    #     selected = res
+    #   )
+    # })
   }
 
 #' @title module_config_ui
@@ -783,17 +817,17 @@ module_config_ui <- function(id) {
         conditionalPanel(
           condition =
             "typeof output['moduleConfig-system_types'] !== 'undefined'",
-          box(
-            title = "Sitename",
-            selectInput(
-              ns("config_sitename"),
-              "Please enter the name of your site",
-              selected = F,
-              choices = NULL,
-              multiple = F
-            ),
-            width = 12
-          ),
+          # box(
+          #   title = "Sitename",
+          #   selectInput(
+          #     ns("config_sitename"),
+          #     "Please enter the name of your site",
+          #     selected = F,
+          #     choices = NULL,
+          #     multiple = F
+          #   ),
+          #   width = 12
+          # ),
           box(
             title =  "SOURCE settings",
             width = 6,
@@ -923,6 +957,17 @@ module_config_ui <- function(id) {
             title =  "TARGET settings",
             width = 6,
             #solidHeader = TRUE,
+            hr(),
+            checkboxInput(
+              inputId = ns("target_system_to_source_system_btn"),
+              label = " Set TARGET = SOURCE",
+              # style = paste0(
+              #   "white-space: normal; ",
+              #   "text-align:center; ",
+              #   "padding: 9.5px 9.5px 9.5px 9.5px; ",
+              #   "margin: 6px 10px 6px 10px;")
+            ),
+            hr(),
             tabBox(
               # The id lets us use input$target_tabs
               # on the server to find the current tab
@@ -1064,37 +1109,55 @@ module_config_ui <- function(id) {
         conditionalPanel(
           condition =
             "typeof output['moduleConfig-mdr_present'] !== 'undefined'",
+          # box(
+          #   id = ns("config_load_data_box"),
+          #   # title = "Start analysing the data",
+          #
+          #   status = "success",
+          #   solidHeader = TRUE,
+          #   width = 12
+          # ),
           box(
             title = "Load the data",
-            #solidHeader = T,
             h4(htmlOutput(ns("source_system_feedback_txt"))),
             br(),
             h4(htmlOutput(ns("target_system_feedback_txt"))),
-            br(),
+            hr(),
+            selectInput(
+              ns("config_sitename"),
+              "Please enter the name of your site",
+              selected = F,
+              choices = NULL,
+              multiple = F
+            ),
+            hr(),
             actionButton(ns("dash_load_btn"),
                          "Load data",
-                         icon = icon("file-upload")),
+                         icon = icon("file-upload"),
+                         style = paste0("color: #fff;",
+                                        "background-color: #337ab7;",
+                                        "border-color: #2e6da4;",
+                                        "display:center-align;")),
             width = 12
           ),
           box(
-            title = "Analyse only the source system",
-            actionButton(
-              inputId = ns("target_system_to_source_system_btn"),
-              icon = icon("cogs"),
-              label = " Set TARGET = SOURCE",
-              style = paste0(
-                "white-space: normal; ",
-                "text-align:center; ",
-                "padding: 9.5px 9.5px 9.5px 9.5px; ",
-                "margin: 6px 10px 6px 10px;")
-            ),
-            width = 12
-          ),
-          box(
+            id = ns("config_select_dqa_assessment_box"),
             title = "Analyse the following data elements",
-            checkboxGroupInput(inputId = "dqa_assessment_variables",
-                               label = "Variables to analyse:",
-                               choices = NULL),
+            hr(),
+            actionButton(
+              inputId = ns("config_select_all_assessment_variables"),
+              label = "Select all"
+            ),
+            actionButton(
+              inputId = ns("config_select_no_assessment_variables"),
+              label = "Unselect all"
+            ),
+            hr(),
+            checkboxGroupInput(
+              inputId = ns("config_select_dqa_assessment_variables"),
+              label = NULL,
+              choices = NULL),
+            # verbatimTextOutput("config_select_dqa_assessment_values"),
             width = 12
           )
         )

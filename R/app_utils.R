@@ -388,16 +388,19 @@ fix_sql_display <- function(text) {
 }
 
 
+
 #' @title Evaluates whether the load-data button needs to be shown or not.
 #' @description If there is a valid source system and a valid target system
 #'   (this is also the case if the user set target == source), the result
 #'   of this function will be TRUE and the button will be displayed via
 #'   shinyjs. Otherwise the result is FALSE and the button will be hidden.
+#'   This function also displays (or hides) the variables which can be
+#'   assessed.
 #'
 #' @inheritParams module_config_server
 #'
 #'
-check_load_data_button <- function(rv) {
+check_load_data_button <- function(rv, session) {
   #TODO: Read the systems from mdr:
   systems <- c("csv", "postgres")
 
@@ -407,6 +410,13 @@ check_load_data_button <- function(rv) {
         isTRUE(rv$target_is_source)) {
       # Source is set and target is not necessary:
       res <- T
+
+      # Catch the case where target should be source but rv$target
+      # is not set yet (so assign it):
+      if (is.null(rv$target$system_type) ||
+          (rv$source$system_type != rv$target$system_type)) {
+        rv$target <- rv$source
+      }
     } else if (rv$source$system_type %in% systems &&
                !is.null(rv$target$system_type) &&
                rv$target$system_type %in% systems) {
@@ -420,8 +430,29 @@ check_load_data_button <- function(rv) {
   }
 
   if (res) {
+    # Determine the different dataelements:
+    helper_vars_tmp <- DQAstats::create_helper_vars(
+      mdr = rv$mdr,
+      target_db = rv$target$system_name,
+      source_db = rv$source$system_name
+    )
+    rv$dqa_assessment <- helper_vars_tmp$dqa_assessment
+
+    # print(helper_vars_tmp)
+
+    # Update the checkboxgroup to the determined dataelemets:
+    updateCheckboxGroupInput(session = session,
+                             inputId = "config_select_dqa_assessment_variables",
+                             choices = rv$dqa_assessment[["designation"]],
+                             selected = rv$dqa_assessment[["designation"]])
+
+    # Show the checkboxgroup:
+    shinyjs::show("config_select_dqa_assessment_box")
+
+    # Show load-data button:
     shinyjs::show("dash_load_btn")
   } else {
+    shinyjs::hide("config_select_dqa_assessment_box", anim = TRUE)
     shinyjs::hide("dash_load_btn")
   }
   return(res)
