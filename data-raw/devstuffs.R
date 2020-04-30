@@ -81,9 +81,9 @@ usethis::use_package("processx", type = "Suggests")
 usethis::use_package("lintr", type = "Suggests")
 
 # Development package
-stats_tag <- "v0.1.4" # e.g. "v0.1.3"
+stats_tag <- "development" # e.g. "v0.1.3"
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqastats.git", ref = stats_tag, upgrade = "always")
-utils_tag <- "v0.0.2" # e.g. "v0.0.2"
+utils_tag <- "development" # e.g. "v0.0.2"
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/misc/dizutils.git", ref = utils_tag, upgrade = "always")
 
 # usethis::use_dev_package("DQAstats", type = "Imports")
