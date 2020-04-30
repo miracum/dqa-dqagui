@@ -609,8 +609,11 @@ module_config_server <-
         showTab(inputId = "target_tabs", target = "CSV")
         showTab(inputId = "target_tabs", target = "PostgreSQL")
         # Change button-label:
-        updateActionButton(session, "target_system_to_source_system_btn",
-                           label = " Set TARGET = SOURCE")
+        # updateCheckboxInput(
+        #   session, "target_system_to_source_system_btn",
+        #   label = " Set TARGET = SOURCE (Compare source with itself)",
+        #   value = FALSE
+        #   )
         # Feedback to the console:
         DIZutils::feedback(
           "Target != source now.",
@@ -623,8 +626,9 @@ module_config_server <-
         ## is specified yet!
         ## Target != source and should become equal:
         # Change button-label:
-        updateActionButton(session, "target_system_to_source_system_btn",
-                           label = "Compare the source system with itself")
+        # updateCheckboxInput(session, "target_system_to_source_system_btn",
+        #                    label = " Use different target system",
+        #                    value = TRUE)
         # Hide target-setting-tabs:
         hideTab(inputId = "target_tabs", target = "CSV")
         hideTab(inputId = "target_tabs", target = "PostgreSQL")
@@ -832,6 +836,9 @@ module_config_ui <- function(id) {
             title =  "SOURCE settings",
             width = 6,
             #solidHeader = TRUE,
+            hr(),
+            br(), # Just to look like TARGET-Tab panel.
+            hr(),
             tabBox(
               # The id lets us use input$source_tabs
               # on the server to find the current tab
@@ -960,7 +967,8 @@ module_config_ui <- function(id) {
             hr(),
             checkboxInput(
               inputId = ns("target_system_to_source_system_btn"),
-              label = " Set TARGET = SOURCE",
+              label = " Use TARGET also as SOURCE (Compare source with itself)",
+              value = FALSE
               # style = paste0(
               #   "white-space: normal; ",
               #   "text-align:center; ",
