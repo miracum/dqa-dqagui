@@ -600,31 +600,8 @@ module_config_server <-
     })
 
     observeEvent(input$target_system_to_source_system_btn, {
-      if (isTRUE(rv$target_is_source)) {
-        ## Target was == source but should become different now:
-        rv$target_is_source <- F
-        rv$target <- NULL
-        output$target_system_feedback_txt <- NULL
-        # Show target-settings-tabs again:
-        showTab(inputId = "target_tabs", target = "CSV")
-        showTab(inputId = "target_tabs", target = "PostgreSQL")
-        # Change button-label:
-        # updateCheckboxInput(
-        #   session, "target_system_to_source_system_btn",
-        #   label = " Set TARGET = SOURCE (Compare source with itself)",
-        #   value = FALSE
-        #   )
-        # Feedback to the console:
-        DIZutils::feedback(
-          "Target != source now.",
-          findme = "ec51b122ee",
-          logfile_dir = rv$log$logfile_dir,
-          headless = rv$headless
-        )
-      } else {
-        ## This can also be the case if the app initially starts so nothing
-        ## is specified yet!
-        ## Target != source and should become equal:
+      if (isTRUE(input$target_system_to_source_system_btn)) {
+        ## Target was != source and should become equal:
         # Change button-label:
         # updateCheckboxInput(session, "target_system_to_source_system_btn",
         #                    label = " Use different target system",
@@ -645,6 +622,27 @@ module_config_server <-
         DIZutils::feedback(
           "Target == source now.",
           findme = "94d3a2090c",
+          logfile_dir = rv$log$logfile_dir,
+          headless = rv$headless
+        )
+      } else if (isFALSE(input$target_system_to_source_system_btn)) {
+        ## Target was == source but should become different now:
+        rv$target_is_source <- F
+        rv$target <- NULL
+        output$target_system_feedback_txt <- NULL
+        # Show target-settings-tabs again:
+        showTab(inputId = "target_tabs", target = "CSV")
+        showTab(inputId = "target_tabs", target = "PostgreSQL")
+        # Change button-label:
+        # updateCheckboxInput(
+        #   session, "target_system_to_source_system_btn",
+        #   label = " Set TARGET = SOURCE (Compare source with itself)",
+        #   value = FALSE
+        #   )
+        # Feedback to the console:
+        DIZutils::feedback(
+          "Target != source now.",
+          findme = "ec51b122ee",
           logfile_dir = rv$log$logfile_dir,
           headless = rv$headless
         )
@@ -836,9 +834,6 @@ module_config_ui <- function(id) {
             title =  "SOURCE settings",
             width = 6,
             #solidHeader = TRUE,
-            hr(),
-            br(), # Just to look like TARGET-Tab panel.
-            hr(),
             tabBox(
               # The id lets us use input$source_tabs
               # on the server to find the current tab
@@ -964,18 +959,6 @@ module_config_ui <- function(id) {
             title =  "TARGET settings",
             width = 6,
             #solidHeader = TRUE,
-            hr(),
-            checkboxInput(
-              inputId = ns("target_system_to_source_system_btn"),
-              label = " Use TARGET also as SOURCE (Compare source with itself)",
-              value = FALSE
-              # style = paste0(
-              #   "white-space: normal; ",
-              #   "text-align:center; ",
-              #   "padding: 9.5px 9.5px 9.5px 9.5px; ",
-              #   "margin: 6px 10px 6px 10px;")
-            ),
-            hr(),
             tabBox(
               # The id lets us use input$target_tabs
               # on the server to find the current tab
@@ -1095,7 +1078,20 @@ module_config_ui <- function(id) {
                   style = "text-align:center;"
                 )
               )
-            )
+            ),
+            hr(),
+            checkboxInput(
+              inputId = ns("target_system_to_source_system_btn"),
+              label = paste0(" Use SOURCE also as TARGET",
+                             " (Compare source with itself)"),
+              value = FALSE
+              # style = paste0(
+              #   "white-space: normal; ",
+              #   "text-align:center; ",
+              #   "padding: 9.5px 9.5px 9.5px 9.5px; ",
+              #   "margin: 6px 10px 6px 10px;")
+            ),
+            hr()
           )
         )
       ),
