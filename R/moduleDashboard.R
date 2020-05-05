@@ -51,9 +51,6 @@ module_dashboard_server <-
           "moduleConfig-config_select_dqa_assessment_variables"
         )]]
 
-        print("\n\nHier 1:")
-        print(rv$dqa_assessment)
-
         intersect_keys <- rv$dqa_assessment[
           get("designation") %in% selection_intersect, get("key")]
 
@@ -216,7 +213,11 @@ module_dashboard_server <-
           rv = rv,
           headless = rv$headless
         )
-        print(rv$datamap)
+
+        if (!is.null(rv$datamap)) {
+          DIZutils::feedback(print_this = "Datamap:", findme = "43404a3f38")
+          print(rv$datamap)
+        }
 
         # checks$value_conformance
         rv$checks$value_conformance <-

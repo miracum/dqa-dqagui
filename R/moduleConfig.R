@@ -784,21 +784,6 @@ module_config_server <-
         selected = NULL
       )
     })
-
-    # observeEvent(input$config_select_all_or_no_assessment_variables, {
-    #   input_tmp <- input$config_select_all_or_no_assessment_variables
-    #   print(input_tmp)
-    #   res <- rv$dqa_assessment[["designation"]]
-    #   if (input_tmp == "no") {
-    #     res <- NULL
-    #   }
-    #   updateCheckboxGroupInput(
-    #     session = session,
-    #     inputId = "config_select_dqa_assessment_variables",
-    #     choices = rv$dqa_assessment[["designation"]],
-    #     selected = res
-    #   )
-    # })
   }
 
 #' @title module_config_ui

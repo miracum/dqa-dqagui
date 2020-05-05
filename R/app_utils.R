@@ -438,8 +438,6 @@ check_load_data_button <- function(rv, session) {
     )
     rv$dqa_assessment <- helper_vars_tmp$dqa_assessment
 
-    # print(helper_vars_tmp)
-
     # Update the checkboxgroup to the determined dataelemets:
     updateCheckboxGroupInput(session = session,
                              inputId = "config_select_dqa_assessment_variables",
@@ -451,9 +449,15 @@ check_load_data_button <- function(rv, session) {
 
     # Show load-data button:
     shinyjs::show("dash_load_btn")
+
+    # Show sitename-configuration:
+    shinyjs::show("config_sitename")
   } else {
     shinyjs::hide("config_select_dqa_assessment_box", anim = TRUE)
     shinyjs::hide("dash_load_btn")
+
+    # Hide sitename-configuration:
+    shinyjs::hide("config_sitename")
   }
   return(res)
 }
