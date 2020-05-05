@@ -602,10 +602,6 @@ module_config_server <-
     observeEvent(input$target_system_to_source_system_btn, {
       if (isTRUE(input$target_system_to_source_system_btn)) {
         ## Target was != source and should become equal:
-        # Change button-label:
-        # updateCheckboxInput(session, "target_system_to_source_system_btn",
-        #                    label = " Use different target system",
-        #                    value = TRUE)
         # Hide target-setting-tabs:
         hideTab(inputId = "target_tabs", target = "CSV")
         hideTab(inputId = "target_tabs", target = "PostgreSQL")
@@ -633,12 +629,6 @@ module_config_server <-
         # Show target-settings-tabs again:
         showTab(inputId = "target_tabs", target = "CSV")
         showTab(inputId = "target_tabs", target = "PostgreSQL")
-        # Change button-label:
-        # updateCheckboxInput(
-        #   session, "target_system_to_source_system_btn",
-        #   label = " Set TARGET = SOURCE (Compare source with itself)",
-        #   value = FALSE
-        #   )
         # Feedback to the console:
         DIZutils::feedback(
           "Target != source now.",
@@ -804,26 +794,14 @@ module_config_ui <- function(id) {
         conditionalPanel(
           condition =
             "typeof output['moduleConfig-system_types'] !== 'undefined'",
-          # box(
-          #   title = "Sitename",
-          #   selectInput(
-          #     ns("config_sitename"),
-          #     "Please enter the name of your site",
-          #     selected = F,
-          #     choices = NULL,
-          #     multiple = F
-          #   ),
-          #   width = 12
-          # ),
           box(
             title =  "SOURCE settings",
             width = 6,
             #solidHeader = TRUE,
-            tabBox(
+            tabsetPanel(
               # The id lets us use input$source_tabs
               # on the server to find the current tab
               id = ns("source_tabs"),
-              width = 12,
               # selected = "PostgreSQL",
               tabPanel(
                 # ATTENTION: If you change the title, you also have to change
@@ -944,11 +922,10 @@ module_config_ui <- function(id) {
             title =  "TARGET settings",
             width = 6,
             #solidHeader = TRUE,
-            tabBox(
+            tabsetPanel(
               # The id lets us use input$target_tabs
               # on the server to find the current tab
               id = ns("target_tabs"),
-              width = 12,
               # selected = "PostgreSQL",
               tabPanel(
                 # ATTENTION: If you change the title, you also have to change
@@ -1064,19 +1041,15 @@ module_config_ui <- function(id) {
                 )
               )
             ),
-            hr(),
+            tags$hr(),
             checkboxInput(
               inputId = ns("target_system_to_source_system_btn"),
+              # inputId = ns("randomstringhere"),
               label = paste0(" Use SOURCE also as TARGET",
                              " (Compare source with itself)"),
               value = FALSE
-              # style = paste0(
-              #   "white-space: normal; ",
-              #   "text-align:center; ",
-              #   "padding: 9.5px 9.5px 9.5px 9.5px; ",
-              #   "margin: 6px 10px 6px 10px;")
             ),
-            hr()
+            tags$hr()
           )
         )
       ),
@@ -1098,14 +1071,6 @@ module_config_ui <- function(id) {
         conditionalPanel(
           condition =
             "typeof output['moduleConfig-mdr_present'] !== 'undefined'",
-          # box(
-          #   id = ns("config_load_data_box"),
-          #   # title = "Start analysing the data",
-          #
-          #   status = "success",
-          #   solidHeader = TRUE,
-          #   width = 12
-          # ),
           box(
             title = "Load the data",
             h4(htmlOutput(ns("source_system_feedback_txt"))),
@@ -1146,7 +1111,6 @@ module_config_ui <- function(id) {
               inputId = ns("config_select_dqa_assessment_variables"),
               label = NULL,
               choices = NULL),
-            # verbatimTextOutput("config_select_dqa_assessment_values"),
             width = 12
           )
         )

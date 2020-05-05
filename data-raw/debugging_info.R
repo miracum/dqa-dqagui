@@ -28,12 +28,22 @@ logfile_dir = "~/share/logfiles/"
 ##	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑
 ##
 ##
-# devtools::load_all()
-# logfile_dir = tempdir()
-# utils_path = "/home/user/development/Rpackages/dqa/miracumdqa/inst/application/_utilities/"
-# mdr_filename = "mdr.csv"
-# DIZutils::set_env_vars("../env_INTERNAL")
-# shiny::shinyAppDir("inst/application/")
+devtools::load_all()
+logfile_dir = tempdir()
+# Lorenz:
+utils_path = "/home/user/development/Rpackages/dqa/miracumdqa/inst/application/_utilities/"
+# Jonathan:
+utils_path = DIZutils::clean_path_name(system.file("application/_utilities",
+                                                   package = "miRacumDQA"))
+
+mdr_filename = "mdr.csv"
+DIZutils::set_env_vars(
+  paste0(
+    "../",
+    list.files(path = "../", pattern = "^env_INTERNAL.*")
+  )
+)
+shiny::shinyAppDir("inst/application/")
 
 launch_app(
   port = port,
