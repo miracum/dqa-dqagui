@@ -440,7 +440,7 @@ check_load_data_button <- function(rv, session) {
 
     # Update the checkboxgroup to the determined dataelemets:
     updateCheckboxGroupInput(session = session,
-                             inputId = "config_select_dqa_assessment_variables",
+                             inputId = "select_dqa_assessment_variables",
                              choices = rv$dqa_assessment[["designation"]],
                              selected = rv$dqa_assessment[["designation"]])
 

@@ -48,7 +48,7 @@ module_dashboard_server <-
         stopifnot(length(rv$source$system_type) == 1)
 
         selection_intersect <- input_re()[[paste0(
-          "moduleConfig-config_select_dqa_assessment_variables"
+          "moduleConfig-select_dqa_assessment_variables"
         )]]
 
         intersect_keys <- rv$dqa_assessment[
@@ -83,6 +83,9 @@ module_dashboard_server <-
         rm(temp_dat)
         invisible(gc())
 
+        # set flag that we have all data
+        rv$getdata_source <- FALSE
+
         # load target_data
         if (rv$target$system_name != rv$source$system_name) {
           # load target
@@ -98,6 +101,9 @@ module_dashboard_server <-
         } else {
           rv$data_target <- rv$data_source
         }
+
+        # set flag that we have all data
+        rv$getdata_target <- FALSE
 
         if (nrow(rv$pl$atemp_vars) != 0 && rv$pl$atemp_possible) {
           # get atemporal plausibilities
@@ -227,10 +233,6 @@ module_dashboard_server <-
         # checks$etl
         rv$checks$etl <-
           DQAstats::etl_checks(results = rv$results_descriptive)
-
-        # set flag that we have all data
-        rv$getdata_target <- FALSE
-        rv$getdata_source <- FALSE
 
         # set flag to create report here
         rv$create_report <- TRUE

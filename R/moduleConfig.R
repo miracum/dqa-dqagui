@@ -757,19 +757,19 @@ module_config_server <-
         }
       })
 
-    observeEvent(input$config_select_all_assessment_variables, {
+    observeEvent(input$select_all_assessment_variables, {
       updateCheckboxGroupInput(
         session = session,
-        inputId = "config_select_dqa_assessment_variables",
+        inputId = "select_dqa_assessment_variables",
         choices = rv$dqa_assessment[["designation"]],
         selected = rv$dqa_assessment[["designation"]]
       )
     })
 
-    observeEvent(input$config_select_no_assessment_variables, {
+    observeEvent(input$select_no_assessment_variables, {
       updateCheckboxGroupInput(
         session = session,
-        inputId = "config_select_dqa_assessment_variables",
+        inputId = "select_dqa_assessment_variables",
         choices = rv$dqa_assessment[["designation"]],
         selected = NULL
       )
@@ -1099,16 +1099,16 @@ module_config_ui <- function(id) {
             title = "Analyse the following data elements",
             hr(),
             actionButton(
-              inputId = ns("config_select_all_assessment_variables"),
+              inputId = ns("select_all_assessment_variables"),
               label = "Select all"
             ),
             actionButton(
-              inputId = ns("config_select_no_assessment_variables"),
+              inputId = ns("select_no_assessment_variables"),
               label = "Unselect all"
             ),
             hr(),
             checkboxGroupInput(
-              inputId = ns("config_select_dqa_assessment_variables"),
+              inputId = ns("select_dqa_assessment_variables"),
               label = NULL,
               choices = NULL),
             width = 12
