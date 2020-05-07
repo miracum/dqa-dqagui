@@ -38,5 +38,5 @@ Suggests:
     lintr
 Remotes: 
     url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/v0.1.5/dqastats-v0.1.5.zip,
-    url::https://gitlab.miracum.org/miracum/misc/dizutils/-/archive/v0.0.2/dizutils-v0.0.2.zip
+    url::https://gitlab.miracum.org/miracum/misc/dizutils/-/archive/v0.0.3/dizutils-v0.0.3.zip
 RoxygenNote: 7.1.0

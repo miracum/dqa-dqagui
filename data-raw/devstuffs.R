@@ -83,7 +83,7 @@ usethis::use_package("lintr", type = "Suggests")
 # Development package
 stats_tag <- "v0.1.5" # e.g. "v0.1.5"
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqastats.git", ref = stats_tag, upgrade = "always")
-utils_tag <- "v0.0.2" # e.g. "v0.0.2"
+utils_tag <- "v0.0.3" # e.g. "v0.0.2"
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/misc/dizutils.git", ref = utils_tag, upgrade = "always")
 
 # usethis::use_dev_package("DQAstats", type = "Imports")
