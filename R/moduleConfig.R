@@ -711,6 +711,22 @@ module_config_server <-
             rv$sitename <- input_re()[["moduleConfig-config_sitename"]]
           }
 
+          # Check if at least one data element was selected for analyzation:
+          if (length(input_re()[[paste0("moduleConfig-select_dqa_assessment",
+                                        "_variables")]]) <= 0) {
+            DIZutils::feedback(
+              print_this = paste0(
+                "You didn't specify a data element to",
+                " analyze. Please select at least one data element",
+                " and try again."
+              ),
+              type = "UI",
+              ui = T,
+              findme = "57562a3092"
+            )
+            error_tmp <- T
+          }
+
           # If target should be identical to source, set it here again:
           if (isTRUE(rv$target_is_source)) {
             rv <- set_target_equal_to_source(rv)

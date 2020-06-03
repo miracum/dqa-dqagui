@@ -29,7 +29,7 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.1.3.9004")
+my_desc$set_version("0.1.4.9001")
 # The title of your package
 my_desc$set(Title = "DQA GUI")
 # The description of your package
@@ -81,9 +81,9 @@ usethis::use_package("processx", type = "Suggests")
 usethis::use_package("lintr", type = "Suggests")
 
 # Development package
-stats_tag <- "development" # e.g. "v0.1.3"
+stats_tag <- "development" # e.g. "v0.1.5" or "development"
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqastats.git", ref = stats_tag, upgrade = "always")
-utils_tag <- "development" # e.g. "v0.0.2"
+utils_tag <- "development" # e.g. "v0.0.2" or "development"
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/misc/dizutils.git", ref = utils_tag, upgrade = "always")
 
 # usethis::use_dev_package("DQAstats", type = "Imports")
