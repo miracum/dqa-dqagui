@@ -19,3 +19,6 @@
 .~lock.*.csv#
 /.vscode
 !/.lintr
+docs/
+!/tic.R
+!/.github/

@@ -29,7 +29,7 @@ my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.1.4.9001")
+my_desc$set_version("0.1.4.9002")
 # The title of your package
 my_desc$set(Title = "DQA GUI")
 # The description of your package
@@ -37,9 +37,9 @@ my_desc$set(Description = "A graphical user interface (GUI) to the functions imp
 # The description of your package
 my_desc$set("Date" = as.character(Sys.Date()))
 # The urls
-my_desc$set("URL", "https://gitlab.miracum.org/miracum/dqa/dqagui")
+my_desc$set("URL", "https://github.com/miracum/dqa-dqagui")
 my_desc$set("BugReports",
-            "https://gitlab.miracum.org/miracum/dqa/dqagui/issues")
+            "https://github.com/miracum/dqa-dqagui/issues")
 # License
 my_desc$set("License", "GPL-3")
 # Save everyting
@@ -74,6 +74,7 @@ usethis::use_package("shinyFiles", type = "Imports")
 usethis::use_package("shinyjs", type = "Imports")
 usethis::use_package("knitr", type = "Imports")
 usethis::use_package("jsonlite", type = "Imports")
+usethis::use_package("DIZutils", type = "Imports")
 
 # Suggests
 usethis::use_package("testthat", type = "Suggests")
@@ -83,16 +84,12 @@ usethis::use_package("lintr", type = "Suggests")
 # Development package
 stats_tag <- "development" # e.g. "v0.1.5" or "development"
 devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqastats.git", ref = stats_tag, upgrade = "always")
-utils_tag <- "development" # e.g. "v0.0.2" or "development"
-devtools::install_git(url = "https://gitlab.miracum.org/miracum/misc/dizutils.git", ref = utils_tag, upgrade = "always")
 
 # usethis::use_dev_package("DQAstats", type = "Imports")
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
 desc::desc_set_remotes(c(
   paste0(
-    "url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/", stats_tag, "/dqastats-", stats_tag, ".zip"),
-  paste0(
-    "url::https://gitlab.miracum.org/miracum/misc/dizutils/-/archive/", utils_tag, "/dizutils-", utils_tag, ".zip")
+    "url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/", stats_tag, "/dqastats-", stats_tag, ".zip")
 ),
 file = usethis::proj_get())
 

@@ -20,13 +20,14 @@ You can install `DQAgui` with:
 
 ``` r
 install.packages("devtools")
-devtools::install_git("https://gitlab.miracum.org/miracum/dqa/dqastats.git")
-devtools::install_git("https://gitlab.miracum.org/miracum/dqa/dqagui.git")
+devtools::install_github("miracum/dqa-dqagui")
 ```
 
 # Configuration 
 
-The database connection can be configured using environment variables. These can be set using the base R command `Sys.setenv()`. A detailed description on which environment variables need to be set for the specific databases can be found [here](https://gitlab.miracum.org/miracum/misc/dizutils/-/blob/master/README.md).
+The database connection can be configured using environment variables. These can be set using the base R command `Sys.setenv()`.
+
+A detailed description, which environment variables need to be set for the specific databases can be found [here](https://github.com/miracum/misc-dizutils/blob/master/README.md).
 
 ## Example
 

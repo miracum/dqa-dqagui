@@ -5,3 +5,6 @@
 ^\.gitlab-ci\.yml$
 ^\.vscode$
 ^\.lintr$
+^\.ccache$
+^\.github$
+^tic\.R$
