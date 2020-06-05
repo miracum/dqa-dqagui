@@ -1,8 +1,12 @@
 # DQAgui (!!! currently under development !!!)
 
 <!-- badges: start -->
-[![pipeline status](https://gitlab.miracum.org/miracum-dqa/dqagui/badges/master/pipeline.svg)](https://gitlab.miracum.org/miracum-dqa/dqagui/commits/master)
-[![coverage report](https://gitlab.miracum.org/miracum-dqa/dqagui/badges/master/coverage.svg)](https://gitlab.miracum.org/miracum-dqa/dqagui/commits/master)
+[![R CMD Check via {tic}](https://github.com/miracum/dqa-dqagui/workflows/R%20CMD%20Check%20via%20{tic}/badge.svg?branch=master)](https://github.com/miracum/dqa-dqagui/actions)
+[![linting](https://github.com/miracum/dqa-dqagui/workflows/lint/badge.svg?branch=master)](https://github.com/miracum/dqa-dqagui/actions)
+[![test-coverage](https://github.com/miracum/dqa-dqagui/workflows/test-coverage/badge.svg?branch=master)](https://github.com/miracum/dqa-dqagui/actions)
+[![codecov](https://codecov.io/gh/miracum/dqa-dqagui/branch/master/graph/badge.svg)](https://codecov.io/gh/miracum/dqa-dqagui)
+[![pipeline status](https://gitlab.miracum.org/miracum/dqa/dqagui/badges/master/pipeline.svg)](https://gitlab.miracum.org/miracum/dqa/dqagui/commits/master)
+[![coverage report](https://gitlab.miracum.org/miracum/dqa/dqagui/badges/master/coverage.svg)](https://gitlab.miracum.org/miracum/dqa/dqagui/commits/master)
 <!-- badges: end -->
 
 This is the repository of the R package 'DQAgui'. It provides a graphical user interface to the functionalities implemented in 'DQAstats'. 

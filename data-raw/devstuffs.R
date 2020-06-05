@@ -21,15 +21,14 @@ my_desc$set_authors(c(
     role = c('aut'),
     comment = c(ORCID = "0000-0003-0518-4710")
   ),
-  person("MIRACUM - Medical Informatics in Research and Care in University Medicine", role = c("fnd"))
+  person("MIRACUM - Medical Informatics in Research and Care in University Medicine", role = c("fnd")),
+  person("Universitätsklinikum Erlangen", role = "cph")
 ))
 #  person("Name2", "Surname2", email = "mail@2", role = 'aut')))
-# Set copyright
-my_desc$set("Copyright", "Universitätsklinikum Erlangen")
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.1.4.9002")
+my_desc$set_version("0.1.4.9003")
 # The title of your package
 my_desc$set(Title = "DQA GUI")
 # The description of your package
