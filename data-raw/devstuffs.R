@@ -74,7 +74,6 @@ usethis::use_package("shinyjs", type = "Imports")
 usethis::use_package("knitr", type = "Imports")
 usethis::use_package("jsonlite", type = "Imports")
 usethis::use_package("DIZutils", type = "Imports")
-usethis::use_package("DQAstats", type = "Imports")
 
 # Suggests
 usethis::use_package("testthat", type = "Suggests")
