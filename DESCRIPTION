@@ -1,6 +1,6 @@
 Package: DQAgui
 Title: DQA GUI
-Version: 0.1.4.9003
+Version: 0.1.4.9004
 Authors@R: 
     c(person(given = "Lorenz A.",
              family = "Kapsner",
@@ -21,7 +21,7 @@ LazyData: true
 URL: https://github.com/miracum/dqa-dqagui
 BugReports: https://github.com/miracum/dqa-dqagui/issues
 Encoding: UTF-8
-Date: 2020-06-05
+Date: 2020-06-18
 Imports: 
     data.table,
     magrittr,
@@ -33,7 +33,8 @@ Imports:
     shinyjs,
     knitr,
     jsonlite,
-    DIZutils
+    DIZutils,
+    DQAstats
 Suggests: 
     testthat,
     processx,
