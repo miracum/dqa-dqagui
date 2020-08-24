@@ -74,6 +74,15 @@ launch_app <- function(port = 3838,
 
   options(shiny.port = port)
 
+  message(
+    paste0(
+      "\nVersion DIZutils: ", utils::packageVersion("DIZutils"),
+      "\nVersion DQAstats: ", utils::packageVersion("DQAstats"),
+      "\nVersion DQAgui: ", utils::packageVersion("DQAgui"),
+      "\n"
+    )
+  )
+
   shiny::shinyAppDir(
     appDir = system.file("application", package = "DQAgui")
   )
