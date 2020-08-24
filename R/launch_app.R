@@ -29,6 +29,11 @@
 #' @param mdr_filename The filename of the mdr (e.g. "mdr_example_data.csv").
 #' @param logfile_dir Is the absolute path to the directory where the logfile
 #'   will be stored. If not path is provided the tempdir() will be used.
+#' @param parallel A boolean. If TRUE (the default value), initializing
+#'   `future::plan("multiprocess")` before running the code.
+#' @param ncores A integer. The number of cores to use. Caution: you would
+#'   probably like to choose a low number when operating on large datasets.
+#'   Default: 2.
 #'
 #' @return DQAgui Shiny application
 #'
@@ -43,7 +48,9 @@ launch_app <- function(port = 3838,
                        utils_path = system.file("demo_data/utilities",
                                                 package = "DQAstats"),
                        mdr_filename = "mdr_example_data.csv",
-                       logfile_dir = tempdir()) {
+                       logfile_dir = tempdir(),
+                       parallel = TRUE,
+                       ncores = 2) {
 
   DIZutils::global_env_hack(key = "utils_path",
                             val = utils_path,
@@ -55,6 +62,14 @@ launch_app <- function(port = 3838,
 
   DIZutils::global_env_hack(key = "logfile_dir",
                             val = logfile_dir,
+                            pos = 1L)
+
+  DIZutils::global_env_hack(key = "parallel",
+                            val = parallel,
+                            pos = 1L)
+
+  DIZutils::global_env_hack(key = "ncores",
+                            val = ncores,
                             pos = 1L)
 
   options(shiny.port = port)

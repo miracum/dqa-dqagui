@@ -23,7 +23,9 @@ shiny::shinyServer(
             mdr_filename = mdr_filename,
             log = list(logfile_dir = DIZutils::clean_path_name(logfile_dir)),
             utilspath = DIZutils::clean_path_name(utils_path),
-            current_date = format(Sys.Date(), "%d. %B %Y", tz = "CET")
+            current_date = format(Sys.Date(), "%d. %B %Y", tz = "CET"),
+            parallel = parallel,
+            ncores = ncores
         )
 
         shiny::observe({
@@ -85,6 +87,14 @@ shiny::shinyServer(
                     }, finally = function(f) {
                         return(out)
                     })
+
+
+                DQAstats::parallel(
+                    parallel = rv$parallel,
+                    logfile_dir = rv$log$logfile_dir,
+                    ncores = rv$ncores
+                )
+
                 rv$finished_onstart <- TRUE
             }
         })
