@@ -429,7 +429,10 @@ module_descriptive_ui <- function(id) {
                  ),
                  tableOutput(
                    ns("descr_selection_counts_source")
-                 ))),
+                 ),
+                 tags$hr(),
+                 uiOutput(ns("descr_source_sql"))
+                 )),
         fluidRow(
           column(8,
                  h5(
@@ -442,9 +445,7 @@ module_descriptive_ui <- function(id) {
             4,
             conditionalPanel(
               condition = "output['moduleDescriptive-got_valueset_s']",
-              uiOutput(ns("descr_checks_source"))),
-            tags$hr(),
-            uiOutput(ns("descr_source_sql"))
+              uiOutput(ns("descr_checks_source")))
           ))
       ),
       box(
@@ -464,7 +465,10 @@ module_descriptive_ui <- function(id) {
                  ),
                  tableOutput(
                    ns("descr_selection_counts_target")
-                 ))),
+                 ),
+                 tags$hr(),
+                 uiOutput(ns("descr_target_sql"))
+                 )),
         fluidRow(
           column(8,
                  h5(
@@ -477,9 +481,7 @@ module_descriptive_ui <- function(id) {
             4,
             conditionalPanel(
               condition = "output['moduleDescriptive-got_valueset_t']",
-              uiOutput(ns("descr_checks_target"))),
-            tags$hr(),
-            uiOutput(ns("descr_target_sql"))
+              uiOutput(ns("descr_checks_target")))
           ))
       )
     ))

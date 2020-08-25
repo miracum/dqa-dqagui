@@ -132,14 +132,16 @@ module_dashboard_server <-
 
         # calculate descriptive results
         rv$results_descriptive <-
-          DQAstats::descriptive_results(rv = rv,
-                                        headless = rv$headless)
+          DQAstats::descriptive_results(
+            rv = shiny::reactiveValuesToList(rv),
+            headless = rv$headless
+          )
 
         if (!is.null(rv$data_plausibility$atemporal)) {
           # calculate plausibilites
           rv$results_plausibility_atemporal <-
             DQAstats::atemp_pausi_results(
-              rv = rv,
+              rv = shiny::reactiveValuesToList(rv),
               atemp_vars = rv$data_plausibility$atemporal,
               mdr = rv$mdr,
               headless = rv$headless
@@ -148,7 +150,7 @@ module_dashboard_server <-
 
         if (nrow(rv$pl$uniq_vars) != 0 && rv$pl$uniq_possible) {
           rv$results_plausibility_unique <- DQAstats::uniq_plausi_results(
-            rv = rv,
+            rv = shiny::reactiveValuesToList(rv),
             uniq_vars = rv$pl$uniq_vars,
             mdr = rv$mdr,
             headless = rv$headless
@@ -158,7 +160,7 @@ module_dashboard_server <-
         # conformance
         rv$conformance$value_conformance <-
           DQAstats::value_conformance(
-            rv = rv,
+            rv = shiny::reactiveValuesToList(rv),
             scope = "descriptive",
             results = rv$results_descriptive,
             logfile_dir = rv$log$logfile_dir,
@@ -186,7 +188,7 @@ module_dashboard_server <-
 
         if (!is.null(rv$results_plausibility_atemporal)) {
           add_value_conformance <- DQAstats::value_conformance(
-            rv = rv,
+            rv = shiny::reactiveValuesToList(rv),
             scope = "plausibility",
             results = rv$results_plausibility_atemporal,
             logfile_dir = rv$log$logfile_dir,
