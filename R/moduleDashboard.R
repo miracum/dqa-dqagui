@@ -109,7 +109,7 @@ module_dashboard_server <-
           # get atemporal plausibilities
           rv$data_plausibility$atemporal <-
             DQAstats::get_atemp_plausis(
-              rv = rv,
+              rv = shiny::reactiveValuesToList(rv),
               atemp_vars = rv$pl$atemp_vars,
               mdr = rv$mdr,
               headless = rv$headless
