@@ -30,6 +30,8 @@ logfile_dir = "~/share/logfiles/"
 ##
 devtools::load_all()
 logfile_dir = tempdir()
+parallel = TRUE
+ncores = 2
 # Lorenz:
 utils_path = "/home/user/development/Rpackages/dqa/miracumdqa/inst/application/_utilities/"
 # Jonathan:

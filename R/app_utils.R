@@ -439,10 +439,12 @@ check_load_data_button <- function(rv, session) {
     rv$dqa_assessment <- helper_vars_tmp$dqa_assessment
 
     # Update the checkboxgroup to the determined dataelemets:
-    updateCheckboxGroupInput(session = session,
-                             inputId = "select_dqa_assessment_variables",
-                             choices = rv$dqa_assessment[["designation"]],
-                             selected = rv$dqa_assessment[["designation"]])
+    updateCheckboxGroupInput(
+      session = session,
+      inputId = "select_dqa_assessment_variables",
+      choices = sort(rv$dqa_assessment[["designation"]]),
+      selected = rv$dqa_assessment[["designation"]]
+    )
 
     # Show the checkboxgroup:
     shinyjs::show("config_select_dqa_assessment_box")

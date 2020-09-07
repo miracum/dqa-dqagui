@@ -777,7 +777,7 @@ module_config_server <-
       updateCheckboxGroupInput(
         session = session,
         inputId = "select_dqa_assessment_variables",
-        choices = rv$dqa_assessment[["designation"]],
+        choices = sort(rv$dqa_assessment[["designation"]]),
         selected = rv$dqa_assessment[["designation"]]
       )
     })
@@ -786,7 +786,7 @@ module_config_server <-
       updateCheckboxGroupInput(
         session = session,
         inputId = "select_dqa_assessment_variables",
-        choices = rv$dqa_assessment[["designation"]],
+        choices = sort(rv$dqa_assessment[["designation"]]),
         selected = NULL
       )
     })
