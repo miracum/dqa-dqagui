@@ -119,6 +119,7 @@ module_report_server <- function(input,
 
       # temporarily set tempdir as wd
       oldwd <- getwd()
+      on.exit(oldwd)
       setwd(tempdir())
       print(getwd())
 
