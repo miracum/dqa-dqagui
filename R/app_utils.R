@@ -62,23 +62,21 @@ render_quick_checks <- function(dat_table) {
 #'
 #' @param input Shiny server input object
 #' @param target A boolean (default: TRUE).
+#' @param db_type (String) "postgres" or "oracle"
 #'
 #' @export
 #'
-get_db_settings <- function(input, target = T) {
+get_db_settings <- function(input, target = T, db_type) {
   # create description of column selections
   vec <- c("dbname", "host", "port", "user", "password")
+  source_target = ifelse(target, "target", "source")
+  if(db_type == "oracle") {
+    vec <- c(vec, "sid")
+  }
 
   tab <- lapply(vec, function(g) {
-    if (target) {
-      data.table::data.table("keys" = g, "value" = eval(parse(
-        text = paste0("input[['moduleConfig-config_targetdb_", g, "']]")
-      )))
-    } else {
-      data.table::data.table("keys" = g, "value" = eval(parse(
-        text = paste0("input[['moduleConfig-config_sourcedb_", g, "']]")
-      )))
-    }
+    input_label_tmp <- paste0("config_", source_target, "_", db_type, "_", g)
+    data.table::data.table("keys" = g, "value" = input[[input_label_tmp]])
   })
 
   tab <- do.call(rbind, tab)
@@ -463,3 +461,117 @@ check_load_data_button <- function(rv, session) {
   }
   return(res)
 }
+
+#' @title Checks if an connection can be established to the system.
+#' @description After the button "Check connection" is pressed in the GUI,
+#'   this function will be called and tries to connect to this system
+#'   and feedbacks the result to the user.
+#'   If the connection is successfully established, the button will be
+#'   disabled and this connection will be stored as valid for the given
+#'   source/target system.
+#'
+#' @inheritParams module_config_server
+#' @param source_target (String) "source" or "target"
+#' @param db_tybe (String) "postgres" or "oracle"
+#' @return Nothing.
+#'
+test_connection_button_clicked <-
+  function(rv,
+           source_target,
+           db_type,
+           input,
+           output,
+           session) {
+    DIZutils::feedback(
+      print_this = paste0(
+        "Trying to connect to ",
+        db_type,
+        " as ",
+        source_target,
+        " system ..."
+      ),
+      findme = "7218f2e0fb",
+      logfile_dir = rv$log$logfile_dir,
+      headless = rv$headless
+    )
+    source_target <- tolower(source_target)
+    db_type <- tolower(db_type)
+    target <- ifelse(source_target == "target", TRUE, FALSE)
+
+    # If we don't assign (= copy) it (input$source_oracle_presettings_list)
+    # here, the value will stay reactive and change every time we
+    # select another system. But it should only change if
+    # we also successfully tested the connection:
+    system_name_tmp <-
+      paste0(source_target, "_", db_type, "_presettings_list")
+    input_system <- input[[system_name_tmp]]
+    rv[[source_target]]$settings <-
+      DQAgui::get_db_settings(input = input, target = target, db_type = db_type)
+
+    if(db_type == "oracle") {
+      lib_path_tmp <- Sys.getenv("KDB_DRIVER")
+    } else{
+      lib_path_tmp <- NULL
+    }
+    print(rv[[source_target]]$settings)
+    if (!is.null(rv[[source_target]]$settings)) {
+      rv[[source_target]]$db_con <- DIZutils::db_connection(
+        db_name = rv[[source_target]]$settings$dbname,
+        db_type = db_type,
+        headless = rv$headless,
+        timeout = 2,
+        logfile_dir = rv$log$logfile_dir,
+        from_env = FALSE,
+        settings = rv[[source_target]]$settings,
+        lib_path = lib_path_tmp
+      )
+
+      print("0.1")
+
+      if (!is.null(rv[[source_target]]$db_con)) {
+        print("0.2")
+        DIZutils::feedback(
+          paste0(
+            "Connection to ",
+            input_system,
+            " successfully established."
+          ),
+          findme = "4cec24dc1b",
+          logfile_dir = rv$log$logfile_dir,
+          headless = rv$headless
+        )
+        shiny::showNotification(paste0(
+          "\U2714 Connection to ",
+          input_system,
+          " successfully established"
+        ))
+        button_label <-
+          paste0(source_target, "_", db_type, "_test_connection")
+        shiny::updateActionButton(
+          session = session,
+          inputId = button_label,
+          label = paste0("Connection to ",
+                         input_system,
+                         " established"),
+          icon = shiny::icon("check")
+        )
+        shinyjs::disable(button_label)
+        rv[[source_target]]$system_name <- input_system
+        rv[[source_target]]$system_type <- db_type
+        label_feedback_txt <-
+          paste0(source_target, "_system_feedback_txt")
+        output[[label_feedback_txt]] <-
+          shiny::renderText({
+            DQAgui:::feedback_txt(system = input_system,
+                                  type = source_target)
+          })
+      } else {
+        print("0.3")
+        shiny::showNotification(paste0("\U2718 Connection to ",
+                                input_system,
+                                " failed"))
+        rv[[source_target]]$system <- ""
+      }
+    }
+    DQAgui:::check_load_data_button(rv, session)
+  }

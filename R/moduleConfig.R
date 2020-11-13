@@ -197,6 +197,7 @@ module_config_server <-
                 headless = rv$headless
               )
             }, USE.NAMES = T, simplify = F)
+          print(rv$settings)
 
           # - Different system-types:
           rv$system_types <-
@@ -297,6 +298,54 @@ module_config_server <-
                                 choices = postgres_system_names)
             }
           }
+          if (!("oracle" %in% tolower(rv$system_types))) {
+            # Remove Oracle-Tabs:
+            DIZutils::feedback(
+              "Removing oracle-tab from source ...",
+              logfile_dir = rv$log$logfile_dir,
+              headless = rv$headless,
+              findme = "8e93367dec"
+            )
+            removeTab(inputId = "source_tabs", target = "Oracle")
+
+            DIZutils::feedback(
+              "Removing oracle-tab from target ...",
+              logfile_dir = rv$log$logfile_dir,
+              headless = rv$headless,
+              findme = "1c2023da56"
+            )
+            removeTab(inputId = "target_tabs", target = "Oracle")
+          } else{
+            # Fill the tab with presettings
+            # - filter for all system_names with
+            #% system_type == oracle
+            #% select source_system_name from
+            #% rv$systems where source_system_type == oracle
+            #% GROUP BY source_system_name
+            oracle_system_names <-
+              rv$systems[get("source_system_type") == "oracle" &
+                           !is.na(get("source_system_name")),
+                         unique(get("source_system_name"))]
+            DIZutils::feedback(
+              oracle_system_names,
+              prefix = "oracle_system_names: ",
+              findme = "bea2cd91a1",
+              logfile_dir = rv$log$logfile_dir,
+              headless = rv$headless
+            )
+
+            if (length(oracle_system_names) > 0) {
+              # Show buttons to prefill diff. systems presettings:
+              # - Add a button/choice/etc. for each system:
+              updateSelectInput(session = session,
+                                inputId = "source_oracle_presettings_list",
+                                choices = oracle_system_names)
+              updateSelectInput(session = session,
+                                inputId = "target_oracle_presettings_list",
+                                choices = oracle_system_names)
+            }
+          }
+
 
           # Store the system-types in output-variable to only
           # show these tabs on the config page:
@@ -360,45 +409,118 @@ module_config_server <-
       )
       if (length(config_stuff) != 0) {
         updateTextInput(session = session,
-                        inputId = "config_sourcedb_dbname",
+                        inputId = "config_source_postgres_dbname",
                         value = config_stuff[["dbname"]])
         updateTextInput(session = session,
-                        inputId = "config_sourcedb_host",
+                        inputId = "config_source_postgres_host",
                         value = config_stuff[["host"]])
         updateTextInput(session = session,
-                        inputId = "config_sourcedb_port",
+                        inputId = "config_source_postgres_port",
                         value = config_stuff[["port"]])
         updateTextInput(session = session,
-                        inputId = "config_sourcedb_user",
+                        inputId = "config_source_postgres_user",
                         value = config_stuff[["user"]])
         updateTextInput(session = session,
-                        inputId = "config_sourcedb_password",
+                        inputId = "config_source_postgres_password",
                         value = config_stuff[["password"]])
       } else{
         updateTextInput(session = session,
-                        inputId = "config_sourcedb_dbname",
+                        inputId = "config_source_postgres_dbname",
                         value = "")
         updateTextInput(session = session,
-                        inputId = "config_sourcedb_host",
+                        inputId = "config_source_postgres_host",
                         value = "")
         updateTextInput(session = session,
-                        inputId = "config_sourcedb_port",
+                        inputId = "config_source_postgres_port",
                         value = "")
         updateTextInput(session = session,
-                        inputId = "config_sourcedb_user",
+                        inputId = "config_source_postgres_user",
                         value = "")
         updateTextInput(session = session,
-                        inputId = "config_sourcedb_password",
+                        inputId = "config_source_postgres_password",
                         value = "")
       }
       updateActionButton(
         session = session,
-        inputId = "source_pg_test_connection",
+        inputId = "source_postgres_test_connection",
         label = "Test & Save connection",
         icon = icon("database")
       )
-      shinyjs::enable("source_pg_test_connection")
+      shinyjs::enable("source_postgres_test_connection")
     })
+
+    observeEvent(input$source_oracle_presettings_list, {
+      DIZutils::feedback(
+        print_this =
+          paste0(
+            "Input-preset ",
+            input$source_oracle_presettings_list,
+            " was chosen as SOURCE.",
+            " Loading presets ..."
+          ),
+        findme = "44179e7b1f",
+        logfile_dir = rv$log$logfile_dir,
+        headless = rv$headless
+      )
+      config_stuff <- rv$settings[[tolower(input$source_oracle_presettings_list)]]
+
+      DIZutils::feedback(
+        print_this = paste(
+          "Loaded successfully.",
+          "Filling presets to global rv-object and UI ..."
+        ),
+        findme = "ff874cb58d",
+        logfile_dir = rv$log$logfile_dir,
+        headless = rv$headless
+      )
+      if (length(config_stuff) != 0) {
+        updateTextInput(session = session,
+                        inputId = "config_source_oracle_dbname",
+                        value = config_stuff[["dbname"]])
+        updateTextInput(session = session,
+                        inputId = "config_source_oracle_host",
+                        value = config_stuff[["host"]])
+        updateTextInput(session = session,
+                        inputId = "config_source_oracle_port",
+                        value = config_stuff[["port"]])
+        updateTextInput(session = session,
+                        inputId = "config_source_oracle_user",
+                        value = config_stuff[["user"]])
+        updateTextInput(session = session,
+                        inputId = "config_source_oracle_password",
+                        value = config_stuff[["password"]])
+        updateTextInput(session = session,
+                        inputId = "config_source_oracle_sid",
+                        value = config_stuff[["sid"]])
+      } else{
+        updateTextInput(session = session,
+                        inputId = "config_source_oracle_dbname",
+                        value = "")
+        updateTextInput(session = session,
+                        inputId = "config_source_oracle_host",
+                        value = "")
+        updateTextInput(session = session,
+                        inputId = "config_source_oracle_port",
+                        value = "")
+        updateTextInput(session = session,
+                        inputId = "config_source_oracle_user",
+                        value = "")
+        updateTextInput(session = session,
+                        inputId = "config_source_oracle_password",
+                        value = "")
+        updateTextInput(session = session,
+                        inputId = "config_source_oracle_sid",
+                        value = "")
+      }
+      updateActionButton(
+        session = session,
+        inputId = "source_oracle_test_connection",
+        label = "Test & Save connection",
+        icon = icon("database")
+      )
+      shinyjs::enable("source_oracle_test_connection")
+    })
+
 
     #observeEvent(input$target_pg_presettings_btn, {
     observeEvent(input$target_pg_presettings_list, {
@@ -426,178 +548,162 @@ module_config_server <-
       )
       if (length(config_stuff) != 0) {
         updateTextInput(session = session,
-                        inputId = "config_targetdb_dbname",
+                        inputId = "config_target_postgres_dbname",
                         value = config_stuff[["dbname"]])
         updateTextInput(session = session,
-                        inputId = "config_targetdb_host",
+                        inputId = "config_target_postgres_host",
                         value = config_stuff[["host"]])
         updateTextInput(session = session,
-                        inputId = "config_targetdb_port",
+                        inputId = "config_target_postgres_port",
                         value = config_stuff[["port"]])
         updateTextInput(session = session,
-                        inputId = "config_targetdb_user",
+                        inputId = "config_target_postgres_user",
                         value = config_stuff[["user"]])
         updateTextInput(session = session,
-                        inputId = "config_targetdb_password",
+                        inputId = "config_target_postgres_password",
                         value = config_stuff[["password"]])
       } else{
         updateTextInput(session = session,
-                        inputId = "config_targetdb_dbname",
+                        inputId = "config_target_postgres_dbname",
                         value = "")
         updateTextInput(session = session,
-                        inputId = "config_targetdb_host",
+                        inputId = "config_target_postgres_host",
                         value = "")
         updateTextInput(session = session,
-                        inputId = "config_targetdb_port",
+                        inputId = "config_target_postgres_port",
                         value = "")
         updateTextInput(session = session,
-                        inputId = "config_targetdb_user",
+                        inputId = "config_target_postgres_user",
                         value = "")
         updateTextInput(session = session,
-                        inputId = "config_targetdb_password",
+                        inputId = "config_target_postgres_password",
                         value = "")
       }
       updateActionButton(
         session = session,
-        inputId = "target_pg_test_connection",
+        inputId = "target_postgres_test_connection",
         label = "Test & Save connection",
         icon = icon("database")
       )
-      shinyjs::enable("target_pg_test_connection")
+      shinyjs::enable("target_postgres_test_connection")
     })
 
-    observeEvent(input$source_pg_test_connection, {
-      # If we don't assign (= copy) it (input$source_pg_presettings_list)
-      # here, the value will stay reactive and change every time we
-      # select another system. But it should only change if
-      # we also successfully tested the connection:
-      input_system <- input$source_pg_presettings_list
-      rv$source$settings <-
-        get_db_settings(input = input_re(), target = F)
+    observeEvent(input$target_oracle_presettings_list, {
+      DIZutils::feedback(
+        paste0(
+          "Input-preset ",
+          input$target_oracle_presettings_list,
+          " was chosen as TARGET.",
+          " Loading presets ..."
+        ),
+        findme = "1156504e13",
+        logfile_dir = rv$log$logfile_dir,
+        headless = rv$headless
+      )
+      config_stuff <- rv$settings[[tolower(input$target_oracle_presettings_list)]]
 
-      # FIXME renovate db_type, remove settings file
-      if (!is.null(rv$source$settings)) {
-        rv$source$db_con <- DIZutils::db_connection(
-          db_name = input$source_pg_presettings_list,
-          db_type = "postgres",
-          headless = rv$headless,
-          timeout = 2,
-          logfile_dir = rv$log$logfile_dir
-        )
-
-        if (!is.null(rv$source$db_con)) {
-          DIZutils::feedback(
-            paste0(
-              "Connection to ",
-              input_system,
-              " successfully established."
-            ),
-            findme = "e35eaa306e",
-            logfile_dir = rv$log$logfile_dir,
-            headless = rv$headless
-          )
-          showNotification(
-            paste0(
-              "\U2714 Connection to ",
-              input_system,
-              " successfully established"
-            )
-          )
-          updateActionButton(
-            session = session,
-            inputId = "source_pg_test_connection",
-            label = paste0(
-              "Connection to ",
-              input_system,
-              " established"
-            ),
-            icon = icon("check")
-          )
-          shinyjs::disable("source_pg_test_connection")
-          rv$source$system_name <- input_system
-          rv$source$system_type <- "postgres"
-          output$source_system_feedback_txt <-
-            renderText({
-              feedback_txt(system = input_system,
-                           type = "source")
-            })
-        } else {
-          showNotification(paste0(
-            "\U2718 Connection to ",
-            input_system,
-            " failed"
-          ))
-          rv$source$system <- ""
-        }
+      DIZutils::feedback(
+        paste(
+          "Loaded successfully.",
+          "Filling presets to global rv-object and UI ..."
+        ),
+        findme = "3d39553c3c",
+        logfile_dir = rv$log$logfile_dir,
+        headless = rv$headless
+      )
+      if (length(config_stuff) != 0) {
+        updateTextInput(session = session,
+                        inputId = "config_target_oracle_dbname",
+                        value = config_stuff[["dbname"]])
+        updateTextInput(session = session,
+                        inputId = "config_target_oracle_host",
+                        value = config_stuff[["host"]])
+        updateTextInput(session = session,
+                        inputId = "config_target_oracle_port",
+                        value = config_stuff[["port"]])
+        updateTextInput(session = session,
+                        inputId = "config_target_oracle_user",
+                        value = config_stuff[["user"]])
+        updateTextInput(session = session,
+                        inputId = "config_target_oracle_password",
+                        value = config_stuff[["password"]])
+        updateTextInput(session = session,
+                        inputId = "config_target_oracle_sid",
+                        value = config_stuff[["sid"]])
+      } else{
+        updateTextInput(session = session,
+                        inputId = "config_target_oracle_dbname",
+                        value = "")
+        updateTextInput(session = session,
+                        inputId = "config_target_oracle_host",
+                        value = "")
+        updateTextInput(session = session,
+                        inputId = "config_target_oracle_port",
+                        value = "")
+        updateTextInput(session = session,
+                        inputId = "config_target_oracle_user",
+                        value = "")
+        updateTextInput(session = session,
+                        inputId = "config_target_oracle_password",
+                        value = "")
+        updateTextInput(session = session,
+                        inputId = "config_target_oracle_sid",
+                        value = "")
       }
-      check_load_data_button(rv, session)
+      updateActionButton(
+        session = session,
+        inputId = "target_oracle_test_connection",
+        label = "Test & Save connection",
+        icon = icon("database")
+      )
+      shinyjs::enable("target_oracle_test_connection")
     })
 
-    observeEvent(input$target_pg_test_connection, {
-      # If we don't assign (= copy) it (input$target_pg_presettings_list)
-      # here, the value will stay reactive and change every time we
-      # select another system. But it should only change if
-      # we also successfully tested the connection:
-      input_system <- input$target_pg_presettings_list
-      rv$target$settings <-
-        get_db_settings(input = input_re(), target = T)
 
-      if (!is.null(rv$target$settings)) {
-        rv$target$db_con <- DIZutils::db_connection(
-          db_name = input$target_pg_presettings_list,
-          db_type = "postgres",
-          headless = rv$headless,
-          timeout = 2,
-          logfile_dir = rv$log$logfile_dir
-        )
-
-        if (!is.null(rv$target$db_con)) {
-          DIZutils::feedback(
-            paste0(
-              "Connection to ",
-              input_system,
-              " successfully established."
-            ),
-            findme = "1dc68937b8",
-            logfile_dir = rv$log$logfile_dir,
-            headless = rv$headless
-          )
-          showNotification(
-            paste0(
-              "\U2714 Connection to ",
-              input_system,
-              " successfully established"
-            )
-          )
-          updateActionButton(
-            session = session,
-            inputId = "target_pg_test_connection",
-            label = paste0(
-              "Connection to ",
-              input_system,
-              " established"
-            ),
-            icon = icon("check")
-          )
-          shinyjs::disable("target_pg_test_connection")
-          rv$target$system_name <- input_system
-          rv$target$system_type <- "postgres"
-          output$target_system_feedback_txt <-
-            renderText({
-              feedback_txt(system = input_system,
-                           type = "target")
-            })
-        } else {
-          showNotification(paste0(
-            "\U2718 Connection to ",
-            input_system,
-            " failed"
-          ))
-          rv$target$system <- ""
-        }
-      }
-      check_load_data_button(rv, session)
+    observeEvent(input$source_postgres_test_connection, {
+      test_connection_button_clicked(
+        rv = rv,
+        source_target = "source",
+        db_type = "postgres",
+        input = input,
+        output = output,
+        session = session
+      )
     })
+
+    observeEvent(input$source_oracle_test_connection, {
+      test_connection_button_clicked(
+        rv = rv,
+        source_target = "source",
+        db_type = "oracle",
+        input = input,
+        output = output,
+        session = session
+      )
+    })
+
+    observeEvent(input$target_postgres_test_connection, {
+      test_connection_button_clicked(
+        rv = rv,
+        source_target = "target",
+        db_type = "postgres",
+        input = input,
+        output = output,
+        session = session
+      )
+    })
+
+    observeEvent(input$target_oracle_test_connection, {
+      test_connection_button_clicked(
+        rv = rv,
+        source_target = "target",
+        db_type = "oracle",
+        input = input,
+        output = output,
+        session = session
+      )
+    })
+
 
     observeEvent(input$target_system_to_source_system_btn, {
       if (isTRUE(input$target_system_to_source_system_btn)) {
@@ -605,6 +711,7 @@ module_config_server <-
         # Hide target-setting-tabs:
         hideTab(inputId = "target_tabs", target = "CSV")
         hideTab(inputId = "target_tabs", target = "PostgreSQL")
+        hideTab(inputId = "target_tabs", target = "Oracle")
         # Assign source-values to target:
         rv <- set_target_equal_to_source(rv)
         # Set internal flag that target == source:
@@ -629,6 +736,7 @@ module_config_server <-
         # Show target-settings-tabs again:
         showTab(inputId = "target_tabs", target = "CSV")
         showTab(inputId = "target_tabs", target = "PostgreSQL")
+        showTab(inputId = "target_tabs", target = "Oracle")
         # Feedback to the console:
         DIZutils::feedback(
           "Target != source now.",
@@ -899,34 +1007,98 @@ module_config_ui <- function(id) {
                   style = "text-align:center;"
                 ),
                 textInput(
-                  inputId = ns("config_sourcedb_dbname"),
+                  inputId = ns("config_source_postgres_dbname"),
                   label = "DB Name",
                   placeholder = "Enter the name of the database ..."
                 ),
                 textInput(
-                  inputId = ns("config_sourcedb_host"),
+                  inputId = ns("config_source_postgres_host"),
                   label = "IP",
                   placeholder = "Enter the IP here in format '192.168.1.1' ..."
                 ),
                 textInput(
-                  inputId = ns("config_sourcedb_port"),
+                  inputId = ns("config_source_postgres_port"),
                   label = "Port",
                   placeholder = "Enter the Port of the database connection ..."
                 ),
                 textInput(
-                  inputId = ns("config_sourcedb_user"),
+                  inputId = ns("config_source_postgres_user"),
                   label = "Username",
                   placeholder =
                     "Enter the Username for the database connection ..."
                 ),
                 passwordInput(
-                  inputId = ns("config_sourcedb_password"),
+                  inputId = ns("config_source_postgres_password"),
                   label = "Password",
                   placeholder = "Enter the database password ..."
                 ),
                 br(),
                 actionButton(
-                  inputId = ns("source_pg_test_connection"),
+                  inputId = ns("source_postgres_test_connection"),
+                  label = "Test & Save connection",
+                  icon = icon("database"),
+                  style = "text-align:center;"
+                )
+              ),
+              tabPanel(
+                # ATTENTION: If you change the title, you also have to change
+                # the
+                # corresponding part above for the "target == source" button
+                # reaction. Otherwise the tabs won't hide/show up anymore.
+                # >> ATTENTION <<
+                title = "Oracle",
+                # >> ATTENTION << for title. See above.
+                id = ns("source_tab_oracle"),
+                h4("Source Database Connection"),
+                box(
+                  title = "Preloadings",
+                  # background = "blue",
+                  #solidHeader = TRUE,
+                  width = 12,
+                  selectInput(
+                    # This will be filled in the server part.
+                    inputId = ns("source_oracle_presettings_list"),
+                    label = NULL,
+                    choices = NULL,
+                    selected = NULL
+                  ),
+                  style = "text-align:center;"
+                ),
+                textInput(
+                  inputId = ns("config_source_oracle_dbname"),
+                  label = "DB Name",
+                  placeholder = "Enter the name of the database ..."
+                ),
+                textInput(
+                  inputId = ns("config_source_oracle_host"),
+                  label = "IP",
+                  placeholder = "Enter the IP here in format '192.168.1.1' ..."
+                ),
+                textInput(
+                  inputId = ns("config_source_oracle_port"),
+                  label = "Port",
+                  placeholder = "Enter the Port of the database connection ..."
+                ),
+                textInput(
+                  inputId = ns("config_source_oracle_user"),
+                  label = "Username",
+                  placeholder =
+                    "Enter the Username for the database connection ..."
+                ),
+                passwordInput(
+                  inputId = ns("config_source_oracle_password"),
+                  label = "Password",
+                  placeholder = "Enter the database password ..."
+                ),
+                textInput(
+                  inputId = ns("config_source_oracle_sid"),
+                  label = "SID",
+                  placeholder =
+                    "Enter the SID for the database connection ..."
+                ),
+                br(),
+                actionButton(
+                  inputId = ns("source_oracle_test_connection"),
                   label = "Test & Save connection",
                   icon = icon("database"),
                   style = "text-align:center;"
@@ -1023,34 +1195,98 @@ module_config_ui <- function(id) {
                   style = "text-align:center;"
                 ),
                 textInput(
-                  inputId = ns("config_targetdb_dbname"),
+                  inputId = ns("config_target_postgres_dbname"),
                   label = "DB Name",
                   placeholder = "Enter the name of the database ..."
                 ),
                 textInput(
-                  inputId = ns("config_targetdb_host"),
+                  inputId = ns("config_target_postgres_host"),
                   label = "IP",
                   placeholder = "Enter the IP here in format '192.168.1.1' ..."
                 ),
                 textInput(
-                  inputId = ns("config_targetdb_port"),
+                  inputId = ns("config_target_postgres_port"),
                   label = "Port",
                   placeholder = "Enter the Port of the database connection ..."
                 ),
                 textInput(
-                  inputId = ns("config_targetdb_user"),
+                  inputId = ns("config_target_postgres_user"),
                   label = "Username",
                   placeholder =
                     "Enter the Username for the database connection ..."
                 ),
                 passwordInput(
-                  inputId = ns("config_targetdb_password"),
+                  inputId = ns("config_target_postgres_password"),
                   label = "Password",
                   placeholder = "Enter the database password ..."
                 ),
                 br(),
                 actionButton(
-                  inputId = ns("target_pg_test_connection"),
+                  inputId = ns("target_postgres_test_connection"),
+                  label = "Test & Save connection",
+                  icon = icon("database"),
+                  style = "text-align:center;"
+                )
+              ),
+              tabPanel(
+                # ATTENTION: If you change the title, you also have to change
+                # the
+                # corresponding part above for the "target == source" button
+                # reaction. Otherwise the tabs won't hide/show up anymore.
+                # >> ATTENTION <<
+                title = "Oracle",
+                # >> ATTENTION << for title. See above.
+                id = ns("target_tab_oracle"),
+                h4("Target Database Connection"),
+                box(
+                  title = "Preloadings",
+                  # background = "blue",
+                  #solidHeader = TRUE,
+                  width = 12,
+                  selectInput(
+                    # This will be filled in the server part.
+                    inputId = ns("target_oracle_presettings_list"),
+                    label = NULL,
+                    choices = NULL,
+                    selected = NULL
+                  ),
+                  style = "text-align:center;"
+                ),
+                textInput(
+                  inputId = ns("config_target_oracle_dbname"),
+                  label = "DB Name",
+                  placeholder = "Enter the name of the database ..."
+                ),
+                textInput(
+                  inputId = ns("config_target_oracle_host"),
+                  label = "IP",
+                  placeholder = "Enter the IP here in format '192.168.1.1' ..."
+                ),
+                textInput(
+                  inputId = ns("config_target_oracle_port"),
+                  label = "Port",
+                  placeholder = "Enter the Port of the database connection ..."
+                ),
+                textInput(
+                  inputId = ns("config_target_oracle_user"),
+                  label = "Username",
+                  placeholder =
+                    "Enter the Username for the database connection ..."
+                ),
+                passwordInput(
+                  inputId = ns("config_target_oracle_password"),
+                  label = "Password",
+                  placeholder = "Enter the database password ..."
+                ),
+                textInput(
+                  inputId = ns("config_target_oracle_sid"),
+                  label = "SID",
+                  placeholder =
+                    "Enter the SID for the database connection ..."
+                ),
+                br(),
+                actionButton(
+                  inputId = ns("target_oracle_test_connection"),
                   label = "Test & Save connection",
                   icon = icon("database"),
                   style = "text-align:center;"

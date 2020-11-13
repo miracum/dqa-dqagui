@@ -4,12 +4,14 @@
 \alias{get_db_settings}
 \title{get_db_settings}
 \usage{
-get_db_settings(input, target = T)
+get_db_settings(input, target = T, db_type)
 }
 \arguments{
 \item{input}{Shiny server input object}
 
 \item{target}{A boolean (default: TRUE).}
+
+\item{db_type}{(String) "postgres" or "oracle"}
 }
 \description{
 get_db_settings
