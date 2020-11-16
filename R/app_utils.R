@@ -209,7 +209,7 @@ validate_inputs <- function(rv, input, output, session) {
             )
             error_tmp <- T
           }
-        } else if (rv$source$system_type == "postgres") {
+        } else if (rv[[source_target]]$system_type == "postgres") {
           error_tmp <- test_connection_button_clicked(
             rv = rv,
             source_target = source_target,
@@ -218,7 +218,7 @@ validate_inputs <- function(rv, input, output, session) {
             output = output,
             session = session
           )
-        } else if (rv$source$system_type == "oracle") {
+        } else if (rv[[source_target]]$system_type == "oracle") {
           error_tmp <- test_connection_button_clicked(
             rv = rv,
             source_target = source_target,
@@ -257,7 +257,16 @@ validate_inputs <- function(rv, input, output, session) {
     )
     error_tmp <- T
   }
+  print("rv$settings:")
   print(rv$settings)
+  print("rv$source:")
+  print(rv$source)
+  print("rv$target:")
+  print(rv$target)
+  print("rv$systems:")
+  print(rv$systems)
+
+  print(rv)
 
   #   # Check source setting:
   #   if (rv$source$system_type == "csv") {
