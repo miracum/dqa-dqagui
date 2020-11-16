@@ -141,228 +141,110 @@ set_target_equal_to_source <- function(rv) {
 #' @inheritParams module_dashboard_server
 #'
 #'
-validate_inputs <- function(rv) {
+validate_inputs <- function(rv, input, output, session) {
   error_tmp <- F
   if (!is.null(rv$source$system_type) &&
       !is.null(rv$target$system_type)) {
-    # Check source setting:
-    if (rv$source$system_type == "csv") {
-      # Check if source-path is valid:
-      if (typeof(rv$source$settings$path) == "character" &&
-          !is.null(rv$source$settings$path) &&
-          length(rv$source$settings$path) > 0) {
-        DIZutils::feedback("Source settings seem valid.",
-                           findme = "c0bcc9aa31",
-                           logfile_dir = rv$log$logfile_dir,
-                           headless = rv$headless)
-        # valid path, so check if files exist:
-        test_source_csv <- DQAstats::test_csv(
-          settings = rv$source$settings,
-          source_db = rv$source$system_name,
-          mdr = rv$mdr,
-          logfile_dir = rv$log$logfile_dir,
-          headless = rv$headless
-        )
-        if (isTRUE(test_source_csv)) {
-          DIZutils::feedback("All source csv-files were found.",
-                             findme = "794c6f3160",
-                             logfile_dir = rv$log$logfile_dir,
-                             headless = rv$headless)
-        } else{
-          DIZutils::feedback("Some source csv-files are MISSING.",
-                             type = "Error",
-                             findme = "926b0c567c",
-                             logfile_dir = rv$log$logfile_dir,
-                             headless = rv$headless)
-          error_tmp <- T
-        }
-      } else {
-        # invalid path:
-        DIZutils::feedback(
-          print_this = "Source settings not valid.",
-          type = "warning",
-          findme = "10d5e79d44",
-          ui = T,
-          logfile_dir = rv$log$logfile_dir,
-          headless = rv$headless
-        )
-        DIZutils::feedback(
-          print_this = paste0(
-            "rv$source$settings$path = ",
-            rv$source$settings$path,
-            "(d9b43110bb)",
-            logfile_dir = rv$log$logfile_dir,
-            headless = rv$headless
+    for (source_target in c("source", "target")) {
+      # Only start computing if there is no error yet:
+      if (!error_tmp) {
+        if (rv[[source_target]]$system_type == "csv") {
+          # Check if -path is valid:
+          if (typeof(rv[[source_target]]$settings$path) == "character" &&
+              !is.null(rv[[source_target]]$settings$path) &&
+              length(rv[[source_target]]$settings$path) > 0) {
+            DIZutils::feedback(
+              print_this = paste0(source_target, " settings seem valid."),
+              findme = "c0bcc9aa31",
+              logfile_dir = rv$log$logfile_dir,
+              headless = rv$headless
+            )
+            # valid path, so check if files exist:
+            test_csv_tmp <- DQAstats::test_csv(
+              settings = rv[[source_target]]$settings,
+              source_db = rv[[source_target]]$system_name,
+              mdr = rv$mdr,
+              logfile_dir = rv$log$logfile_dir,
+              headless = rv$headless
+            )
+            if (isTRUE(test_csv_tmp)) {
+              DIZutils::feedback(
+                print_this = paste0("All ",
+                                    source_target,
+                                    " csv-files were found."),
+                findme = "794c6f3160",
+                logfile_dir = rv$log$logfile_dir,
+                headless = rv$headless
+              )
+            } else{
+              DIZutils::feedback(
+                print_this = paste0("Some ",
+                                    source_target,
+                                    " csv-files are MISSING."),
+                type = "Error",
+                findme = "926b0c567c",
+                logfile_dir = rv$log$logfile_dir,
+                headless = rv$headless
+              )
+              error_tmp <- T
+            }
+          } else {
+            # invalid path:
+            DIZutils::feedback(
+              print_this = paste0(source_target, " settings not valid."),
+              type = "warning",
+              findme = "10d5e79d44",
+              ui = T,
+              logfile_dir = rv$log$logfile_dir,
+              headless = rv$headless
+            )
+            DIZutils::feedback(
+              print_this = paste0("rv$",
+                                  source_target,
+                                  "$settings$path = ",
+                                  rv[[source_target]]$settings$path),
+              findme = "d9b43110bb",
+              logfile_dir = rv$log$logfile_dir,
+              headless = rv$headless
+            )
+            error_tmp <- T
+          }
+        } else if (rv$source$system_type == "postgres") {
+          error_tmp <- test_connection_button_clicked(
+            rv = rv,
+            source_target = source_target,
+            db_type = "postgres",
+            input = input,
+            output = output,
+            session = session
           )
-        )
-        error_tmp <- T
-      }
-    } else if (rv$source$system_type == "postgres") {
-      # Check if source-db settings are valid:
-      if (!is.null(rv$source$settings)) {
-        rv$source$db_con <-
-          DIZutils::db_connection(
-            db_name = rv$source$system_name,
-            db_type = rv$source$system_type,
-            headless = rv$headless,
-            logfile_dir = rv$log$logfile_dir
+        } else if (rv$source$system_type == "oracle") {
+          error_tmp <- test_connection_button_clicked(
+            rv = rv,
+            source_target = source_target,
+            db_type = "oracle",
+            input = input,
+            output = output,
+            session = session
           )
-        if (!is.null(rv$source$db_con)) {
-          # valid
-          DIZutils::feedback(print_this = "Source db-settings seem valid.",
-                             findme = "29cc920472",
-                             logfile_dir = rv$log$logfile_dir,
-                             headless = rv$headless)
         } else {
-          # invalid:
+          ## This system name is not known/implemented here:
           DIZutils::feedback(
-            print_this = "Source db-settings not valid.",
-            type = "Warning",
-            findme = "c63e1ccaf0",
+            print_this = paste0(
+              source_target,
+              " system ",
+              rv[[source_target]]$system_name,
+              " not yet implemented."
+            ),
+            type = "Error",
+            findme = "d0f0bfa2f3",
             ui = T,
             logfile_dir = rv$log$logfile_dir,
             headless = rv$headless
           )
-          DIZutils::feedback(
-            print_this = paste0("rv$source$settings = ",
-                                rv$source$settings),
-            findme = "2d47f163a9",
-            logfile_dir = rv$log$logfile_dir,
-            headless = rv$headless
-          )
           error_tmp <- T
         }
-      } else {
-        # invalid 2:
-        DIZutils::feedback(
-          print_this = "Source db-settings are empty.",
-          type = "Warning",
-          findme = "127deaebca",
-          ui = T,
-          logfile_dir = rv$log$logfile_dir,
-          headless = rv$headless
-        )
-        error_tmp <- T
       }
-    } else {
-      DIZutils::feedback(
-        print_this = "Source system not yet implemented.",
-        type = "Warning",
-        findme = "d0f0bfa2f3",
-        ui = T,
-        logfile_dir = rv$log$logfile_dir,
-        headless = rv$headless
-      )
-      error_tmp <- T
-    }
-
-    # Check target setting:
-    if (rv$target$system_type == "csv") {
-      # Check if target-path is valid:
-      if (typeof(rv$target$settings$path) == "character" &&
-          !is.null(rv$target$settings$path) &&
-          length(rv$target$settings$path) > 0) {
-        DIZutils::feedback("target settings seem valid.",
-                           findme = "9979bb57ef",
-                           logfile_dir = rv$log$logfile_dir,
-                           headless = rv$headless)
-        # valid path, so check if files exist:
-        test_target_csv <- DQAstats::test_csv(
-          settings = rv$target$settings,
-          source_db = rv$target$system_name,
-          mdr = rv$mdr,
-          logfile_dir = rv$log$logfile_dir,
-          headless = rv$headless
-        )
-        if (isTRUE(test_target_csv)) {
-          DIZutils::feedback("All target csv-files were found.",
-                             findme = "ff8203c831",
-                             logfile_dir = rv$log$logfile_dir,
-                             headless = rv$headless)
-        } else{
-          DIZutils::feedback("Some target csv-files are MISSING.",
-                             type = "Error",
-                             findme = "079525a7de",
-                             logfile_dir = rv$log$logfile_dir,
-                             headless = rv$headless)
-          error_tmp <- T
-        }
-      } else {
-        # invalid path:
-        DIZutils::feedback(
-          print_this = "Target settings not valid.",
-          type = "Warning",
-          findme = "f4cc32e068",
-          ui = T,
-          logfile_dir = rv$log$logfile_dir,
-          headless = rv$headless
-        )
-        DIZutils::feedback(
-          print_this = paste0("rv$target$settings$path = ",
-                              rv$target$dir),
-          findme = "(43c81cb723)",
-          logfile_dir = rv$log$logfile_dir,
-          headless = rv$headless
-        )
-        error_tmp <- T
-      }
-    } else if (rv$target$system_type == "postgres") {
-      # Check if target-db settings are valid:
-      if (!is.null(rv$target$settings)) {
-        rv$target$db_con <-
-          DIZutils::db_connection(
-            db_name = rv$target$system_name,
-            db_type = rv$target$system_type,
-            headless = rv$headless,
-            logfile_dir = rv$log$logfile_dir
-          )
-        if (!is.null(rv$target$db_con)) {
-          # valid
-          DIZutils::feedback("Target db-settings seem valid. (79234d2ba0)",
-                             logfile_dir = rv$log$logfile_dir,
-                             headless = rv$headless)
-        } else {
-          # invalid:
-          DIZutils::feedback(
-            print_this = "Target db-settings not valid.",
-            type = "Warning",
-            findme = "096341c4c1",
-            ui = T,
-            logfile_dir = rv$log$logfile_dir,
-            headless = rv$headless
-          )
-          DIZutils::feedback(paste0(
-            "rv$target$settings = ",
-            rv$target$settings,
-            "(2d47f163a9)"
-          ),
-          logfile_dir = rv$log$logfile_dir,
-          headless = rv$headless
-          )
-          error_tmp <- T
-        }
-      } else {
-        # invalid 2:
-        DIZutils::feedback(
-          print_this = "Target db-settings are empty.",
-          type = "Warning",
-          findme = "8440a9e683",
-          ui = T,
-          logfile_dir = rv$log$logfile_dir,
-          headless = rv$headless
-        )
-        error_tmp <- T
-      }
-    } else {
-      DIZutils::feedback(
-        print_this = "Target system not yet implemented.",
-        type = "Warning",
-        findme = "57b314a1a3",
-        ui = T,
-        logfile_dir = rv$log$logfile_dir,
-        headless = rv$headless
-      )
-      error_tmp <- T
     }
   } else {
     DIZutils::feedback(
@@ -375,6 +257,326 @@ validate_inputs <- function(rv) {
     )
     error_tmp <- T
   }
+  print(rv$settings)
+
+  #   # Check source setting:
+  #   if (rv$source$system_type == "csv") {
+  #     # Check if source-path is valid:
+  #     if (typeof(rv$source$settings$path) == "character" &&
+  #         !is.null(rv$source$settings$path) &&
+  #         length(rv$source$settings$path) > 0) {
+  #       DIZutils::feedback("Source settings seem valid.",
+  #                          findme = "c0bcc9aa31",
+  #                          logfile_dir = rv$log$logfile_dir,
+  #                          headless = rv$headless)
+  #       # valid path, so check if files exist:
+  #       test_source_csv <- DQAstats::test_csv(
+  #         settings = rv$source$settings,
+  #         source_db = rv$source$system_name,
+  #         mdr = rv$mdr,
+  #         logfile_dir = rv$log$logfile_dir,
+  #         headless = rv$headless
+  #       )
+  #       if (isTRUE(test_source_csv)) {
+  #         DIZutils::feedback("All source csv-files were found.",
+  #                            findme = "794c6f3160",
+  #                            logfile_dir = rv$log$logfile_dir,
+  #                            headless = rv$headless)
+  #       } else{
+  #         DIZutils::feedback("Some source csv-files are MISSING.",
+  #                            type = "Error",
+  #                            findme = "926b0c567c",
+  #                            logfile_dir = rv$log$logfile_dir,
+  #                            headless = rv$headless)
+  #         error_tmp <- T
+  #       }
+  #     } else {
+  #       # invalid path:
+  #       DIZutils::feedback(
+  #         print_this = "Source settings not valid.",
+  #         type = "warning",
+  #         findme = "10d5e79d44",
+  #         ui = T,
+  #         logfile_dir = rv$log$logfile_dir,
+  #         headless = rv$headless
+  #       )
+  #       DIZutils::feedback(
+  #         print_this = paste0(
+  #           "rv$source$settings$path = ",
+  #           rv$source$settings$path,
+  #           "(d9b43110bb)",
+  #           logfile_dir = rv$log$logfile_dir,
+  #           headless = rv$headless
+  #         )
+  #       )
+  #       error_tmp <- T
+  #     }
+  #   } else if (!error && rv$source$system_type == "postgres") {
+  #     error <- test_connection_button_clicked(
+  #       rv = rv,
+  #       source_target = "source",
+  #       db_type = "postgres",
+  #       input = input,
+  #       output = output,
+  #       session = session
+  #     )
+  #     if (!error) {
+  #       error <- test_connection_button_clicked(
+  #         rv = rv,
+  #         source_target = "target",
+  #         db_type = "postgres",
+  #         input = input,
+  #         output = output,
+  #         session = session
+  #       )
+  #     }
+  #     if (!error) {
+  #       error <- test_connection_button_clicked(
+  #         rv = rv,
+  #         source_target = "source",
+  #         db_type = "oracle",
+  #         input = input,
+  #         output = output,
+  #         session = session
+  #       )
+  #     }
+  #     if (!error) {
+  #       error <- test_connection_button_clicked(
+  #         rv = rv,
+  #         source_target = "target",
+  #         db_type = "oracle",
+  #         input = input,
+  #         output = output,
+  #         session = session
+  #       )
+  #     }
+  #
+  #
+  #     # Check if source-db settings are valid:
+  #     if (!is.null(rv$source$settings)) {
+  #       rv$source$db_con <-
+  #         DIZutils::db_connection(
+  #           db_name = rv$source$system_name,
+  #           db_type = rv$source$system_type,
+  #           headless = rv$headless,
+  #           logfile_dir = rv$log$logfile_dir
+  #         )
+  #       if (!is.null(rv$source$db_con)) {
+  #         # valid
+  #         DIZutils::feedback(print_this = "Source db-settings seem valid.",
+  #                            findme = "29cc920472",
+  #                            logfile_dir = rv$log$logfile_dir,
+  #                            headless = rv$headless)
+  #       } else {
+  #         # invalid:
+  #         DIZutils::feedback(
+  #           print_this = "Source db-settings not valid.",
+  #           type = "Warning",
+  #           findme = "c63e1ccaf0",
+  #           ui = T,
+  #           logfile_dir = rv$log$logfile_dir,
+  #           headless = rv$headless
+  #         )
+  #         DIZutils::feedback(
+  #           print_this = paste0("rv$source$settings = ",
+  #                               rv$source$settings),
+  #           findme = "2d47f163a9",
+  #           logfile_dir = rv$log$logfile_dir,
+  #           headless = rv$headless
+  #         )
+  #         error_tmp <- T
+  #       }
+  #     } else {
+  #       # invalid 2:
+  #       DIZutils::feedback(
+  #         print_this = "Source db-settings are empty.",
+  #         type = "Warning",
+  #         findme = "127deaebca",
+  #         ui = T,
+  #         logfile_dir = rv$log$logfile_dir,
+  #         headless = rv$headless
+  #       )
+  #       error_tmp <- T
+  #     }
+  #   } else if (rv$source$system_type == "oracle") {
+  #     lib_path_tmp <- Sys.getenv("KDB_DRIVER")
+  #     # Check if source-db settings are valid:
+  #     if (!is.null(rv$source$settings)) {
+  #       rv$source$db_con <-
+  #         DIZutils::db_connection(
+  #           db_name = rv$source$system_name,
+  #           db_type = rv$source$system_type,
+  #           headless = rv$headless,
+  #           logfile_dir = rv$log$logfile_dir
+  #         )
+  #       if (!is.null(rv$source$db_con)) {
+  #         # valid
+  #         DIZutils::feedback(print_this = "Source db-settings seem valid.",
+  #                            findme = "29cc920472",
+  #                            logfile_dir = rv$log$logfile_dir,
+  #                            headless = rv$headless)
+  #       } else {
+  #         # invalid:
+  #         DIZutils::feedback(
+  #           print_this = "Source db-settings not valid.",
+  #           type = "Warning",
+  #           findme = "c63e1ccaf0",
+  #           ui = T,
+  #           logfile_dir = rv$log$logfile_dir,
+  #           headless = rv$headless
+  #         )
+  #         DIZutils::feedback(
+  #           print_this = paste0("rv$source$settings = ",
+  #                               rv$source$settings),
+  #           findme = "2d47f163a9",
+  #           logfile_dir = rv$log$logfile_dir,
+  #           headless = rv$headless
+  #         )
+  #         error_tmp <- T
+  #       }
+  #     } else {
+  #       # invalid 2:
+  #       DIZutils::feedback(
+  #         print_this = "Source db-settings are empty.",
+  #         type = "Warning",
+  #         findme = "127deaebca",
+  #         ui = T,
+  #         logfile_dir = rv$log$logfile_dir,
+  #         headless = rv$headless
+  #       )
+  #       error_tmp <- T
+  #     }
+  #   } else {
+  #     DIZutils::feedback(
+  #       print_this = "Source system not yet implemented.",
+  #       type = "Warning",
+  #       findme = "d0f0bfa2f3",
+  #       ui = T,
+  #       logfile_dir = rv$log$logfile_dir,
+  #       headless = rv$headless
+  #     )
+  #     error_tmp <- T
+  #   }
+  #
+  #   # Check target setting:
+  #   if (rv$target$system_type == "csv") {
+  #     # Check if target-path is valid:
+  #     if (typeof(rv$target$settings$path) == "character" &&
+  #         !is.null(rv$target$settings$path) &&
+  #         length(rv$target$settings$path) > 0) {
+  #       DIZutils::feedback("target settings seem valid.",
+  #                          findme = "9979bb57ef",
+  #                          logfile_dir = rv$log$logfile_dir,
+  #                          headless = rv$headless)
+  #       # valid path, so check if files exist:
+  #       test_target_csv <- DQAstats::test_csv(
+  #         settings = rv$target$settings,
+  #         source_db = rv$target$system_name,
+  #         mdr = rv$mdr,
+  #         logfile_dir = rv$log$logfile_dir,
+  #         headless = rv$headless
+  #       )
+  #       if (isTRUE(test_target_csv)) {
+  #         DIZutils::feedback("All target csv-files were found.",
+  #                            findme = "ff8203c831",
+  #                            logfile_dir = rv$log$logfile_dir,
+  #                            headless = rv$headless)
+  #       } else{
+  #         DIZutils::feedback("Some target csv-files are MISSING.",
+  #                            type = "Error",
+  #                            findme = "079525a7de",
+  #                            logfile_dir = rv$log$logfile_dir,
+  #                            headless = rv$headless)
+  #         error_tmp <- T
+  #       }
+  #     } else {
+  #       # invalid path:
+  #       DIZutils::feedback(
+  #         print_this = "Target settings not valid.",
+  #         type = "Warning",
+  #         findme = "f4cc32e068",
+  #         ui = T,
+  #         logfile_dir = rv$log$logfile_dir,
+  #         headless = rv$headless
+  #       )
+  #       DIZutils::feedback(
+  #         print_this = paste0("rv$target$settings$path = ",
+  #                             rv$target$dir),
+  #         findme = "(43c81cb723)",
+  #         logfile_dir = rv$log$logfile_dir,
+  #         headless = rv$headless
+  #       )
+  #       error_tmp <- T
+  #     }
+  #   } else if (rv$target$system_type == "postgres") {
+  #     # Check if target-db settings are valid:
+  #     if (!is.null(rv$target$settings)) {
+  #       rv$target$db_con <-
+  #         DIZutils::db_connection(
+  #           db_name = rv$target$system_name,
+  #           db_type = rv$target$system_type,
+  #           headless = rv$headless,
+  #           logfile_dir = rv$log$logfile_dir
+  #         )
+  #       if (!is.null(rv$target$db_con)) {
+  #         # valid
+  #         DIZutils::feedback("Target db-settings seem valid. (79234d2ba0)",
+  #                            logfile_dir = rv$log$logfile_dir,
+  #                            headless = rv$headless)
+  #       } else {
+  #         # invalid:
+  #         DIZutils::feedback(
+  #           print_this = "Target db-settings not valid.",
+  #           type = "Warning",
+  #           findme = "096341c4c1",
+  #           ui = T,
+  #           logfile_dir = rv$log$logfile_dir,
+  #           headless = rv$headless
+  #         )
+  #         DIZutils::feedback(paste0(
+  #           "rv$target$settings = ",
+  #           rv$target$settings,
+  #           "(2d47f163a9)"
+  #         ),
+  #         logfile_dir = rv$log$logfile_dir,
+  #         headless = rv$headless
+  #         )
+  #         error_tmp <- T
+  #       }
+  #     } else {
+  #       # invalid 2:
+  #       DIZutils::feedback(
+  #         print_this = "Target db-settings are empty.",
+  #         type = "Warning",
+  #         findme = "8440a9e683",
+  #         ui = T,
+  #         logfile_dir = rv$log$logfile_dir,
+  #         headless = rv$headless
+  #       )
+  #       error_tmp <- T
+  #     }
+  #   } else {
+  #     DIZutils::feedback(
+  #       print_this = "Target system not yet implemented.",
+  #       type = "Warning",
+  #       findme = "57b314a1a3",
+  #       ui = T,
+  #       logfile_dir = rv$log$logfile_dir,
+  #       headless = rv$headless
+  #     )
+  #     error_tmp <- T
+  #   }
+  # } else {
+  #   DIZutils::feedback(
+  #     print_this = "Either source or target system is not set.",
+  #     type = "Warning",
+  #     findme = "4e9400f8c9",
+  #     ui = T,
+  #     logfile_dir = rv$log$logfile_dir,
+  #     headless = rv$headless
+  #   )
+  #   error_tmp <- T
+  # }
   return(!error_tmp)
 }
 
@@ -399,8 +601,8 @@ fix_sql_display <- function(text) {
 #'
 #'
 check_load_data_button <- function(rv, session) {
-  #TODO: Read the systems from mdr:
-  systems <- c("csv", "postgres")
+  # systems <- c("csv", "postgres", "oracle")
+  systems <- tolower(rv$system_types)
 
   res <- ""
   if (!is.null(rv$source$system_type)) {
@@ -434,6 +636,7 @@ check_load_data_button <- function(rv, session) {
       target_db = rv$target$system_name,
       source_db = rv$source$system_name
     )
+    # print(helper_vars_tmp)
     rv$dqa_assessment <- helper_vars_tmp$dqa_assessment
 
     # Update the checkboxgroup to the determined dataelemets:
@@ -473,7 +676,8 @@ check_load_data_button <- function(rv, session) {
 #' @inheritParams module_config_server
 #' @param source_target (String) "source" or "target"
 #' @param db_tybe (String) "postgres" or "oracle"
-#' @return Nothing.
+#' @return true if the connection could be established and false otherwise
+#'   (also if an error occurred)
 #'
 test_connection_button_clicked <-
   function(rv,
@@ -482,6 +686,7 @@ test_connection_button_clicked <-
            input,
            output,
            session) {
+    error <- TRUE
     DIZutils::feedback(
       print_this = paste0(
         "Trying to connect to ",
@@ -513,7 +718,7 @@ test_connection_button_clicked <-
     } else{
       lib_path_tmp <- NULL
     }
-    print(rv[[source_target]]$settings)
+
     if (!is.null(rv[[source_target]]$settings)) {
       rv[[source_target]]$db_con <- DIZutils::db_connection(
         db_name = rv[[source_target]]$settings$dbname,
@@ -526,10 +731,8 @@ test_connection_button_clicked <-
         lib_path = lib_path_tmp
       )
 
-      print("0.1")
 
       if (!is.null(rv[[source_target]]$db_con)) {
-        print("0.2")
         DIZutils::feedback(
           paste0(
             "Connection to ",
@@ -565,8 +768,8 @@ test_connection_button_clicked <-
             DQAgui:::feedback_txt(system = input_system,
                                   type = source_target)
           })
+        error <- FALSE
       } else {
-        print("0.3")
         shiny::showNotification(paste0("\U2718 Connection to ",
                                 input_system,
                                 " failed"))
@@ -574,4 +777,5 @@ test_connection_button_clicked <-
       }
     }
     DQAgui:::check_load_data_button(rv, session)
+    return(error)
   }
