@@ -31,11 +31,18 @@
 module_mdr_server <- function(input, output, session, rv, input_re) {
 
   output$mdr_table <- DT::renderDataTable({
-    DT::datatable(rv$mdr, options = list(
-      scrollX = TRUE,
-      pageLength = 20,
-      dom = "ltip"
-    ))
+    DT::datatable(
+      data = rv$mdr,
+      class = "display nowrap",
+      options = list(
+        scrollX = TRUE,
+        scrollY = '70vh',
+        pageLength = 20,
+        dom = "ltip"
+      ),
+      rownames = FALSE,
+      selection = "single"
+    )
   })
 }
 
