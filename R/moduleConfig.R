@@ -197,7 +197,6 @@ module_config_server <-
                 headless = rv$headless
               )
             }, USE.NAMES = T, simplify = F)
-          print(rv$settings)
 
           # - Different system-types:
           rv$system_types <-
@@ -291,10 +290,10 @@ module_config_server <-
               # Show buttons to prefill diff. systems presettings:
               # - Add a button/choice/etc. for each system:
               updateSelectInput(session = session,
-                                inputId = "source_pg_presettings_list",
+                                inputId = "source_postgres_presettings_list",
                                 choices = postgres_system_names)
               updateSelectInput(session = session,
-                                inputId = "target_pg_presettings_list",
+                                inputId = "target_postgres_presettings_list",
                                 choices = postgres_system_names)
             }
           }
@@ -383,12 +382,12 @@ module_config_server <-
 
     # If the "load presets"-button was pressed, startload & show the presets:
     # observeEvent(input$source_pg_presettings_btn, {
-    observeEvent(input$source_pg_presettings_list, {
+    observeEvent(input$source_postgres_presettings_list, {
       DIZutils::feedback(
         print_this =
           paste0(
             "Input-preset ",
-            input$source_pg_presettings_list,
+            input$source_postgres_presettings_list,
             " was chosen as SOURCE.",
             " Loading presets ..."
           ),
@@ -396,7 +395,7 @@ module_config_server <-
         logfile_dir = rv$log$logfile_dir,
         headless = rv$headless
       )
-      config_stuff <- rv$settings[[tolower(input$source_pg_presettings_list)]]
+      config_stuff <- rv$settings[[tolower(input$source_postgres_presettings_list)]]
 
       DIZutils::feedback(
         print_this = paste(
@@ -523,11 +522,11 @@ module_config_server <-
 
 
     #observeEvent(input$target_pg_presettings_btn, {
-    observeEvent(input$target_pg_presettings_list, {
+    observeEvent(input$target_postgres_presettings_list, {
       DIZutils::feedback(
         paste0(
           "Input-preset ",
-          input$target_pg_presettings_list,
+          input$target_postgres_presettings_list,
           " was chosen as TARGET.",
           " Loading presets ..."
         ),
@@ -535,7 +534,7 @@ module_config_server <-
         logfile_dir = rv$log$logfile_dir,
         headless = rv$headless
       )
-      config_stuff <- rv$settings[[tolower(input$target_pg_presettings_list)]]
+      config_stuff <- rv$settings[[tolower(input$target_postgres_presettings_list)]]
 
       DIZutils::feedback(
         paste(
@@ -855,7 +854,12 @@ module_config_server <-
         }
 
 
-        if (validate_inputs(rv) && !error_tmp) {
+        if (validate_inputs(rv,
+                            input = input,
+                            output = output,
+                            session = session) &&
+            !error_tmp) {
+
           # set flags to inactivate config-widgets and start loading of
           # data
           rv$getdata_target <- TRUE
@@ -999,7 +1003,7 @@ module_config_ui <- function(id) {
                   width = 12,
                   selectInput(
                     # This will be filled in the server part.
-                    inputId = ns("source_pg_presettings_list"),
+                    inputId = ns("source_postgres_presettings_list"),
                     label = NULL,
                     choices = NULL,
                     selected = NULL
@@ -1187,7 +1191,7 @@ module_config_ui <- function(id) {
                   width = 12,
                   selectInput(
                     # This will be filled in the server part.
-                    inputId = ns("target_pg_presettings_list"),
+                    inputId = ns("target_postgres_presettings_list"),
                     label = NULL,
                     choices = NULL,
                     selected = NULL
