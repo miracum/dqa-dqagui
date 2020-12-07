@@ -1,12 +1,11 @@
 variables:
   _R_CHECK_CRAN_INCOMING_: "false"
   _R_CHECK_FORCE_SUGGESTS_: "true"
-  CI_IMAGE_NAME: "rocker/verse"
-  CI_IMAGE_TAG: "4.0.3"
+  CI_IMAGE_NAME: "docker.miracum.org/dqa/base_image"
   R_PKG_NAME: "DQAgui"
 
 default:
-  image: ${CI_IMAGE_NAME}:${CI_IMAGE_TAG}
+  image: ${CI_IMAGE_NAME}
   before_script:
     - echo "options('repos' = 'https://cloud.r-project.org/')" >> /usr/local/lib/R/etc/Rprofile.site
     - R -e "install.packages('pkgbuild')"
