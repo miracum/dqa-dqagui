@@ -5,10 +5,16 @@
 \title{This function checks if all necessary input parameters
   for source and target exist and are valid.}
 \usage{
-validate_inputs(rv)
+validate_inputs(rv, input, output, session)
 }
 \arguments{
 \item{rv}{The global 'reactiveValues()' object, defined in server.R}
+
+\item{input}{Shiny server input object}
+
+\item{output}{Shiny server output object}
+
+\item{session}{Shiny session object}
 }
 \description{
 This function checks if all necessary input parameters

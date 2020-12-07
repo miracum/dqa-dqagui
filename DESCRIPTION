@@ -38,5 +38,6 @@ Suggests:
     testthat,
     processx,
     lintr
-Remotes:  
+Remotes: 
     url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/development/dqastats-development.zip
+RoxygenNote: 7.1.1

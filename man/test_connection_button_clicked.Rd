@@ -27,7 +27,8 @@ test_connection_button_clicked(
 \item{db_tybe}{(String) "postgres" or "oracle"}
 }
 \value{
-Nothing.
+true if the connection could be established and false otherwise
+  (also if an error occurred)
 }
 \description{
 After the button "Check connection" is pressed in the GUI,
