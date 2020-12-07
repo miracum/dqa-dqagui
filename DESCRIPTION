@@ -1,6 +1,6 @@
 Package: DQAgui
 Title: DQA GUI
-Version: 0.1.4.9012
+Version: 0.1.4.9013
 Authors@R: 
     c(person(given = "Lorenz A.",
              family = "Kapsner",
@@ -21,13 +21,14 @@ LazyData: true
 URL: https://github.com/miracum/dqa-dqagui
 BugReports: https://github.com/miracum/dqa-dqagui/issues
 Encoding: UTF-8
-Date: 2020-11-16
+Date: 2020-12-07
 Imports: 
     data.table,
     magrittr,
     DT,
     graphics,
     shiny,
+    shinyalert,
     shinydashboard,
     shinyFiles,
     shinyjs,

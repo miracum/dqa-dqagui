@@ -459,3 +459,61 @@ test_connection_button_clicked <-
     DQAgui:::check_load_data_button(rv, session)
     return(error)
   }
+
+#' @title Sjows an error alert modal with the hint to look into the logfile.
+#'
+#' @description See title.
+#'
+#' @param what_failed Short description of what failed.Like:
+#'   "Getting the data failed."
+#' '
+#' @return Nothing - Just shows the alert modal.
+#'
+show_failure_alert <- function(what_failed) {
+  text <- paste0(
+    what_failed,
+    ".",
+    "\n\nYou can check the logfile (in the main menu) to ",
+    " get more information about the cause of this error.",
+    "\nSorry for that!"
+  )
+  shinyalert::shinyalert(
+    title = "Oops - This shouldn't happen!",
+    text = text,
+    closeOnEsc = TRUE,
+    closeOnClickOutside = TRUE,
+    html = FALSE,
+    type = "error",
+    showConfirmButton = TRUE,
+    showCancelButton = FALSE,
+    confirmButtonText = "OK",
+    confirmButtonCol = "#AEDEF4",
+    timer = 0,
+    imageUrl = "",
+    animation = TRUE
+  )
+}
+
+print_runtime <-
+  function(start_time,
+           name = "",
+           logfile_dir = NULL) {
+    if (name == "") {
+      text <- "Execution took "
+    } else {
+      text <- paste0("Execution of ", name, " took ")
+    }
+    DIZutils::feedback(
+      print_this = paste0(
+        text,
+        format(Sys.time() - start_time),
+        " using ",
+        data.table::getDTthreads(),
+        " threads."
+      ),
+      findme = "8c9db99829",
+      logfile_dir = logfile_dir
+    )
+  }
+
+

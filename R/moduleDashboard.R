@@ -41,10 +41,12 @@ module_dashboard_server <-
     observe({
       req(rv$start)
 
+      tryCatch({
+        ## For runtime calculation:
+        start_time <- Sys.time()
+
       # load all data here
       if (isTRUE(rv$getdata_target) && isTRUE(rv$getdata_source)) {
-        # tryCatch({
-
         stopifnot(length(rv$source$system_type) == 1)
 
         selection_intersect <- input_re()[[paste0(
@@ -239,6 +241,27 @@ module_dashboard_server <-
         # set flag to create report here
         rv$create_report <- TRUE
       }
+      },error = function(cond) {
+        DIZutils::feedback(
+          print_this = paste0(cond),
+          findme = "32b84ec323",
+          type = "Error",
+          logfile_dir = rv$log$logfile_dir
+        )
+        ## Trigger the modal for the user/UI:
+        rv$error <- T
+        show_failure_alert(paste0(
+          "Executing the script to load all the data",
+          " from source and target system failed"
+        ))
+        # stop()
+      }
+      )
+        print_runtime(
+          start_time = start_time,
+          name = "module_dashboard_server -> rv$start",
+          logfile_dir = rv$log$logfile_dir
+        )
     })
 
 

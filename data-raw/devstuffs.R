@@ -28,7 +28,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.1.4.9012")
+my_desc$set_version("0.1.4.9013")
 # The title of your package
 my_desc$set(Title = "DQA GUI")
 # The description of your package
@@ -68,6 +68,7 @@ usethis::use_package("magrittr", type = "Imports")
 usethis::use_package("DT", type = "Imports")
 usethis::use_package("graphics", type = "Imports")
 usethis::use_package("shiny", type = "Imports")
+usethis::use_package("shinyalert", type = "Imports")
 usethis::use_package("shinydashboard", type = "Imports")
 usethis::use_package("shinyFiles", type = "Imports")
 usethis::use_package("shinyjs", type = "Imports")
@@ -82,7 +83,12 @@ usethis::use_package("lintr", type = "Suggests")
 
 # Development package
 stats_tag <- "development" # e.g. "v0.1.5" or "development"
-devtools::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqastats.git", ref = stats_tag, upgrade = "always")
+devtools::install_git(
+  url = "https://gitlab.miracum.org/miracum/dqa/dqastats.git",
+  ref = stats_tag,
+  upgrade = "always",
+  quiet = TRUE
+)
 
 # usethis::use_dev_package("DQAstats", type = "Imports")
 # https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html

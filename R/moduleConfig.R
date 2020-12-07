@@ -779,6 +779,10 @@ module_config_server <-
 
     observeEvent(
       input_re()[["moduleConfig-dash_load_btn"]], {
+        tryCatch({
+          ## For runtime calculation:
+          start_time <- Sys.time()
+
         # The button is on "moduleConfig".
         # This tab here will be set active below if all inputs are valid.
 
@@ -883,6 +887,29 @@ module_config_server <-
             paste0(tempdir(), "/_settings/global_settings.JSON")
           )
         }
+        },error = function(cond) {
+          DIZutils::feedback(
+            print_this = paste0(cond),
+            findme = "05c96798f8",
+            type = "Error",
+            logfile_dir = rv$log$logfile_dir
+          )
+          ## Trigger the modal for the user/UI:
+          rv$error <- T
+          show_failure_alert(
+            paste0(
+              "Executing the script to pre-check the",
+              " input parameters before data-loading failed"
+            )
+          )
+          # stop()
+        }
+        )
+        print_runtime(
+          start_time = start_time,
+          name = "moduleConfig-dash_load_btn",
+          logfile_dir = rv$log$logfile_dir
+        )
       })
 
     observeEvent(input$select_all_assessment_variables, {
@@ -916,6 +943,7 @@ module_config_ui <- function(id) {
 
   tagList(
     fluidRow(
+      shinyalert::useShinyalert(),
       column(
         9,
         ## This will be displayed after the MDR is loaded successfully:
