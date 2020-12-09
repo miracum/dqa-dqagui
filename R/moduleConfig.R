@@ -777,11 +777,10 @@ module_config_server <-
       }
     })
 
-    observeEvent(
-      input_re()[["moduleConfig-dash_load_btn"]], {
-        tryCatch({
-          ## For runtime calculation:
-          start_time <- Sys.time()
+    observeEvent(input_re()[["moduleConfig-dash_load_btn"]], {
+      tryCatch({
+        ## For runtime calculation:
+        start_time <- Sys.time()
 
         # The button is on "moduleConfig".
         # This tab here will be set active below if all inputs are valid.
@@ -807,19 +806,19 @@ module_config_server <-
           if (nchar(input_re()[["moduleConfig-config_sitename"]]) < 2 ||
               any(grepl("\\s", input_re()[["moduleConfig-config_sitename"]]))) {
             # site name is missing:
-            shiny::showModal(
-              shiny::modalDialog(
-                title = "The sitename is missing",
-                paste0(
-                  "There are no empty strings or spaces allowed in",
-                  " the site name configuration.",
-                  " Please select your site name."
-                )
-              ))
+            shiny::showModal(shiny::modalDialog(
+              title = "The sitename is missing",
+              paste0(
+                "There are no empty strings or spaces allowed in",
+                " the site name configuration.",
+                " Please select your site name."
+              )
+            ))
             error_tmp <- T
           } else {
             # site name is present:
-            rv$sitename <- input_re()[["moduleConfig-config_sitename"]]
+            rv$sitename <-
+              input_re()[["moduleConfig-config_sitename"]]
           }
 
           # Check if at least one data element was selected for analyzation:
@@ -857,13 +856,11 @@ module_config_server <-
           )
         }
 
-
         if (validate_inputs(rv,
                             input = input,
                             output = output,
                             session = session) &&
             !error_tmp) {
-
           # set flags to inactivate config-widgets and start loading of
           # data
           rv$getdata_target <- TRUE
@@ -887,30 +884,29 @@ module_config_server <-
             paste0(tempdir(), "/_settings/global_settings.JSON")
           )
         }
-        },error = function(cond) {
-          DIZutils::feedback(
-            print_this = paste0(cond),
-            findme = "05c96798f8",
-            type = "Error",
-            logfile_dir = rv$log$logfile_dir
-          )
-          ## Trigger the modal for the user/UI:
-          rv$error <- T
-          show_failure_alert(
-            paste0(
-              "Executing the script to pre-check the",
-              " input parameters before data-loading failed"
-            )
-          )
-          # stop()
-        }
-        )
-        print_runtime(
-          start_time = start_time,
-          name = "moduleConfig-dash_load_btn",
+      }, error = function(cond) {
+        DIZutils::feedback(
+          print_this = paste0(cond),
+          findme = "05c96798f8",
+          type = "Error",
           logfile_dir = rv$log$logfile_dir
         )
+        ## Trigger the modal for the user/UI:
+        rv$error <- T
+        show_failure_alert(
+          paste0(
+            "Executing the script to pre-check the",
+            " input parameters before data-loading failed"
+          )
+        )
+        # stop()
       })
+      print_runtime(
+        start_time = start_time,
+        name = "moduleConfig-dash_load_btn",
+        logfile_dir = rv$log$logfile_dir
+      )
+    })
 
     observeEvent(input$select_all_assessment_variables, {
       updateCheckboxGroupInput(

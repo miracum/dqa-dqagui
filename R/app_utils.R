@@ -392,8 +392,10 @@ test_connection_button_clicked <-
     input_system <- input[[system_name_tmp]]
     rv[[source_target]]$settings <-
       DQAgui::get_db_settings(input = input, target = target, db_type = db_type)
+    # print("Settings for db:")
+    # print(rv[[source_target]]$settings)
 
-    if(db_type == "oracle") {
+    if (db_type == "oracle") {
       lib_path_tmp <- Sys.getenv("KDB_DRIVER")
     } else{
       lib_path_tmp <- NULL

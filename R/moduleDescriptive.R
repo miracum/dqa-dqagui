@@ -337,7 +337,7 @@ module_descriptive_server <-
     observe({
       req(rv$source$system_type)
 
-      if (rv$source$system_type %in% c("postgres", "oracle")) {
+      if (rv$source$system_type %in% DIZutils::get_db_systems()) {
         output$descr_source_sql <- renderUI({
           actionButton(
             inputId = "moduleDescriptive-descr_source_sql_btn",
@@ -350,7 +350,7 @@ module_descriptive_server <-
     observe({
       req(rv$target$system_type)
 
-      if (rv$target$system_type %in% c("postgres", "oracle")) {
+      if (rv$target$system_type %in% DIZutils::get_db_systems()) {
         output$descr_target_sql <- renderUI({
           actionButton(
             inputId = "moduleDescriptive-descr_target_sql_btn",

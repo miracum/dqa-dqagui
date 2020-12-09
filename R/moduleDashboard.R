@@ -74,7 +74,9 @@ module_dashboard_server <-
         # set start_time (e.g. when clicking the 'Load Data'-button in shiny
         rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
 
-        # load source data:
+        ## load source data:
+        # print("Source-Settings (in moduleDashboard):")
+        # print(rv$source$settings)
         temp_dat <- DQAstats::data_loading(
           rv = rv,
           system = rv$source,
@@ -88,9 +90,31 @@ module_dashboard_server <-
         # set flag that we have all data
         rv$getdata_source <- FALSE
 
-        # load target_data
-        if (rv$target$system_name != rv$source$system_name) {
-          # load target
+        ## load target_data
+        if (length(setdiff(rv$source$settings, rv$target$settings)) == 0) {
+          DIZutils::feedback(
+            print_this = paste0(
+              "Source and Target settings are identical.",
+              " Using source data also as target data."
+            ),
+            findme = "f80e1639a4",
+            logfile = rv$log$logfile_dir
+          )
+          # Assign source-values to target:
+          rv <- set_target_equal_to_source(rv)
+          rv$data_target <- rv$data_source
+        } else {
+          DIZutils::feedback(
+            print_this = paste0(
+              "Source and Target settings are NOT identical.",
+              " Loading the target dataset now."
+            ),
+            findme = "d5b5d90aec",
+            logfile = rv$log$logfile_dir
+          )
+          # print("Target-Settings (in moduleDashboard):")
+          # print(rv$target$settings)
+          ## load target
           temp_dat <- DQAstats::data_loading(
             rv = rv,
             system = rv$target,
@@ -100,8 +124,6 @@ module_dashboard_server <-
           rv$target$sql <- temp_dat$sql_statements
           rm(temp_dat)
           invisible(gc())
-        } else {
-          rv$data_target <- rv$data_source
         }
 
         # set flag that we have all data
