@@ -18,13 +18,13 @@ test_connection_button_clicked(
 
 \item{source_target}{(String) "source" or "target"}
 
+\item{db_type}{(String) "postgres" or "oracle"}
+
 \item{input}{Shiny server input object}
 
 \item{output}{Shiny server output object}
 
 \item{session}{Shiny session object}
-
-\item{db_tybe}{(String) "postgres" or "oracle"}
 }
 \value{
 true if the connection could be established and false otherwise

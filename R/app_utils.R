@@ -353,9 +353,10 @@ check_load_data_button <- function(rv, session) {
 #'   disabled and this connection will be stored as valid for the given
 #'   source/target system.
 #'
-#' @inheritParams module_config_server
 #' @param source_target (String) "source" or "target"
-#' @param db_tybe (String) "postgres" or "oracle"
+#' @param db_type (String) "postgres" or "oracle"
+#' @inheritParams module_config_server
+#'
 #' @return true if the connection could be established and false otherwise
 #'   (also if an error occurred)
 #'
@@ -447,7 +448,7 @@ test_connection_button_clicked <-
           paste0(source_target, "_system_feedback_txt")
         output[[label_feedback_txt]] <-
           shiny::renderText({
-            DQAgui:::feedback_txt(system = input_system,
+            feedback_txt(system = input_system,
                                   type = source_target)
           })
         error <- FALSE
@@ -458,7 +459,7 @@ test_connection_button_clicked <-
         rv[[source_target]]$system <- ""
       }
     }
-    DQAgui:::check_load_data_button(rv, session)
+    check_load_data_button(rv, session)
     return(error)
   }
 
