@@ -41,6 +41,11 @@ module_dashboard_server <-
     observe({
       req(rv$start)
 
+      waiter::waiter_show(html = shiny::tagList(
+        waiter::spin_timer(),
+        "Starting to load the data ..."
+      ))
+
       tryCatch({
         ## For runtime calculation:
         start_time <- Sys.time()
@@ -74,6 +79,11 @@ module_dashboard_server <-
         # set start_time (e.g. when clicking the 'Load Data'-button in shiny
         rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
 
+        waiter::waiter_update(html = shiny::tagList(
+          waiter::spin_timer(),
+          "Loading source data ..."
+        ))
+
         ## load source data:
         # print("Source-Settings (in moduleDashboard):")
         # print(rv$source$settings)
@@ -89,6 +99,11 @@ module_dashboard_server <-
 
         # set flag that we have all data
         rv$getdata_source <- FALSE
+
+        waiter::waiter_update(html = shiny::tagList(
+          waiter::spin_timer(),
+          "Loading target data ..."
+        ))
 
         ## load target_data
         if (length(setdiff(rv$source$settings, rv$target$settings)) == 0) {
@@ -129,6 +144,11 @@ module_dashboard_server <-
         # set flag that we have all data
         rv$getdata_target <- FALSE
 
+        waiter::waiter_update(html = shiny::tagList(
+          waiter::spin_timer(),
+          "Applying plausibility checks ..."
+        ))
+
         if (nrow(rv$pl$atemp_vars) != 0 && rv$pl$atemp_possible) {
           # get atemporal plausibilities
           rv$data_plausibility$atemporal <-
@@ -153,6 +173,7 @@ module_dashboard_server <-
             gc()
           }
         }
+
 
         # calculate descriptive results
         rv$results_descriptive <-
@@ -191,6 +212,11 @@ module_dashboard_server <-
             headless = rv$headless
           )
 
+        waiter::waiter_update(html = shiny::tagList(
+          waiter::spin_timer(),
+          "Cleaning the result data ..."
+        ))
+
         # delete raw data but atemporal plausis (we need them until
         # ids of errorneous cases are returend in value conformance)
         if (nrow(rv$pl$atemp_vars) > 0) {
@@ -203,6 +229,7 @@ module_dashboard_server <-
           rv$data_target <- NULL
         }
         invisible(gc())
+
 
         # reduce categorical variables to display max. 25 values
         rv$results_descriptive <-
@@ -279,6 +306,7 @@ module_dashboard_server <-
         # stop()
       }
       )
+      waiter::waiter_hide()
         print_runtime(
           start_time = start_time,
           name = "module_dashboard_server -> rv$start",
@@ -398,6 +426,7 @@ module_dashboard_ui <- function(id) {
   ns <- NS(id)
 
   tagList(fluidRow(
+    waiter::use_waiter(),
     box(
       title = "Welcome to your Data-Quality-Analysis Dashboard",
       verbatimTextOutput(ns("dash_instruction")),

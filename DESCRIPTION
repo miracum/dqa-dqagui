@@ -21,7 +21,7 @@ LazyData: true
 URL: https://github.com/miracum/dqa-dqagui
 BugReports: https://github.com/miracum/dqa-dqagui/issues
 Encoding: UTF-8
-Date: 2021-02-11
+Date: 2021-02-19
 Imports: 
     data.table,
     magrittr,
@@ -34,7 +34,8 @@ Imports:
     shinyjs,
     knitr,
     jsonlite,
-    DIZutils
+    DIZutils,
+    waiter
 Suggests: 
     testthat,
     processx,

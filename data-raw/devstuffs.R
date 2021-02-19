@@ -75,6 +75,8 @@ usethis::use_package("shinyjs", type = "Imports")
 usethis::use_package("knitr", type = "Imports")
 usethis::use_package("jsonlite", type = "Imports")
 usethis::use_package("DIZutils", type = "Imports")
+# For loading-animations:
+usethis::use_package("waiter", type = "Imports")
 
 # Suggests
 usethis::use_package("testthat", type = "Suggests")
