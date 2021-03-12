@@ -925,6 +925,30 @@ module_config_server <-
         selected = NULL
       )
     })
+
+    ## Date-time picker for date restriction:
+    shiny::observeEvent(eventExpr = input$datetime_picker,
+                        handlerExpr = {
+                          # shiny::showModal(shiny::modalDialog(
+                          #   title = "Date selected",
+                          #   paste0(
+                          #     "Start date and time: ",
+                          #     input$datetime_picker[[1]],
+                          #     "\nEnd date and time: ",
+                          #     input$datetime_picker[[2]]
+                          #   ),
+                          #   easyClose = TRUE
+                          # ))
+                          output$datetime_picker_info <-
+                            shiny::renderText({
+                              paste0(
+                                "Start date and time: ",
+                                input$datetime_picker[[1]],
+                                "\n\nEnd date and time: ",
+                                input$datetime_picker[[2]]
+                              )
+                            })
+                        })
   }
 
 #' @title module_config_ui
@@ -1372,6 +1396,26 @@ module_config_ui <- function(id) {
                                         "background-color: #337ab7;",
                                         "border-color: #2e6da4;",
                                         "display:center-align;")),
+            width = 12
+          ),
+          box(
+            id = ns("config_select_datetime_picker_box"),
+            title = "Pick the date and time to be analyzed",
+            h4(htmlOutput(ns("datetime_picker_info"))),
+            daterangepicker::daterangepicker(
+              inputId = ns("datetime_picker"),
+              # label = "Please pick a date range ",
+              start = Sys.Date() - 30, end = Sys.Date(),
+              style = "width:100%; border-radius:4px",
+              ranges = datepicker_get_list_of_ranges(),
+              options = list(
+                showDropdowns = TRUE,
+                timePicker = TRUE,
+                timePicker24Hour = TRUE,
+                autoApply = TRUE
+              )
+              # icon = shiny::icon("calendar")
+            ),
             width = 12
           ),
           box(

@@ -72,9 +72,9 @@ shiny::shinyUI(
           shiny::HTML(
             paste0(
               "Version:",
+              "<br/>DIZutils: ", utils::packageVersion("DIZutils"),
               "<br/>DQAstats: ", utils::packageVersion("DQAstats"),
               "<br/>DQAgui: ", utils::packageVersion("DQAgui"),
-              "<br/>DIZutils: ", utils::packageVersion("DIZutils"),
               "<br/><br/>\u00A9 Universitätsklinikum Erlangen<br/>"
             )
           )

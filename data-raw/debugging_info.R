@@ -32,9 +32,9 @@ devtools::load_all()
 logfile_dir = tempdir()
 parallel = TRUE
 ncores = 2
-# Lorenz:
-utils_path = "/home/user/development/Rpackages/dqa/miracumdqa/inst/application/_utilities/"
-# Jonathan:
+## Lorenz:
+# utils_path = "/home/user/development/Rpackages/dqa/miracumdqa/inst/application/_utilities/"
+## Jonathan:
 # utils_path = DIZutils::clean_path_name(system.file("application/_utilities",
 #                                                    package = "miRacumDQA"))
 # utils_path = DIZutils::clean_path_name(system.file("application/_utilities",

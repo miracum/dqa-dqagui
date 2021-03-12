@@ -25,6 +25,7 @@ Date: 2021-03-09
 Imports: 
     data.table,
     magrittr,
+    daterangepicker,
     DT,
     graphics,
     shiny,
