@@ -121,7 +121,10 @@ shiny::shinyServer(
                 logfile_dir = rv$log$logfile_dir,
                 headless = rv$headless
             )
-            shinyjs::js$reset()
+            ## Old (until 2021-03-15):
+            # shinyjs::js$reset()
+            ## New (since 2021-03-15):
+            session$reload()
         })
 
         input_reactive <- reactive({

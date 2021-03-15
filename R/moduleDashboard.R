@@ -54,6 +54,103 @@ module_dashboard_server <-
       if (isTRUE(rv$getdata_target) && isTRUE(rv$getdata_source)) {
         stopifnot(length(rv$source$system_type) == 1)
 
+        ## Save restricting date information to rv object:
+        if (is.null(rv$restricting_date) ||
+            is.null(rv$restricting_date$start) ||
+            is.null(rv$restricting_date$end)) {
+          DIZutils::feedback(
+            print_this = paste0(
+              "No time contstraints will be applied to input data.",
+              " Either `restricting_date_start` or `restricting_date_end` was null."
+            ),
+            logfile = rv$log$logfile_dir,
+            findme = "44d1fbe2e7"
+          )
+          rv$restricting_date$use_it <- FALSE
+        } else {
+          ### INFO:
+          ### We are currently only using DATES without a time here.
+          ### If you one time want to change this, you need to
+          ### remove the appending of the time here and take care of
+          ### time-zones!
+          restricting_date_start_posixct <-
+            parsedate::parse_date(dates = paste0(rv$restricting_date$start, " 00:00:00"),
+                                  approx = FALSE)
+          restricting_date_end_posixct <-
+            parsedate::parse_date(dates = paste0(rv$restricting_date$end, " 23:59:59"),
+                                  approx = FALSE)
+
+          ## Check the start date:
+          if (is.na(restricting_date_start_posixct)) {
+            DIZutils::feedback(
+              print_this = "Couldn't identify input date format for `restricting_date_start`.",
+              logfile = rv$log$logfile_dir,
+              type = "Error",
+              findme = "608ce7e278"
+            )
+            stop("See above.")
+          }
+
+          ## Check the end date:
+          if (is.na(restricting_date_end_posixct)) {
+            DIZutils::feedback(
+              print_this = paste0(
+                "Couldn't identify input date format for `restricting_date_end`.",
+                " Using current timestamp now."
+              ),
+              logfile = rv$log$logfile_dir,
+              type = "Error",
+              findme = "c3cce12c26"
+            )
+            restricting_date_end_posixct <- as.POSIXct(Sys.time())
+          }
+
+          ## Check if start < end:
+          if (restricting_date_end_posixct <= restricting_date_start_posixct) {
+            DIZutils::feedback(
+              print_this = paste0(
+                "`restricting_date_start` needs to be a timestamp",
+                " before `restricting_date_end`.",
+                "'",
+                restricting_date_start_posixct,
+                "' !< '",
+                restricting_date_end_posixct,
+                "'. ",
+                " Please change."
+              ),
+              logfile = rv$log$logfile_dir,
+              type = "Error",
+              findme = "4380e1d4a3"
+            )
+            stop("See above.")
+          }
+
+          rv$restricting_date$use_it <- TRUE
+          rv$restricting_date$start <- restricting_date_start_posixct
+          rv$restricting_date$end <- restricting_date_end_posixct
+
+          DIZutils::feedback(
+            print_this = paste0(
+              "Time contstraints from ",
+              rv$restricting_date$start,
+              " to ",
+              rv$restricting_date$end,
+              " will be applied to input data."
+            ),
+            logfile = rv$log$logfile_dir,
+            findme = "2403fb1aa3"
+          )
+        }
+
+        ## Check if the MDR contains valid information about the time restrictions:
+        DQAstats::check_date_restriction_requirements(
+          mdr = rv$mdr,
+          system_names = c(rv$source$system_name, rv$target$system_name),
+          restricting_date = rv$restricting_date,
+          logfile_dir = rv$log$logfile_dir
+        )
+
+
         selection_intersect <- input_re()[[paste0(
           "moduleConfig-select_dqa_assessment_variables"
         )]]
