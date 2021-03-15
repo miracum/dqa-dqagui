@@ -939,16 +939,62 @@ module_config_server <-
                           #   ),
                           #   easyClose = TRUE
                           # ))
-                          output$datetime_picker_info <-
+                          rv$restricting_date$use_it <- TRUE
+                          rv$restricting_date$start <-
+                            as.Date(input$datetime_picker[[1]])
+                          rv$restricting_date$end <-
+                            as.Date(input$datetime_picker[[2]])
+
+                          output$datetime_picker_info_start <-
                             shiny::renderText({
                               paste0(
-                                "Start date and time: ",
-                                input$datetime_picker[[1]],
-                                "\n\nEnd date and time: ",
+                                "Start timestamp: ",
+                                input$datetime_picker[[1]]
+                              )
+                            })
+                          output$datetime_picker_info_end <-
+                            shiny::renderText({
+                              paste0(
+                                "End timestamp: ",
                                 input$datetime_picker[[2]]
                               )
                             })
+                          DIZutils::feedback(
+                            print_this = paste0(
+                              "Using ",
+                              rv$restricting_date$start,
+                              " as start and ",
+                              rv$restricting_date$end,
+                              " as end timestamp for filtering the data."
+                            ),
+                            findme = "04bf478581",
+                            logfile_dir = rv$log$logfile_dir,
+                            headless = rv$headless
+                          )
                         })
+
+    # shiny::observeEvent(eventExpr = input$datetime_picker_btn,
+    #                     handlerExpr = {
+    #                       if (is.null(rv$restricting_date$show_daterangepicker) ||
+    #                           isTRUE(rv$restricting_date$show_daterangepicker)) {
+    #                         rv$restricting_date$show_daterangepicker <- FALSE
+    #                         msg_suffix <- "hidden"
+    #                         shinyjs::hideElement(id = "datetime_picker")
+    #                       } else {
+    #                         rv$restricting_date$show_daterangepicker <- TRUE
+    #                         msg_suffix <- "shown"
+    #                         shinyjs::showElement(id = "datetime_picker")
+    #                       }
+    #                       DIZutils::feedback(
+    #                         print_this = paste0(
+    #                           "Button for 'daterangepicker' was clicked.",
+    #                           " Element for temporal restriction of input data will be ",
+    #                           msg_suffix,
+    #                           " in the GUI."
+    #                         ),
+    #                         findme = "ecc626743b"
+    #                       )
+    #                     })
   }
 
 #' @title module_config_ui
@@ -1400,21 +1446,30 @@ module_config_ui <- function(id) {
           ),
           box(
             id = ns("config_select_datetime_picker_box"),
-            title = "Pick the date and time to be analyzed",
-            h4(htmlOutput(ns("datetime_picker_info"))),
+            title = "Do you want to time-filter the input data?",
+            # h4(htmlOutput(ns("datetime_picker_info"))),
+            # h5(htmlOutput(ns("datetime_picker_info_start"))),
+            # h5(htmlOutput(ns("datetime_picker_info_end"))),
+            # shiny::actionButton(
+            #   inputId = ns("datetime_picker_btn"),
+            #   label = "Click to select a date-range for time filtering.",
+            #   icon = shiny::icon("calendar-alt")
+            # ),
             daterangepicker::daterangepicker(
               inputId = ns("datetime_picker"),
-              # label = "Please pick a date range ",
-              start = Sys.Date() - 30, end = Sys.Date(),
-              style = "width:100%; border-radius:4px",
+              label = "Click to change the date range:",
+              start = as.Date("1970-01-01"),
+              end = Sys.Date(),
+              # style = "width:100%; border-radius:4px",
               ranges = datepicker_get_list_of_ranges(),
               options = list(
                 showDropdowns = TRUE,
-                timePicker = TRUE,
-                timePicker24Hour = TRUE,
-                autoApply = TRUE
+                # timePicker = TRUE,
+                # timePicker24Hour = TRUE,
+                autoApply = TRUE,
+                locale = list(separator = " <-> ", format = "DD.MM.Y", firstDay = 1)
               )
-              # icon = shiny::icon("calendar")
+              # ,icon = shiny::icon("calendar")
             ),
             width = 12
           ),

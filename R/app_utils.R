@@ -404,7 +404,7 @@ test_connection_button_clicked <-
 
     if (!is.null(rv[[source_target]]$settings)) {
       rv[[source_target]]$db_con <- DIZutils::db_connection(
-        db_name = rv[[source_target]]$settings$dbname,
+        # db_name = rv[[source_target]]$settings$dbname,
         db_type = db_type,
         headless = rv$headless,
         timeout = 2,
@@ -519,13 +519,19 @@ print_runtime <-
     )
   }
 
+
 datepicker_get_list_of_ranges <- function() {
   res <- list(
     "Today" = c(Sys.Date(), Sys.Date()),
     "Yesterday" = c(Sys.Date() - 1, Sys.Date()),
-    "Last 3 days" = c(Sys.Date() - 2, Sys.Date()),
+    # "Last 3 days" = c(Sys.Date() - 2, Sys.Date()),
     "Last 7 days" = c(Sys.Date() - 6, Sys.Date()),
-    "Last 45 days" = c(Sys.Date() - 44, Sys.Date())
+    "Last 45 days" = c(Sys.Date() - 44, Sys.Date()),
+    "Current month" = c(as.Date(format(
+      Sys.Date(), "%Y-%m-01"
+    )), as.Date(format(
+      Sys.Date(), paste0("%Y-%m-", lubridate::days_in_month(Sys.Date())[[1]])
+    )))
   )
 
   ## Get list of years:
@@ -534,9 +540,12 @@ datepicker_get_list_of_ranges <- function() {
       ## end = today
       end = Sys.Date()
     } else {
-      end = as.Date(paste0(as.numeric(format(Sys.Date(), format = "%Y")) - i, "-12-31"))
+      end = as.Date(paste0(as.numeric(format(
+        Sys.Date(), format = "%Y"
+      )) - i, "-12-31"))
     }
-    year <- as.character(as.numeric(format(Sys.Date(), format = "%Y")) - i)
+    year <-
+      as.character(as.numeric(format(Sys.Date(), format = "%Y")) - i)
     start <- as.Date(paste0(year, "-01-01"))
     res[[year]] <- c(start, end)
   }
