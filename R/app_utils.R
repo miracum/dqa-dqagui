@@ -531,7 +531,8 @@ datepicker_get_list_of_ranges <- function() {
       Sys.Date(), "%Y-%m-01"
     )), as.Date(format(
       Sys.Date(), paste0("%Y-%m-", lubridate::days_in_month(Sys.Date())[[1]])
-    )))
+    ))),
+    "Everything" = c(as.Date("1970-01-01"), Sys.Date())
   )
 
   ## Get list of years:
