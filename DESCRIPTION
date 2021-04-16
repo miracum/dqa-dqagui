@@ -1,6 +1,6 @@
 Package: DQAgui
 Title: DQA GUI
-Version: 0.1.5.9003
+Version: 0.1.5.9004
 Authors@R: 
     c(person(given = "Lorenz A.",
              family = "Kapsner",
@@ -21,7 +21,7 @@ LazyData: true
 URL: https://github.com/miracum/dqa-dqagui
 BugReports: https://github.com/miracum/dqa-dqagui/issues
 Encoding: UTF-8
-Date: 2021-03-30
+Date: 2021-04-16
 Imports: 
     data.table,
     daterangepicker,
@@ -41,5 +41,6 @@ Suggests:
     lintr,
     processx,
     testthat
+RoxygenNote: 7.1.1
 Remotes:  
     url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/development/dqastats-development.zip

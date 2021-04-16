@@ -33,6 +33,12 @@ module_config_server <-
     # filepath roots dir
     roots <- c(home = "/home/")
 
+    ## Mapping between system_type and tab_name:
+    system_types_mapping <-
+      list("postgres" = "PostgreSQL",
+           "csv" = "CSV",
+           "oracle" = "Oracle")
+
     # If source-csv-path-button is clicked, read the path and save it:
     # root-folder of shinyFiles::shinyDirChoose
     shinyFiles::shinyDirChoose(
@@ -177,7 +183,7 @@ module_config_server <-
               "source_system_type")
           rv$systems <- unique(rv$mdr[, vec, with = F])
           DIZutils::feedback(
-            print_this = "Different systems found in MDR:",
+            print_this = paste0("Different systems found in the MDR: ", paste(rv$systems, collapse = ", ")),
             findme = "4451da82ad",
             logfile_dir = rv$log$logfile_dir,
             headless = rv$headless
@@ -205,12 +211,12 @@ module_config_server <-
 
           DIZutils::feedback(
             print_this = rv$system_types,
-            prefix = "System type ",
+            prefix = "System types:  ",
             findme = "9aec84fcca",
             logfile_dir = rv$log$logfile_dir,
             headless = rv$headless
           )
-
+          print("Schritt 1")
           if (!("csv" %in% tolower(rv$system_types))) {
             # Remove CSV-Tabs:
             DIZutils::feedback(
@@ -219,7 +225,7 @@ module_config_server <-
               logfile_dir = rv$log$logfile_dir,
               headless = rv$headless
             )
-            removeTab(inputId = "source_tabs", target = "CSV")
+            shiny::removeTab(inputId = "source_tabs", target = system_types_mapping[["csv"]])
 
             DIZutils::feedback(
               "Removing csv-tab from target ...",
@@ -227,7 +233,7 @@ module_config_server <-
               logfile_dir = rv$log$logfile_dir,
               headless = rv$headless
             )
-            removeTab(inputId = "target_tabs", target = "CSV")
+            shiny::removeTab(inputId = "target_tabs", target = system_types_mapping[["csv"]])
           } else {
             csv_system_names <-
               rv$systems[get("source_system_type") == "csv" &
@@ -244,29 +250,31 @@ module_config_server <-
             if (length(csv_system_names) > 0) {
               # Show buttons to prefill diff. systems presettings:
               # - Add a button/choice/etc. for each system:
-              updateSelectInput(session = session,
+              shiny::updateSelectInput(session = session,
                                 inputId = "source_csv_presettings_list",
                                 choices = csv_system_names)
-              updateSelectInput(session = session,
+              shiny::updateSelectInput(session = session,
                                 inputId = "target_csv_presettings_list",
                                 choices = csv_system_names)
             }
           }
+          print("Schritt 2")
           if (!("postgres" %in% tolower(rv$system_types))) {
+            print("Schritt 2.1")
             # Remove Postgres-Tabs:
             DIZutils::feedback(
               "Removing postgres-tab from source ...",
               logfile_dir = rv$log$logfile_dir,
               headless = rv$headless
             )
-            removeTab(inputId = "source_tabs", target = "PostgreSQL")
+            shiny::removeTab(inputId = "source_tabs", target = system_types_mapping[["postgres"]])
 
             DIZutils::feedback(
               "Removing postgres-tab from target ...",
               logfile_dir = rv$log$logfile_dir,
               headless = rv$headless
             )
-            removeTab(inputId = "target_tabs", target = "PostgreSQL")
+            shiny::removeTab(inputId = "target_tabs", target = system_types_mapping[["postgres"]])
           } else{
             # Fill the tab with presettings
             # - filter for all system_names with
@@ -289,10 +297,10 @@ module_config_server <-
             if (length(postgres_system_names) > 0) {
               # Show buttons to prefill diff. systems presettings:
               # - Add a button/choice/etc. for each system:
-              updateSelectInput(session = session,
+              shiny::updateSelectInput(session = session,
                                 inputId = "source_postgres_presettings_list",
                                 choices = postgres_system_names)
-              updateSelectInput(session = session,
+              shiny::updateSelectInput(session = session,
                                 inputId = "target_postgres_presettings_list",
                                 choices = postgres_system_names)
             }
@@ -305,7 +313,7 @@ module_config_server <-
               headless = rv$headless,
               findme = "8e93367dec"
             )
-            removeTab(inputId = "source_tabs", target = "Oracle")
+            shiny::removeTab(inputId = "source_tabs", target = system_types_mapping[["oracle"]])
 
             DIZutils::feedback(
               "Removing oracle-tab from target ...",
@@ -313,7 +321,7 @@ module_config_server <-
               headless = rv$headless,
               findme = "1c2023da56"
             )
-            removeTab(inputId = "target_tabs", target = "Oracle")
+            shiny::removeTab(inputId = "target_tabs", target = system_types_mapping[["oracle"]])
           } else{
             # Fill the tab with presettings
             # - filter for all system_names with
@@ -344,6 +352,24 @@ module_config_server <-
                                 choices = oracle_system_names)
             }
           }
+          print("Schritt 4")
+
+          print("test")
+          first_system <- tolower(rv$system_types)[[1]]
+          print(first_system)
+          DIZutils::feedback(
+            print_this = paste0("Setting tab '",
+                                first_system,
+                                "' as active tab for source and target on config page."),
+            findme = "46c03705a8",
+            logfile_dir = rv$log$logfile_dir
+          )
+          shiny::updateTabsetPanel(session = session,
+                                   inputId = "source_tabs",
+                                   selected = system_types_mapping[[first_system]])
+          shiny::updateTabsetPanel(session = session,
+                                   inputId = "target_tabs",
+                                   selected = system_types_mapping[[first_system]])
 
 
           # Store the system-types in output-variable to only
@@ -377,6 +403,7 @@ module_config_server <-
             })
         }
         check_load_data_button(rv, session)
+        print("Schritt 5")
       })
 
 
