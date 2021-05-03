@@ -216,7 +216,6 @@ module_config_server <-
             logfile_dir = rv$log$logfile_dir,
             headless = rv$headless
           )
-          print("Schritt 1")
           if (!("csv" %in% tolower(rv$system_types))) {
             # Remove CSV-Tabs:
             DIZutils::feedback(
@@ -258,9 +257,7 @@ module_config_server <-
                                 choices = csv_system_names)
             }
           }
-          print("Schritt 2")
           if (!("postgres" %in% tolower(rv$system_types))) {
-            print("Schritt 2.1")
             # Remove Postgres-Tabs:
             DIZutils::feedback(
               "Removing postgres-tab from source ...",
@@ -352,11 +349,8 @@ module_config_server <-
                                 choices = oracle_system_names)
             }
           }
-          print("Schritt 4")
 
-          print("test")
           first_system <- tolower(rv$system_types)[[1]]
-          print(first_system)
           DIZutils::feedback(
             print_this = paste0("Setting tab '",
                                 first_system,
@@ -403,7 +397,6 @@ module_config_server <-
             })
         }
         check_load_data_button(rv, session)
-        print("Schritt 5")
       })
 
 
