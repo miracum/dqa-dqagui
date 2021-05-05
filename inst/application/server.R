@@ -17,6 +17,7 @@
 
 shiny::shinyServer(
     function(input, output, session) {
+        invisible(gc())
         # define reactive values here
         rv <- shiny::reactiveValues(
             headless = FALSE,
@@ -125,6 +126,7 @@ shiny::shinyServer(
             # shinyjs::js$reset()
             ## New (since 2021-03-15):
             session$reload()
+            invisible(gc())
         })
 
         input_reactive <- reactive({
