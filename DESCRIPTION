@@ -1,6 +1,6 @@
 Package: DQAgui
 Title: DQA GUI
-Version: 0.1.5.9006
+Version: 0.1.5.9007
 Authors@R: 
     c(person(given = "Lorenz A.",
              family = "Kapsner",

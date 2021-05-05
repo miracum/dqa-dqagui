@@ -125,8 +125,9 @@ shiny::shinyServer(
             ## Old (until 2021-03-15):
             # shinyjs::js$reset()
             ## New (since 2021-03-15):
-            session$reload()
+            rm(list = ls())
             invisible(gc())
+            session$reload()
         })
 
         input_reactive <- reactive({
