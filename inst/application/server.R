@@ -130,6 +130,7 @@ shiny::shinyServer(
             # invisible(gc())
             gc()
             gc()
+            gc(reset = TRUE)
             session$reload()
         })
 
