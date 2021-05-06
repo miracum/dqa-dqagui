@@ -126,7 +126,10 @@ shiny::shinyServer(
             # shinyjs::js$reset()
             ## New (since 2021-03-15):
             rm(list = ls())
-            invisible(gc())
+            rm(rv)
+            # invisible(gc())
+            gc()
+            gc()
             session$reload()
         })
 
