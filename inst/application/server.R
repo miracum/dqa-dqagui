@@ -195,7 +195,8 @@ shiny::shinyServer(
                     "moduleConfig-target_system_to_source_system_btn"
                 )
 
-                shinyjs::disable(id = "moduleConfig-datetime_picker")
+                shinyjs::disable("moduleConfig-datetime_picker")
+                shinyjs::disable("moduleConfig-date_restriction_slider")
 
                 if (input$tabs == "tab_dashboard") {
                     rv$start <- TRUE

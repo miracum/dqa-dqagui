@@ -946,6 +946,38 @@ module_config_server <-
       )
     })
 
+    shiny::observeEvent(eventExpr = input$date_restriction_slider,
+                        handlerExpr = {
+                          print(input$date_restriction_slider)
+                          if (input$date_restriction_slider) {
+                            DIZutils::feedback(
+                              print_this = "Date restriction will be applied",
+                              findme = "4736de090c",
+                              logfile_dir = rv$log$logfile_dir
+                            )
+                            shinyjs::show(id = "datetime_picker")
+                            shinyjs::enable(id = "datetime_picker")
+                            rv$restricting_date$use_it <- TRUE
+                            rv$restricting_date$start <-
+                              as.Date(input$datetime_picker[[1]])
+                            rv$restricting_date$end <-
+                              as.Date(input$datetime_picker[[2]])
+                          } else {
+                            DIZutils::feedback(
+                              print_this = "Date restriction will NOT be applied",
+                              findme = "508c7f34f9",
+                              logfile_dir = rv$log$logfile_dir
+                            )
+                            shinyjs::disable(id = "datetime_picker")
+                            shinyjs::hide(id = "datetime_picker")
+                            rv$restricting_date$use_it <- FALSE
+                            rv$restricting_date$start <- NULL
+                            rv$restricting_date$end <- NULL
+                          }
+                        }
+                        # , ignoreInit = TRUE
+                        )
+
     ## Date-time picker for date restriction:
     shiny::observeEvent(eventExpr = input$datetime_picker,
                         handlerExpr = {
@@ -1475,6 +1507,11 @@ module_config_ui <- function(id) {
             #   label = "Click to select a date-range for time filtering.",
             #   icon = shiny::icon("calendar-alt")
             # ),
+            shinyWidgets::switchInput(inputId = ns("date_restriction_slider"),
+                                      label = "Apply time-filtering",
+                                      labelWidth = 150
+                                      # , labelWidth = "80px"
+                                      ),
             daterangepicker::daterangepicker(
               inputId = ns("datetime_picker"),
               label = "Click to change the date range:",

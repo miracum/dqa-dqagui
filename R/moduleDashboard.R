@@ -102,6 +102,7 @@ module_dashboard_server <-
               type = "Error",
               findme = "c3cce12c26"
             )
+            stop("See above.")
             restricting_date_end_posixct <- as.POSIXct(Sys.time())
           }
 
@@ -142,13 +143,26 @@ module_dashboard_server <-
           )
         }
 
-        ## Check if the MDR contains valid information about the time restrictions:
-        DQAstats::check_date_restriction_requirements(
-          mdr = rv$mdr,
-          system_names = c(rv$source$system_name, rv$target$system_name),
-          restricting_date = rv$restricting_date,
-          logfile_dir = rv$log$logfile_dir
-        )
+        if (rv$restricting_date$use_it) {
+          ## Check if the MDR contains valid information about the time restrictions:
+          DQAstats::check_date_restriction_requirements(
+            mdr = rv$mdr,
+            system_names = c(rv$source$system_name, rv$target$system_name),
+            restricting_date = rv$restricting_date,
+            logfile_dir = rv$log$logfile_dir
+          )
+        } else {
+          DIZutils::feedback(
+            print_this = paste0(
+              "Don't checking the time filtering columns because time filtering",
+              " is not necessarry. (`rv$restricting_date$use_it` is not TRUE)."
+            ),
+            logfile = rv$log$logfile_dir,
+            findme = "3aaad06b31"
+          )
+        }
+
+
 
 
         selection_intersect <- input_re()[[paste0(

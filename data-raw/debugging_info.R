@@ -5,7 +5,7 @@ output_dir = "output/"
 ## ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
 utils_path = DIZutils::clean_path_name(system.file("application/_utilities",
                                                    package = "miRacumDQA"))
-mdr_filename = "mdr_ohne_p21.csv"
+mdr_filename = "mdr.csv"
 logfile_dir = "~/share/logfiles/"
 ##	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑
 

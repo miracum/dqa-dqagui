@@ -28,7 +28,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.1.5.9008")
+my_desc$set_version("0.1.5.9010")
 # The title of your package
 my_desc$set(Title = "DQA GUI")
 # The description of your package
@@ -74,6 +74,7 @@ usethis::use_package("shinyalert", type = "Imports")
 usethis::use_package("shinydashboard", type = "Imports")
 usethis::use_package("shinyFiles", type = "Imports")
 usethis::use_package("shinyjs", type = "Imports")
+usethis::use_package("shinyWidgets", type = "Imports")
 usethis::use_package("knitr", type = "Imports")
 usethis::use_package("jsonlite", type = "Imports")
 usethis::use_package("DIZutils", type = "Imports")

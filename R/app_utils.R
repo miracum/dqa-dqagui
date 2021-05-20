@@ -41,20 +41,14 @@ render_quick_checks <- function(dat_table) {
       rownames = F
     ) %>%
     DT::formatStyle(columns = 2,
-                    backgroundColor = DT::styleEqual(
-                      c("passed", "failed"),
-                      c("lightgreen", "red")
-                    )) %>%
+                    backgroundColor = DT::styleEqual(c("passed", "failed"),
+                                                     c("lightgreen", "red"))) %>%
     DT::formatStyle(columns = 3,
-                    backgroundColor = DT::styleEqual(
-                      c("passed", "failed"),
-                      c("lightgreen", "red")
-                    )) %>%
+                    backgroundColor = DT::styleEqual(c("passed", "failed"),
+                                                     c("lightgreen", "red"))) %>%
     DT::formatStyle(columns = 4,
-                    backgroundColor = DT::styleEqual(
-                      c("passed", "failed"),
-                      c("lightgreen", "red")
-                    ))
+                    backgroundColor = DT::styleEqual(c("passed", "failed"),
+                                                     c("lightgreen", "red")))
   return(out)
 }
 
@@ -70,12 +64,13 @@ get_db_settings <- function(input, target = T, db_type) {
   # create description of column selections
   vec <- c("dbname", "host", "port", "user", "password")
   source_target = ifelse(target, "target", "source")
-  if(db_type == "oracle") {
+  if (db_type == "oracle") {
     vec <- c(vec, "sid")
   }
 
   tab <- lapply(vec, function(g) {
-    input_label_tmp <- paste0("config_", source_target, "_", db_type, "_", g)
+    input_label_tmp <-
+      paste0("config_", source_target, "_", db_type, "_", g)
     data.table::data.table("keys" = g, "value" = input[[input_label_tmp]])
   })
 
@@ -199,10 +194,12 @@ validate_inputs <- function(rv, input, output, session) {
               headless = rv$headless
             )
             DIZutils::feedback(
-              print_this = paste0("rv$",
-                                  source_target,
-                                  "$settings$path = ",
-                                  rv[[source_target]]$settings$path),
+              print_this = paste0(
+                "rv$",
+                source_target,
+                "$settings$path = ",
+                rv[[source_target]]$settings$path
+              ),
               findme = "d9b43110bb",
               logfile_dir = rv$log$logfile_dir,
               headless = rv$headless
@@ -330,6 +327,61 @@ check_load_data_button <- function(rv, session) {
     # Show the checkboxgroup:
     shinyjs::show("config_select_dqa_assessment_box")
 
+    ## Determine if time filtering is available for the source and the target
+    ## system:
+    time_filtering_possible <- DQAstats::check_date_restriction_requirements(
+      mdr = rv$mdr,
+      system_names = c(rv$source$system_name, rv$target$system_name),
+      restricting_date = rv$restricting_date,
+      logfile_dir = rv$log$logfile_dir,
+      headless = rv$headless,
+      enable_stop = FALSE
+    )
+    # print(time_filtering_possible)
+    # print(rv$source$system_name)
+    # print(rv$target$system_name)
+    # print(rv$restricting_date)
+    if (time_filtering_possible) {
+      ## Time filtering is possible, so enable the elements in the GUI:
+      DIZutils::feedback(
+        print_this = paste0(
+          "Date restriction is possible.",
+          " Showing date-picking elements in the GUI now."
+        ),
+        findme = "794ca3f55e",
+        logfile_dir = rv$log$logfile_dir
+      )
+      shinyjs::show("date_restriction_slider")
+      shinyWidgets::updateSwitchInput(
+        session = session,
+        inputId = "date_restriction_slider",
+        label = "Apply time-filtering?",
+        disabled = FALSE,
+        value = FALSE,
+        onLabel = "Yes",
+        offLabel = "No"
+      )
+    } else {
+      ## Time filtering is NOT possible, so disable the elements in the GUI:
+      DIZutils::feedback(
+        print_this = paste0(
+          "Date restriction is NOT possible or needed.",
+          " Hiding date-picking elements in the GUI now."
+        ),
+        findme = "adda589187",
+        logfile_dir = rv$log$logfile_dir
+      )
+      shinyWidgets::updateSwitchInput(
+        session = session,
+        inputId = "date_restriction_slider",
+        label = "No time-filtering possible",
+        disabled = TRUE,
+        value = FALSE
+      )
+      rv$restricting_date$use_it <- FALSE
+      # print(rv$restricting_date)
+    }
+
     # Show load-data button:
     shinyjs::show("dash_load_btn")
 
@@ -338,6 +390,8 @@ check_load_data_button <- function(rv, session) {
   } else {
     shinyjs::hide("config_select_dqa_assessment_box", anim = TRUE)
     shinyjs::hide("dash_load_btn")
+    shinyjs::hide("date_restriction_slider")
+    shinyjs::hide("datetime_picker")
 
     # Hide sitename-configuration:
     shinyjs::hide("config_sitename")
@@ -392,7 +446,9 @@ test_connection_button_clicked <-
       paste0(source_target, "_", db_type, "_presettings_list")
     input_system <- input[[system_name_tmp]]
     rv[[source_target]]$settings <-
-      DQAgui::get_db_settings(input = input, target = target, db_type = db_type)
+      DQAgui::get_db_settings(input = input,
+                              target = target,
+                              db_type = db_type)
     # print("Settings for db:")
     # print(rv[[source_target]]$settings)
 
@@ -449,13 +505,13 @@ test_connection_button_clicked <-
         output[[label_feedback_txt]] <-
           shiny::renderText({
             feedback_txt(system = input_system,
-                                  type = source_target)
+                         type = source_target)
           })
         error <- FALSE
       } else {
         shiny::showNotification(paste0("\U2718 Connection to ",
-                                input_system,
-                                " failed"))
+                                       input_system,
+                                       " failed"))
         rv[[source_target]]$system <- ""
       }
     }
@@ -478,7 +534,7 @@ show_failure_alert <- function(what_failed) {
     ".",
     "\n\nYou can check the logfile (in the main menu) to ",
     " get more information about the cause of this error.",
-    "\nSorry for that!"
+    "\nSorry for that!\n\nYou can try again by reloading this page."
   )
   shinyalert::shinyalert(
     title = "Oops - This shouldn't happen!",
