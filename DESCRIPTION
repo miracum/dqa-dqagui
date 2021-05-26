@@ -1,6 +1,6 @@
 Package: DQAgui
 Title: DQA GUI
-Version: 0.1.5.9012
+Version: 0.1.5.9013
 Authors@R: 
     c(person(given = "Lorenz A.",
              family = "Kapsner",
@@ -42,6 +42,5 @@ Suggests:
     lintr,
     processx,
     testthat
-Remotes: 
+Remotes:  
     url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/development/dqastats-development.zip
-RoxygenNote: 7.1.1
