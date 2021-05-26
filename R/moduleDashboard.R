@@ -68,6 +68,7 @@ module_dashboard_server <-
           )
           rv$restricting_date$use_it <- FALSE
         } else {
+          print(rv$restricting_date)
           ### INFO:
           ### We are currently only using DATES without a time here.
           ### If you one time want to change this, you need to
@@ -161,9 +162,6 @@ module_dashboard_server <-
             findme = "3aaad06b31"
           )
         }
-
-
-
 
         selection_intersect <- input_re()[[paste0(
           "moduleConfig-select_dqa_assessment_variables"

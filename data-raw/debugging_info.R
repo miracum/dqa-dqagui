@@ -30,7 +30,7 @@ logfile_dir = "~/share/logfiles/"
 ##
 devtools::load_all()
 logfile_dir = tempdir()
-parallel = TRUE
+parallel = FALSE
 ncores = 4
 ## Lorenz:
 # utils_path = "/home/user/development/Rpackages/dqa/miracumdqa/inst/application/_utilities/"

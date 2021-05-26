@@ -351,7 +351,7 @@ check_load_data_button <- function(rv, session) {
         findme = "794ca3f55e",
         logfile_dir = rv$log$logfile_dir
       )
-      shinyjs::show("date_restriction_slider")
+      # shinyjs::show("date_restriction_slider")
       shinyWidgets::updateSwitchInput(
         session = session,
         inputId = "date_restriction_slider",
@@ -390,7 +390,7 @@ check_load_data_button <- function(rv, session) {
   } else {
     shinyjs::hide("config_select_dqa_assessment_box", anim = TRUE)
     shinyjs::hide("dash_load_btn")
-    shinyjs::hide("date_restriction_slider")
+    # shinyjs::hide("date_restriction_slider")
     shinyjs::hide("datetime_picker")
 
     # Hide sitename-configuration:

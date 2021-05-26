@@ -885,6 +885,7 @@ module_config_server <-
           # data
           rv$getdata_target <- TRUE
           rv$getdata_source <- TRUE
+          rv$start <- TRUE
 
           if (!dir.exists(paste0(tempdir(), "/_settings/"))) {
             dir.create(paste0(tempdir(), "/_settings/"))
@@ -948,7 +949,6 @@ module_config_server <-
 
     shiny::observeEvent(eventExpr = input$date_restriction_slider,
                         handlerExpr = {
-                          print(input$date_restriction_slider)
                           if (input$date_restriction_slider) {
                             DIZutils::feedback(
                               print_this = "Date restriction will be applied",
