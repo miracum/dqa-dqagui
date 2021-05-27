@@ -167,36 +167,42 @@ shiny::shinyServer(
                 shinyjs::disable("moduleConfig-source_csv_presettings_list")
                 shinyjs::disable("moduleConfig-source_csv_dir")
                 shinyjs::disable("moduleConfig-source_tabs")
-                shinyjs::disable("moduleConfig-source_pg_presettings_list")
-                shinyjs::disable("moduleConfig-config_sourcedb_dbname")
-                shinyjs::disable("moduleConfig-config_sourcedb_host")
-                shinyjs::disable("moduleConfig-config_sourcedb_port")
-                shinyjs::disable("moduleConfig-config_sourcedb_user")
-                shinyjs::disable("moduleConfig-config_sourcedb_password")
-                shinyjs::disable("moduleConfig-source_pg_test_connection")
+                shinyjs::disable("moduleConfig-source_postgres_presettings_list")
+                shinyjs::disable("moduleConfig-config_source_postgres_dbname")
+                shinyjs::disable("moduleConfig-config_source_postgres_host")
+                shinyjs::disable("moduleConfig-config_source_postgres_port")
+                shinyjs::disable("moduleConfig-config_source_postgres_user")
+                shinyjs::disable("moduleConfig-config_source_postgres_password")
+                shinyjs::disable("moduleConfig-source_postgres_test_connection")
 
                 shinyjs::disable("moduleConfig-config_targetdir_in")
                 shinyjs::disable("moduleConfig-target_csv_presettings_list")
                 shinyjs::disable("moduleConfig-target_csv_dir")
                 shinyjs::disable("moduleConfig-target_tabs")
-                shinyjs::disable("moduleConfig-target_pg_presettings_list")
-                shinyjs::disable("moduleConfig-config_targetdb_dbname")
-                shinyjs::disable("moduleConfig-config_targetdb_host")
-                shinyjs::disable("moduleConfig-config_targetdb_port")
-                shinyjs::disable("moduleConfig-config_targetdb_user")
-                shinyjs::disable("moduleConfig-config_targetdb_password")
-                shinyjs::disable("moduleConfig-target_pg_test_connection")
+                shinyjs::disable("moduleConfig-target_postgres_presettings_list")
+                shinyjs::disable("moduleConfig-config_target_postgres_dbname")
+                shinyjs::disable("moduleConfig-config_target_postgres_host")
+                shinyjs::disable("moduleConfig-config_target_postgres_port")
+                shinyjs::disable("moduleConfig-config_target_postgres_user")
+                shinyjs::disable("moduleConfig-config_target_postgres_password")
+                shinyjs::disable("moduleConfig-target_postgres_test_connection")
+
+
                 shinyjs::disable("moduleConfig-select_dqa_assessment_variables")
                 shinyjs::disable("moduleConfig-select_all_assessment_variables")
                 shinyjs::disable("moduleConfig-select_no_assessment_variables")
 
                 shinyjs::disable("moduleConfig-config_sitename")
-                shinyjs::disable(
-                    "moduleConfig-target_system_to_source_system_btn"
-                )
+                shinyjs::disable("moduleConfig-target_system_to_source_system_btn")
 
+                shinyWidgets::updateSwitchInput(
+                    session = session,
+                    inputId = "moduleConfig-date_restriction_slider",
+                    disabled = TRUE,
+                    value = rv$restricting_date$use_it
+                )
                 shinyjs::disable("moduleConfig-datetime_picker")
-                shinyjs::disable("moduleConfig-date_restriction_slider")
+                # shinyjs::disable("moduleConfig-date_restriction_slider")
 
                 if (input$tabs == "tab_dashboard") {
                     rv$start <- TRUE

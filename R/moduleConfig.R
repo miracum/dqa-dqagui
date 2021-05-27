@@ -975,7 +975,7 @@ module_config_server <-
                             rv$restricting_date$end <- NULL
                           }
                         }
-                        # , ignoreInit = TRUE
+                        , ignoreInit = TRUE
                         )
 
     ## Date-time picker for date restriction:
@@ -1509,7 +1509,9 @@ module_config_ui <- function(id) {
             # ),
             shinyWidgets::switchInput(inputId = ns("date_restriction_slider"),
                                       label = "Apply time-filtering",
-                                      labelWidth = 150
+                                      labelWidth = 150,
+                                      value = FALSE,
+                                      disabled = TRUE
                                       # , labelWidth = "80px"
                                       ),
             daterangepicker::daterangepicker(

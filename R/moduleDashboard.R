@@ -41,6 +41,7 @@ module_dashboard_server <-
     observe({
       req(rv$start)
 
+
       waiter::waiter_show(html = shiny::tagList(
         waiter::spin_timer(),
         "Starting to load the data ..."
@@ -68,7 +69,7 @@ module_dashboard_server <-
           )
           rv$restricting_date$use_it <- FALSE
         } else {
-          print(rv$restricting_date)
+          # print(rv$restricting_date)
           ### INFO:
           ### We are currently only using DATES without a time here.
           ### If you one time want to change this, you need to
@@ -412,15 +413,16 @@ module_dashboard_server <-
           "Executing the script to load all the data",
           " from source and target system failed"
         ))
+        rv$start <- NULL
         # stop()
       }
       )
       waiter::waiter_hide()
-        print_runtime(
-          start_time = start_time,
-          name = "module_dashboard_server -> rv$start",
-          logfile_dir = rv$log$logfile_dir
-        )
+      print_runtime(
+        start_time = start_time,
+        name = "module_dashboard_server -> rv$start",
+        logfile_dir = rv$log$logfile_dir
+      )
     })
 
 
