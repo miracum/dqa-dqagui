@@ -63,7 +63,7 @@ jobs:
       - uses: r-lib/actions/setup-pandoc@master
         if: matrix.config.latex == 'true'
 
-      - uses: actions/setup-java@main
+      - uses: actions/setup-java@v1
         if: matrix.config.java == 'true'
         with:
           java-version: '8'
@@ -78,7 +78,7 @@ jobs:
 
       - name: "[Cache] Cache R packages"
         if: runner.os != 'Windows'
-        uses: pat-s/always-upload-cache@master
+        uses: pat-s/always-upload-cache@main
         with:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-r-${{ matrix.config.r }}-${{steps.date.outputs.date}}
