@@ -35,8 +35,8 @@ ncores = 4
 ## Lorenz:
 # utils_path = "/home/user/development/Rpackages/dqa/miracumdqa/inst/application/_utilities/"
 ## Jonathan:
-utils_path = DIZutils::clean_path_name(system.file("application/_utilities",
-                                                   package = "miRacumDQA"))
+# utils_path = DIZutils::clean_path_name(system.file("application/_utilities",
+#                                                    package = "miRacumDQA"))
 # utils_path = DIZutils::clean_path_name(system.file("application/_utilities",
 #                                                    package = "ume_dqatool"))
 # utils_path = "~/git-local/miracum/ume_dqatool/inst/application/_utilities/"
