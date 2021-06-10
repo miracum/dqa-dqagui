@@ -41,388 +41,391 @@ module_dashboard_server <-
     observe({
       req(rv$start)
 
+      if (isTRUE(rv$start)) {
+        waiter::waiter_show(html = shiny::tagList(waiter::spin_timer(),
+                                                  "Starting to load the data ..."))
 
-      waiter::waiter_show(html = shiny::tagList(
-        waiter::spin_timer(),
-        "Starting to load the data ..."
-      ))
+        tryCatch({
+          ## For runtime calculation:
+          start_time <- Sys.time()
 
-      tryCatch({
-        ## For runtime calculation:
-        start_time <- Sys.time()
+          # load all data here
+          if (isTRUE(rv$getdata_target) && isTRUE(rv$getdata_source)) {
+            stopifnot(length(rv$source$system_type) == 1)
 
-      # load all data here
-      if (isTRUE(rv$getdata_target) && isTRUE(rv$getdata_source)) {
-        stopifnot(length(rv$source$system_type) == 1)
+            ## Save restricting date information to rv object:
+            if (is.null(rv$restricting_date) ||
+                is.null(rv$restricting_date$start) ||
+                is.null(rv$restricting_date$end)) {
+              DIZutils::feedback(
+                print_this = paste0(
+                  "No time contstraints will be applied to input data.",
+                  " Either `restricting_date_start` or `restricting_date_end` was null."
+                ),
+                logfile = rv$log$logfile_dir,
+                findme = "44d1fbe2e7"
+              )
+              rv$restricting_date$use_it <- FALSE
+            } else {
+              # print(rv$restricting_date)
+              ### INFO:
+              ### We are currently only using DATES without a time here.
+              ### If you one time want to change this, you need to
+              ### remove the appending of the time here and take care of
+              ### time-zones!
+              restricting_date_start_posixct <-
+                parsedate::parse_date(
+                  dates = paste0(rv$restricting_date$start, " 00:00:00"),
+                  approx = FALSE
+                )
+              restricting_date_end_posixct <-
+                parsedate::parse_date(
+                  dates = paste0(rv$restricting_date$end, " 23:59:59"),
+                  approx = FALSE
+                )
 
-        ## Save restricting date information to rv object:
-        if (is.null(rv$restricting_date) ||
-            is.null(rv$restricting_date$start) ||
-            is.null(rv$restricting_date$end)) {
+              ## Check the start date:
+              if (is.na(restricting_date_start_posixct)) {
+                DIZutils::feedback(
+                  print_this = "Couldn't identify input date format for `restricting_date_start`.",
+                  logfile = rv$log$logfile_dir,
+                  type = "Error",
+                  findme = "608ce7e278"
+                )
+                stop("See above.")
+              }
+
+              ## Check the end date:
+              if (is.na(restricting_date_end_posixct)) {
+                DIZutils::feedback(
+                  print_this = paste0(
+                    "Couldn't identify input date format for ",
+                    " `restricting_date_end`.",
+                    " Using current timestamp now."
+                  ),
+                  logfile = rv$log$logfile_dir,
+                  type = "Error",
+                  findme = "c3cce12c26"
+                )
+                stop("See above.")
+                restricting_date_end_posixct <- as.POSIXct(Sys.time())
+              }
+
+              ## Check if start < end:
+              if (restricting_date_end_posixct <=
+                  restricting_date_start_posixct) {
+                DIZutils::feedback(
+                  print_this = paste0(
+                    "`restricting_date_start` needs to be a timestamp",
+                    " before `restricting_date_end`.",
+                    "'",
+                    restricting_date_start_posixct,
+                    "' !< '",
+                    restricting_date_end_posixct,
+                    "'. ",
+                    " Please change."
+                  ),
+                  logfile = rv$log$logfile_dir,
+                  type = "Error",
+                  findme = "4380e1d4a3"
+                )
+                stop("See above.")
+              }
+
+              rv$restricting_date$use_it <- TRUE
+              rv$restricting_date$start <-
+                restricting_date_start_posixct
+              rv$restricting_date$end <- restricting_date_end_posixct
+
+              DIZutils::feedback(
+                print_this = paste0(
+                  "Time contstraints from ",
+                  rv$restricting_date$start,
+                  " to ",
+                  rv$restricting_date$end,
+                  " will be applied to input data."
+                ),
+                logfile = rv$log$logfile_dir,
+                findme = "2403fb1aa3"
+              )
+            }
+
+            if (rv$restricting_date$use_it) {
+              ## Check if the MDR contains valid information
+              ## about the time restrictions:
+              DQAstats::check_date_restriction_requirements(
+                mdr = rv$mdr,
+                system_names = c(rv$source$system_name, rv$target$system_name),
+                # restricting_date = rv$restricting_date,
+                logfile_dir = rv$log$logfile_dir,
+                enable_stop = FALSE
+              )
+            } else {
+              DIZutils::feedback(
+                print_this = paste0(
+                  "Don't checking the time filtering columns because",
+                  " time filtering is not necessarry.",
+                  " (`rv$restricting_date$use_it` is not TRUE)."
+                ),
+                logfile = rv$log$logfile_dir,
+                findme = "3aaad06b31"
+              )
+            }
+
+            selection_intersect <-
+              input_re()[["moduleConfig-select_dqa_assessment_variables"]]
+
+            intersect_keys <-
+              rv$dqa_assessment[get("designation") %in% selection_intersect,
+                                get("key")]
+
+            reactive_to_append <- DQAstats::create_helper_vars(
+              mdr = rv$mdr[get("key") %in% intersect_keys,],
+              target_db = rv$target$system_name,
+              source_db = rv$source$system_name
+            )
+
+            # workaround, to keep "rv" an reactiveValues object in shiny app
+            #% (rv <- c(rv, reactive_to_append)) does not work!
+            for (i in names(reactive_to_append)) {
+              rv[[i]] <- reactive_to_append[[i]]
+            }
+            rm(reactive_to_append)
+            invisible(gc())
+
+
+            # set start_time (e.g. when clicking the 'Load Data'-button in shiny
+            rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
+
+            waiter::waiter_update(html = shiny::tagList(
+              waiter::spin_timer(),
+              "Loading source data ..."))
+
+            ## load source data:
+            # print("Source-Settings (in moduleDashboard):")
+            # print(rv$source$settings)
+            temp_dat <- DQAstats::data_loading(
+              rv = rv,
+              system = rv$source,
+              keys_to_test = rv$keys_source
+            )
+            rv$data_source <- temp_dat$outdata
+            rv$source$sql <- temp_dat$sql_statements
+            rm(temp_dat)
+            invisible(gc())
+
+            # set flag that we have all data
+            rv$getdata_source <- FALSE
+
+            waiter::waiter_update(html = shiny::tagList(
+              waiter::spin_timer(),
+              "Loading target data ..."))
+
+            ## load target_data
+            if (length(setdiff(rv$source$settings, rv$target$settings)) == 0) {
+              DIZutils::feedback(
+                print_this = paste0(
+                  "Source and Target settings are identical.",
+                  " Using source data also as target data."
+                ),
+                findme = "f80e1639a4",
+                logfile = rv$log$logfile_dir
+              )
+              # Assign source-values to target:
+              rv <- set_target_equal_to_source(rv)
+              rv$data_target <- rv$data_source
+            } else {
+              DIZutils::feedback(
+                print_this = paste0(
+                  "Source and Target settings are NOT identical.",
+                  " Loading the target dataset now."
+                ),
+                findme = "d5b5d90aec",
+                logfile = rv$log$logfile_dir
+              )
+              # print("Target-Settings (in moduleDashboard):")
+              # print(rv$target$settings)
+              ## load target
+              temp_dat <- DQAstats::data_loading(
+                rv = rv,
+                system = rv$target,
+                keys_to_test = rv$keys_target
+              )
+              rv$data_target <- temp_dat$outdata
+              rv$target$sql <- temp_dat$sql_statements
+              rm(temp_dat)
+              invisible(gc())
+            }
+
+            # set flag that we have all data
+            rv$getdata_target <- FALSE
+
+            waiter::waiter_update(html = shiny::tagList(
+              waiter::spin_timer(),
+              "Applying plausibility checks ..."
+            ))
+
+            if (nrow(rv$pl$atemp_vars) != 0 && rv$pl$atemp_possible) {
+              # get atemporal plausibilities
+              rv$data_plausibility$atemporal <-
+                DQAstats::get_atemp_plausis(
+                  rv = shiny::reactiveValuesToList(rv),
+                  atemp_vars = rv$pl$atemp_vars,
+                  mdr = rv$mdr,
+                  headless = rv$headless
+                )
+
+
+              # add the plausibility raw data to data_target and data_source
+              for (i in names(rv$data_plausibility$atemporal)) {
+                for (k in c("source_data", "target_data")) {
+                  w <- gsub("_data", "", k)
+                  raw_data <- paste0("data_", w)
+                  rv[[raw_data]][[i]] <-
+                    rv$data_plausibility$atemporal[[i]][[k]][[raw_data]]
+                  rv$data_plausibility$atemporal[[i]][[k]][[raw_data]] <-
+                    NULL
+                }
+                gc()
+              }
+            }
+
+
+            # calculate descriptive results
+            rv$results_descriptive <-
+              DQAstats::descriptive_results(rv = shiny::reactiveValuesToList(rv),
+                                            headless = rv$headless)
+
+            if (!is.null(rv$data_plausibility$atemporal)) {
+              # calculate plausibilites
+              rv$results_plausibility_atemporal <-
+                DQAstats::atemp_pausi_results(
+                  rv = shiny::reactiveValuesToList(rv),
+                  atemp_vars = rv$data_plausibility$atemporal,
+                  mdr = rv$mdr,
+                  headless = rv$headless
+                )
+            }
+
+            if (nrow(rv$pl$uniq_vars) != 0 && rv$pl$uniq_possible) {
+              rv$results_plausibility_unique <- DQAstats::uniq_plausi_results(
+                rv = shiny::reactiveValuesToList(rv),
+                uniq_vars = rv$pl$uniq_vars,
+                mdr = rv$mdr,
+                headless = rv$headless
+              )
+            }
+
+            # conformance
+            rv$conformance$value_conformance <-
+              DQAstats::value_conformance(
+                rv = shiny::reactiveValuesToList(rv),
+                scope = "descriptive",
+                results = rv$results_descriptive,
+                logfile_dir = rv$log$logfile_dir,
+                headless = rv$headless
+              )
+
+            waiter::waiter_update(html = shiny::tagList(waiter::spin_timer(),
+                                                        "Cleaning the result data ..."))
+
+            # delete raw data but atemporal plausis (we need them until
+            # ids of errorneous cases are returend in value conformance)
+            if (nrow(rv$pl$atemp_vars) > 0) {
+              rv$data_source <-
+                rv$data_source[names(rv$data_plausibility$atemporal)]
+              rv$data_target <-
+                rv$data_target[names(rv$data_plausibility$atemporal)]
+            } else {
+              rv$data_source <- NULL
+              rv$data_target <- NULL
+            }
+            invisible(gc())
+
+
+            # reduce categorical variables to display max. 25 values
+            rv$results_descriptive <-
+              DQAstats::reduce_cat(data = rv$results_descriptive,
+                                   levellimit = 25)
+            invisible(gc())
+
+            if (!is.null(rv$results_plausibility_atemporal)) {
+              add_value_conformance <- DQAstats::value_conformance(
+                rv = shiny::reactiveValuesToList(rv),
+                scope = "plausibility",
+                results = rv$results_plausibility_atemporal,
+                logfile_dir = rv$log$logfile_dir,
+                headless = rv$headless
+              )
+
+              # workaround, to keep "rv" an reactiveValues object in shiny app
+              for (i in names(add_value_conformance)) {
+                rv$conformance$value_conformance[[i]] <- add_value_conformance[[i]]
+              }
+
+              rm(add_value_conformance)
+              rv$data_source <- NULL
+              rv$data_target <- NULL
+              invisible(gc())
+            }
+            # completeness
+            rv$completeness <-
+              DQAstats::completeness(
+                results = rv$results_descriptive,
+                logfile_dir = rv$log$logfile_dir,
+                headless = rv$headless
+              )
+
+            # generate datamap
+            rv$datamap <- DQAstats::generate_datamap(
+              results = rv$results_descriptive,
+              db = rv$target$system_name,
+              mdr = rv$mdr,
+              rv = rv,
+              headless = rv$headless
+            )
+
+            if (!is.null(rv$datamap)) {
+              DIZutils::feedback(print_this = "Datamap:", findme = "43404a3f38")
+              print(rv$datamap)
+            }
+
+            # checks$value_conformance
+            rv$checks$value_conformance <-
+              DQAstats::value_conformance_checks(results = rv$conformance$value_conformance)
+
+            # checks$etl
+            rv$checks$etl <-
+              DQAstats::etl_checks(results = rv$results_descriptive)
+
+            # set flag to create report here
+            rv$create_report <- TRUE
+          }
+        }, error = function(cond) {
           DIZutils::feedback(
-            print_this = paste0(
-              "No time contstraints will be applied to input data.",
-              " Either `restricting_date_start` or `restricting_date_end` was null."
-            ),
-            logfile = rv$log$logfile_dir,
-            findme = "44d1fbe2e7"
-          )
-          rv$restricting_date$use_it <- FALSE
-        } else {
-          # print(rv$restricting_date)
-          ### INFO:
-          ### We are currently only using DATES without a time here.
-          ### If you one time want to change this, you need to
-          ### remove the appending of the time here and take care of
-          ### time-zones!
-          restricting_date_start_posixct <-
-            parsedate::parse_date(dates = paste0(rv$restricting_date$start, " 00:00:00"),
-                                  approx = FALSE)
-          restricting_date_end_posixct <-
-            parsedate::parse_date(dates = paste0(rv$restricting_date$end, " 23:59:59"),
-                                  approx = FALSE)
-
-          ## Check the start date:
-          if (is.na(restricting_date_start_posixct)) {
-            DIZutils::feedback(
-              print_this = "Couldn't identify input date format for `restricting_date_start`.",
-              logfile = rv$log$logfile_dir,
-              type = "Error",
-              findme = "608ce7e278"
-            )
-            stop("See above.")
-          }
-
-          ## Check the end date:
-          if (is.na(restricting_date_end_posixct)) {
-            DIZutils::feedback(
-              print_this = paste0(
-                "Couldn't identify input date format for `restricting_date_end`.",
-                " Using current timestamp now."
-              ),
-              logfile = rv$log$logfile_dir,
-              type = "Error",
-              findme = "c3cce12c26"
-            )
-            stop("See above.")
-            restricting_date_end_posixct <- as.POSIXct(Sys.time())
-          }
-
-          ## Check if start < end:
-          if (restricting_date_end_posixct <= restricting_date_start_posixct) {
-            DIZutils::feedback(
-              print_this = paste0(
-                "`restricting_date_start` needs to be a timestamp",
-                " before `restricting_date_end`.",
-                "'",
-                restricting_date_start_posixct,
-                "' !< '",
-                restricting_date_end_posixct,
-                "'. ",
-                " Please change."
-              ),
-              logfile = rv$log$logfile_dir,
-              type = "Error",
-              findme = "4380e1d4a3"
-            )
-            stop("See above.")
-          }
-
-          rv$restricting_date$use_it <- TRUE
-          rv$restricting_date$start <- restricting_date_start_posixct
-          rv$restricting_date$end <- restricting_date_end_posixct
-
-          DIZutils::feedback(
-            print_this = paste0(
-              "Time contstraints from ",
-              rv$restricting_date$start,
-              " to ",
-              rv$restricting_date$end,
-              " will be applied to input data."
-            ),
-            logfile = rv$log$logfile_dir,
-            findme = "2403fb1aa3"
-          )
-        }
-
-        if (rv$restricting_date$use_it) {
-          ## Check if the MDR contains valid information about the time restrictions:
-          DQAstats::check_date_restriction_requirements(
-            mdr = rv$mdr,
-            system_names = c(rv$source$system_name, rv$target$system_name),
-            # restricting_date = rv$restricting_date,
+            print_this = paste0(cond),
+            findme = "32b84ec323",
+            type = "Error",
             logfile_dir = rv$log$logfile_dir
           )
-        } else {
-          DIZutils::feedback(
-            print_this = paste0(
-              "Don't checking the time filtering columns because time filtering",
-              " is not necessarry. (`rv$restricting_date$use_it` is not TRUE)."
-            ),
-            logfile = rv$log$logfile_dir,
-            findme = "3aaad06b31"
-          )
-        }
-
-        selection_intersect <- input_re()[[paste0(
-          "moduleConfig-select_dqa_assessment_variables"
-        )]]
-
-        intersect_keys <- rv$dqa_assessment[
-          get("designation") %in% selection_intersect, get("key")]
-
-        reactive_to_append <- DQAstats::create_helper_vars(
-          mdr = rv$mdr[get("key") %in% intersect_keys, ],
-          target_db = rv$target$system_name,
-          source_db = rv$source$system_name
-        )
-
-        # workaround, to keep "rv" an reactiveValues object in shiny app
-        #% (rv <- c(rv, reactive_to_append)) does not work!
-        for (i in names(reactive_to_append)) {
-          rv[[i]] <- reactive_to_append[[i]]
-        }
-        rm(reactive_to_append)
-        invisible(gc())
-
-
-        # set start_time (e.g. when clicking the 'Load Data'-button in shiny
-        rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
-
-        waiter::waiter_update(html = shiny::tagList(
-          waiter::spin_timer(),
-          "Loading source data ..."
-        ))
-
-        ## load source data:
-        # print("Source-Settings (in moduleDashboard):")
-        # print(rv$source$settings)
-        temp_dat <- DQAstats::data_loading(
-          rv = rv,
-          system = rv$source,
-          keys_to_test = rv$keys_source
-        )
-        rv$data_source <- temp_dat$outdata
-        rv$source$sql <- temp_dat$sql_statements
-        rm(temp_dat)
-        invisible(gc())
-
-        # set flag that we have all data
-        rv$getdata_source <- FALSE
-
-        waiter::waiter_update(html = shiny::tagList(
-          waiter::spin_timer(),
-          "Loading target data ..."
-        ))
-
-        ## load target_data
-        if (length(setdiff(rv$source$settings, rv$target$settings)) == 0) {
-          DIZutils::feedback(
-            print_this = paste0(
-              "Source and Target settings are identical.",
-              " Using source data also as target data."
-            ),
-            findme = "f80e1639a4",
-            logfile = rv$log$logfile_dir
-          )
-          # Assign source-values to target:
-          rv <- set_target_equal_to_source(rv)
-          rv$data_target <- rv$data_source
-        } else {
-          DIZutils::feedback(
-            print_this = paste0(
-              "Source and Target settings are NOT identical.",
-              " Loading the target dataset now."
-            ),
-            findme = "d5b5d90aec",
-            logfile = rv$log$logfile_dir
-          )
-          # print("Target-Settings (in moduleDashboard):")
-          # print(rv$target$settings)
-          ## load target
-          temp_dat <- DQAstats::data_loading(
-            rv = rv,
-            system = rv$target,
-            keys_to_test = rv$keys_target
-          )
-          rv$data_target <- temp_dat$outdata
-          rv$target$sql <- temp_dat$sql_statements
-          rm(temp_dat)
-          invisible(gc())
-        }
-
-        # set flag that we have all data
-        rv$getdata_target <- FALSE
-
-        waiter::waiter_update(html = shiny::tagList(
-          waiter::spin_timer(),
-          "Applying plausibility checks ..."
-        ))
-
-        if (nrow(rv$pl$atemp_vars) != 0 && rv$pl$atemp_possible) {
-          # get atemporal plausibilities
-          rv$data_plausibility$atemporal <-
-            DQAstats::get_atemp_plausis(
-              rv = shiny::reactiveValuesToList(rv),
-              atemp_vars = rv$pl$atemp_vars,
-              mdr = rv$mdr,
-              headless = rv$headless
+          ## Trigger the modal for the user/UI:
+          rv$error <- T
+          show_failure_alert(
+            paste0(
+              "Executing the script to load all the data",
+              " from source and target system failed"
             )
-
-
-          # add the plausibility raw data to data_target and data_source
-          for (i in names(rv$data_plausibility$atemporal)) {
-            for (k in c("source_data", "target_data")) {
-              w <- gsub("_data", "", k)
-              raw_data <- paste0("data_", w)
-              rv[[raw_data]][[i]] <-
-                rv$data_plausibility$atemporal[[i]][[k]][[raw_data]]
-              rv$data_plausibility$atemporal[[i]][[k]][[raw_data]] <-
-                NULL
-            }
-            gc()
-          }
-        }
-
-
-        # calculate descriptive results
-        rv$results_descriptive <-
-          DQAstats::descriptive_results(
-            rv = shiny::reactiveValuesToList(rv),
-            headless = rv$headless
           )
-
-        if (!is.null(rv$data_plausibility$atemporal)) {
-          # calculate plausibilites
-          rv$results_plausibility_atemporal <-
-            DQAstats::atemp_pausi_results(
-              rv = shiny::reactiveValuesToList(rv),
-              atemp_vars = rv$data_plausibility$atemporal,
-              mdr = rv$mdr,
-              headless = rv$headless
-            )
-        }
-
-        if (nrow(rv$pl$uniq_vars) != 0 && rv$pl$uniq_possible) {
-          rv$results_plausibility_unique <- DQAstats::uniq_plausi_results(
-            rv = shiny::reactiveValuesToList(rv),
-            uniq_vars = rv$pl$uniq_vars,
-            mdr = rv$mdr,
-            headless = rv$headless
-          )
-        }
-
-        # conformance
-        rv$conformance$value_conformance <-
-          DQAstats::value_conformance(
-            rv = shiny::reactiveValuesToList(rv),
-            scope = "descriptive",
-            results = rv$results_descriptive,
-            logfile_dir = rv$log$logfile_dir,
-            headless = rv$headless
-          )
-
-        waiter::waiter_update(html = shiny::tagList(
-          waiter::spin_timer(),
-          "Cleaning the result data ..."
-        ))
-
-        # delete raw data but atemporal plausis (we need them until
-        # ids of errorneous cases are returend in value conformance)
-        if (nrow(rv$pl$atemp_vars) > 0) {
-          rv$data_source <-
-            rv$data_source[names(rv$data_plausibility$atemporal)]
-          rv$data_target <-
-            rv$data_target[names(rv$data_plausibility$atemporal)]
-        } else {
-          rv$data_source <- NULL
-          rv$data_target <- NULL
-        }
-        invisible(gc())
-
-
-        # reduce categorical variables to display max. 25 values
-        rv$results_descriptive <-
-          DQAstats::reduce_cat(data = rv$results_descriptive,
-                               levellimit = 25)
-        invisible(gc())
-
-        if (!is.null(rv$results_plausibility_atemporal)) {
-          add_value_conformance <- DQAstats::value_conformance(
-            rv = shiny::reactiveValuesToList(rv),
-            scope = "plausibility",
-            results = rv$results_plausibility_atemporal,
-            logfile_dir = rv$log$logfile_dir,
-            headless = rv$headless
-          )
-
-          # workaround, to keep "rv" an reactiveValues object in shiny app
-          for (i in names(add_value_conformance)) {
-            rv$conformance$value_conformance[[i]] <- add_value_conformance[[i]]
-          }
-
-          rm(add_value_conformance)
-          rv$data_source <- NULL
-          rv$data_target <- NULL
-          invisible(gc())
-        }
-        # completeness
-        rv$completeness <-
-          DQAstats::completeness(
-            results = rv$results_descriptive,
-            logfile_dir = rv$log$logfile_dir,
-            headless = rv$headless
-          )
-
-        # generate datamap
-        rv$datamap <- DQAstats::generate_datamap(
-          results = rv$results_descriptive,
-          db = rv$target$system_name,
-          mdr = rv$mdr,
-          rv = rv,
-          headless = rv$headless
-        )
-
-        if (!is.null(rv$datamap)) {
-          DIZutils::feedback(print_this = "Datamap:", findme = "43404a3f38")
-          print(rv$datamap)
-        }
-
-        # checks$value_conformance
-        rv$checks$value_conformance <-
-          DQAstats::value_conformance_checks(
-            results = rv$conformance$value_conformance)
-
-        # checks$etl
-        rv$checks$etl <-
-          DQAstats::etl_checks(results = rv$results_descriptive)
-
-        # set flag to create report here
-        rv$create_report <- TRUE
-      }
-      },error = function(cond) {
-        DIZutils::feedback(
-          print_this = paste0(cond),
-          findme = "32b84ec323",
-          type = "Error",
+          rv$start <- NULL
+          # stop()
+        })
+        waiter::waiter_hide()
+        print_runtime(
+          start_time = start_time,
+          name = "module_dashboard_server -> rv$start",
           logfile_dir = rv$log$logfile_dir
         )
-        ## Trigger the modal for the user/UI:
-        rv$error <- T
-        show_failure_alert(paste0(
-          "Executing the script to load all the data",
-          " from source and target system failed"
-        ))
-        rv$start <- NULL
-        # stop()
       }
-      )
-      waiter::waiter_hide()
-      print_runtime(
-        start_time = start_time,
-        name = "module_dashboard_server -> rv$start",
-        logfile_dir = rv$log$logfile_dir
-      )
     })
 
 
