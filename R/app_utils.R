@@ -608,3 +608,26 @@ datepicker_get_list_of_ranges <- function() {
   }
   return(res)
 }
+
+
+get_display_name_from_settings <- function(settings, name = NULL, prefilter = NULL) {
+  if(!is.null(prefilter)){
+    settings <- settings[names(settings) %in% prefilter]
+  }
+  return(unlist(lapply(seq_along(settings), function(i) {
+    if (!is.null(settings[[i]]$nested) && settings[[i]]$nested) {
+      settings[[i]]$nested <- NULL
+      return(get_display_name_from_settings(settings[[i]], name = name))
+    } else {
+      if (is.null(settings[[i]]$displayname)) {
+        if (is.null(name)) {
+          return(names(settings)[[i]])
+        } else {
+          return(name)
+        }
+      } else {
+        return(settings[[i]]$displayname)
+      }
+    }
+  })))
+}

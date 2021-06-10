@@ -182,8 +182,13 @@ module_config_server <-
             c("source_system_name",
               "source_system_type")
           rv$systems <- unique(rv$mdr[, vec, with = F])
+          rv$systems <- rv$systems[!is.na(get("source_system_name"))]
           DIZutils::feedback(
-            print_this = paste0("Different systems found in the MDR: ", paste(rv$systems, collapse = ", ")),
+            print_this = paste0(
+              "Different systems found in the MDR: ",
+              paste(unique(rv$systems[["source_system_name"]]),
+                    collapse = ", ")
+            ),
             findme = "4451da82ad",
             logfile_dir = rv$log$logfile_dir,
             headless = rv$headless
@@ -203,6 +208,26 @@ module_config_server <-
                 headless = rv$headless
               )
             }, USE.NAMES = T, simplify = F)
+
+          ## Create mapping for display names:
+          tmp <- names(rv$settings)
+          names(tmp) <- names(rv$settings)
+          rv$displaynames <-
+            data.table::as.data.table(reshape2::melt(lapply(tmp, function(x) {
+              return(get_display_name_from_settings(settings = rv$settings, prefilter = x))
+            }), value.name = "displayname"))
+          rm(tmp)
+          data.table::setnames(x = rv$displaynames,
+                               old = "L1",
+                               new = "source_system_name")
+
+
+          # print("rv$settings:")
+          # print(rv$settings)
+          # print("rv$systems")
+          # print(rv$systems)
+          # print("rv$displaynames")
+          # print(rv$displaynames)
 
           # - Different system-types:
           rv$system_types <-
@@ -290,6 +315,10 @@ module_config_server <-
               logfile_dir = rv$log$logfile_dir,
               headless = rv$headless
             )
+
+            postgres_system_names <-
+              rv$displaynames[get("source_system_name") %in%
+                                postgres_system_names, get("displayname")]
 
             if (length(postgres_system_names) > 0) {
               # Show buttons to prefill diff. systems presettings:
@@ -406,9 +435,9 @@ module_config_server <-
       DIZutils::feedback(
         print_this =
           paste0(
-            "Input-preset ",
+            "Input-preset '",
             input$source_postgres_presettings_list,
-            " was chosen as SOURCE.",
+            "' was chosen as SOURCE.",
             " Loading presets ..."
           ),
         findme = "e9832b3092",
