@@ -271,6 +271,10 @@ module_config_server <-
               headless = rv$headless
             )
 
+            csv_system_names <-
+              rv$displaynames[get("source_system_name") %in%
+                                csv_system_names, get("displayname")]
+
             if (length(csv_system_names) > 0) {
               # Show buttons to prefill diff. systems presettings:
               # - Add a button/choice/etc. for each system:
@@ -367,6 +371,10 @@ module_config_server <-
               headless = rv$headless
             )
 
+            oracle_system_names <-
+              rv$displaynames[get("source_system_name") %in%
+                                oracle_system_names, get("displayname")]
+
             if (length(oracle_system_names) > 0) {
               # Show buttons to prefill diff. systems presettings:
               # - Add a button/choice/etc. for each system:
@@ -444,7 +452,17 @@ module_config_server <-
         logfile_dir = rv$log$logfile_dir,
         headless = rv$headless
       )
-      config_stuff <- rv$settings[[tolower(input$source_postgres_presettings_list)]]
+      config_stuff <-
+        rv$settings[[tolower(input$source_postgres_presettings_list)]]
+      print("old:")
+      print(config_stuff)
+      config_stuff <-
+        get_settings_from_displayname(
+          displayname = input$source_postgres_presettings_list,
+          settings = rv$settings
+        )
+      print("new:")
+      print(config_stuff)
 
       DIZutils::feedback(
         print_this = paste(
@@ -510,7 +528,12 @@ module_config_server <-
         logfile_dir = rv$log$logfile_dir,
         headless = rv$headless
       )
-      config_stuff <- rv$settings[[tolower(input$source_oracle_presettings_list)]]
+      config_stuff <-
+        get_settings_from_displayname(
+          displayname = input$source_oracle_presettings_list,
+          settings = rv$settings
+        )
+      # config_stuff <- rv$settings[[tolower(input$source_oracle_presettings_list)]]
 
       DIZutils::feedback(
         print_this = paste(
@@ -583,7 +606,13 @@ module_config_server <-
         logfile_dir = rv$log$logfile_dir,
         headless = rv$headless
       )
-      config_stuff <- rv$settings[[tolower(input$target_postgres_presettings_list)]]
+      # config_stuff <-
+      #   rv$settings[[tolower(input$target_postgres_presettings_list)]]
+      config_stuff <-
+        get_settings_from_displayname(
+          displayname = input$target_postgres_presettings_list,
+          settings = rv$settings
+        )
 
       DIZutils::feedback(
         paste(
@@ -648,7 +677,13 @@ module_config_server <-
         logfile_dir = rv$log$logfile_dir,
         headless = rv$headless
       )
-      config_stuff <- rv$settings[[tolower(input$target_oracle_presettings_list)]]
+       # config_stuff <-
+       #  rv$settings[[tolower(input$target_oracle_presettings_list)]]
+      config_stuff <-
+        get_settings_from_displayname(
+          displayname = input$target_oracle_presettings_list,
+          settings = rv$settings
+        )
 
       DIZutils::feedback(
         paste(

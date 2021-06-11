@@ -306,6 +306,11 @@ check_load_data_button <- function(rv, session) {
     res <- F
   }
 
+  print("rv$source:")
+  print(rv$source)
+  print("rv$target:")
+  print(rv$target)
+
   if (res) {
     # Determine the different dataelements:
     helper_vars_tmp <- DQAstats::create_helper_vars(
@@ -498,7 +503,8 @@ test_connection_button_clicked <-
           icon = shiny::icon("check")
         )
         shinyjs::disable(button_label)
-        rv[[source_target]]$system_name <- input_system
+        rv[[source_target]]$system_name <-
+          rv$displaynames[get("displayname") == input_system, get("source_system_name")]
         rv[[source_target]]$system_type <- db_type
         label_feedback_txt <-
           paste0(source_target, "_system_feedback_txt")
@@ -610,24 +616,91 @@ datepicker_get_list_of_ranges <- function() {
 }
 
 
-get_display_name_from_settings <- function(settings, name = NULL, prefilter = NULL) {
-  if(!is.null(prefilter)){
-    settings <- settings[names(settings) %in% prefilter]
-  }
-  return(unlist(lapply(seq_along(settings), function(i) {
-    if (!is.null(settings[[i]]$nested) && settings[[i]]$nested) {
-      settings[[i]]$nested <- NULL
-      return(get_display_name_from_settings(settings[[i]], name = name))
-    } else {
-      if (is.null(settings[[i]]$displayname)) {
-        if (is.null(name)) {
-          return(names(settings)[[i]])
-        } else {
-          return(name)
-        }
-      } else {
-        return(settings[[i]]$displayname)
-      }
+get_display_name_from_settings <-
+  function(settings,
+           inner_name = NULL,
+           prefilter = NULL) {
+    if (!is.null(prefilter)) {
+      settings <- settings[names(settings) %in% prefilter]
     }
-  })))
-}
+    return(unlist(lapply(seq_along(settings), function(i) {
+      if (!is.null(settings[[i]]$nested) && settings[[i]]$nested) {
+        settings[[i]]$nested <- NULL
+        ## Since there is no information left of where we are now in the
+        ## next recursive step, we need to provide the name of the current
+        ## system as `inner_name`:
+        return(get_display_name_from_settings(settings = settings[[i]],
+                                              inner_name = inner_name))
+      } else {
+        if (is.null(settings[[i]]$displayname)) {
+          if (is.null(inner_name)) {
+            return(names(settings)[[i]])
+          } else {
+            return(inner_name)
+          }
+        } else {
+          return(settings[[i]]$displayname)
+        }
+      }
+    })))
+  }
+
+get_settings_from_displayname <-
+  function(displayname, settings, inner_name = NULL) {
+    res <- lapply(seq_along(settings), function(i) {
+      if (!is.null(settings[[i]]$nested) && settings[[i]]$nested) {
+        settings[[i]]$nested <- NULL
+        return(
+          get_settings_from_displayname(
+            displayname = displayname,
+            settings = settings[[i]],
+            inner_name = inner_name
+          )
+        )
+      } else {
+        if (is.null(settings[[i]]$displayname)) {
+          if (is.null(inner_name)) {
+            name_to_check <- names(settings)[[i]]
+          } else {
+            name_to_check <- inner_name
+          }
+        } else {
+          name_to_check <- settings[[i]]$displayname
+        }
+        if (DIZutils::equals2(name_to_check, displayname)) {
+          return(settings[[i]])
+        } else {
+          return(NA)
+        }
+      }
+    })
+
+    ## Remove empty elements of the list:
+    res <-
+      res[lapply(res, function(x) {
+        return(all(is.null(x)) || all(is.na(x)))
+      }) == FALSE]
+
+    if (length(res) > 1) {
+      DIZutils::feedback(
+        print_this = paste0(
+          "Found more than one setting-list while searching for '",
+          displayname,
+          "'. Returning NA now."
+        ),
+        type = "Warning",
+        findme = "f035f4923c"
+      )
+    } else if (length(res) == 1) {
+      return(res[[1]])
+    } else {
+      return(NULL)
+    }
+  }
+
+# settings <- sapply(c("i2b2", "omop"), function(x) {
+#   DIZutils::get_config_env(
+#     system_name = x
+#   )
+# }, USE.NAMES = T, simplify = F)
+# get_settings_from_displayname("i2b2 (Prod)", settings)

@@ -38,6 +38,8 @@ send_datamap_to_mail <- function(rv) {
         "sitename" = rv$sitename,
         "lastrun" = as.character(rv$end_time),
         "run_duration" = as.character(round(rv$duration, 2)),
+        "version_R" = as.character(paste(R.version[c("major", "minor")], collapse = ".")),
+        "version_dizutils" = as.character(utils::packageVersion("DIZutils")),
         "version_dqastats" = as.character(utils::packageVersion("DQAstats")),
         "version_dqagui" = as.character(utils::packageVersion("DQAgui"))
       ),
