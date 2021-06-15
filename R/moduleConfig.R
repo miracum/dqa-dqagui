@@ -214,20 +214,14 @@ module_config_server <-
           names(tmp) <- names(rv$settings)
           rv$displaynames <-
             data.table::as.data.table(reshape2::melt(lapply(tmp, function(x) {
-              return(get_display_name_from_settings(settings = rv$settings, prefilter = x))
+              return(get_display_name_from_settings(settings = rv$settings,
+                                                    prefilter = x))
             }), value.name = "displayname"))
           rm(tmp)
           data.table::setnames(x = rv$displaynames,
                                old = "L1",
                                new = "source_system_name")
 
-
-          # print("rv$settings:")
-          # print(rv$settings)
-          # print("rv$systems")
-          # print(rv$systems)
-          # print("rv$displaynames")
-          # print(rv$displaynames)
 
           # - Different system-types:
           rv$system_types <-
@@ -249,7 +243,8 @@ module_config_server <-
               logfile_dir = rv$log$logfile_dir,
               headless = rv$headless
             )
-            shiny::removeTab(inputId = "source_tabs", target = system_types_mapping[["csv"]])
+            shiny::removeTab(inputId = "source_tabs",
+                             target = system_types_mapping[["csv"]])
 
             DIZutils::feedback(
               "Removing csv-tab from target ...",
@@ -257,7 +252,8 @@ module_config_server <-
               logfile_dir = rv$log$logfile_dir,
               headless = rv$headless
             )
-            shiny::removeTab(inputId = "target_tabs", target = system_types_mapping[["csv"]])
+            shiny::removeTab(inputId = "target_tabs",
+                             target = system_types_mapping[["csv"]])
           } else {
             csv_system_names <-
               rv$systems[get("source_system_type") == "csv" &
@@ -293,14 +289,16 @@ module_config_server <-
               logfile_dir = rv$log$logfile_dir,
               headless = rv$headless
             )
-            shiny::removeTab(inputId = "source_tabs", target = system_types_mapping[["postgres"]])
+            shiny::removeTab(inputId = "source_tabs",
+                             target = system_types_mapping[["postgres"]])
 
             DIZutils::feedback(
               "Removing postgres-tab from target ...",
               logfile_dir = rv$log$logfile_dir,
               headless = rv$headless
             )
-            shiny::removeTab(inputId = "target_tabs", target = system_types_mapping[["postgres"]])
+            shiny::removeTab(inputId = "target_tabs",
+                             target = system_types_mapping[["postgres"]])
           } else{
             # Fill the tab with presettings
             # - filter for all system_names with
@@ -343,7 +341,8 @@ module_config_server <-
               headless = rv$headless,
               findme = "8e93367dec"
             )
-            shiny::removeTab(inputId = "source_tabs", target = system_types_mapping[["oracle"]])
+            shiny::removeTab(inputId = "source_tabs",
+                             target = system_types_mapping[["oracle"]])
 
             DIZutils::feedback(
               "Removing oracle-tab from target ...",
@@ -351,7 +350,8 @@ module_config_server <-
               headless = rv$headless,
               findme = "1c2023da56"
             )
-            shiny::removeTab(inputId = "target_tabs", target = system_types_mapping[["oracle"]])
+            shiny::removeTab(inputId = "target_tabs",
+                             target = system_types_mapping[["oracle"]])
           } else{
             # Fill the tab with presettings
             # - filter for all system_names with
@@ -391,16 +391,19 @@ module_config_server <-
           DIZutils::feedback(
             print_this = paste0("Setting tab '",
                                 first_system,
-                                "' as active tab for source and target on config page."),
+                                "' as active tab for source",
+                                " and target on config page."),
             findme = "46c03705a8",
             logfile_dir = rv$log$logfile_dir
           )
-          shiny::updateTabsetPanel(session = session,
-                                   inputId = "source_tabs",
-                                   selected = system_types_mapping[[first_system]])
-          shiny::updateTabsetPanel(session = session,
-                                   inputId = "target_tabs",
-                                   selected = system_types_mapping[[first_system]])
+          shiny::updateTabsetPanel(
+            session = session,
+            inputId = "source_tabs",
+            selected = system_types_mapping[[first_system]])
+          shiny::updateTabsetPanel(
+            session = session,
+            inputId = "target_tabs",
+            selected = system_types_mapping[[first_system]])
 
 
           # Store the system-types in output-variable to only
@@ -533,7 +536,6 @@ module_config_server <-
           displayname = input$source_oracle_presettings_list,
           settings = rv$settings
         )
-      # config_stuff <- rv$settings[[tolower(input$source_oracle_presettings_list)]]
 
       DIZutils::feedback(
         print_this = paste(
@@ -1028,7 +1030,8 @@ module_config_server <-
                               as.Date(input$datetime_picker[[2]])
                           } else {
                             DIZutils::feedback(
-                              print_this = "Date restriction will NOT be applied",
+                              print_this = paste0("Date restriction will",
+                                                  " NOT be applied"),
                               findme = "508c7f34f9",
                               logfile_dir = rv$log$logfile_dir
                             )
@@ -1089,28 +1092,7 @@ module_config_server <-
                           )
                         })
 
-    # shiny::observeEvent(eventExpr = input$datetime_picker_btn,
-    #                     handlerExpr = {
-    #                       if (is.null(rv$restricting_date$show_daterangepicker) ||
-    #                           isTRUE(rv$restricting_date$show_daterangepicker)) {
-    #                         rv$restricting_date$show_daterangepicker <- FALSE
-    #                         msg_suffix <- "hidden"
-    #                         shinyjs::hideElement(id = "datetime_picker")
-    #                       } else {
-    #                         rv$restricting_date$show_daterangepicker <- TRUE
-    #                         msg_suffix <- "shown"
-    #                         shinyjs::showElement(id = "datetime_picker")
-    #                       }
-    #                       DIZutils::feedback(
-    #                         print_this = paste0(
-    #                           "Button for 'daterangepicker' was clicked.",
-    #                           " Element for temporal restriction of input data will be ",
-    #                           msg_suffix,
-    #                           " in the GUI."
-    #                         ),
-    #                         findme = "ecc626743b"
-    #                       )
-    #                     })
+
   }
 
 #' @title module_config_ui
@@ -1590,7 +1572,9 @@ module_config_ui <- function(id) {
                 # timePicker = TRUE,
                 # timePicker24Hour = TRUE,
                 autoApply = TRUE,
-                locale = list(separator = " <-> ", format = "DD.MM.Y", firstDay = 1)
+                locale = list(separator = " <-> ",
+                              format = "DD.MM.Y",
+                              firstDay = 1)
               )
               # ,icon = shiny::icon("calendar")
             ),

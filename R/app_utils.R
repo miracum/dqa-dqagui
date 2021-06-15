@@ -63,7 +63,7 @@ render_quick_checks <- function(dat_table) {
 get_db_settings <- function(input, target = T, db_type) {
   # create description of column selections
   vec <- c("dbname", "host", "port", "user", "password")
-  source_target = ifelse(target, "target", "source")
+  source_target <- ifelse(target, "target", "source")
   if (db_type == "oracle") {
     vec <- c(vec, "sid")
   }
@@ -278,8 +278,12 @@ fix_sql_display <- function(text) {
 #'
 #'
 check_load_data_button <- function(rv, session) {
-  # systems <- c("csv", "postgres", "oracle")
-  systems <- tolower(rv$system_types)
+  debugging <- FALSE
+  if (debugging) {
+    systems <- c("csv", "postgres", "oracle")
+  } else {
+    systems <- tolower(rv$system_types)
+  }
 
   res <- ""
   if (!is.null(rv$source$system_type)) {
@@ -305,11 +309,6 @@ check_load_data_button <- function(rv, session) {
   } else {
     res <- F
   }
-
-  print("rv$source:")
-  print(rv$source)
-  print("rv$target:")
-  print(rv$target)
 
   if (res) {
     # Determine the different dataelements:
@@ -342,10 +341,14 @@ check_load_data_button <- function(rv, session) {
       headless = rv$headless,
       enable_stop = FALSE
     )
-    # print(time_filtering_possible)
-    # print(rv$source$system_name)
-    # print(rv$target$system_name)
-    # print(rv$restricting_date)
+
+    if (debugging) {
+      print(time_filtering_possible)
+      print(rv$source$system_name)
+      print(rv$target$system_name)
+      print(rv$restricting_date)
+    }
+
     if (time_filtering_possible) {
       ## Time filtering is possible, so enable the elements in the GUI:
       DIZutils::feedback(
@@ -356,7 +359,7 @@ check_load_data_button <- function(rv, session) {
         findme = "794ca3f55e",
         logfile_dir = rv$log$logfile_dir
       )
-      # shinyjs::show("date_restriction_slider")
+
       shinyWidgets::updateSwitchInput(
         session = session,
         inputId = "date_restriction_slider",
@@ -384,7 +387,9 @@ check_load_data_button <- function(rv, session) {
         value = FALSE
       )
       rv$restricting_date$use_it <- FALSE
-      # print(rv$restricting_date)
+      if (debugging){
+        print(rv$restricting_date)
+      }
     }
 
     # Show load-data button:
@@ -395,7 +400,6 @@ check_load_data_button <- function(rv, session) {
   } else {
     shinyjs::hide("config_select_dqa_assessment_box", anim = TRUE)
     shinyjs::hide("dash_load_btn")
-    # shinyjs::hide("date_restriction_slider")
     shinyjs::hide("datetime_picker")
 
     # Hide sitename-configuration:
@@ -454,8 +458,6 @@ test_connection_button_clicked <-
       DQAgui::get_db_settings(input = input,
                               target = target,
                               db_type = db_type)
-    # print("Settings for db:")
-    # print(rv[[source_target]]$settings)
 
     if (db_type == "oracle") {
       lib_path_tmp <- Sys.getenv("KDB_DRIVER")
@@ -465,7 +467,7 @@ test_connection_button_clicked <-
 
     if (!is.null(rv[[source_target]]$settings)) {
       rv[[source_target]]$db_con <- DIZutils::db_connection(
-        # db_name = rv[[source_target]]$settings$dbname,
+        ## db_name = rv[[source_target]]$settings$dbname,
         db_type = db_type,
         headless = rv$headless,
         timeout = 2,
@@ -600,10 +602,10 @@ datepicker_get_list_of_ranges <- function() {
   ## Get list of years:
   for (i in 0:4) {
     if (i == 0) {
-      ## end = today
-      end = Sys.Date()
+      ## end, today:
+      end <- Sys.Date()
     } else {
-      end = as.Date(paste0(as.numeric(format(
+      end <- as.Date(paste0(as.numeric(format(
         Sys.Date(), format = "%Y"
       )) - i, "-12-31"))
     }
@@ -698,9 +700,3 @@ get_settings_from_displayname <-
     }
   }
 
-# settings <- sapply(c("i2b2", "omop"), function(x) {
-#   DIZutils::get_config_env(
-#     system_name = x
-#   )
-# }, USE.NAMES = T, simplify = F)
-# get_settings_from_displayname("i2b2 (Prod)", settings)

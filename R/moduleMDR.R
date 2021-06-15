@@ -36,7 +36,7 @@ module_mdr_server <- function(input, output, session, rv, input_re) {
       class = "display nowrap",
       options = list(
         scrollX = TRUE,
-        scrollY = '70vh',
+        scrollY = "70vh",
         pageLength = 20,
         dom = "ltip"
       ),

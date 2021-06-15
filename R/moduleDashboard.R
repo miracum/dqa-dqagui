@@ -42,8 +42,9 @@ module_dashboard_server <-
       req(rv$start)
 
       if (isTRUE(rv$start)) {
-        waiter::waiter_show(html = shiny::tagList(waiter::spin_timer(),
-                                                  "Starting to load the data ..."))
+        waiter::waiter_show(
+          html = shiny::tagList(waiter::spin_timer(),
+                                "Starting to load the data ..."))
 
         tryCatch({
           ## For runtime calculation:
@@ -60,14 +61,14 @@ module_dashboard_server <-
               DIZutils::feedback(
                 print_this = paste0(
                   "No time contstraints will be applied to input data.",
-                  " Either `restricting_date_start` or `restricting_date_end` was null."
+                  " Either `restricting_date_start` or ",
+                  " `restricting_date_end` was null."
                 ),
                 logfile = rv$log$logfile_dir,
                 findme = "44d1fbe2e7"
               )
               rv$restricting_date$use_it <- FALSE
             } else {
-              # print(rv$restricting_date)
               ### INFO:
               ### We are currently only using DATES without a time here.
               ### If you one time want to change this, you need to
@@ -87,7 +88,8 @@ module_dashboard_server <-
               ## Check the start date:
               if (is.na(restricting_date_start_posixct)) {
                 DIZutils::feedback(
-                  print_this = "Couldn't identify input date format for `restricting_date_start`.",
+                  print_this = paste0("Couldn't identify input date",
+                                      " format for `restricting_date_start`."),
                   logfile = rv$log$logfile_dir,
                   type = "Error",
                   findme = "608ce7e278"
@@ -180,7 +182,7 @@ module_dashboard_server <-
                                 get("key")]
 
             reactive_to_append <- DQAstats::create_helper_vars(
-              mdr = rv$mdr[get("key") %in% intersect_keys,],
+              mdr = rv$mdr[get("key") %in% intersect_keys, ],
               target_db = rv$target$system_name,
               source_db = rv$source$system_name
             )
@@ -194,7 +196,8 @@ module_dashboard_server <-
             invisible(gc())
 
 
-            # set start_time (e.g. when clicking the 'Load Data'-button in shiny
+            # set start_time (e.g. when clicking
+            # the 'Load Data'-button in shiny
             rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
 
             waiter::waiter_update(html = shiny::tagList(
@@ -202,8 +205,6 @@ module_dashboard_server <-
               "Loading source data ..."))
 
             ## load source data:
-            # print("Source-Settings (in moduleDashboard):")
-            # print(rv$source$settings)
             temp_dat <- DQAstats::data_loading(
               rv = rv,
               system = rv$source,
@@ -243,8 +244,6 @@ module_dashboard_server <-
                 findme = "d5b5d90aec",
                 logfile = rv$log$logfile_dir
               )
-              # print("Target-Settings (in moduleDashboard):")
-              # print(rv$target$settings)
               ## load target
               temp_dat <- DQAstats::data_loading(
                 rv = rv,
@@ -293,8 +292,9 @@ module_dashboard_server <-
 
             # calculate descriptive results
             rv$results_descriptive <-
-              DQAstats::descriptive_results(rv = shiny::reactiveValuesToList(rv),
-                                            headless = rv$headless)
+              DQAstats::descriptive_results(
+                rv = shiny::reactiveValuesToList(rv),
+                headless = rv$headless)
 
             if (!is.null(rv$data_plausibility$atemporal)) {
               # calculate plausibilites
@@ -326,8 +326,9 @@ module_dashboard_server <-
                 headless = rv$headless
               )
 
-            waiter::waiter_update(html = shiny::tagList(waiter::spin_timer(),
-                                                        "Cleaning the result data ..."))
+            waiter::waiter_update(
+              html = shiny::tagList(waiter::spin_timer(),
+              "Cleaning the result data ..."))
 
             # delete raw data but atemporal plausis (we need them until
             # ids of errorneous cases are returend in value conformance)
@@ -360,7 +361,8 @@ module_dashboard_server <-
 
               # workaround, to keep "rv" an reactiveValues object in shiny app
               for (i in names(add_value_conformance)) {
-                rv$conformance$value_conformance[[i]] <- add_value_conformance[[i]]
+                rv$conformance$value_conformance[[i]] <-
+                  add_value_conformance[[i]]
               }
 
               rm(add_value_conformance)
@@ -386,13 +388,15 @@ module_dashboard_server <-
             )
 
             if (!is.null(rv$datamap)) {
-              DIZutils::feedback(print_this = "Datamap:", findme = "43404a3f38")
+              DIZutils::feedback(print_this = "Datamap:",
+                                 findme = "43404a3f38")
               print(rv$datamap)
             }
 
             # checks$value_conformance
             rv$checks$value_conformance <-
-              DQAstats::value_conformance_checks(results = rv$conformance$value_conformance)
+              DQAstats::value_conformance_checks(
+                results = rv$conformance$value_conformance)
 
             # checks$etl
             rv$checks$etl <-

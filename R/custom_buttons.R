@@ -1,18 +1,20 @@
-button_mdr <- function(utils_path, mdr_filename, logfile_dir, headless) {
-  DIZutils::feedback(
-    print_this = "Loading the metadata repository",
-    logfile_dir = logfile_dir,
-    headless = headless
-  )
-  shiny::withProgress(message = "Loading MDR", value = 0, {
-    incProgress(1 / 1,
-                detail = "... from local file ...")
-    # read MDR
-    mdr <- DQAstats::read_mdr(utils_path = utils_path,
-                              mdr_filename = mdr_filename)
-  })
-  return(mdr)
-}
+button_mdr <-
+  function(utils_path,
+           mdr_filename,
+           logfile_dir,
+           headless) {
+    DIZutils::feedback(print_this = "Loading the metadata repository",
+                       logfile_dir = logfile_dir,
+                       headless = headless)
+    shiny::withProgress(message = "Loading MDR", value = 0, {
+      incProgress(1 / 1,
+                  detail = "... from local file ...")
+      # read MDR
+      mdr <- DQAstats::read_mdr(utils_path = utils_path,
+                                mdr_filename = mdr_filename)
+    })
+    return(mdr)
+  }
 
 #' @title button_send_datamap
 #' @description This function is an exporte wrapper around the actual function
@@ -38,7 +40,8 @@ send_datamap_to_mail <- function(rv) {
         "sitename" = rv$sitename,
         "lastrun" = as.character(rv$end_time),
         "run_duration" = as.character(round(rv$duration, 2)),
-        "version_R" = as.character(paste(R.version[c("major", "minor")], collapse = ".")),
+        "version_R" = as.character(
+          paste(R.version[c("major", "minor")], collapse = ".")),
         "version_dizutils" = as.character(utils::packageVersion("DIZutils")),
         "version_dqastats" = as.character(utils::packageVersion("DQAstats")),
         "version_dqagui" = as.character(utils::packageVersion("DQAgui"))
