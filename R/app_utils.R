@@ -41,14 +41,17 @@ render_quick_checks <- function(dat_table) {
       rownames = F
     ) %>%
     DT::formatStyle(columns = 2,
-                    backgroundColor = DT::styleEqual(c("passed", "failed"),
-                                                     c("lightgreen", "red"))) %>%
+                    backgroundColor = DT::styleEqual(
+                      c("passed", "failed"),
+                      c("lightgreen", "red"))) %>%
     DT::formatStyle(columns = 3,
-                    backgroundColor = DT::styleEqual(c("passed", "failed"),
-                                                     c("lightgreen", "red"))) %>%
+                    backgroundColor = DT::styleEqual(
+                      c("passed", "failed"),
+                      c("lightgreen", "red"))) %>%
     DT::formatStyle(columns = 4,
-                    backgroundColor = DT::styleEqual(c("passed", "failed"),
-                                                     c("lightgreen", "red")))
+                    backgroundColor = DT::styleEqual(
+                      c("passed", "failed"),
+                      c("lightgreen", "red")))
   return(out)
 }
 
@@ -317,7 +320,6 @@ check_load_data_button <- function(rv, session) {
       target_db = rv$target$system_name,
       source_db = rv$source$system_name
     )
-    # print(helper_vars_tmp)
     rv$dqa_assessment <- helper_vars_tmp$dqa_assessment
 
     # Update the checkboxgroup to the determined dataelemets:
@@ -387,7 +389,7 @@ check_load_data_button <- function(rv, session) {
         value = FALSE
       )
       rv$restricting_date$use_it <- FALSE
-      if (debugging){
+      if (debugging) {
         print(rv$restricting_date)
       }
     }
@@ -506,7 +508,8 @@ test_connection_button_clicked <-
         )
         shinyjs::disable(button_label)
         rv[[source_target]]$system_name <-
-          rv$displaynames[get("displayname") == input_system, get("source_system_name")]
+          rv$displaynames[get("displayname") == input_system,
+                          get("source_system_name")]
         rv[[source_target]]$system_type <- db_type
         label_feedback_txt <-
           paste0(source_target, "_system_feedback_txt")
@@ -699,4 +702,3 @@ get_settings_from_displayname <-
       return(NULL)
     }
   }
-

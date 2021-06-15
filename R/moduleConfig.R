@@ -609,7 +609,6 @@ module_config_server <-
         headless = rv$headless
       )
       # config_stuff <-
-      #   rv$settings[[tolower(input$target_postgres_presettings_list)]]
       config_stuff <-
         get_settings_from_displayname(
           displayname = input$target_postgres_presettings_list,
@@ -680,7 +679,6 @@ module_config_server <-
         headless = rv$headless
       )
        # config_stuff <-
-       #  rv$settings[[tolower(input$target_oracle_presettings_list)]]
       config_stuff <-
         get_settings_from_displayname(
           displayname = input$target_oracle_presettings_list,
@@ -986,7 +984,6 @@ module_config_server <-
             " input parameters before data-loading failed"
           )
         )
-        # stop()
       })
       print_runtime(
         start_time = start_time,
@@ -1048,16 +1045,6 @@ module_config_server <-
     ## Date-time picker for date restriction:
     shiny::observeEvent(eventExpr = input$datetime_picker,
                         handlerExpr = {
-                          # shiny::showModal(shiny::modalDialog(
-                          #   title = "Date selected",
-                          #   paste0(
-                          #     "Start date and time: ",
-                          #     input$datetime_picker[[1]],
-                          #     "\nEnd date and time: ",
-                          #     input$datetime_picker[[2]]
-                          #   ),
-                          #   easyClose = TRUE
-                          # ))
                           rv$restricting_date$use_it <- TRUE
                           rv$restricting_date$start <-
                             as.Date(input$datetime_picker[[1]])
@@ -1545,14 +1532,6 @@ module_config_ui <- function(id) {
           box(
             id = ns("config_select_datetime_picker_box"),
             title = "Do you want to time-filter the input data?",
-            # h4(htmlOutput(ns("datetime_picker_info"))),
-            # h5(htmlOutput(ns("datetime_picker_info_start"))),
-            # h5(htmlOutput(ns("datetime_picker_info_end"))),
-            # shiny::actionButton(
-            #   inputId = ns("datetime_picker_btn"),
-            #   label = "Click to select a date-range for time filtering.",
-            #   icon = shiny::icon("calendar-alt")
-            # ),
             shinyWidgets::switchInput(inputId = ns("date_restriction_slider"),
                                       label = "Apply time-filtering",
                                       labelWidth = 150,

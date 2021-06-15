@@ -421,7 +421,6 @@ module_dashboard_server <-
             )
           )
           rv$start <- NULL
-          # stop()
         })
         waiter::waiter_hide()
         print_runtime(

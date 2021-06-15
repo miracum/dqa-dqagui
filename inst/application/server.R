@@ -111,8 +111,7 @@ shiny::shinyServer(function(input, output, session) {
         )
         DIZutils::close_all_connections(logfile_dir = rv$log$logfile_dir,
                                         headless = rv$headless)
-        ## Old (until 2021-03-15):
-        ## shinyjs::js$reset()
+        ## old: shinyjs::js$reset()
         ## New (since 2021-03-15):
         rm(list = ls())
         invisible(gc())
