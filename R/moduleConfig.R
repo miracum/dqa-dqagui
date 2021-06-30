@@ -457,15 +457,15 @@ module_config_server <-
       )
       config_stuff <-
         rv$settings[[tolower(input$source_postgres_presettings_list)]]
-      print("old:")
-      print(config_stuff)
+      # print("old:")
+      # print(config_stuff)
       config_stuff <-
         get_settings_from_displayname(
           displayname = input$source_postgres_presettings_list,
           settings = rv$settings
         )
-      print("new:")
-      print(config_stuff)
+      # print("new:")
+      # print(config_stuff)
 
       DIZutils::feedback(
         print_this = paste(
@@ -916,7 +916,8 @@ module_config_server <-
               ),
               type = "UI",
               ui = T,
-              findme = "57562a3092"
+              findme = "57562a3092",
+              logfile_dir = rv$log$logfile_dir
             )
             error_tmp <- T
           }
@@ -924,6 +925,17 @@ module_config_server <-
           # If target should be identical to source, set it here again:
           if (isTRUE(rv$target_is_source)) {
             rv <- set_target_equal_to_source(rv)
+            DIZutils::feedback(print_this = "Source == Target",
+                               findme = "c14c17bf15",
+                               logfile_dir = rv$log$logfile_dir,
+                               headless = rv$headless
+            )
+          } else {
+            DIZutils::feedback(print_this = "Source != Target",
+                               findme = "54fe9a5717",
+                               logfile_dir = rv$log$logfile_dir,
+                               headless = rv$headless
+            )
           }
 
           DIZutils::feedback(

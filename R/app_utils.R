@@ -127,9 +127,10 @@ feedback_txt <- function(system, type) {
 #'
 #'
 set_target_equal_to_source <- function(rv) {
-  rv$target$settings <- rv$source$settings
-  rv$target$system_type <- rv$source$system_type
-  rv$target$system_name <- rv$source$system_name
+  # rv$target$settings <- rv$source$settings
+  # rv$target$system_type <- rv$source$system_type
+  # rv$target$system_name <- rv$source$system_name
+  rv$target <- rv$source
   return(rv)
 }
 
@@ -449,6 +450,19 @@ test_connection_button_clicked <-
     db_type <- tolower(db_type)
     target <- ifelse(source_target == "target", TRUE, FALSE)
 
+    ## If the button "set target to source" is clicked, all the gui elements
+    ## are invisible for the target system but his function is also called
+    ## before the final data-loading process starts to make sure that there
+    ## are valid connections for source and target. So in this case
+    ## (target == source is clicked), the (invisible prefilled) settings
+    ## from the target gui elements are incorrectly loaded instead of the
+    ## source elements. So we need to check if source == target is set and
+    ## load all the source data if so:
+    if (target && isTRUE(rv$target_is_source)) {
+      source_target <- "source"
+      target <- FALSE
+    }
+
     # If we don't assign (= copy) it (input$source_oracle_presettings_list)
     # here, the value will stay reactive and change every time we
     # select another system. But it should only change if
@@ -456,10 +470,10 @@ test_connection_button_clicked <-
     system_name_tmp <-
       paste0(source_target, "_", db_type, "_presettings_list")
     input_system <- input[[system_name_tmp]]
-    rv[[source_target]]$settings <-
-      DQAgui::get_db_settings(input = input,
-                              target = target,
-                              db_type = db_type)
+
+    rv[[source_target]]$settings <- DQAgui::get_db_settings(input = input,
+                                                            target = target,
+                                                            db_type = db_type)
 
     if (db_type == "oracle") {
       lib_path_tmp <- Sys.getenv("KDB_DRIVER")
