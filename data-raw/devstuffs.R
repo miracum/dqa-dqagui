@@ -68,6 +68,8 @@ usethis::use_package("magrittr", type = "Imports")
 # For date-restriction:
 usethis::use_package("daterangepicker", type = "Imports")
 usethis::use_package("DT", type = "Imports")
+usethis::use_package("lubridate", type = "Imports")
+usethis::use_package("parsedate", type = "Imports")
 usethis::use_package("graphics", type = "Imports")
 usethis::use_package("shiny", type = "Imports")
 usethis::use_package("shinyalert", type = "Imports")
@@ -111,6 +113,7 @@ usethis::use_build_ignore("LICENSE.md")
 usethis::use_build_ignore(".gitlab-ci.yml")
 usethis::use_build_ignore(".vscode")
 usethis::use_build_ignore(".lintr")
+usethis::use_build_ignore("ci/*")
 
 ## .gitignore:
 usethis::use_git_ignore("/*")
