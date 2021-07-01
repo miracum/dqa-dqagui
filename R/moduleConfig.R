@@ -457,15 +457,11 @@ module_config_server <-
       )
       config_stuff <-
         rv$settings[[tolower(input$source_postgres_presettings_list)]]
-      # print("old:")
-      # print(config_stuff)
       config_stuff <-
         get_settings_from_displayname(
           displayname = input$source_postgres_presettings_list,
           settings = rv$settings
         )
-      # print("new:")
-      # print(config_stuff)
 
       DIZutils::feedback(
         print_this = paste(

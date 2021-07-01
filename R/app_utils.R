@@ -127,9 +127,6 @@ feedback_txt <- function(system, type) {
 #'
 #'
 set_target_equal_to_source <- function(rv) {
-  # rv$target$settings <- rv$source$settings
-  # rv$target$system_type <- rv$source$system_type
-  # rv$target$system_name <- rv$source$system_name
   rv$target <- rv$source
   return(rv)
 }
