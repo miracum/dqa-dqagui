@@ -75,14 +75,14 @@ module_descriptive_server <-
             " " = c(
               "Variable name:",
               "Source table:",
-              "FHIR ressource:",
+              #"FHIR ressource:",
               "DQ-internal Variable Name:",
               "Variable type:"
             ),
             " " = c(
               o$var_name,
               o$table_name,
-              o$fhir,
+              #o$fhir,
               c$cnt$variable,
               c$type
             )
@@ -98,14 +98,14 @@ module_descriptive_server <-
             " " = c(
               "Variable name:",
               "Source table:",
-              "FHIR ressource:",
+              #"FHIR ressource:",
               "DQ-internal Variable Name:",
               "Variable type:"
             ),
             " " = c(
               o$var_name,
               o$table_name,
-              o$fhir,
+              #o$fhir,
               c$cnt$variable,
               c$type
             )
