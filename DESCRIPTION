@@ -1,27 +1,20 @@
 Package: DQAgui
 Title: DQA GUI
 Version: 0.1.6.9002
-Authors@R: 
-    c(person(given = "Lorenz A.",
-             family = "Kapsner",
-             role = c("cre", "aut"),
-             email = "lorenz.kapsner@uk-erlangen.de",
-             comment = c(ORCID = "0000-0003-1866-860X")),
-      person(given = "Jonathan M.",
-             family = "Mang",
-             role = "aut",
-             comment = c(ORCID = "0000-0003-0518-4710")),
-      person(given = "MIRACUM - Medical Informatics in Research and Care in University Medicine",
-             role = "fnd"),
-      person(given = "Universitätsklinikum Erlangen",
-             role = "cph"))
+Authors@R: c(
+    person("Lorenz A.", "Kapsner", , "lorenz.kapsner@uk-erlangen.de", role = c("cre", "aut"),
+           comment = c(ORCID = "0000-0003-1866-860X")),
+    person("Jonathan M.", "Mang", role = "aut",
+           comment = c(ORCID = "0000-0003-0518-4710")),
+    person("MIRACUM - Medical Informatics in Research and Care in University Medicine", role = "fnd"),
+    person("Universitätsklinikum Erlangen", role = "cph")
+  )
 Description: A graphical user interface (GUI) to the functions implemented in the R package 'DQAstats'.
 License: GPL-3
-LazyData: true
 URL: https://github.com/miracum/dqa-dqagui
 BugReports: https://github.com/miracum/dqa-dqagui/issues
 Encoding: UTF-8
-Date: 2021-10-13
+Date: 2021-10-18
 Imports: 
     data.table,
     daterangepicker,
@@ -47,4 +40,4 @@ Suggests:
     testthat
 Remotes: 
     url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/development/dqastats-development.zip
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
