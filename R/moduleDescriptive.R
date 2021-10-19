@@ -175,7 +175,11 @@ module_descriptive_server <-
         })
 
 
-        for (i in c("source", "target")) {
+        # for some strange reason, lapply is required to dynamically assign
+        # shiny outputs (for-loop doesn't work)
+        lapply(
+          X = c("source", "target"),
+          FUN = function(i) {
 
           raw_data <- paste0(i, "_data")
           vset <- paste0("got_valueset_", substring(raw_data, 1, 1))
@@ -275,7 +279,7 @@ module_descriptive_server <-
             })
           }
           outputOptions(output, vset, suspendWhenHidden = FALSE)
-        }
+        })
       })
     })
 
