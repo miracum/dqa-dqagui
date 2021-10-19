@@ -80,7 +80,6 @@ shiny::shinyServer(function(input, output, session) {
                 }
             )
 
-
             DQAstats::parallel(
                 parallel = rv$parallel,
                 logfile_dir = rv$log$logfile_dir,
@@ -160,6 +159,14 @@ shiny::shinyServer(function(input, output, session) {
             shinyjs::disable("moduleConfig-config_source_postgres_user")
             shinyjs::disable("moduleConfig-config_source_postgres_password")
             shinyjs::disable("moduleConfig-source_postgres_test_connection")
+            shinyjs::disable("moduleConfig-source_oracle_presettings_list")
+            shinyjs::disable("moduleConfig-config_source_oracle_dbname")
+            shinyjs::disable("moduleConfig-config_source_oracle_host")
+            shinyjs::disable("moduleConfig-config_source_oracle_port")
+            shinyjs::disable("moduleConfig-config_source_oracle_user")
+            shinyjs::disable("moduleConfig-config_source_oracle_password")
+            shinyjs::disable("moduleConfig-config_source_sid_password")
+            shinyjs::disable("moduleConfig-source_oracle_test_connection")
 
             shinyjs::disable("moduleConfig-config_targetdir_in")
             shinyjs::disable("moduleConfig-target_csv_presettings_list")
@@ -172,6 +179,14 @@ shiny::shinyServer(function(input, output, session) {
             shinyjs::disable("moduleConfig-config_target_postgres_user")
             shinyjs::disable("moduleConfig-config_target_postgres_password")
             shinyjs::disable("moduleConfig-target_postgres_test_connection")
+            shinyjs::disable("moduleConfig-target_oracle_presettings_list")
+            shinyjs::disable("moduleConfig-config_target_oracle_dbname")
+            shinyjs::disable("moduleConfig-config_target_oracle_host")
+            shinyjs::disable("moduleConfig-config_target_oracle_port")
+            shinyjs::disable("moduleConfig-config_target_oracle_user")
+            shinyjs::disable("moduleConfig-config_target_oracle_password")
+            shinyjs::disable("moduleConfig-config_target_sid_password")
+            shinyjs::disable("moduleConfig-target_oracle_test_connection")
 
 
             shinyjs::disable("moduleConfig-select_dqa_assessment_variables")
@@ -188,10 +203,6 @@ shiny::shinyServer(function(input, output, session) {
                 value = rv$restricting_date$use_it
             )
             shinyjs::disable("moduleConfig-datetime_picker")
-
-            if (input$tabs == "tab_dashboard") {
-                rv$start <- TRUE
-            }
         }
     })
 

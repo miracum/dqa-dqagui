@@ -28,7 +28,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.1.6.9002")
+my_desc$set_version("0.1.6.9003")
 # The title of your package
 my_desc$set(Title = "DQA GUI")
 # The description of your package
@@ -91,7 +91,7 @@ usethis::use_package("processx", type = "Suggests")
 usethis::use_package("lintr", type = "Suggests")
 
 # Development package
-stats_tag <- "development" # e.g. "v0.1.7" or "development"
+stats_tag <- "feat_new_coreds" # e.g. "v0.1.7" or "development"
 devtools::install_git(
   url = "https://gitlab.miracum.org/miracum/dqa/dqastats.git",
   ref = stats_tag,

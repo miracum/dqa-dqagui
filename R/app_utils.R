@@ -362,13 +362,14 @@ check_load_data_button <- function(rv, session) {
 
       shinyWidgets::updateSwitchInput(
         session = session,
-        inputId = "date_restriction_slider",
+        inputId = "moduleConfig-date_restriction_slider",
         label = "Apply time-filtering?",
         disabled = FALSE,
         value = FALSE,
         onLabel = "Yes",
         offLabel = "No"
       )
+
     } else {
       ## Time filtering is NOT possible, so disable the elements in the GUI:
       DIZutils::feedback(

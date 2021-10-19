@@ -175,162 +175,107 @@ module_descriptive_server <-
         })
 
 
+        for (i in c("source", "target")) {
 
-        # conformance source
-        # render conformance checks (only if value set present)
-        if (!is.na(desc_out$source_data$checks$constraints)) {
-          # workaround to tell ui, that value_set is there
-          output$got_valueset_s <- reactive({
-            return(TRUE)
-          })
+          raw_data <- paste0(i, "_data")
+          vset <- paste0("got_valueset_", substring(raw_data, 1, 1))
 
-          output$descr_checks_source <- renderUI({
-            h <- h5(tags$b("Constraining values/rules:"))
-            v <- verbatimTextOutput(
-              outputId = "moduleDescriptive-descr_checks_source_valueset"
-            )
+          if (desc_out[[raw_data]]$checks$var_type == "datetime") {
+            if (is.na(desc_out[[raw_data]]$checks$constraints)) {
+              desc_out[[raw_data]]$checks$constraints <-
+                value_conf[[raw_data]]$rule
+            }
+          }
+
+          # conformance source
+          # render conformance checks (only if value set present)
+          if (!is.na(desc_out[[raw_data]]$checks$constraints)) {
+            # workaround to tell ui, that value_set is there
+            output[[vset]] <- reactive({
+              return(TRUE)
+            })
+
+            output[[paste0("descr_checks_", i)]] <- renderUI({
+              h <- h5(tags$b("Constraining values/rules:"))
+              v <- verbatimTextOutput(
+                outputId = paste0(
+                  "moduleDescriptive-descr_checks_", i, "_valueset"
+                )
+              )
 
 
-            ch <- h5(tags$b("Value conformance:"))
-            ce <-
-              h5(paste0(
+              ch <- h5(tags$b("Value conformance:"))
+              ce <- h5(paste0(
                 "Conformance check: ",
                 ifelse(
-                  value_conf$source_data$conformance_error,
+                  value_conf[[raw_data]]$conformance_error,
                   "failed",
                   "passed"
                 )
               ))
-            cu <-
-              uiOutput("moduleDescriptive-descr_conformance_source")
-            do.call(tagList, list(h, v, tags$hr(), ch, ce, cu))
-          })
-
-          json_obj_src <-
-            jsonlite::fromJSON(desc_out$source_data$checks$constraints)
-
-          if (desc_out$source_data$checks$var_type == "enumerated") {
-            output$descr_checks_source_valueset <- renderText({
-              json_obj_src$value_set
-            })
-          } else if (desc_out$source_data$checks$var_type %in%
-                     c("integer", "float")) {
-            output$descr_checks_source_valueset <- renderPrint({
-              json_obj_src$range
-            })
-          } else if (desc_out$source_data$checks$var_type ==
-                     "string") {
-            output$descr_checks_source_valueset <- renderText({
-              json_obj_src$regex
-            })
-          }
-
-          # render automatic conformance checks source
-          # value conformance
-          if (isTRUE(value_conf$source_data$conformance_error)) {
-            output$descr_conformance_source <- renderUI({
-              v <- verbatimTextOutput(
-                outputId = "moduleDescriptive-descr_conform_source_results"
-              )
-              do.call(tagList, list(v))
-            })
-
-            output$descr_conform_source_results <- renderText({
-              value_conf$source_data$conformance_results
-            })
-          } else {
-            output$descr_conformance_source <- renderUI({
-
-            })
-          }
-
-        } else {
-          # workaround to tell ui, that value_set is not there
-          output$got_valueset_s <- reactive({
-            return(FALSE)
-          })
-        }
-        outputOptions(output, "got_valueset_s", suspendWhenHidden = FALSE)
-
-
-        # conformance target
-        # render conformance checks (only if value set present)
-        if (!is.na(desc_out$target_data$checks$constraints)) {
-          # workaround to tell ui, that value_set is there
-          output$got_valueset_t <- reactive({
-            return(TRUE)
-          })
-
-          output$descr_checks_target <- renderUI({
-            h <- h5(tags$b("Constraining values/rules:"))
-            v <- verbatimTextOutput(
-              outputId = "moduleDescriptive-descr_checks_target_valueset"
-            )
-
-
-            ch <- h5(tags$b("Value conformance:"))
-            ce <-
-              h5(paste0(
-                "Conformance check: ",
-                ifelse(
-                  value_conf$target_data$conformance_error,
-                  "failed",
-                  "passed"
+              cu <- uiOutput(
+                paste0(
+                  "moduleDescriptive-descr_conformance_", i
                 )
-              ))
-            cu <-
-              uiOutput("moduleDescriptive-descr_conformance_target")
-            do.call(tagList, list(h, v, tags$hr(), ch, ce, cu))
-          })
-
-          json_obj_tar <-
-            jsonlite::fromJSON(desc_out$target_data$checks$constraints)
-
-          if (desc_out$target_data$checks$var_type ==
-              "enumerated") {
-            output$descr_checks_target_valueset <- renderText({
-              json_obj_tar$value_set
-            })
-          } else if (desc_out$target_data$checks$var_type %in%
-                     c("integer", "float")) {
-            output$descr_checks_target_valueset <- renderPrint({
-              json_obj_tar$range
-            })
-          } else if (desc_out$target_data$checks$var_type ==
-                     "string") {
-            output$descr_checks_target_valueset <- renderText({
-              json_obj_tar$regex
-            })
-          }
-
-
-          # render automatic conformance checks target
-          # value conformance
-          if (isTRUE(value_conf$target_data$conformance_error)) {
-            output$descr_conformance_target <- renderUI({
-              v <- verbatimTextOutput(
-                outputId = "moduleDescriptive-descr_conform_target_results"
               )
-              do.call(tagList, list(v))
+              do.call(tagList, list(h, v, tags$hr(), ch, ce, cu))
             })
 
-            output$descr_conform_target_results <- renderText({
-              value_conf$target_data$conformance_results
-            })
+            if (desc_out[[raw_data]]$checks$var_type != "datetime") {
+              json_obj <-
+                jsonlite::fromJSON(desc_out[[raw_data]]$checks$constraints)
+            }
+
+            if (desc_out[[raw_data]]$checks$var_type == "enumerated") {
+              output[[paste0("descr_checks_", i, "_valueset")]] <- renderText({
+                json_obj$value_set
+              })
+            } else if (desc_out[[raw_data]]$checks$var_type %in%
+                       c("integer", "float")) {
+              output[[paste0("descr_checks_", i, "_valueset")]] <- renderPrint({
+                json_obj$range
+              })
+            } else if (desc_out[[raw_data]]$checks$var_type ==
+                       "string") {
+              output[[paste0("descr_checks_", i, "_valueset")]] <- renderText({
+                json_obj$regex
+              })
+            } else if (desc_out[[raw_data]]$checks$var_type ==
+                       "datetime") {
+              output[[paste0("descr_checks_", i, "_valueset")]] <- renderText({
+                value_conf[[raw_data]]$rule
+              })
+            }
+
+            # render automatic conformance checks source
+            # value conformance
+            if (isTRUE(value_conf[[raw_data]]$conformance_error)) {
+              output[[paste0("descr_conformance_", i)]] <- renderUI({
+                v <- verbatimTextOutput(
+                  outputId = paste0(
+                    "moduleDescriptive-descr_conform_", i, "_results"
+                  )
+                )
+                do.call(tagList, list(v))
+              })
+
+              output[[paste0("descr_conform_", i, "_results")]] <- renderText({
+                value_conf[[raw_data]]$conformance_results
+              })
+            } else {
+              output[[paste0("descr_conformance_", i)]] <- renderUI({
+
+              })
+            }
+
           } else {
-            output$descr_conformance_target <- renderUI({
-
+            # workaround to tell ui, that value_set is not there
+            output[[vset]] <- reactive({
+              return(FALSE)
             })
           }
-
-        } else {
-          # workaround to tell ui, that value_set is not there
-          output$got_valueset_t <- reactive({
-            return(FALSE)
-          })
+          outputOptions(output, vset, suspendWhenHidden = FALSE)
         }
-        outputOptions(output, "got_valueset_t", suspendWhenHidden = FALSE)
-
       })
     })
 
@@ -432,7 +377,7 @@ module_descriptive_ui <- function(id) {
                  ),
                  tags$hr(),
                  uiOutput(ns("descr_source_sql"))
-                 )),
+          )),
         fluidRow(
           column(8,
                  h5(
@@ -468,7 +413,7 @@ module_descriptive_ui <- function(id) {
                  ),
                  tags$hr(),
                  uiOutput(ns("descr_target_sql"))
-                 )),
+          )),
         fluidRow(
           column(8,
                  h5(

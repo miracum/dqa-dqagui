@@ -55,9 +55,7 @@ module_dashboard_server <-
             stopifnot(length(rv$source$system_type) == 1)
 
             ## Save restricting date information to rv object:
-            if (is.null(rv$restricting_date) ||
-                is.null(rv$restricting_date$start) ||
-                is.null(rv$restricting_date$end)) {
+            if (isFALSE(rv$restricting_date$use_it)) {
               DIZutils::feedback(
                 print_this = paste0(
                   "No time contstraints will be applied to input data.",
@@ -67,7 +65,6 @@ module_dashboard_server <-
                 logfile = rv$log$logfile_dir,
                 findme = "44d1fbe2e7"
               )
-              rv$restricting_date$use_it <- FALSE
             } else {
               ### INFO:
               ### We are currently only using DATES without a time here.

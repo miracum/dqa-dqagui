@@ -862,12 +862,24 @@ module_config_server <-
         ## For runtime calculation:
         start_time <- Sys.time()
 
+        DIZutils::feedback(
+          paste0(
+            "Restricting date slider state: ",
+            input$date_restriction_slider
+          ),
+          type = "Info",
+          findme = "1dcsdfg37b8",
+          logfile_dir = rv$log$logfile_dir,
+          headless = rv$headless
+        )
+        rv$restricting_date$use_it <- input$date_restriction_slider
+
         # The button is on "moduleConfig".
         # This tab here will be set active below if all inputs are valid.
 
         # Error flag: If an error occurs, the flag will be set to true
         # and the main calculation won't start:
-        error_tmp <- F
+        error_tmp <- FALSE
 
         # check, if mdr is present. without mdr, we cannot perform any
         # further operations
@@ -879,7 +891,7 @@ module_config_server <-
             logfile_dir = rv$log$logfile_dir,
             headless = rv$headless
           )
-          error_tmp <- T
+          error_tmp <- TRUE
           # mdr is present:
         } else {
           # check if sitename is present
@@ -894,7 +906,7 @@ module_config_server <-
                 " Please select your site name."
               )
             ))
-            error_tmp <- T
+            error_tmp <- TRUE
           } else {
             # site name is present:
             rv$sitename <-
@@ -911,11 +923,11 @@ module_config_server <-
                 " and try again."
               ),
               type = "UI",
-              ui = T,
+              ui = TRUE,
               findme = "57562a3092",
               logfile_dir = rv$log$logfile_dir
             )
-            error_tmp <- T
+            error_tmp <- TRUE
           }
 
           # If target should be identical to source, set it here again:
@@ -971,8 +983,8 @@ module_config_server <-
                 "target_system" = rv$target$settings,
                 "site_name" = rv$sitename
               ),
-              pretty = T,
-              auto_unbox = F
+              pretty = TRUE,
+              auto_unbox = FALSE
             ),
             paste0(tempdir(), "/_settings/global_settings.JSON")
           )
@@ -985,7 +997,7 @@ module_config_server <-
           logfile_dir = rv$log$logfile_dir
         )
         ## Trigger the modal for the user/UI:
-        rv$error <- T
+        rv$error <- TRUE
         show_failure_alert(
           paste0(
             "Executing the script to pre-check the",
@@ -1020,7 +1032,7 @@ module_config_server <-
 
     shiny::observeEvent(eventExpr = input$date_restriction_slider,
                         handlerExpr = {
-                          if (input$date_restriction_slider) {
+                          if (isTRUE(input$date_restriction_slider)) {
                             DIZutils::feedback(
                               print_this = "Date restriction will be applied",
                               findme = "4736de090c",
@@ -1543,7 +1555,7 @@ module_config_ui <- function(id) {
             shinyWidgets::switchInput(inputId = ns("date_restriction_slider"),
                                       label = "Apply time-filtering",
                                       labelWidth = 150,
-                                      value = FALSE,
+                                      value = NULL,
                                       disabled = TRUE
                                       # , labelWidth = "80px"
                                       ),
