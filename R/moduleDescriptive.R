@@ -209,7 +209,7 @@ module_descriptive_server <-
           json_obj_src <-
             jsonlite::fromJSON(desc_out$source_data$checks$constraints)
 
-          if (desc_out$source_data$checks$var_type == "permittedValues") {
+          if (desc_out$source_data$checks$var_type == "enumerated") {
             output$descr_checks_source_valueset <- renderText({
               json_obj_src$value_set
             })
@@ -287,7 +287,7 @@ module_descriptive_server <-
             jsonlite::fromJSON(desc_out$target_data$checks$constraints)
 
           if (desc_out$target_data$checks$var_type ==
-              "permittedValues") {
+              "enumerated") {
             output$descr_checks_target_valueset <- renderText({
               json_obj_tar$value_set
             })

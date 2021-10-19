@@ -1563,7 +1563,7 @@ module_config_ui <- function(id) {
                               format = "DD.MM.Y",
                               firstDay = 1)
               )
-              # ,icon = shiny::icon("calendar")
+              # ,icon = shiny::icon("datetime")
             ),
             width = 12
           ),
