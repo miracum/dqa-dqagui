@@ -38,7 +38,7 @@ render_quick_checks <- function(dat_table) {
         scrollY = "30vh",
         pageLength = nrow(dat_table)
       ),
-      rownames = F
+      rownames = FALSE
     ) %>%
     DT::formatStyle(columns = 2,
                     backgroundColor = DT::styleEqual(
@@ -138,7 +138,7 @@ set_target_equal_to_source <- function(rv) {
 #'
 #'
 validate_inputs <- function(rv, input, output, session) {
-  error_tmp <- F
+  error_tmp <- FALSE
   if (!is.null(rv$source$system_type) &&
       !is.null(rv$target$system_type)) {
     for (source_target in c("source", "target")) {
@@ -182,7 +182,7 @@ validate_inputs <- function(rv, input, output, session) {
                 logfile_dir = rv$log$logfile_dir,
                 headless = rv$headless
               )
-              error_tmp <- T
+              error_tmp <- TRUE
             }
           } else {
             # invalid path:
@@ -205,7 +205,7 @@ validate_inputs <- function(rv, input, output, session) {
               logfile_dir = rv$log$logfile_dir,
               headless = rv$headless
             )
-            error_tmp <- T
+            error_tmp <- TRUE
           }
         } else if (rv[[source_target]]$system_type == "postgres") {
           error_tmp <- test_connection_button_clicked(
@@ -240,7 +240,7 @@ validate_inputs <- function(rv, input, output, session) {
             logfile_dir = rv$log$logfile_dir,
             headless = rv$headless
           )
-          error_tmp <- T
+          error_tmp <- TRUE
         }
       }
     }
@@ -253,7 +253,7 @@ validate_inputs <- function(rv, input, output, session) {
       logfile_dir = rv$log$logfile_dir,
       headless = rv$headless
     )
-    error_tmp <- T
+    error_tmp <- TRUE
   }
   return(!error_tmp)
 }
@@ -303,12 +303,12 @@ check_load_data_button <- function(rv, session) {
                !is.null(rv$target$system_type) &&
                rv$target$system_type %in% systems) {
       # Source and target are set:
-      res <- T
+      res <- TRUE
     } else {
-      res <- F
+      res <- FALSE
     }
   } else {
-    res <- F
+    res <- FALSE
   }
 
   if (res) {
@@ -360,9 +360,10 @@ check_load_data_button <- function(rv, session) {
         logfile_dir = rv$log$logfile_dir
       )
 
+      # do not use "inputId" with moduleConfig here. doesn't work.
       shinyWidgets::updateSwitchInput(
         session = session,
-        inputId = "moduleConfig-date_restriction_slider",
+        inputId = "date_restriction_slider",
         label = "Apply time-filtering?",
         disabled = FALSE,
         value = FALSE,
