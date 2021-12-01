@@ -31,7 +31,13 @@
 module_config_server <-
   function(input, output, session, rv, input_re) {
     # filepath roots dir
-    roots <- c(home = "/home/")
+    roots <- c(
+      # home = "/home/",
+      home = "~",
+      source = Sys.getenv("EXAMPLECSV_SOURCE_PATH"),
+      target = Sys.getenv("EXAMPLECSV_TARGET_PATH")
+    )
+
 
     ## Mapping between system_type and tab_name:
     system_types_mapping <-
@@ -45,6 +51,8 @@ module_config_server <-
       input = input,
       id = "config_sourcedir_in",
       roots = roots,
+      defaultRoot = ifelse(roots[["source"]] == "", "home", "source"),
+      allowDirCreate = FALSE,
       session = session
     )
 
@@ -52,12 +60,16 @@ module_config_server <-
       input = input,
       id = "config_targetdir_in",
       roots = roots,
+      defaultRoot = ifelse(roots[["target"]] == "", "home", "target"),
+      allowDirCreate = FALSE,
       session = session
     )
 
     # observe click button event
     observeEvent(
       eventExpr = input$config_sourcedir_in,
+      ignoreInit = TRUE,
+      ignoreNULL = TRUE,
       handlerExpr = {
         rv$csv_dir_src_clicked <- FALSE
         rv$csv_dir_src <- as.character(
@@ -101,6 +113,8 @@ module_config_server <-
     )
     observeEvent(
       eventExpr = input$config_targetdir_in,
+      ignoreInit = TRUE,
+      ignoreNULL = TRUE,
       handlerExpr = {
         rv$csv_dir_tar_clicked <- FALSE
         rv$csv_dir_tar <- as.character(
@@ -1157,8 +1171,7 @@ module_config_ui <- function(id) {
                 div(
                   paste(
                     "Please choose the directory of your",
-                    "\u00A7",
-                    "21 source data in csv format (default: '/home/input')."
+                    " source data in csv format (default: '/home/input')."
                   )
                 ),
                 br(),
@@ -1345,8 +1358,7 @@ module_config_ui <- function(id) {
                 div(
                   paste(
                     "Please choose the directory of your",
-                    "\u00A7",
-                    "21 target data in csv format (default: '/home/input')."
+                    " target data in csv format (default: '/home/input')."
                   )
                 ),
                 br(),

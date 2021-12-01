@@ -220,7 +220,8 @@ module_dashboard_server <-
               "Loading target data ..."))
 
             ## load target_data
-            if (length(setdiff(rv$source$settings, rv$target$settings)) == 0) {
+            # if (length(setdiff(rv$source$settings, rv$target$settings)) == 0) {
+            if (isTRUE(rv$target_is_source)) {
               DIZutils::feedback(
                 print_this = paste0(
                   "Source and Target settings are identical.",
@@ -425,6 +426,8 @@ module_dashboard_server <-
           name = "module_dashboard_server -> rv$start",
           logfile_dir = rv$log$logfile_dir
         )
+      } else {
+        rv$start <- NULL
       }
     })
 
