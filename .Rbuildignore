@@ -9,3 +9,4 @@
 ^\.github$
 ^tic\.R$
 ^ci/*$
+^NEWS\.md$

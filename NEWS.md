@@ -1,58 +1,135 @@
-# [](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.4...v) (2020-11-13)
+# DQAgui NEWS
+
+## Unreleased (2022-01-03)
+
+#### Fixes
+
+* removing module-name from inputId for time-restriction slider
+#### Others
+
+* dev commit after release
+
+Full set of changes: [`v0.1.6...2edb036`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...2edb036)
+
+## v0.1.6 (2021-07-01)
+
+#### New Features
+
+* added functionality to provide more than one host for each source system
+* added 'everything' as preset for timerange picking
+* added time filtering to the gui
+#### Fixes
+
+* fixed crash if time restricting column was missing in mdr
+* disabling the config tab was broken due to new ids
+* fixed bug where no tab was displayed if csv tab was missing
+* time support of date-only time-restriction is now valid
+#### Refactorings
+
+* updates restricting date calls
+#### Others
+
+* moved to central ci-config
+* moved to central ci-config
+* moved to central ci-config
+* ci fixed
+* preparation for new release
+* small improvements
+* ci lints
+* linting stuff
+* linting fixes
+* added `reshape2` as import for displayname lists
+* added displaynames for system selection
+* updated restricting date calls
+* finalized datetime picker and slider
+* reverted second gc call on session reload
+* adde gc reset
+* added second garbage collection after reload
+* added background cleaning for app reset
+* added garbage collection to reload of the app
+* removed debugging prints
+* moving towards integration of the datepicker
+* starting to add restricting date functionality to the gui
+* added R version to gui
+
+Full set of changes: [`v0.1.5...v0.1.6`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.5...v0.1.6)
+
+## v0.1.5 (2021-02-19)
+
+#### New Features
+
+* added waiter to display background actions
+* added error handling and shinyalert
+* finalized oracle tab
+* added oracle tab
+#### Fixes
+
+* allow and use (!) custom settings inserted over the UI
+* fixed oracle tab bug
+* improvement of oracle tab
+#### Refactorings
+
+* preparation for new relase
+#### Docs
+
+* function description addings
+* added changelog
+#### Others
+
+* run ci also for new tags
+* updated ci for new harbor and base_image
+* simplified ci
+* switched to dev-base_image for more performance
+* changed base_image to speed up
+* changed base_image to speed up
+* better visualization of mdr table
+
+Full set of changes: [`v0.1.4...v0.1.5`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.4...v0.1.5)
+
+## v0.1.4 (2020-05-07)
 
 
-### feat
+Full set of changes: [`v0.1.3...v0.1.4`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.3...v0.1.4)
 
-* added oracle tab ([ad19c03](https://gitlab.miracum.org/miracum/dqa/dqagui/commit/ad19c031721f762b7908263d55c428cdbf16291b))
-
-
-
-## [0.1.4](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.3...v0.1.4) (2020-05-07)
+## v0.1.3 (2020-04-28)
 
 
+Full set of changes: [`v0.1.2...v0.1.3`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.2...v0.1.3)
+
+## v0.1.2 (2020-04-21)
 
 
-## [0.1.3](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.2...v0.1.3) (2020-04-28)
+Full set of changes: [`v0.1.1...v0.1.2`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.1...v0.1.2)
+
+## v0.1.1 (2020-03-20)
 
 
+Full set of changes: [`v0.1.0...v0.1.1`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.0...v0.1.1)
+
+## v0.1.0 (2020-03-16)
 
 
-## [0.1.2](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.1...v0.1.2) (2020-04-21)
+Full set of changes: [`v0.0.7...v0.1.0`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.7...v0.1.0)
+
+## v0.0.7 (2020-02-25)
 
 
+Full set of changes: [`v0.0.6...v0.0.7`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.6...v0.0.7)
+
+## v0.0.6 (2020-01-30)
 
 
-## [0.1.1](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.0...v0.1.1) (2020-03-20)
+Full set of changes: [`v0.0.4...v0.0.6`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.4...v0.0.6)
+
+## v0.0.4 (2019-11-15)
 
 
+Full set of changes: [`v0.0.3...v0.0.4`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.3...v0.0.4)
+
+## v0.0.3 (2019-11-12)
 
 
-# [0.1.0](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.7...v0.1.0) (2020-03-16)
+Full set of changes: [`v0.0.2...v0.0.3`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.2...v0.0.3)
 
-
-
-
-## [0.0.7](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.6...v0.0.7) (2020-02-25)
-
-
-
-
-## [0.0.6](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.4...v0.0.6) (2020-01-29)
-
-
-
-
-## [0.0.4](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.3...v0.0.4) (2019-11-15)
-
-
-
-
-## [0.0.3](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.2...v0.0.3) (2019-11-12)
-
-
-
-
-## 0.0.2 (2019-09-27)
-
-
+## v0.0.2 (2019-09-27)
 

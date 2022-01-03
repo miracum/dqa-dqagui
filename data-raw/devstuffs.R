@@ -114,6 +114,7 @@ usethis::use_build_ignore(".gitlab-ci.yml")
 usethis::use_build_ignore(".vscode")
 usethis::use_build_ignore(".lintr")
 usethis::use_build_ignore("ci/*")
+usethis::use_build_ignore("NEWS.md")
 
 ## .gitignore:
 usethis::use_git_ignore("/*")
@@ -135,6 +136,13 @@ usethis::use_git_ignore("/.Rproj*")
 usethis::use_git_ignore("/.RData")
 usethis::use_git_ignore("/.vscode")
 usethis::use_git_ignore("!/.lintr")
+usethis::use_git_ignore("!/NEWS.md")
 #usethis::use_git_ignore("/inst/demo_data/utilities/MDR/.~lock.mdr_example_data.csv#")
 usethis::use_git_ignore(".~lock.*.csv#")
 
+# create NEWS.md using the python-package "auto-changelog" (must be installed)
+# https://www.conventionalcommits.org/en/v1.0.0/
+# build|ci|docs|feat|fix|perf|refactor|test
+system(
+  command = 'auto-changelog -u -t "DQAgui NEWS" --tag-prefix "v" -o "NEWS.md"'
+)
