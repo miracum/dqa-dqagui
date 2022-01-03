@@ -296,7 +296,7 @@ module_dashboard_server <-
             if (!is.null(rv$data_plausibility$atemporal)) {
               # calculate plausibilites
               rv$results_plausibility_atemporal <-
-                DQAstats::atemp_pausi_results(
+                DQAstats::atemp_plausi_results(
                   rv = shiny::reactiveValuesToList(rv),
                   atemp_vars = rv$data_plausibility$atemporal,
                   mdr = rv$mdr,
