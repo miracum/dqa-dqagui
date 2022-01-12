@@ -28,7 +28,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.1.6.9005")
+my_desc$set_version("0.1.6.9006")
 # The title of your package
 my_desc$set(Title = "DQA GUI")
 # The description of your package
@@ -80,6 +80,7 @@ usethis::use_package("shinyWidgets", type = "Imports")
 usethis::use_package("knitr", type = "Imports")
 usethis::use_package("jsonlite", type = "Imports")
 usethis::use_package("DIZutils", type = "Imports")
+usethis::use_package("DQAstats", type = "Imports")
 # For loading-animations:
 usethis::use_package("waiter", type = "Imports")
 usethis::use_package("reshape2", type = "Imports")
@@ -90,22 +91,35 @@ usethis::use_package("testthat", type = "Suggests")
 usethis::use_package("processx", type = "Suggests")
 usethis::use_package("lintr", type = "Suggests")
 
-# Development package
-stats_tag <- "feat_new_coreds" # e.g. "v0.1.7" or "development"
-devtools::install_git(
-  url = "https://gitlab.miracum.org/miracum/dqa/dqastats.git",
-  ref = stats_tag,
-  upgrade = "always",
-  quiet = TRUE
-)
 
-# usethis::use_dev_package("DQAstats", type = "Imports")
-# https://cran.r-project.org/web/packages/devtools/vignettes/dependencies.html
-desc::desc_set_remotes(c(
-  paste0(
-    "url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/", stats_tag, "/dqastats-", stats_tag, ".zip")
-),
-file = usethis::proj_get())
+# Development packages
+utils_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
+if (utils_tag == "cran") {
+  install.packages("DIZutils")
+} else{
+  devtools::install_github("miracum/misc-dizutils", ref = utils_tag)
+  desc::desc_set_remotes(c(paste0(
+    "github::miracum/misc-dizutils@", utils_tag
+  )),
+  file = usethis::proj_get())
+}
+
+stats_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
+if (utils_tag == "cran") {
+  install.packages("DQAstats")
+} else{
+  devtools::install_git(
+    url = "https://gitlab.miracum.org/miracum/dqa/dqastats.git",
+    ref = stats_tag,
+    upgrade = "always",
+    quiet = TRUE
+  )
+  desc::desc_set_remotes(c(paste0(
+    "url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/", stats_tag, "/dqastats-", stats_tag, ".zip"
+  )),
+  file = usethis::proj_get())
+}
+
 
 ## .Rbuildignore: ##
 usethis::use_build_ignore("data-raw")
