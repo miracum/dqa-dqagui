@@ -1,15 +1,18 @@
 # DQAgui NEWS
 
-## Unreleased (2022-01-03)
+## Unreleased (2022-01-12)
 
 #### Fixes
 
+* equal csv paths lead to false assumption of source == target
 * removing module-name from inputId for time-restriction slider
 #### Others
 
+* switching dqastats dependency to cran
+* creating news.md; allow in gitignore; added to rbuildignore
 * dev commit after release
 
-Full set of changes: [`v0.1.6...2edb036`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...2edb036)
+Full set of changes: [`v0.1.6...e75bc04`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...e75bc04)
 
 ## v0.1.6 (2021-07-01)
 
