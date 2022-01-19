@@ -232,7 +232,7 @@ module_descriptive_server <-
 
             if (desc_out[[raw_data]]$checks$var_type == "enumerated") {
               output[[paste0("descr_checks_", i, "_valueset")]] <- renderText({
-                json_obj$value_set
+                paste(json_obj$value_set, collapse = ", ")
               })
             } else if (desc_out[[raw_data]]$checks$var_type %in%
                        c("integer", "float")) {

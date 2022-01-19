@@ -28,7 +28,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.1.6.9006")
+my_desc$set_version("0.1.6.9007")
 # The title of your package
 my_desc$set(Title = "DQA GUI")
 # The description of your package
@@ -95,7 +95,7 @@ usethis::use_package("lintr", type = "Suggests")
 # Development packages
 utils_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
 if (utils_tag == "cran") {
-  install.packages("DIZutils")
+  remotes::update_packages("DIZutils", upgrade = "always")
 } else{
   devtools::install_github("miracum/misc-dizutils", ref = utils_tag)
   desc::desc_set_remotes(c(paste0(
@@ -106,7 +106,7 @@ if (utils_tag == "cran") {
 
 stats_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
 if (utils_tag == "cran") {
-  install.packages("DQAstats")
+  remotes::update_packages("DQAstats", upgrade = "always")
 } else{
   devtools::install_git(
     url = "https://gitlab.miracum.org/miracum/dqa/dqastats.git",
