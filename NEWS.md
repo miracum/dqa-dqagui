@@ -4,16 +4,18 @@
 
 #### Fixes
 
+* removed custom reset function due to error when starting shiny app
 * equal csv paths lead to false assumption of source == target
 * removing module-name from inputId for time-restriction slider
 #### Others
 
+* updated parsing of value_set according to new definition from dqastats
 * updated news.md
 * switching dqastats dependency to cran
 * creating news.md; allow in gitignore; added to rbuildignore
 * dev commit after release
 
-Full set of changes: [`v0.1.6...752ff6f`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...752ff6f)
+Full set of changes: [`v0.1.6...f343c5f`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...f343c5f)
 
 ## v0.1.6 (2021-07-01)
 
