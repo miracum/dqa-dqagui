@@ -100,6 +100,7 @@ module_config_server <-
             input_re()[["moduleConfig-source_csv_presettings_list"]]
           rv$source$system_type <- "csv"
 
+          ## Fixes #42 (GitLab):
           env_var_name <-
             paste0(toupper(rv$source$system_name), "_PATH")
           DIZutils::feedback(
@@ -169,6 +170,7 @@ module_config_server <-
             input_re()[["moduleConfig-target_csv_presettings_list"]]
           rv$target$system_type <- "csv"
 
+          ## Fixes #42 (GitLab):
           env_var_name <-
             paste0(toupper(rv$target$system_name), "_PATH")
           DIZutils::feedback(
