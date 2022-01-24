@@ -34,8 +34,8 @@ module_config_server <-
     roots <- c(
       # home = "/home/",
       home = "~",
-      source = Sys.getenv("EXAMPLECSV_SOURCE_PATH"),
-      target = Sys.getenv("EXAMPLECSV_TARGET_PATH")
+      source = Sys.getenv("DEMO_SOURCE_PATH"),
+      target = Sys.getenv("DEMO_TARGET_PATH")
     )
 
 
@@ -99,6 +99,31 @@ module_config_server <-
           rv$source$system_name <-
             input_re()[["moduleConfig-source_csv_presettings_list"]]
           rv$source$system_type <- "csv"
+
+          env_var_name <-
+            paste0(toupper(rv$source$system_name), "_PATH")
+          DIZutils::feedback(
+            print_this = paste0(
+              "CSV path '",
+              rv$source$settings$path,
+              "' was assigned in the GUI.",
+              " Assigning it to the environment variable '",
+              env_var_name,
+              "' now."
+            ),
+            findme = "272f922ab2",
+            logfile_dir = rv$log$logfile_dir,
+            headless = rv$headless
+          )
+          ## Setting the path as environment variable (this must be done via
+          ## `do.call` because otherwise the name `env_var_name` will
+          ## become the name of the env-var and not its value.
+          ## Sys.setenv(env_var_name = rv$source$settings$path) leads to
+          ## `env_var_name = "path"` be created and not
+          ## `example_name = "path"`):
+          DIZutils::setenv2(key = env_var_name, val = rv$source$settings$path)
+          rm(env_var_name)
+
           DIZutils::feedback(
             paste0("rv$source$system_type = ",
                    rv$source$system_type),
@@ -143,6 +168,31 @@ module_config_server <-
           rv$target$system_name <-
             input_re()[["moduleConfig-target_csv_presettings_list"]]
           rv$target$system_type <- "csv"
+
+          env_var_name <-
+            paste0(toupper(rv$target$system_name), "_PATH")
+          DIZutils::feedback(
+            print_this = paste0(
+              "CSV path '",
+              rv$target$settings$path,
+              "' was assigned in the GUI.",
+              " Assigning it to the environment variable '",
+              env_var_name,
+              "' now."
+            ),
+            findme = "fe2b85dc3c",
+            logfile_dir = rv$log$logfile_dir,
+            headless = rv$headless
+          )
+          ## Setting the path as environment variable (this must be done via
+          ## `do.call` because otherwise the name `env_var_name` will
+          ## become the name of the env-var and not its value.
+          ## Sys.setenv(env_var_name = rv$target$settings$path) leads to
+          ## `env_var_name = "path"` be created and not
+          ## `example_name = "path"`):
+          DIZutils::setenv2(key = env_var_name, val = rv$target$settings$path)
+          rm(env_var_name)
+
           DIZutils::feedback(
             paste0("rv$target$system_type = ",
                    rv$target$system_type),
