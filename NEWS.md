@@ -4,6 +4,7 @@
 
 #### Fixes
 
+* added storing of paths to env
 * removed custom reset function due to error when starting shiny app
 * equal csv paths lead to false assumption of source == target
 * removing module-name from inputId for time-restriction slider
@@ -16,7 +17,7 @@
 * creating news.md; allow in gitignore; added to rbuildignore
 * dev commit after release
 
-Full set of changes: [`v0.1.6...6b5b959`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...6b5b959)
+Full set of changes: [`v0.1.6...e8cf728`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...e8cf728)
 
 ## v0.1.6 (2021-07-01)
 
