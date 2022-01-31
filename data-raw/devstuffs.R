@@ -90,6 +90,8 @@ usethis::use_package("testthat", type = "Suggests")
 usethis::use_package("processx", type = "Suggests")
 usethis::use_package("lintr", type = "Suggests")
 
+# define remotes
+remotes_append_vector <- NULL
 
 # Development packages
 utils_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
@@ -97,10 +99,15 @@ if (utils_tag == "cran") {
   remotes::update_packages("DIZutils", upgrade = "always")
 } else{
   devtools::install_github("miracum/misc-dizutils", ref = utils_tag)
-  desc::desc_set_remotes(c(paste0(
+
+  add_remotes <- paste0(
     "github::miracum/misc-dizutils@", utils_tag
-  )),
-  file = usethis::proj_get())
+  )
+  if (is.null(remotes_append_vector)) {
+    remotes_append_vector <- add_remotes
+  } else {
+    remotes_append_vector <- c(remotes_append_vector, add_remotes)
+  }
 }
 
 stats_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
@@ -113,10 +120,22 @@ if (stats_tag == "cran") {
     upgrade = "always",
     quiet = TRUE
   )
-  desc::desc_set_remotes(c(paste0(
+  add_remotes <- paste0(
     "url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/", stats_tag, "/dqastats-", stats_tag, ".zip"
-  )),
-  file = usethis::proj_get())
+  )
+  if (is.null(remotes_append_vector)) {
+    remotes_append_vector <- add_remotes
+  } else {
+    remotes_append_vector <- c(remotes_append_vector, add_remotes)
+  }
+}
+
+# finally, add remotes (if required)
+if (!is.null(remotes_append_vector)) {
+  desc::desc_set_remotes(
+    remotes_append_vector,
+    file = usethis::proj_get()
+  )
 }
 
 

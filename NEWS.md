@@ -17,6 +17,7 @@
 * updated news.md
 #### Others
 
+* updated news.md
 * updated debugging script
 * updated news.md
 * updated parsing of value_set according to new definition from dqastats
@@ -25,7 +26,7 @@
 * creating news.md; allow in gitignore; added to rbuildignore
 * dev commit after release
 
-Full set of changes: [`v0.1.6...b1b417a`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...b1b417a)
+Full set of changes: [`v0.1.6...73855af`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...73855af)
 
 ## v0.1.6 (2021-07-01)
 
