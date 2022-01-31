@@ -1,15 +1,23 @@
 # DQAgui NEWS
 
-## Unreleased (2022-01-24)
+## Unreleased (2022-01-31)
 
 #### Fixes
 
+* fixed wrong underlying object for text description of plausibility source checks
+* removed reshape2 as dependency and replaced code with data.table syntax
+* merged development
+* env assignment for csv not works. Fixes [#42](https://gitlab.miracum.org/miracum/dqa/dqagui/issues/42) (gitlab)
 * added storing of paths to env
 * removed custom reset function due to error when starting shiny app
 * equal csv paths lead to false assumption of source == target
 * removing module-name from inputId for time-restriction slider
+#### Docs
+
+* updated news.md
 #### Others
 
+* updated debugging script
 * updated news.md
 * updated parsing of value_set according to new definition from dqastats
 * updated news.md
@@ -17,7 +25,7 @@
 * creating news.md; allow in gitignore; added to rbuildignore
 * dev commit after release
 
-Full set of changes: [`v0.1.6...e8cf728`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...e8cf728)
+Full set of changes: [`v0.1.6...b1b417a`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...b1b417a)
 
 ## v0.1.6 (2021-07-01)
 
@@ -124,7 +132,7 @@ Full set of changes: [`v0.0.7...v0.1.0`](https://gitlab.miracum.org/miracum/dqa/
 
 Full set of changes: [`v0.0.6...v0.0.7`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.6...v0.0.7)
 
-## v0.0.6 (2020-01-29)
+## v0.0.6 (2020-01-30)
 
 
 Full set of changes: [`v0.0.4...v0.0.6`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.4...v0.0.6)
