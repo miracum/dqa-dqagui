@@ -34,8 +34,8 @@ module_config_server <-
     roots <- c(
       # home = "/home/",
       home = "~",
-      source = Sys.getenv("DEMO_SOURCE_PATH"),
-      target = Sys.getenv("DEMO_TARGET_PATH")
+      source = Sys.getenv("CSV_SOURCE_BASEPATH"),
+      target = Sys.getenv("CSV_TARGET_BASEPATH")
     )
 
 
@@ -278,15 +278,18 @@ module_config_server <-
           ## Create mapping for display names:
           tmp <- names(rv$settings)
           names(tmp) <- names(rv$settings)
-          rv$displaynames <-
-            data.table::as.data.table(reshape2::melt(lapply(tmp, function(x) {
-              return(get_display_name_from_settings(settings = rv$settings,
-                                                    prefilter = x))
-            }), value.name = "displayname"))
+          rv$displaynames <- lapply(tmp, function(x) {
+            ret <- get_display_name_from_settings(settings = rv$settings,
+                                                  prefilter = x)
+            return(ret)
+          }) %>%
+            data.table::as.data.table() %>%
+            data.table::transpose(keep.names = "displayname")
           rm(tmp)
           data.table::setnames(x = rv$displaynames,
-                               old = "L1",
+                               old = "V1",
                                new = "source_system_name")
+          print(rv$displaynames)
 
 
           # - Different system-types:
@@ -1180,7 +1183,6 @@ module_config_ui <- function(id) {
 
   tagList(
     fluidRow(
-      shinyalert::useShinyalert(),
       column(
         9,
         ## This will be displayed after the MDR is loaded successfully:
