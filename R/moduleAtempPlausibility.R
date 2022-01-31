@@ -235,7 +235,7 @@ module_atemp_pl_server <- function(input, output, session, rv, input_re) {
             ce <- h5(paste0(
               "Conformance check: ",
               ifelse(
-                value_conf$target_data$conformance_error,
+                value_conf$source_data$conformance_error,
                 "failed",
                 "passed"
               )
