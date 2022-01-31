@@ -6,8 +6,8 @@ port = 3838
 output_dir = "output/"
 
 
-#Sys.setenv("EXAMPLECSV_SOURCE_PATH" = system.file("demo_data", package = "DQAstats"))
-#Sys.setenv("EXAMPLECSV_TARGET_PATH" = system.file("demo_data", package = "DQAstats"))
+Sys.setenv("EXAMPLECSV_SOURCE_PATH" = system.file("demo_data", package = "DQAstats"))
+Sys.setenv("EXAMPLECSV_TARGET_PATH" = system.file("demo_data", package = "DQAstats"))
 
 
 ## debugging testdata:
