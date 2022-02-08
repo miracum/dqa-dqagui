@@ -16,54 +16,24 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-# create summary tables
-summary_table <- function() {
-  return(
-    data.table::data.table(
-      "variable" = character(),
-      "distinct" = integer(),
-      "valids" = integer(),
-      "missings" = integer()
-    )
-  )
-}
-
-# render quick check tables
-render_quick_checks <- function(dat_table) {
-  out <-
-    DT::datatable(
-      dat_table,
-      options = list(
-        dom = "t",
-        scrollY = "30vh",
-        pageLength = nrow(dat_table)
-      ),
-      rownames = FALSE
-    ) %>%
-    DT::formatStyle(columns = 2,
-                    backgroundColor = DT::styleEqual(
-                      c("passed", "failed"),
-                      c("lightgreen", "red"))) %>%
-    DT::formatStyle(columns = 3,
-                    backgroundColor = DT::styleEqual(
-                      c("passed", "failed"),
-                      c("lightgreen", "red"))) %>%
-    DT::formatStyle(columns = 4,
-                    backgroundColor = DT::styleEqual(
-                      c("passed", "failed"),
-                      c("lightgreen", "red")))
-  return(out)
-}
-
 #' @title get_db_settings
 #'
-#' @param input Shiny server input object
+#' @param input Shiny server input object.
 #' @param target A boolean (default: TRUE).
-#' @param db_type (String) "postgres" or "oracle"
+#' @param db_type (String) "postgres" or "oracle".
+#'
+#' @examples
+#' if (interactive()) {
+#'  get_db_settings(
+#'   input = input,
+#'   target = TRUE,
+#'   db_type = "postgres"
+#'  )
+#' }
 #'
 #' @export
 #'
-get_db_settings <- function(input, target = T, db_type) {
+get_db_settings <- function(input, target = TRUE, db_type) {
   # create description of column selections
   vec <- c("dbname", "host", "port", "user", "password")
   source_target <- ifelse(target, "target", "source")
@@ -715,3 +685,44 @@ get_settings_from_displayname <-
       return(NULL)
     }
   }
+
+
+
+# create summary tables
+summary_table <- function() {
+  return(
+    data.table::data.table(
+      "variable" = character(),
+      "distinct" = integer(),
+      "valids" = integer(),
+      "missings" = integer()
+    )
+  )
+}
+
+# render quick check tables
+render_quick_checks <- function(dat_table) {
+  out <-
+    DT::datatable(
+      dat_table,
+      options = list(
+        dom = "t",
+        scrollY = "30vh",
+        pageLength = nrow(dat_table)
+      ),
+      rownames = FALSE
+    ) %>%
+    DT::formatStyle(columns = 2,
+                    backgroundColor = DT::styleEqual(
+                      c("passed", "failed"),
+                      c("lightgreen", "red"))) %>%
+    DT::formatStyle(columns = 3,
+                    backgroundColor = DT::styleEqual(
+                      c("passed", "failed"),
+                      c("lightgreen", "red"))) %>%
+    DT::formatStyle(columns = 4,
+                    backgroundColor = DT::styleEqual(
+                      c("passed", "failed"),
+                      c("lightgreen", "red")))
+  return(out)
+}

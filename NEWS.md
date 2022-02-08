@@ -1,6 +1,6 @@
 # DQAgui NEWS
 
-## Unreleased (2022-01-31)
+## Unreleased (2022-02-08)
 
 #### Fixes
 
@@ -17,6 +17,8 @@
 * updated news.md
 #### Others
 
+* updated data range in license statement
+* revised adding of remotes in devstuffs
 * updated news.md
 * updated debugging script
 * updated news.md
@@ -26,7 +28,7 @@
 * creating news.md; allow in gitignore; added to rbuildignore
 * dev commit after release
 
-Full set of changes: [`v0.1.6...73855af`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...73855af)
+Full set of changes: [`v0.1.6...c6883db`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...c6883db)
 
 ## v0.1.6 (2021-07-01)
 

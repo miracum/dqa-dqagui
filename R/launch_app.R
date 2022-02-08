@@ -35,14 +35,18 @@
 #'   probably like to choose a low number when operating on large datasets.
 #'   Default: 2.
 #'
-#' @return DQAgui Shiny application
+#' @return DQAgui shiny application
 #'
 #' @import shiny shinydashboard
 #' @importFrom magrittr "%>%"
 #' @importFrom data.table .N ":="
 #'
-#' @export
+#' @examples
+#' if (interactive()) {
+#'   launch_app()
+#' }
 #'
+#' @export
 
 launch_app <- function(port = 3838,
                        utils_path = system.file("demo_data/utilities",
