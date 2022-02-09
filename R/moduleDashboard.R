@@ -235,7 +235,6 @@ module_dashboard_server <-
               "Loading target data ..."))
 
             ## load target_data
-            # if (length(setdiff(rv$source$settings, rv$target$settings)) == 0) {
             if (isTRUE(rv$target_is_source)) {
               DIZutils::feedback(
                 print_this = paste0(
