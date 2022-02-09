@@ -21,7 +21,6 @@ Imports:
     DIZutils (>= 0.0.12),
     DQAstats (>= 0.2.3),
     DT,
-    graphics,
     jsonlite,
     knitr,
     lubridate,
@@ -38,4 +37,3 @@ Suggests:
     lintr,
     processx,
     testthat
-RoxygenNote: 7.1.2
