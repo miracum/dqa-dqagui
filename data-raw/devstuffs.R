@@ -30,7 +30,7 @@ my_desc$del("Maintainer")
 # Set the version
 my_desc$set_version("0.1.7")
 # The title of your package
-my_desc$set(Title = "DQA GUI")
+my_desc$set(Title = "Graphical User Interface for Data Quality Assessment")
 # The description of your package
 my_desc$set(Description = "A graphical user interface (GUI) to the functions implemented in the R package 'DQAstats'.")
 # The description of your package

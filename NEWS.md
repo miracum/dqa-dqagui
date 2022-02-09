@@ -20,6 +20,7 @@
 * updated news.md
 #### Others
 
+* incorporated spell_check results
 * removed dep graphics
 * removed comment causing linting error
 * updated data range in license statement
@@ -34,7 +35,7 @@
 * dev commit after release
 * updated gh actions
 
-Full set of changes: [`v0.1.6...9a6d4d9`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...9a6d4d9)
+Full set of changes: [`v0.1.6...b29c022`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...b29c022)
 
 ## v0.1.6 (2021-07-01)
 
