@@ -11,25 +11,19 @@
 [![CRAN Checks](https://cranchecks.info/badges/worst/DQAgui)](https://cran.r-project.org/web/checks/check_results_DQAgui.html)-->
 <!-- badges: end -->
 
-This is the repository of the R package 'DQAgui'. It provides a graphical user interface to the functionalities implemented in 'DQAstats'. 
+This is the repository of the R package 'DQAgui'. It provides a graphical user interface to the functionalities implemented in [`DQAstats`](https://github.com/miracum/dqa-dqastats).
 
-Currently, this packages is to be used together with the R packages `DQAstat` and `miRacumDQA` in order to work properly.
-Future work aims to make `DQAgui` and `DQAstats` applicable to other EHR data sources than those used within the MIRACUM consortium.
-
-Currently supported data formats / databases:  
-* CSV files
-* PostgreSQL (via `RPostgres`)
 
 ## Installation
 
 You can install `DQAgui` with:
 
 ``` r
-install.packages("devtools")
-devtools::install_github("miracum/dqa-dqagui")
+install.packages("remotes")
+remotes::install_github("miracum/dqa-dqagui")
 ```
 
-# Configuration 
+## Configuration 
 
 The database connection can be configured using environment variables. These can be set using the base R command `Sys.setenv()`.
 
@@ -37,15 +31,39 @@ A detailed description, which environment variables need to be set for the speci
 
 ## Example
 
-This is a basic example to demonstrate how to perform the data quality assessment with DQAgui:
+This is a basic example to demonstrate how to perform the data quality assessment with `DQAgui`:
 
-``` r
+```r
 library(DQAgui)
-launch_app()
+
+# define base paths for shinyFiles::shinyDirChoose
+Sys.setenv(
+  "CSV_SOURCE_BASEPATH" = system.file("demo_data", package = "DQAstats")
+)
+Sys.setenv(
+  "CSV_TARGET_BASEPATH" = system.file("demo_data", package = "DQAstats")
+)
+
+# define path to utilities-folder
+utils_path = system.file("demo_data/utilities",
+                         package = "DQAstats")
+
+# filename of the metadata repository
+mdr_filename = "mdr_example_data.csv"
+
+# directory for storing logfiles
+logfile_dir <- tempdir()
+
+launch_app(
+  port = 3838,
+  utils_path = utils_path,
+  mdr_filename = mdr_filename,
+  logfile_dir = logfile_dir
+)
 ```
 To open the shiny application in your webbrowser, go to http://localhost:3838.
 
-# More Infos:
+## More Infos:
 
 - about MIRACUM: [https://www.miracum.org/](https://www.miracum.org/)
 - about the Medical Informatics Initiative: [https://www.medizininformatik-initiative.de/index.php/de](https://www.medizininformatik-initiative.de/index.php/de)

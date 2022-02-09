@@ -14,6 +14,7 @@
 * removing module-name from inputId for time-restriction slider
 #### Docs
 
+* preparations for cran submission
 * added examples for cran
 * updated news.md
 #### Others
@@ -29,7 +30,7 @@
 * creating news.md; allow in gitignore; added to rbuildignore
 * dev commit after release
 
-Full set of changes: [`v0.1.6...758ada8`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...758ada8)
+Full set of changes: [`v0.1.6...349678c`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...349678c)
 
 ## v0.1.6 (2021-07-01)
 

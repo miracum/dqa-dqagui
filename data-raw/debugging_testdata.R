@@ -3,7 +3,6 @@
 # remotes::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqagui", ref = "feat_new_coreds")
 
 port = 3838
-output_dir = "output/"
 
 
 # Sys.setenv("CSV_SOURCE_BASEPATH" = system.file("demo_data", package = "DQAstats"))
