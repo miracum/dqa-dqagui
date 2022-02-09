@@ -35,7 +35,7 @@
 #'   probably like to choose a low number when operating on large datasets.
 #'   Default: 2.
 #'
-#' @return DQAgui shiny application
+#' @return Executing this function returns a DQAgui shiny application.
 #'
 #' @import shiny shinydashboard
 #' @importFrom magrittr "%>%"

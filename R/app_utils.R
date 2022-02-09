@@ -22,6 +22,10 @@
 #' @param target A boolean (default: TRUE).
 #' @param db_type (String) "postgres" or "oracle".
 #'
+#' @return This functions returns a data table of key-value pairs for the
+#'   database settings, which are parsed from the respective config tab
+#'   from the shiny application.
+#'
 #' @examples
 #' if (interactive()) {
 #'  get_db_settings(

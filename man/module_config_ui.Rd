@@ -9,6 +9,25 @@ module_config_ui(id)
 \arguments{
 \item{id}{A character. The identifier of the shiny object}
 }
+\value{
+The function returns a shiny ui module.
+}
 \description{
 module_config_ui
+}
+\examples{
+if (interactive()) {
+shinydashboard::tabItems(
+  shinydashboard::tabItem(
+    tabName = "config",
+    module_config_ui(
+      "moduleConfig"
+    )
+  )
+)
+}
+
+}
+\seealso{
+\url{https://shiny.rstudio.com/articles/modules.html}
 }

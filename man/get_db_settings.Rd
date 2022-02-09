@@ -4,15 +4,30 @@
 \alias{get_db_settings}
 \title{get_db_settings}
 \usage{
-get_db_settings(input, target = T, db_type)
+get_db_settings(input, target = TRUE, db_type)
 }
 \arguments{
-\item{input}{Shiny server input object}
+\item{input}{Shiny server input object.}
 
 \item{target}{A boolean (default: TRUE).}
 
-\item{db_type}{(String) "postgres" or "oracle"}
+\item{db_type}{(String) "postgres" or "oracle".}
+}
+\value{
+This functions returns a data table of key-value pairs for the
+  database settings, which are parsed from the respective config tab
+  from the shiny application.
 }
 \description{
 get_db_settings
+}
+\examples{
+if (interactive()) {
+ get_db_settings(
+  input = input,
+  target = TRUE,
+  db_type = "postgres"
+ )
+}
+
 }

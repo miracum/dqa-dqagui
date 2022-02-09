@@ -1,6 +1,6 @@
 # DQAgui NEWS
 
-## Unreleased (2022-02-08)
+## Unreleased (2022-02-09)
 
 #### Fixes
 
@@ -14,6 +14,7 @@
 * removing module-name from inputId for time-restriction slider
 #### Docs
 
+* added examples for cran
 * updated news.md
 #### Others
 
@@ -28,7 +29,7 @@
 * creating news.md; allow in gitignore; added to rbuildignore
 * dev commit after release
 
-Full set of changes: [`v0.1.6...c6883db`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...c6883db)
+Full set of changes: [`v0.1.6...758ada8`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...758ada8)
 
 ## v0.1.6 (2021-07-01)
 

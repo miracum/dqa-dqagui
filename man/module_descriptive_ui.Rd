@@ -9,6 +9,25 @@ module_descriptive_ui(id)
 \arguments{
 \item{id}{A character. The identifier of the shiny object}
 }
+\value{
+The function returns a shiny ui module.
+}
 \description{
 module_descriptive_ui
+}
+\examples{
+if (interactive()) {
+shinydashboard::tabItems(
+  shinydashboard::tabItem(
+    tabName = "descriptive",
+    module_descriptive_ui(
+      "moduleDescriptive"
+    )
+  )
+)
+}
+
+}
+\seealso{
+\url{https://shiny.rstudio.com/articles/modules.html}
 }

@@ -9,7 +9,21 @@ button_send_datamap(rv)
 \arguments{
 \item{rv}{The global rv object. rv$datamap needs to be valid.}
 }
+\value{
+This functions is used to trigger logic when clicking the "Send
+  Datamap" button on the dashboard (default: triggers the composing of an
+  email by making use of the java-script command
+  `window.open('mailto: ...')`). When customizing `DQAgui`, the function
+  `button_send_datamap` can be overwritten in the namespace to trigger any
+  other logic, wanted by the user.
+}
 \description{
 This function is an exporte wrapper around the actual function
   to send the datamap. This actual function can be customized by the user.
+}
+\examples{
+if (interactive()) {
+  button_send_datamap(rv=rv)
+}
+
 }

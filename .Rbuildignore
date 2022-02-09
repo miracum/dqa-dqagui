@@ -10,3 +10,4 @@
 ^tic\.R$
 ^ci/*$
 ^NEWS\.md$
+^logfile\.md$

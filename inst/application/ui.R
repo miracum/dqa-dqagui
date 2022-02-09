@@ -113,11 +113,6 @@ shiny::shinyUI(
             module_completeness_ui("moduleCompleteness")
           ),
 
-          #% shinydashboard::tabItem(
-          #%   tabName = "tab_visualizations",
-          #%   module_visualizations_ui("moduleVisulizations")
-          #% ),
-
           shinydashboard::tabItem(
             tabName = "tab_report",
             module_report_ui("moduleReport")

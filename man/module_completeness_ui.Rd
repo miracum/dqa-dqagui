@@ -9,6 +9,25 @@ module_completeness_ui(id)
 \arguments{
 \item{id}{A character. The identifier of the shiny object}
 }
+\value{
+The function returns a shiny ui module.
+}
 \description{
 module_completeness_ui
+}
+\examples{
+if (interactive()) {
+shinydashboard::tabItems(
+  shinydashboard::tabItem(
+    tabName = "completeness",
+    module_completeness_ui(
+      "moduleCompleteness"
+    )
+  )
+)
+}
+
+}
+\seealso{
+\url{https://shiny.rstudio.com/articles/modules.html}
 }

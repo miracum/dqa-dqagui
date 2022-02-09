@@ -24,6 +24,21 @@
 #' @param input_re The Shiny server input object, wrapped into a reactive
 #'   expression: input_re = reactive({input})
 #'
+#' @return The function returns a shiny server module.
+#'
+#' @seealso \url{https://shiny.rstudio.com/articles/modules.html}
+#'
+#' @examples
+#' if (interactive()) {
+#' rv <- list()
+#' shiny::callModule(
+#'   module_uniq_plaus_server,
+#'   "moduleUniquenessPlausibilities",
+#'   rv = rv,
+#'   input_re = reactive(input)
+#' )
+#' }
+#'
 #' @export
 #'
 # module_uniq_plaus_server
@@ -111,6 +126,22 @@ module_uniq_plaus_server <-
 #' @title module_uniq_plaus_ui
 #'
 #' @param id A character. The identifier of the shiny object
+#'
+#' @return The function returns a shiny ui module.
+#'
+#' @seealso \url{https://shiny.rstudio.com/articles/modules.html}
+#'
+#' @examples
+#' if (interactive()) {
+#' shinydashboard::tabItems(
+#'   shinydashboard::tabItem(
+#'     tabName = "uniq_plausis",
+#'     module_uniq_plaus_ui(
+#'       "moduleUniquenessPlausibilities"
+#'     )
+#'   )
+#' )
+#' }
 #'
 #' @export
 #'

@@ -9,6 +9,25 @@ module_uniq_plaus_ui(id)
 \arguments{
 \item{id}{A character. The identifier of the shiny object}
 }
+\value{
+The function returns a shiny ui module.
+}
 \description{
 module_uniq_plaus_ui
+}
+\examples{
+if (interactive()) {
+shinydashboard::tabItems(
+  shinydashboard::tabItem(
+    tabName = "uniq_plausis",
+    module_uniq_plaus_ui(
+      "moduleUniquenessPlausibilities"
+    )
+  )
+)
+}
+
+}
+\seealso{
+\url{https://shiny.rstudio.com/articles/modules.html}
 }

@@ -257,9 +257,6 @@ shiny::shinyServer(function(input, output, session) {
                     tabName = "tab_completeness",
                     icon = icon("chart-line")
                 ),
-                #shinydashboard::menuItem("Visualizations",
-                #tabName = "tab_visualizations",
-                #icon = icon("chart-line")),
                 shinydashboard::menuItem(
                     text = "Reporting",
                     tabName = "tab_report",
@@ -348,14 +345,6 @@ shiny::shinyServer(function(input, output, session) {
                       "moduleCompleteness",
                       rv,
                       input_re = input_reactive)
-
-    # ########################
-    # # tab_visualization
-    # ########################
-    #% shiny::callModule(module_visualizations_server,
-    #%                   "moduleVisulizations",
-    #%                   rv,
-    #%                   input_re = input_reactive)
 
     ########################
     # tab_report

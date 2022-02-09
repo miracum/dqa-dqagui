@@ -25,6 +25,21 @@
 #' @param input_re The Shiny server input object, wrapped into a reactive
 #'   expression: input_re = reactive({input})
 #'
+#' @return The function returns a shiny server module.
+#'
+#' @seealso \url{https://shiny.rstudio.com/articles/modules.html}
+#'
+#' @examples
+#' if (interactive()) {
+#' rv <- list()
+#' shiny::callModule(
+#'   module_descriptive_server,
+#'   "moduleDescriptive",
+#'   rv = rv,
+#'   input_re = reactive(input)
+#' )
+#' }
+#'
 #' @export
 #'
 # module_descriptive_server
@@ -344,6 +359,22 @@ module_descriptive_server <-
 #' @title module_descriptive_ui
 #'
 #' @param id A character. The identifier of the shiny object
+#'
+#' @return The function returns a shiny ui module.
+#'
+#' @seealso \url{https://shiny.rstudio.com/articles/modules.html}
+#'
+#' @examples
+#' if (interactive()) {
+#' shinydashboard::tabItems(
+#'   shinydashboard::tabItem(
+#'     tabName = "descriptive",
+#'     module_descriptive_ui(
+#'       "moduleDescriptive"
+#'     )
+#'   )
+#' )
+#' }
 #'
 #' @export
 #'

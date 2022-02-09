@@ -37,8 +37,14 @@ probably like to choose a low number when operating on large datasets.
 Default: 2.}
 }
 \value{
-DQAgui Shiny application
+Executing this function returns a DQAgui shiny application.
 }
 \description{
 Launch the DQA graphical user interface (GUI)
+}
+\examples{
+if (interactive()) {
+  launch_app()
+}
+
 }

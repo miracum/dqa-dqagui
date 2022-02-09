@@ -28,7 +28,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.1.6.9010")
+my_desc$set_version("0.1.7")
 # The title of your package
 my_desc$set(Title = "DQA GUI")
 # The description of your package
@@ -79,7 +79,7 @@ usethis::use_package("shinyjs", type = "Imports")
 usethis::use_package("shinyWidgets", type = "Imports")
 usethis::use_package("knitr", type = "Imports")
 usethis::use_package("jsonlite", type = "Imports")
-usethis::use_package("DIZutils", type = "Imports")
+usethis::use_package("DIZutils", type = "Imports", min_version = "0.0.12")
 usethis::use_package("DQAstats", type = "Imports", min_version = "0.2.3")
 # For loading-animations:
 usethis::use_package("waiter", type = "Imports")
@@ -98,10 +98,14 @@ utils_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
 if (utils_tag == "cran") {
   remotes::update_packages("DIZutils", upgrade = "always")
 } else{
-  devtools::install_github("miracum/misc-dizutils", ref = utils_tag)
-
+  devtools::install_git(
+    url = "https://gitlab.miracum.org/miracum/misc/dizutils.git",
+    ref = utils_tag,
+    upgrade = "always",
+    quiet = TRUE
+  )
   add_remotes <- paste0(
-    "github::miracum/misc-dizutils@", utils_tag
+    "url::https://gitlab.miracum.org/miracum/misc/dizutils/-/archive/", utils_tag, "/dizutils-", utils_tag, ".zip"
   )
   if (is.null(remotes_append_vector)) {
     remotes_append_vector <- add_remotes
@@ -110,7 +114,7 @@ if (utils_tag == "cran") {
   }
 }
 
-stats_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
+stats_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
 if (stats_tag == "cran") {
   remotes::update_packages("DQAstats", upgrade = "always")
 } else{
@@ -147,6 +151,7 @@ usethis::use_build_ignore(".vscode")
 usethis::use_build_ignore(".lintr")
 usethis::use_build_ignore("ci/*")
 usethis::use_build_ignore("NEWS.md")
+usethis::use_build_ignore("logfile.md")
 
 ## .gitignore:
 usethis::use_git_ignore("/*")

@@ -9,6 +9,24 @@ module_report_ui(id)
 \arguments{
 \item{id}{A character. The identifier of the shiny object}
 }
+\value{
+The function returns a shiny ui module.
+}
 \description{
 module_report_ui
+}
+\examples{
+if (interactive()) {
+shinydashboard::tabItems(
+  shinydashboard::tabItem(
+    tabName = "report",
+    module_report_ui(
+      "moduleReport"
+    )
+  )
+)
+}
+}
+\seealso{
+\url{https://shiny.rstudio.com/articles/modules.html}
 }
