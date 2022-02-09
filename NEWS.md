@@ -14,11 +14,13 @@
 * removing module-name from inputId for time-restriction slider
 #### Docs
 
+* updated example in readme
 * preparations for cran submission
 * added examples for cran
 * updated news.md
 #### Others
 
+* removed comment causing linting error
 * updated data range in license statement
 * revised adding of remotes in devstuffs
 * updated news.md
@@ -30,7 +32,7 @@
 * creating news.md; allow in gitignore; added to rbuildignore
 * dev commit after release
 
-Full set of changes: [`v0.1.6...349678c`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...349678c)
+Full set of changes: [`v0.1.6...04aa5c0`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...04aa5c0)
 
 ## v0.1.6 (2021-07-01)
 

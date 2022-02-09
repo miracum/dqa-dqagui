@@ -11,3 +11,4 @@
 ^ci/*$
 ^NEWS\.md$
 ^logfile\.md$
+^reconf\.sh$
