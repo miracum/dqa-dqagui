@@ -20,6 +20,7 @@
 * updated news.md
 #### Others
 
+* removed dep graphics
 * removed comment causing linting error
 * updated data range in license statement
 * revised adding of remotes in devstuffs
@@ -31,8 +32,9 @@
 * switching dqastats dependency to cran
 * creating news.md; allow in gitignore; added to rbuildignore
 * dev commit after release
+* updated gh actions
 
-Full set of changes: [`v0.1.6...04aa5c0`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...04aa5c0)
+Full set of changes: [`v0.1.6...9a6d4d9`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...9a6d4d9)
 
 ## v0.1.6 (2021-07-01)
 

@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #' @title button_send_datamap
-#' @description This function is an exporte wrapper around the actual function
+#' @description This function is an exported wrapper around the actual function
 #'   to send the datamap. This actual function can be customized by the user.
 #'
 #' @param rv The global rv object. rv$datamap needs to be valid.

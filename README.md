@@ -61,7 +61,7 @@ launch_app(
   logfile_dir = logfile_dir
 )
 ```
-To open the shiny application in your webbrowser, go to http://localhost:3838.
+To open the shiny application in your web-browser, go to http://localhost:3838.
 
 ## More Infos:
 

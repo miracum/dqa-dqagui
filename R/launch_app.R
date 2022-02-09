@@ -24,7 +24,7 @@
 #'   statements (inside the folder `SQL`), config files for the database
 #'   connection (`settings_default.yml`) and the email address used for the
 #'   data map (`email.yml`), a JSON file containing site names (inside the
-#'   folder `MISC`) and a markdown templated to create the PDF report
+#'   folder `MISC`) and a markdown template to create the PDF report
 #'   (`DQA_report.Rmd` inside the folder `RMD`).
 #' @param mdr_filename The filename of the mdr (e.g. "mdr_example_data.csv").
 #' @param logfile_dir Is the absolute path to the directory where the logfile
