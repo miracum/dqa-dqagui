@@ -185,12 +185,12 @@ module_log_ui <- function(id) {
     tags$head(
       tags$style(
         ".logmsg p {
-                                      font-family: 'consolas';
-                                      line-height: 1;
-                                      margin: 0px 0px 2px 0px;
-                                      padding-left: 5%;
-                                      text-indent:-5%;
-                                    }"
+        font-family: 'consolas';
+        line-height: 1;
+        margin: 0px 0px 2px 0px;
+        padding-left: 5%;
+        text-indent:-5%;
+        }"
       )
     ),
     box(

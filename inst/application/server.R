@@ -71,7 +71,7 @@ shiny::shinyServer(function(input, output, session) {
                     )
                 },
                 error = function(e) {
-                    print(e)
+                    message(e)
                     # otherwise set it to empty string
                     out <- ""
                 },
@@ -110,8 +110,6 @@ shiny::shinyServer(function(input, output, session) {
         )
         DIZutils::close_all_connections(logfile_dir = rv$log$logfile_dir,
                                         headless = rv$headless)
-        ## New (since 2021-03-15):
-        rm(list = ls())
         invisible(gc())
         session$reload()
     })

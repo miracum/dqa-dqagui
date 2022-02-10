@@ -164,7 +164,7 @@ validate_inputs <- function(rv, input, output, session) {
               print_this = paste0(source_target, " settings not valid."),
               type = "warning",
               findme = "10d5e79d44",
-              ui = T,
+              ui = TRUE,
               logfile_dir = rv$log$logfile_dir,
               headless = rv$headless
             )
@@ -265,7 +265,7 @@ check_load_data_button <- function(rv, session) {
     if (rv$source$system_type %in% systems &&
         isTRUE(rv$target_is_source)) {
       # Source is set and target is not necessary:
-      res <- T
+      res <- TRUE
 
       # Catch the case where target should be source but rv$target
       # is not set yet (so assign it):
@@ -317,10 +317,10 @@ check_load_data_button <- function(rv, session) {
     )
 
     if (debugging) {
-      print(time_filtering_possible)
-      print(rv$source$system_name)
-      print(rv$target$system_name)
-      print(rv$restricting_date)
+      message(time_filtering_possible)
+      message(rv$source$system_name)
+      message(rv$target$system_name)
+      message(rv$restricting_date)
     }
 
     if (time_filtering_possible) {
@@ -364,7 +364,7 @@ check_load_data_button <- function(rv, session) {
       )
       rv$restricting_date$use_it <- FALSE
       if (debugging) {
-        print(rv$restricting_date)
+        message(rv$restricting_date)
       }
     }
 

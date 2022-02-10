@@ -1,6 +1,6 @@
 # DQAgui NEWS
 
-## Unreleased (2022-02-09)
+## Unreleased (2022-02-10)
 
 #### Fixes
 
@@ -20,6 +20,8 @@
 * updated news.md
 #### Others
 
+* updated rbuildignore
+* updated package title
 * incorporated spell_check results
 * removed dep graphics
 * removed comment causing linting error
@@ -35,7 +37,7 @@
 * dev commit after release
 * updated gh actions
 
-Full set of changes: [`v0.1.6...b29c022`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...b29c022)
+Full set of changes: [`v0.1.6...fd1c2dd`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...fd1c2dd)
 
 ## v0.1.6 (2021-07-01)
 

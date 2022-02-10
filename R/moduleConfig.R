@@ -262,7 +262,7 @@ module_config_server <-
           vec <-
             c("source_system_name",
               "source_system_type")
-          rv$systems <- unique(rv$mdr[, vec, with = F])
+          rv$systems <- unique(rv$mdr[, vec, with = FALSE])
           rv$systems <- rv$systems[!is.na(get("source_system_name"))]
           DIZutils::feedback(
             print_this = paste0(
@@ -288,7 +288,10 @@ module_config_server <-
                 logfile_dir = rv$log$logfile_dir,
                 headless = rv$headless
               )
-            }, USE.NAMES = T, simplify = F)
+            },
+            USE.NAMES = TRUE,
+            simplify = FALSE
+          )
 
           ## Create mapping for display names:
           tmp <- names(rv$settings)
@@ -304,8 +307,6 @@ module_config_server <-
           data.table::setnames(x = rv$displaynames,
                                old = "V1",
                                new = "source_system_name")
-          print(rv$displaynames)
-
 
           # - Different system-types:
           rv$system_types <-
@@ -878,7 +879,7 @@ module_config_server <-
         # Assign source-values to target:
         rv <- set_target_equal_to_source(rv)
         # Set internal flag that target == source:
-        rv$target_is_source <- T
+        rv$target_is_source <- TRUE
         # Show feedback-box in the UI:
         output$target_system_feedback_txt <-
           renderText({
@@ -1632,9 +1633,9 @@ module_config_ui <- function(id) {
             selectInput(
               ns("config_sitename"),
               "Please enter the name of your site",
-              selected = F,
+              selected = FALSE,
               choices = NULL,
-              multiple = F
+              multiple = FALSE
             ),
             hr(),
             actionButton(ns("dash_load_btn"),

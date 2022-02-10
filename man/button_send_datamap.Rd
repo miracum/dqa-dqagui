@@ -18,7 +18,7 @@ This functions is used to trigger logic when clicking the "Send
   other logic, wanted by the user.
 }
 \description{
-This function is an exporte wrapper around the actual function
+This function is an exported wrapper around the actual function
   to send the datamap. This actual function can be customized by the user.
 }
 \examples{

@@ -55,16 +55,19 @@ module_atemp_pl_server <- function(input, output, session, rv, input_re) {
           function(x) {
             # only plausibilities assigned to source data are being read
             rv$data_plausibility$atemporal[[x]]$source_data$name
-          }, simplify = T)
+          }, simplify = TRUE)
       )
       list_i <- 1
       rv$pl_atemp_vars_filter <- sapply(
         listvec,
         function(x) {
           outlist <- names(rv$data_plausibility$atemporal)[[list_i]]
-          list_i <<- list_i + 1
+          invisible(list_i <<- list_i + 1)
           return(outlist)
-        }, USE.NAMES = T, simplify = F)
+        },
+        USE.NAMES = TRUE,
+        simplify = FALSE
+      )
       rm(list_i, listvec)
       gc()
     }
@@ -162,7 +165,7 @@ module_atemp_pl_server <- function(input, output, session, rv, input_re) {
               "n",
               "valids",
               "missings",
-              "distinct"), with = F]
+              "distinct"), with = FALSE]
             data.table::data.table(
               " " = c(
                 "n:",
@@ -290,7 +293,6 @@ module_atemp_pl_server <- function(input, output, session, rv, input_re) {
             })
           } else {
             output$pl_conformance_source <- renderUI({
-
             })
           }
 

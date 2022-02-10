@@ -138,7 +138,7 @@ module_descriptive_server <-
                 "valids",
                 "missings",
                 "distinct"
-              ), with = F]
+              ), with = FALSE]
             data.table::data.table(
               " " = c(
                 "n:",
@@ -163,7 +163,7 @@ module_descriptive_server <-
                 "valids",
                 "missings",
                 "distinct"
-              ), with = F]
+              ), with = FALSE]
             data.table::data.table(
               " " = c(
                 "n:",

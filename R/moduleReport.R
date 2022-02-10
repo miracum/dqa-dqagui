@@ -136,7 +136,6 @@ module_report_server <- function(input,
       oldwd <- getwd()
       on.exit(oldwd)
       setwd(tempdir())
-      print(getwd())
 
       exportdir <- paste0(tempdir(), "/export/")
 
@@ -150,7 +149,6 @@ module_report_server <- function(input,
 
       # return to old wd
       setwd(oldwd)
-      print(getwd())
     },
     contentType = "application/zip"
   )
@@ -170,7 +168,6 @@ module_report_server <- function(input,
       # temporarily set tempdir as wd
       oldwd <- getwd()
       setwd(tempdir())
-      print(getwd())
 
       exportdir <- paste0(tempdir(), "/conspicuous_ids/")
 
@@ -184,7 +181,6 @@ module_report_server <- function(input,
 
       # return to old wd
       setwd(oldwd)
-      print(getwd())
     },
     contentType = "application/zip"
   )

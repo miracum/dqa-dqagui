@@ -210,7 +210,7 @@ module_dashboard_server <-
 
             # set start_time (e.g. when clicking
             # the 'Load Data'-button in shiny
-            rv$start_time <- format(Sys.time(), usetz = T, tz = "CET")
+            rv$start_time <- format(Sys.time(), usetz = TRUE, tz = "CET")
 
             waiter::waiter_update(html = shiny::tagList(
               waiter::spin_timer(),
@@ -400,9 +400,9 @@ module_dashboard_server <-
             )
 
             if (!is.null(rv$datamap)) {
-              DIZutils::feedback(print_this = "Datamap:",
-                                 findme = "43404a3f38")
-              print(rv$datamap)
+              DIZutils::feedback(print_this = paste0(
+                "Datamap:", rv$datamap),
+                findme = "43404a3f38")
             }
 
             # checks$value_conformance
@@ -425,7 +425,7 @@ module_dashboard_server <-
             logfile_dir = rv$log$logfile_dir
           )
           ## Trigger the modal for the user/UI:
-          rv$error <- T
+          rv$error <- TRUE
           show_failure_alert(
             paste0(
               "Executing the script to load all the data",

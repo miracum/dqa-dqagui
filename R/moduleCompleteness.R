@@ -53,7 +53,7 @@ module_completeness_server <- function(input, output, session, rv, input_re) {
           dom = "t",
           scrollY = "80vh",
           pageLength = nrow(rv$completeness)),
-        rownames = F
+        rownames = FALSE
       )
     })
   })

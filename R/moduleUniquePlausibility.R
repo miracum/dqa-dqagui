@@ -55,7 +55,10 @@ module_uniq_plaus_server <-
           outlist <- names(rv$results_plausibility_unique)[[list_i]]
           invisible(list_i <<- list_i + 1)
           return(outlist)
-        }, USE.NAMES = T, simplify = F)
+        },
+        USE.NAMES = TRUE,
+        simplify = FALSE
+        )
         rm(list_i, listvec)
         gc()
       }
