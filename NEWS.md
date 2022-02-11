@@ -1,9 +1,10 @@
 # DQAgui NEWS
 
-## Unreleased (2022-02-10)
+## v0.1.7 (2022-02-10)
 
 #### Fixes
 
+* modification for cran
 * fixed wrong underlying object for text description of plausibility source checks
 * removed reshape2 as dependency and replaced code with data.table syntax
 * merged development
@@ -37,7 +38,7 @@
 * dev commit after release
 * updated gh actions
 
-Full set of changes: [`v0.1.6...fd1c2dd`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...fd1c2dd)
+Full set of changes: [`v0.1.6...v0.1.7`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...v0.1.7)
 
 ## v0.1.6 (2021-07-01)
 
