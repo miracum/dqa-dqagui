@@ -5,8 +5,8 @@
 [![linting](https://github.com/miracum/dqa-dqagui/workflows/lint/badge.svg?branch=master)](https://github.com/miracum/dqa-dqagui/actions)
 [![test-coverage](https://github.com/miracum/dqa-dqagui/workflows/test-coverage/badge.svg?branch=master)](https://github.com/miracum/dqa-dqagui/actions)
 [![codecov](https://codecov.io/gh/miracum/dqa-dqagui/branch/master/graph/badge.svg)](https://app.codecov.io/gh/miracum/dqa-dqagui)
-[![pipeline status](https://gitlab.miracum.org/miracum/dqa/dqagui/badges/master/pipeline.svg)](https://gitlab.miracum.org/miracum/dqa/dqagui/-/commits/master)
-[![coverage report](https://gitlab.miracum.org/miracum/dqa/dqagui/badges/master/coverage.svg)](https://gitlab.miracum.org/miracum/dqa/dqagui/-/commits/master)
+<!--[![pipeline status](https://gitlab.miracum.org/miracum/dqa/dqagui/badges/master/pipeline.svg)](https://gitlab.miracum.org/miracum/dqa/dqagui/-/commits/master)
+[![coverage report](https://gitlab.miracum.org/miracum/dqa/dqagui/badges/master/coverage.svg)](https://gitlab.miracum.org/miracum/dqa/dqagui/-/commits/master)-->
 [![CRAN Status Badge](https://www.r-pkg.org/badges/version-ago/DQAgui)](https://cran.r-project.org/package=DQAgui)
 [![CRAN Checks](https://cranchecks.info/badges/worst/DQAgui)](https://cran.r-project.org/web/checks/check_results_DQAgui.html)
 <!-- badges: end -->
