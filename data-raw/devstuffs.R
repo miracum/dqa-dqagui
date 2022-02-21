@@ -28,7 +28,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.1.7")
+my_desc$set_version("0.1.8")
 # The title of your package
 my_desc$set(Title = "Graphical User Interface for Data Quality Assessment")
 # The description of your package
@@ -79,6 +79,7 @@ usethis::use_package("shinyWidgets", type = "Imports")
 usethis::use_package("knitr", type = "Imports")
 usethis::use_package("jsonlite", type = "Imports")
 usethis::use_package("DIZutils", type = "Imports", min_version = "0.0.12")
+usethis::use_package("DIZtools", type = "Imports")
 usethis::use_package("DQAstats", type = "Imports", min_version = "0.2.3")
 # For loading-animations:
 usethis::use_package("waiter", type = "Imports")
@@ -183,3 +184,4 @@ usethis::use_git_ignore(".~lock.*.csv#")
 system(
   command = 'auto-changelog -u -t "DQAgui NEWS" --tag-prefix "v" -o "NEWS.md"'
 )
+

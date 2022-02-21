@@ -1,5 +1,13 @@
 # DQAgui NEWS
 
+## Unreleased (2022-02-21)
+
+#### Others
+
+* updated news.md and readme
+
+Full set of changes: [`v0.1.7...d53af4f`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.7...d53af4f)
+
 ## v0.1.7 (2022-02-10)
 
 #### Fixes

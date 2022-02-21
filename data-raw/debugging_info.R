@@ -3,7 +3,7 @@ output_dir = "output/"
 
 ## debugging the MIRACUM stuff (JM):
 ## ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-# utils_path = DIZutils::clean_path_name(system.file("application/_utilities",
+# utils_path = DIZtools::clean_path_name(system.file("application/_utilities",
 #                                                    package = "miRacumDQA"))
 # mdr_filename = "mdr.csv"
 # logfile_dir = "~/share/logfiles/"
@@ -12,7 +12,7 @@ output_dir = "output/"
 
 ## debugging the MIRACUM stuff (LK):
 ## ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-# utils_path = DIZutils::clean_path_name(system.file("application/_utilities",
+# utils_path = DIZtools::clean_path_name(system.file("application/_utilities",
 #                                                    package = "miRacumDQA"))
 # mdr_filename = "mdr.csv"
 # logfile_dir <- tempdir()
@@ -35,15 +35,15 @@ ncores = 4
 ## Lorenz:
 # utils_path = "/home/user/development/Rpackages/dqa/miracumdqa/inst/application/_utilities/"
 ## Jonathan:
-# utils_path = DIZutils::clean_path_name(system.file("application/_utilities",
+# utils_path = DIZtools::clean_path_name(system.file("application/_utilities",
 #                                                    package = "miRacumDQA"))
-# utils_path = DIZutils::clean_path_name(system.file("application/_utilities",
+# utils_path = DIZtools::clean_path_name(system.file("application/_utilities",
 #                                                    package = "ume_dqatool"))
 # utils_path = "~/git-local/miracum/ume_dqatool/inst/application/_utilities/"
 
 # mdr_filename = "mdr_combined.csv"
 
-DIZutils::set_env_vars(
+DIZtools::setenv_file(
   paste0(
     "../",
     list.files(path = "../", pattern = "^env_INTERNAL.*")
