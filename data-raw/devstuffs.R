@@ -173,6 +173,7 @@ usethis::use_build_ignore("ci/*")
 usethis::use_build_ignore("NEWS.md")
 usethis::use_build_ignore("logfile.md")
 usethis::use_build_ignore("reconf.sh")
+usethis::use_build_ignore("cran-comments.md")
 
 ## .gitignore:
 usethis::use_git_ignore("/*")

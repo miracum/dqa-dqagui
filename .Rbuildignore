@@ -13,3 +13,4 @@
 ^logfile\.md$
 ^reconf\.sh$
 ^CRAN-SUBMISSION$
+^cran-comments\.md$
