@@ -23,3 +23,4 @@ docs/
 !/tic.R
 !/.github/
 !/NEWS.md
+!/cran-comments.md
