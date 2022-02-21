@@ -27,7 +27,7 @@ remotes::install_github("miracum/dqa-dqagui")
 
 The database connection can be configured using environment variables. These can be set using the base R command `Sys.setenv()`.
 
-A detailed description, which environment variables need to be set for the specific databases can be found [here](https://github.com/miracum/misc-dizutils/blob/master/README.md).
+A detailed description, which environment variables need to be set for the specific databases can be found [here](https://github.com/miracum/misc-dizutils#db_connection).
 
 ## Example
 
