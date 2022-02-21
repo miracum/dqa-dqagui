@@ -2,13 +2,17 @@
 
 ## Unreleased (2022-02-21)
 
+#### Fixes
+
+* fixing errors leading to failing of just published cran version
 #### Others
 
+* added cran-comments.md
 * updated readme to comply with diztools/dizutils
 * removed gitlab badges from readme
 * added diztools dev-install option to devstuffs
 
-Full set of changes: [`v0.1.8...257f524`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.8...257f524)
+Full set of changes: [`v0.1.8...c62c2a3`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.8...c62c2a3)
 
 ## v0.1.8 (2022-02-21)
 
