@@ -4,9 +4,22 @@
 
 #### Others
 
+* updated readme to comply with diztools/dizutils
+* removed gitlab badges from readme
+* added diztools dev-install option to devstuffs
+
+Full set of changes: [`v0.1.8...257f524`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.8...257f524)
+
+## v0.1.8 (2022-02-21)
+
+#### Refactorings
+
+* switch to diztools dependency
+#### Others
+
 * updated news.md and readme
 
-Full set of changes: [`v0.1.7...d53af4f`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.7...d53af4f)
+Full set of changes: [`v0.1.7...v0.1.8`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.7...v0.1.8)
 
 ## v0.1.7 (2022-02-10)
 
