@@ -2,12 +2,15 @@
 
 ## Unreleased (2022-03-03)
 
+#### New Features
+
+* adding config info to dashboard
 #### Others
 
 * updated debugging script
 * added cran-comments to git-repo
 
-Full set of changes: [`v0.1.9...e04e6c0`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...e04e6c0)
+Full set of changes: [`v0.1.9...6066b16`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...6066b16)
 
 ## v0.1.9 (2022-02-21)
 

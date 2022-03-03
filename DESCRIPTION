@@ -1,6 +1,6 @@
 Package: DQAgui
 Title: Graphical User Interface for Data Quality Assessment
-Version: 0.1.9.9001
+Version: 0.1.9.9002
 Authors@R: c(
     person("Lorenz A.", "Kapsner", , "lorenz.kapsner@uk-erlangen.de", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0003-1866-860X")),
@@ -38,4 +38,3 @@ Suggests:
     lintr,
     processx,
     testthat
-RoxygenNote: 7.1.2

@@ -543,9 +543,9 @@ module_dashboard_server <-
       })
       output$dash_config <- renderText({
         paste0(
-          "Source system: ",
+          "Source system name: ",
           rv$source$system_name,
-          "\nTarget system",
+          "\nTarget system name: ",
           rv$target$system_name,
           ifelse(
             isTRUE(rv$restricting_date$use_it),
