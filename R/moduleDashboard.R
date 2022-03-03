@@ -47,7 +47,7 @@ module_dashboard_server <-
   function(input, output, session, rv, input_re) {
     output$dash_instruction <- renderText({
       paste0(
-        "Please load your metadata repository first and then configure ",
+        "Please load your metadata repository first and then configure\n",
         "and test your source and target parameters in the config tab.\n",
         "Results will be displayed here afterwards."
       )
