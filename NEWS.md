@@ -7,10 +7,12 @@
 * adding config info to dashboard
 #### Others
 
+* better wrapping of dashboard welcome text
+* fixed typo in dash-config verbatim
 * updated debugging script
 * added cran-comments to git-repo
 
-Full set of changes: [`v0.1.9...6066b16`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...6066b16)
+Full set of changes: [`v0.1.9...117c15a`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...117c15a)
 
 ## v0.1.9 (2022-02-21)
 
