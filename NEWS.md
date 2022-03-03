@@ -1,18 +1,28 @@
 # DQAgui NEWS
 
-## Unreleased (2022-02-21)
+## Unreleased (2022-03-03)
+
+#### Others
+
+* updated debugging script
+* added cran-comments to git-repo
+
+Full set of changes: [`v0.1.9...e04e6c0`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...e04e6c0)
+
+## v0.1.9 (2022-02-21)
 
 #### Fixes
 
 * fixing errors leading to failing of just published cran version
 #### Others
 
+* updated news.md
 * added cran-comments.md
 * updated readme to comply with diztools/dizutils
 * removed gitlab badges from readme
 * added diztools dev-install option to devstuffs
 
-Full set of changes: [`v0.1.8...c62c2a3`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.8...c62c2a3)
+Full set of changes: [`v0.1.8...v0.1.9`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.8...v0.1.9)
 
 ## v0.1.8 (2022-02-21)
 

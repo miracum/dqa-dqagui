@@ -541,6 +541,23 @@ module_dashboard_server <-
           " min."
         )
       })
+      output$dash_config <- renderText({
+        paste0(
+          "Source system: ",
+          rv$source$system_name,
+          "\nTarget system",
+          rv$target$system_name,
+          ifelse(
+            isTRUE(rv$restricting_date$use_it),
+            paste0(
+              "\n\nAnalysis with datetime restrictions:",
+              "\nStart date: ", rv$restricting_date$start,
+              "\nEnd date: ", rv$restricting_date$end
+            ),
+            ""
+          )
+        )
+      })
       shinyjs::show("dash_instruction")
     })
   }
@@ -576,7 +593,14 @@ module_dashboard_ui <- function(id) {
     waiter::use_waiter(),
     box(
       title = "Welcome to your Data-Quality-Analysis Dashboard",
-      verbatimTextOutput(ns("dash_instruction")),
+      column(
+        6,
+        verbatimTextOutput(ns("dash_instruction"))
+      ),
+      column(
+        6,
+        verbatimTextOutput(ns("dash_config"))
+      ),
       width = 12
     ),
     column(
