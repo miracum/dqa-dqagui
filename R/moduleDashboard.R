@@ -247,6 +247,7 @@ module_dashboard_server <-
               # Assign source-values to target:
               rv <- set_target_equal_to_source(rv)
               rv$data_target <- rv$data_source
+              rv$target$sql <- rv$source$sql
             } else {
               DIZtools::feedback(
                 print_this = paste0(
