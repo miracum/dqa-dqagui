@@ -2,6 +2,11 @@
 # remotes::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqastats", ref = "feat_new_coreds")
 # remotes::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqagui", ref = "feat_new_coreds")
 
+# install.packages("DIZtools")
+# install.packages("DIZutils")
+# install.packages("DQAstats")
+# install.packages("DQAgui")
+
 port = 3838
 
 

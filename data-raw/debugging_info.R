@@ -1,21 +1,26 @@
+# install.packages("DIZtools")
+# install.packages("DIZutils")
+# install.packages("DQAstats")
+# install.packages("DQAgui")
+
 port = 3838
 output_dir = "output/"
 
 ## debugging the MIRACUM stuff (JM):
 ## ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-# utils_path = DIZtools::clean_path_name(system.file("application/_utilities",
-#                                                    package = "miRacumDQA"))
-# mdr_filename = "mdr.csv"
-# logfile_dir = "~/share/logfiles/"
+utils_path = DIZtools::clean_path_name(system.file("application/_utilities",
+                                                   package = "miRacumDQA"))
+mdr_filename = "mdr.csv"
+logfile_dir = "~/share/logfiles/"
 ##	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑
 
 
 ## debugging the MIRACUM stuff (LK):
 ## ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-utils_path = DIZtools::clean_path_name(system.file("application/_utilities",
-                                                   package = "miRacumDQA"))
-mdr_filename = "mdr.csv"
-logfile_dir <- tempdir()
+# utils_path = DIZtools::clean_path_name(system.file("application/_utilities",
+#                                                    package = "miRacumDQA"))
+# mdr_filename = "mdr.csv"
+# logfile_dir <- tempdir()
 ##	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑
 
 
