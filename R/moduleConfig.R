@@ -300,13 +300,13 @@ module_config_server <-
             ret <- get_display_name_from_settings(settings = rv$settings,
                                                   prefilter = x)
             return(ret)
-          }) %>%
-            data.table::as.data.table() %>%
-            data.table::transpose(keep.names = "displayname")
+          })
           rm(tmp)
-          data.table::setnames(x = rv$displaynames,
-                               old = "V1",
-                               new = "source_system_name")
+          rv$displaynames <- data.table::data.table(
+            "displayname" = rv$displaynames,
+            "source_system_name" = names(rv$displaynames)
+          )
+
 
           # - Different system-types:
           rv$system_types <-
@@ -396,7 +396,7 @@ module_config_server <-
                            !is.na(get("source_system_name")),
                          unique(get("source_system_name"))]
             DIZtools::feedback(
-              postgres_system_names,
+              print_this = paste(postgres_system_names, collapse = ", "),
               prefix = "postgres_system_names: ",
               findme = "be136f5ab6",
               logfile_dir = rv$log$logfile_dir,
@@ -406,6 +406,7 @@ module_config_server <-
             postgres_system_names <-
               rv$displaynames[get("source_system_name") %in%
                                 postgres_system_names, get("displayname")]
+
 
             if (length(postgres_system_names) > 0) {
               # Show buttons to prefill diff. systems presettings:
