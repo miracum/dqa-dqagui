@@ -4,6 +4,7 @@
 
 #### New Features
 
+* added more time-frame presets
 * adding config info to dashboard
 #### Fixes
 
@@ -18,7 +19,7 @@
 * updated debugging script
 * added cran-comments to git-repo
 
-Full set of changes: [`v0.1.9...ba50d2f`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...ba50d2f)
+Full set of changes: [`v0.1.9...75822ea`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...75822ea)
 
 ## v0.1.9 (2022-02-21)
 

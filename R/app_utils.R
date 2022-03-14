@@ -576,7 +576,7 @@ print_runtime <-
 
 datepicker_get_list_of_ranges <- function() {
   res <- list(
-    "DQ check" = c(Sys.Date() - 7, Sys.Date() - 100),
+    "DQ check" = c(Sys.Date() - 99, Sys.Date() - 7),
     "Today" = c(Sys.Date(), Sys.Date()),
     "Yesterday" = c(Sys.Date() - 1, Sys.Date()),
     # "Last 3 days" = c(Sys.Date() - 2, Sys.Date()),
