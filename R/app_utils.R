@@ -576,6 +576,7 @@ print_runtime <-
 
 datepicker_get_list_of_ranges <- function() {
   res <- list(
+    "DQ check" = c(Sys.Date() - 7, Sys.Date() - 100),
     "Today" = c(Sys.Date(), Sys.Date()),
     "Yesterday" = c(Sys.Date() - 1, Sys.Date()),
     # "Last 3 days" = c(Sys.Date() - 2, Sys.Date()),
@@ -586,6 +587,9 @@ datepicker_get_list_of_ranges <- function() {
     )), as.Date(format(
       Sys.Date(), paste0("%Y-%m-", lubridate::days_in_month(Sys.Date())[[1]])
     ))),
+    ">= 2010" = c(as.Date("2010-01-01"), Sys.Date()),
+    ">= 2015" = c(as.Date("2015-01-01"), Sys.Date()),
+    ">= 2020" = c(as.Date("2020-01-01"), Sys.Date()),
     "Everything" = c(as.Date("1970-01-01"), Sys.Date())
   )
 

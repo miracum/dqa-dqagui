@@ -1,22 +1,24 @@
 # DQAgui NEWS
 
-## Unreleased (2022-03-07)
+## Unreleased (2022-03-14)
 
 #### New Features
 
 * adding config info to dashboard
 #### Fixes
 
+* fixes missing system display if displayname was set [#44](https://gitlab.miracum.org/miracum/dqa/dqagui/issues/44)
 * sql statements to target system, if source=target
 #### Others
 
+* update debugging scrips
 * added diztools version
 * better wrapping of dashboard welcome text
 * fixed typo in dash-config verbatim
 * updated debugging script
 * added cran-comments to git-repo
 
-Full set of changes: [`v0.1.9...58177c5`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...58177c5)
+Full set of changes: [`v0.1.9...ba50d2f`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...ba50d2f)
 
 ## v0.1.9 (2022-02-21)
 
@@ -189,7 +191,7 @@ Full set of changes: [`v0.0.7...v0.1.0`](https://gitlab.miracum.org/miracum/dqa/
 
 Full set of changes: [`v0.0.6...v0.0.7`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.6...v0.0.7)
 
-## v0.0.6 (2020-01-29)
+## v0.0.6 (2020-01-30)
 
 
 Full set of changes: [`v0.0.4...v0.0.6`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.4...v0.0.6)
