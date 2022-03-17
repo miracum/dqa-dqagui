@@ -1,6 +1,6 @@
 # DQAgui NEWS
 
-## Unreleased (2022-03-14)
+## Unreleased (2022-03-17)
 
 #### New Features
 
@@ -8,6 +8,7 @@
 * adding config info to dashboard
 #### Fixes
 
+* wrong formatting of data restrictions in dq check
 * fixes missing system display if displayname was set [#44](https://gitlab.miracum.org/miracum/dqa/dqagui/issues/44)
 * sql statements to target system, if source=target
 #### Others
@@ -19,7 +20,7 @@
 * updated debugging script
 * added cran-comments to git-repo
 
-Full set of changes: [`v0.1.9...75822ea`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...75822ea)
+Full set of changes: [`v0.1.9...c89ffdf`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...c89ffdf)
 
 ## v0.1.9 (2022-02-21)
 
@@ -192,7 +193,7 @@ Full set of changes: [`v0.0.7...v0.1.0`](https://gitlab.miracum.org/miracum/dqa/
 
 Full set of changes: [`v0.0.6...v0.0.7`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.6...v0.0.7)
 
-## v0.0.6 (2020-01-30)
+## v0.0.6 (2020-01-29)
 
 
 Full set of changes: [`v0.0.4...v0.0.6`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.4...v0.0.6)

@@ -164,6 +164,11 @@ if (!is.null(remotes_append_vector)) {
 
 
 ## .Rbuildignore: ##
+fn <- ".Rbuildignore"
+if (file.exists(fn)) {
+  file.remove(fn)
+}
+usethis::use_build_ignore("docker")
 usethis::use_build_ignore("data-raw")
 usethis::use_build_ignore("LICENSE.md")
 usethis::use_build_ignore(".gitlab-ci.yml")
@@ -174,8 +179,22 @@ usethis::use_build_ignore("NEWS.md")
 usethis::use_build_ignore("logfile.md")
 usethis::use_build_ignore("reconf.sh")
 usethis::use_build_ignore("cran-comments.md")
+usethis::use_build_ignore(".ccache")
+usethis::use_build_ignore(".github")
+usethis::use_build_ignore("tic.R")
+usethis::use_build_ignore("CRAN-RELEASE")
+usethis::use_build_ignore("CRAN-SUBMISSION")
+usethis::use_build_ignore("dqagui.Rproj")
 
 ## .gitignore:
+fn <- ".gitignore"
+if (file.exists(fn)) {
+  file.remove(fn)
+}
+usethis::use_git_ignore("## --------------")
+usethis::use_git_ignore("## This file is auto generated.")
+usethis::use_git_ignore("## Please apply changes in `./data-raw/devstuffs.R`!")
+usethis::use_git_ignore("## -------------")
 usethis::use_git_ignore("/*")
 usethis::use_git_ignore("/*/")
 usethis::use_git_ignore("*.log")
@@ -199,6 +218,17 @@ usethis::use_git_ignore("!/NEWS.md")
 usethis::use_git_ignore("!/cran-comments.md")
 #usethis::use_git_ignore("/inst/demo_data/utilities/MDR/.~lock.mdr_example_data.csv#")
 usethis::use_git_ignore(".~lock.*.csv#")
+usethis::use_git_ignore("!/docker/")
+usethis::use_git_ignore("/docker/*")
+usethis::use_git_ignore("!/docker/build_image.sh")
+usethis::use_git_ignore("!/docker/docker-compose.yml")
+usethis::use_git_ignore("!/docker/Dockerfile")
+usethis::use_git_ignore("!/docker/README.md")
+usethis::use_git_ignore("!/docker/.env")
+usethis::use_git_ignore("!/docker/app.R")
+usethis::use_git_ignore("!/docker/shiny-server.conf")
+usethis::use_git_ignore("!/docker/show-log.sh")
+
 
 # create NEWS.md using the python-package "auto-changelog" (must be installed)
 # https://www.conventionalcommits.org/en/v1.0.0/
