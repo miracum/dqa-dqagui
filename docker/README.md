@@ -7,7 +7,7 @@
 docker-compose up -d
 ```
 
-Then move over to [`localhost:3938`](http://localhost:3839/).
+Then move over to [`localhost:3839`](http://localhost:3839/).
 
 ```bash
 ## Stop:
