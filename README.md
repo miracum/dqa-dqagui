@@ -13,7 +13,6 @@
 
 This is the repository of the R package 'DQAgui'. It provides a graphical user interface to the functionalities implemented in [`DQAstats`](https://github.com/miracum/dqa-dqastats).
 
-
 ## Installation
 
 You can install `DQAgui` with:
@@ -23,7 +22,7 @@ install.packages("remotes")
 remotes::install_github("miracum/dqa-dqagui")
 ```
 
-## Configuration 
+## Configuration
 
 The database connection can be configured using environment variables. These can be set using the base R command `Sys.setenv()`.
 
@@ -61,11 +60,17 @@ launch_app(
   logfile_dir = logfile_dir
 )
 ```
-To open the shiny application in your web-browser, go to http://localhost:3838.
+
+To open the shiny application in your web-browser, go to [`localhost:3838`](http://localhost:3838).
+
+## Demo Usage / Deployment Examples
+
+You can test the package without needing to install anything except [docker](https://docs.docker.com/get-docker/).
+:bulb: For further details, see the [Wiki](https://github.com/miracum/dqa-dqastats/wiki/Deployment#dqagui-browser-based-gui-version-of-the-dqa-tool).
 
 ## More Infos:
 
-- about MIRACUM: [https://www.miracum.org/](https://www.miracum.org/)
-- about the Medical Informatics Initiative: [https://www.medizininformatik-initiative.de/index.php/de](https://www.medizininformatik-initiative.de/index.php/de)
-- about Shiny: https://www.rstudio.com/products/shiny/  
-- RStudio and Shiny are trademarks of RStudio, Inc. 
+- about MIRACUM: <https://www.miracum.org/>
+- about the Medical Informatics Initiative: <https://www.medizininformatik-initiative.de/index.php/de>
+- about Shiny: <https://www.rstudio.com/products/shiny/>
+- RStudio and Shiny are trademarks of RStudio, Inc.
