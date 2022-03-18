@@ -1,9 +1,10 @@
 # DQAgui NEWS
 
-## Unreleased (2022-03-17)
+## Unreleased (2022-03-18)
 
 #### New Features
 
+* added docker deployment
 * added more time-frame presets
 * adding config info to dashboard
 #### Fixes
@@ -13,6 +14,7 @@
 * sql statements to target system, if source=target
 #### Others
 
+* typo in url
 * update debugging scrips
 * added diztools version
 * better wrapping of dashboard welcome text
@@ -20,7 +22,7 @@
 * updated debugging script
 * added cran-comments to git-repo
 
-Full set of changes: [`v0.1.9...c89ffdf`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...c89ffdf)
+Full set of changes: [`v0.1.9...d48f994`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...d48f994)
 
 ## v0.1.9 (2022-02-21)
 

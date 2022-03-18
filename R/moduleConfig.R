@@ -354,7 +354,8 @@ module_config_server <-
 
             csv_system_names <-
               rv$displaynames[get("source_system_name") %in%
-                                csv_system_names, get("displayname")]
+                                csv_system_names, get("displayname")] %>%
+              unlist(use.names = FALSE)
 
             if (length(csv_system_names) > 0) {
               # Show buttons to prefill diff. systems presettings:
@@ -393,8 +394,8 @@ module_config_server <-
             #% GROUP BY source_system_name
             postgres_system_names <-
               rv$systems[get("source_system_type") == "postgres" &
-                           !is.na(get("source_system_name")),
-                         unique(get("source_system_name"))]
+                           !is.na(get("source_system_name")),] %>%
+              .[["source_system_name"]] %>% unique()
             DIZtools::feedback(
               print_this = paste(postgres_system_names, collapse = ", "),
               prefix = "postgres_system_names: ",
@@ -405,8 +406,8 @@ module_config_server <-
 
             postgres_system_names <-
               rv$displaynames[get("source_system_name") %in%
-                                postgres_system_names, get("displayname")]
-
+                                postgres_system_names, ][["displayname"]] %>%
+              unlist(use.names = FALSE)
 
             if (length(postgres_system_names) > 0) {
               # Show buttons to prefill diff. systems presettings:
@@ -447,8 +448,9 @@ module_config_server <-
             #% GROUP BY source_system_name
             oracle_system_names <-
               rv$systems[get("source_system_type") == "oracle" &
-                           !is.na(get("source_system_name")),
-                         unique(get("source_system_name"))]
+                           !is.na(get("source_system_name")),] %>%
+              .[["source_system_name"]] %>% unique()
+
             DIZtools::feedback(
               oracle_system_names,
               prefix = "oracle_system_names: ",
@@ -459,7 +461,8 @@ module_config_server <-
 
             oracle_system_names <-
               rv$displaynames[get("source_system_name") %in%
-                                oracle_system_names, get("displayname")]
+                                oracle_system_names, ][["displayname"]] %>%
+              unlist(use.names = FALSE)
 
             if (length(oracle_system_names) > 0) {
               # Show buttons to prefill diff. systems presettings:
