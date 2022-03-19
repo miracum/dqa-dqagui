@@ -61,7 +61,7 @@ launch_app(
 )
 ```
 
-To open the shiny application in your web-browser, go to [`localhost:3838`](http://localhost:3838).
+To open the shiny application in your web-browser, go to `localhost:3838`.
 
 ## Demo Usage / Deployment Examples
 
