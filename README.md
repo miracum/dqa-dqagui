@@ -44,11 +44,11 @@ Sys.setenv(
 )
 
 # define path to utilities-folder
-utils_path = system.file("demo_data/utilities",
+utils_path <- system.file("demo_data/utilities",
                          package = "DQAstats")
 
 # filename of the metadata repository
-mdr_filename = "mdr_example_data.csv"
+mdr_filename <- "mdr_example_data.csv"
 
 # directory for storing logfiles
 logfile_dir <- tempdir()

@@ -1,6 +1,6 @@
 # DQAgui NEWS
 
-## Unreleased (2022-03-19)
+## Unreleased (2022-03-21)
 
 #### New Features
 
@@ -9,6 +9,8 @@
 * adding config info to dashboard
 #### Fixes
 
+* removed link to localhost due to failing r cmd check
+* added dot_helper due to failing r cmd check
 * displaynames broke in some cases
 * wrong formatting of data restrictions in dq check
 * fixes missing system display if displayname was set [#44](https://gitlab.miracum.org/miracum/dqa/dqagui/issues/44)
@@ -18,6 +20,8 @@
 * added docker deployment infos to readme
 #### Others
 
+* updated version and news.md
+* removed rbuildignore from wrong directory
 * typo in url
 * update debugging scrips
 * added diztools version
@@ -26,7 +30,7 @@
 * updated debugging script
 * added cran-comments to git-repo
 
-Full set of changes: [`v0.1.9...aea74b2`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...aea74b2)
+Full set of changes: [`v0.1.9...a1eec63`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...a1eec63)
 
 ## v0.1.9 (2022-02-21)
 

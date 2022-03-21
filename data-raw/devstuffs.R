@@ -28,7 +28,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.1.9.9008")
+my_desc$set_version("0.1.9.9010")
 # The title of your package
 my_desc$set(Title = "Graphical User Interface for Data Quality Assessment")
 # The description of your package
@@ -86,7 +86,7 @@ usethis::use_package("waiter", type = "Imports")
 
 
 # Suggests
-usethis::use_package("testthat", type = "Suggests")
+usethis::use_package("testthat", type = "Suggests", min_version = "3.0.0")
 usethis::use_package("processx", type = "Suggests")
 usethis::use_package("lintr", type = "Suggests")
 
