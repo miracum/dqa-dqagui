@@ -253,7 +253,7 @@ fix_sql_display <- function(text) {
 #'
 #'
 check_load_data_button <- function(rv, session) {
-  debugging <- TRUE
+  debugging <- FALSE
   if (debugging) {
     systems <- c("csv", "postgres", "oracle")
   } else {
