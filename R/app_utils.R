@@ -286,11 +286,21 @@ check_load_data_button <- function(rv, session) {
   }
 
   if (res) {
+    DIZtools::feedback(
+      print_this = paste0(
+        "Determining the dataelements for source_db = '",
+        rv$source$system_name,
+        "' and target_db = '",
+        rv$target$system_name,
+        "' using DQAstats::create_helper_vars()."
+      ),
+      findme = "28f400ebb3"
+    )
     # Determine the different dataelements:
     helper_vars_tmp <- DQAstats::create_helper_vars(
       mdr = rv$mdr,
-      target_db = rv$target$system_name,
-      source_db = rv$source$system_name
+      source_db = rv$source$system_name,
+      target_db = rv$target$system_name
     )
     rv$dqa_assessment <- helper_vars_tmp$dqa_assessment
 
@@ -494,9 +504,11 @@ test_connection_button_clicked <-
           icon = shiny::icon("check")
         )
         shinyjs::disable(button_label)
+
         rv[[source_target]]$system_name <-
           rv$displaynames[get("displayname") == input_system,
                           get("source_system_name")]
+
         rv[[source_target]]$system_type <- db_type
         label_feedback_txt <-
           paste0(source_target, "_system_feedback_txt")

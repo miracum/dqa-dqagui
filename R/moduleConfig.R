@@ -294,18 +294,21 @@ module_config_server <-
           )
 
           ## Create mapping for display names:
-          tmp <- names(rv$settings)
-          names(tmp) <- names(rv$settings)
-          rv$displaynames <- lapply(tmp, function(x) {
-            ret <- get_display_name_from_settings(settings = rv$settings,
-                                                  prefilter = x)
-            return(ret)
-          })
-          rm(tmp)
           rv$displaynames <- data.table::data.table(
-            "displayname" = rv$displaynames,
-            "source_system_name" = names(rv$displaynames)
-          )
+            "source_system_name" = character(),
+            "displayname" = character())
+
+          for (system_name_tmp in names(rv$settings)) {
+            rv$displaynames <- data.table::rbindlist(list(
+              rv$displaynames,
+              list(
+                "source_system_name" = system_name_tmp,
+                "displayname" =
+                  get_display_name_from_settings(settings = rv$settings,
+                                                 prefilter = system_name_tmp)
+              )
+            ), use.names = TRUE)
+          }
 
 
           # - Different system-types:

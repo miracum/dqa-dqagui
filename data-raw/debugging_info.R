@@ -3,7 +3,7 @@
 # install.packages("DQAstats")
 # install.packages("DQAgui")
 
-options(shiny.trace = TRUE)
+# options(shiny.trace = TRUE)
 options(shiny.fullstacktrace = TRUE)
 
 port = 3838
@@ -54,7 +54,8 @@ ncores = 4
 DIZtools::setenv_file(
   paste0(
     "../",
-    list.files(path = "../", pattern = "^env_INTERNAL.*")
+    # list.files(path = "../", pattern = "^env_INTERNAL.*")
+    list.files(path = "../", pattern = "dev.env")
   )
 )
 # shiny::shinyAppDir("inst/application/")
