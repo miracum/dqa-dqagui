@@ -599,6 +599,24 @@ datepicker_get_list_of_ranges <- function() {
     )), as.Date(format(
       Sys.Date(), paste0("%Y-%m-", lubridate::days_in_month(Sys.Date())[[1]])
     ))),
+    "Last calendar year" = c(
+      as.Date(
+        paste0(substr(Sys.Date(), 1, 4) %>%
+                 as.numeric() %>%
+                 -1 %>%
+                 as.character(),
+               "-01-01"
+        )
+      ),
+      as.Date(
+        paste0(substr(Sys.Date(), 1, 4) %>%
+                 as.numeric() %>%
+                 -1 %>%
+                 as.character(),
+               "-12-31"
+        )
+      )
+    ),
     ">= 2010" = c(as.Date("2010-01-01"), Sys.Date()),
     ">= 2015" = c(as.Date("2015-01-01"), Sys.Date()),
     ">= 2020" = c(as.Date("2020-01-01"), Sys.Date()),

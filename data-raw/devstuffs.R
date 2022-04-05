@@ -28,7 +28,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.1.9.9012")
+my_desc$set_version("0.1.9.9013")
 # The title of your package
 my_desc$set(Title = "Graphical User Interface for Data Quality Assessment")
 # The description of your package
