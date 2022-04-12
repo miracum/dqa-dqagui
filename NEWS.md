@@ -1,9 +1,10 @@
 # DQAgui NEWS
 
-## Unreleased (2022-04-05)
+## Unreleased (2022-04-11)
 
 #### New Features
 
+* added new time-constraint preset - last calendar year
 * added docker deployment
 * added more time-frame presets
 * adding config info to dashboard
@@ -34,7 +35,7 @@
 * setting parallel=FALSE to not fail on windows machines
 * added unittests for shiny app
 
-Full set of changes: [`v0.1.9...3606301`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...3606301)
+Full set of changes: [`v0.1.9...67e8e6e`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...67e8e6e)
 
 ## v0.1.9 (2022-02-21)
 
