@@ -1688,7 +1688,7 @@ module_config_ui <- function(id) {
           ),
           box(
             id = ns("config_select_dqa_assessment_box"),
-            title = "Analyse the following data elements",
+            title = "Analyze the following data elements",
             hr(),
             actionButton(
               inputId = ns("select_all_assessment_variables"),

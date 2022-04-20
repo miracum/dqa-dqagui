@@ -1,6 +1,6 @@
 # DQAgui NEWS
 
-## Unreleased (2022-04-19)
+## Unreleased (2022-04-20)
 
 #### New Features
 
@@ -22,6 +22,8 @@
 * added docker deployment infos to readme
 #### Others
 
+* updated debugging script
+* set argument parallel=FALSE as default
 * updated news.md
 * updated news.md
 * switched debugging to FALSE
@@ -37,7 +39,7 @@
 * setting parallel=FALSE to not fail on windows machines
 * added unittests for shiny app
 
-Full set of changes: [`v0.1.9...55073b6`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...55073b6)
+Full set of changes: [`v0.1.9...052f559`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...052f559)
 
 ## v0.1.9 (2022-02-21)
 
@@ -210,7 +212,7 @@ Full set of changes: [`v0.0.7...v0.1.0`](https://gitlab.miracum.org/miracum/dqa/
 
 Full set of changes: [`v0.0.6...v0.0.7`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.6...v0.0.7)
 
-## v0.0.6 (2020-01-30)
+## v0.0.6 (2020-01-29)
 
 
 Full set of changes: [`v0.0.4...v0.0.6`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.4...v0.0.6)
