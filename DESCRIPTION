@@ -14,7 +14,7 @@ License: GPL-3
 URL: https://github.com/miracum/dqa-dqagui
 BugReports: https://github.com/miracum/dqa-dqagui/issues
 Encoding: UTF-8
-Date: 2022-04-19
+Date: 2022-04-26
 Imports: 
     data.table,
     daterangepicker,
@@ -36,5 +36,5 @@ Imports:
     waiter
 Suggests: 
     lintr,
-    processx,
     testthat (>= 3.0.0)
+RoxygenNote: 7.1.2
