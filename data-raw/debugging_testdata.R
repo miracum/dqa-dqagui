@@ -1,6 +1,7 @@
+# remotes::install_git(url = "https://gitlab.miracum.org/miracum/misc/diztools", ref = "dev")
 # remotes::install_git(url = "https://gitlab.miracum.org/miracum/misc/dizutils", ref = "development")
-# remotes::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqastats", ref = "feat_new_coreds")
-# remotes::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqagui", ref = "feat_new_coreds")
+# remotes::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqastats", ref = "development")
+# remotes::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqagui", ref = "development")
 
 # install.packages("DIZtools")
 # install.packages("DIZutils")

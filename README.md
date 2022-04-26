@@ -69,7 +69,7 @@ To open the shiny application in your web-browser, go to `localhost:3838`.
 You can test the package without needing to install anything except [docker](https://docs.docker.com/get-docker/).
 :bulb: For further details, see the [Wiki](https://github.com/miracum/dqa-dqastats/wiki/Deployment#dqagui-browser-based-gui-version-of-the-dqa-tool).
 
-## More Infos:
+## More Infos
 
 - about MIRACUM: <https://www.miracum.org/>
 - about the Medical Informatics Initiative: <https://www.medizininformatik-initiative.de/index.php/de>
