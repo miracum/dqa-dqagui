@@ -4,6 +4,7 @@
 
 #### New Features
 
+* showing 'no data available' in orange color for etl and conformance checks
 * added new time-constraint preset - last calendar year
 * added docker deployment
 * added more time-frame presets
@@ -43,7 +44,7 @@
 * setting parallel=FALSE to not fail on windows machines
 * added unittests for shiny app
 
-Full set of changes: [`v0.1.9...3c6fea8`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...3c6fea8)
+Full set of changes: [`v0.1.9...2e3a0f8`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...2e3a0f8)
 
 ## v0.1.9 (2022-02-21)
 

@@ -184,6 +184,8 @@ usethis::use_build_ignore("tic.R")
 usethis::use_build_ignore("CRAN-RELEASE")
 usethis::use_build_ignore("CRAN-SUBMISSION")
 usethis::use_build_ignore("dqagui.Rproj")
+usethis::use_build_ignore("man/figures")
+usethis::use_build_ignore("Rplots.pdf")
 
 ## .gitignore:
 fn <- ".gitignore"
@@ -242,3 +244,30 @@ system(
   command = 'auto-changelog -u -t "DQAgui NEWS" --tag-prefix "v" -o "NEWS.md"'
 )
 
+badger::badge_cran_download("DQAgui", "grand-total", "blue")
+badger::badge_cran_download("DQAgui", "last-month", "blue")
+badger::badge_dependencies("DQAgui")
+
+
+# imgurl <- path.expand("~/development/Rpackages/bg4.jpeg")
+# hexSticker::sticker(
+#   subplot = imgurl,
+#   package = "DQAgui",
+#   s_width = 0.66,
+#   s_height = 0.66,
+#   s_x = 1,
+#   s_y = 1,
+#   p_size = 26,
+#   p_x = 1,
+#   p_y = 1,
+#   filename = "man/figures/logo.png",
+#   h_color = "#5c87ff", # "#b4f2e9",
+#   p_color = "#5c87ff", # "#b4f2e9",
+#   h_size = 0.8,
+#   h_fill = "#fff184",#ffc2da
+#   spotlight = TRUE,
+#   #l_width = 6,
+#   #l_height = 6,
+#   white_around_sticker = FALSE,
+#   asp = 1
+# )
