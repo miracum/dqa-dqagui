@@ -22,6 +22,7 @@
 * added docker deployment infos to readme
 #### Others
 
+* updated news.md
 * updated devstuffs to get auto-changelog working again
 * merged
 * typo in gui
@@ -42,7 +43,7 @@
 * setting parallel=FALSE to not fail on windows machines
 * added unittests for shiny app
 
-Full set of changes: [`v0.1.9...283a104`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...283a104)
+Full set of changes: [`v0.1.9...3c6fea8`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...3c6fea8)
 
 ## v0.1.9 (2022-02-21)
 
