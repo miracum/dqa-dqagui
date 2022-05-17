@@ -201,8 +201,13 @@ module_descriptive_server <-
 
           if (desc_out[[raw_data]]$checks$var_type == "datetime") {
             if (is.na(desc_out[[raw_data]]$checks$constraints)) {
-              desc_out[[raw_data]]$checks$constraints <-
-                value_conf[[raw_data]]$rule
+              if (!is.null(value_conf[[raw_data]]$rule)) {
+                desc_out[[raw_data]]$checks$constraints <-
+                  value_conf[[raw_data]]$rule
+              } else {
+                desc_out[[raw_data]]$checks$constraints <-
+                  value_conf[[raw_data]]$conformance_results
+              }
             }
           }
 
@@ -260,7 +265,8 @@ module_descriptive_server <-
                 json_obj$regex
               })
             } else if (desc_out[[raw_data]]$checks$var_type ==
-                       "datetime") {
+                       "datetime" &&
+                       !is.null(value_conf[[raw_data]]$rule)) {
               output[[paste0("descr_checks_", i, "_valueset")]] <- renderText({
                 value_conf[[raw_data]]$rule
               })
