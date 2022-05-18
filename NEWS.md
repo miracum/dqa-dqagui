@@ -1,6 +1,6 @@
 # DQAgui NEWS
 
-## Unreleased (2022-05-17)
+## Unreleased (2022-05-18)
 
 #### New Features
 
@@ -12,6 +12,7 @@
 * adding config info to dashboard
 #### Fixes
 
+* fixed error that occured when no data was available for datetime variables for checking
 * displayname usage was broken
 * removed link to localhost due to failing r cmd check
 * added dot_helper due to failing r cmd check
@@ -47,7 +48,7 @@
 * setting parallel=FALSE to not fail on windows machines
 * added unittests for shiny app
 
-Full set of changes: [`v0.1.9...db40d47`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...db40d47)
+Full set of changes: [`v0.1.9...052e65e`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...052e65e)
 
 ## v0.1.9 (2022-02-21)
 
