@@ -20,6 +20,9 @@
 * wrong formatting of data restrictions in dq check
 * fixes missing system display if displayname was set [#44](https://gitlab.miracum.org/miracum/dqa/dqagui/issues/44)
 * sql statements to target system, if source=target
+#### Refactorings
+
+* adaption to new value conformance results formatting from dqastats
 #### Docs
 
 * added docker deployment infos to readme
@@ -48,7 +51,7 @@
 * setting parallel=FALSE to not fail on windows machines
 * added unittests for shiny app
 
-Full set of changes: [`v0.1.9...052e65e`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...052e65e)
+Full set of changes: [`v0.1.9...e5c9cf4`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...e5c9cf4)
 
 ## v0.1.9 (2022-02-21)
 

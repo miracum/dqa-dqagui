@@ -305,13 +305,13 @@ module_atemp_pl_server <- function(input, output, session, rv, input_re) {
                 output[[paste0("pl_conformance_", i)]] <- renderUI({
                   v <- verbatimTextOutput(
                     outputId = paste0(
-                      "moduleDescriptive-descr_conform_", i, "_results"
+                      "moduleAtempPlausibility-pl_conformance_", i, "_results"
                     )
                   )
                   do.call(tagList, list(v))
                 })
 
-                output[[paste0("descr_conform_", i, "_results")]] <-
+                output[[paste0("pl_conformance_", i, "_results")]] <-
                   renderText({
                     value_conformance_formatted$conformance_results
                   })
