@@ -50,7 +50,7 @@ test_that("DQAgui shiny app / launch_app() works", {
 
     expect_snapshot(rv)
     expect_snapshot(rv$results_descriptive)
-    expect_snapshot(rv$results_plausibility_atemporal)
+    #%expect_snapshot(rv$results_plausibility_atemporal)
     expect_snapshot(rv$conformance$value_conformance)
     expect_snapshot(rv$completeness)
     expect_snapshot(rv$checks$value_conformance)
