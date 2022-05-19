@@ -28,7 +28,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.1.9.9019")
+my_desc$set_version("0.2.0")
 # The title of your package
 my_desc$set(Title = "Graphical User Interface for Data Quality Assessment")
 # The description of your package
@@ -78,9 +78,9 @@ usethis::use_package("shinyjs", type = "Imports")
 usethis::use_package("shinyWidgets", type = "Imports")
 usethis::use_package("knitr", type = "Imports")
 usethis::use_package("jsonlite", type = "Imports")
-usethis::use_package("DIZutils", type = "Imports", min_version = "0.0.12")
-usethis::use_package("DIZtools", type = "Imports")
-usethis::use_package("DQAstats", type = "Imports", min_version = "0.2.3")
+usethis::use_package("DIZutils", type = "Imports", min_version = "0.1.0")
+usethis::use_package("DIZtools", type = "Imports", min_version = "0.0.5")
+usethis::use_package("DQAstats", type = "Imports", min_version = "0.3.0")
 # For loading-animations:
 usethis::use_package("waiter", type = "Imports")
 
@@ -96,7 +96,7 @@ remotes_append_vector <- NULL
 
 tools_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
 if (tools_tag == "cran") {
-  remotes::update_packages("DIZtools", upgrade = "always")
+  install.packages("DIZtools")
 } else{
   devtools::install_git(
     url = "https://gitlab.miracum.org/miracum/misc/diztools.git",
@@ -115,7 +115,7 @@ if (tools_tag == "cran") {
 
 utils_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
 if (utils_tag == "cran") {
-  remotes::update_packages("DIZutils", upgrade = "always")
+  install.packages("DIZutils")
 } else{
   devtools::install_git(
     url = "https://gitlab.miracum.org/miracum/misc/dizutils.git",
@@ -135,7 +135,7 @@ if (utils_tag == "cran") {
 
 stats_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
 if (stats_tag == "cran") {
-  remotes::update_packages("DQAstats", upgrade = "always")
+  install.packages("DQAstats")
 } else{
   devtools::install_git(
     url = "https://gitlab.miracum.org/miracum/dqa/dqastats.git",
