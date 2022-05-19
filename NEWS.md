@@ -29,6 +29,7 @@
 * added docker deployment infos to readme
 #### Others
 
+* preparing cran release v0.2.0
 * updated news.md
 * added logo to app title
 * updated news.md
@@ -52,7 +53,7 @@
 * setting parallel=FALSE to not fail on windows machines
 * added unittests for shiny app
 
-Full set of changes: [`v0.1.9...928f91b`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...928f91b)
+Full set of changes: [`v0.1.9...c31fe19`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...c31fe19)
 
 ## v0.1.9 (2022-02-21)
 

@@ -229,7 +229,7 @@
       [1] "datetime"
       
       $Birthdate$description$source_data$checks$constraints
-      [1] "{\"datetime_format\":\"%d.%m.%Y\"}"
+      [1] "{\"datetime\": {\"min\": \"1950-01-01\",\"max\": \"1989-12-31\", \"format\": \"%d.%m.%Y\"}}"
       
       
       
@@ -245,7 +245,7 @@
       [1] "datetime"
       
       $Birthdate$description$target_data$checks$constraints
-      [1] "{\"datetime_format\":\"%d.%m.%Y\"}"
+      [1] "{\"datetime\": {\"min\": \"1950-01-01\",\"max\": \"1989-12-31\", \"format\": \"%d.%m.%Y\"}}"
       
       
       
@@ -488,7 +488,7 @@
       [1] "datetime"
       
       $`Date of contact`$description$source_data$checks$constraints
-      [1] "{\"datetime_format\":\"%d.%m.%Y\"}"
+      [1] "{\"datetime\": {\"min\": \"2012-01-01\",\"max\": \"2015-12-31\", \"format\": \"%d.%m.%Y\"}}"
       
       
       
@@ -504,7 +504,7 @@
       [1] "datetime"
       
       $`Date of contact`$description$target_data$checks$constraints
-      [1] "{\"datetime_format\":\"%d.%m.%Y\"}"
+      [1] "{\"datetime\": {\"min\": \"2012-01-01\",\"max\": \"2015-12-31\", \"format\": \"%d.%m.%Y\"}}"
       
       
       
@@ -1173,8 +1173,7 @@
       
       $pl.atemporal.item01$description$source_data$checks
       $pl.atemporal.item01$description$source_data$checks$constraints
-      {"value_set":["no"]} 
-      
+      {"value_set":["no"]}
       $pl.atemporal.item01$description$source_data$checks$var_type
       [1] "enumerated"
       
@@ -1198,8 +1197,7 @@
       
       $pl.atemporal.item01$description$target_data$checks
       $pl.atemporal.item01$description$target_data$checks$constraints
-      {"value_set":["no"]} 
-      
+      {"value_set":["no"]}
       $pl.atemporal.item01$description$target_data$checks$var_type
       [1] "enumerated"
       
