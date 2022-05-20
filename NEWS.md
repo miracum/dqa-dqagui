@@ -1,6 +1,6 @@
 # DQAgui NEWS
 
-## Unreleased (2022-05-20)
+## v0.2.0 (2022-05-20)
 
 #### New Features
 
@@ -29,6 +29,7 @@
 * added docker deployment infos to readme
 #### Others
 
+* updated news.md
 * preparing cran release v0.2.0
 * updated news.md
 * added logo to app title
@@ -57,7 +58,7 @@
 * setting parallel=FALSE to not fail on windows machines
 * added unittests for shiny app
 
-Full set of changes: [`v0.1.9...5d05e69`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...5d05e69)
+Full set of changes: [`v0.1.9...v0.2.0`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...v0.2.0)
 
 ## v0.1.9 (2022-02-21)
 

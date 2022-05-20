@@ -28,7 +28,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.2.0")
+my_desc$set_version("0.2.0.9000")
 # The title of your package
 my_desc$set(Title = "Graphical User Interface for Data Quality Assessment")
 # The description of your package
@@ -94,7 +94,7 @@ remotes_append_vector <- NULL
 
 # Development packages
 
-tools_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
+tools_tag <- "dev" # e.g. "v0.1.7", "development" or "cran"
 if (tools_tag == "cran") {
   install.packages("DIZtools")
 } else{
@@ -113,7 +113,7 @@ if (tools_tag == "cran") {
   )
 }
 
-utils_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
+utils_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
 if (utils_tag == "cran") {
   install.packages("DIZutils")
 } else{
@@ -133,7 +133,7 @@ if (utils_tag == "cran") {
   }
 }
 
-stats_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
+stats_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
 if (stats_tag == "cran") {
   install.packages("DQAstats")
 } else{
