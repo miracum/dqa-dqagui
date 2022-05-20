@@ -1,6 +1,6 @@
 # DQAgui NEWS
 
-## Unreleased (2022-05-19)
+## Unreleased (2022-05-20)
 
 #### New Features
 
@@ -50,10 +50,14 @@
 * fixed typo in dash-config verbatim
 * updated debugging script
 * added cran-comments to git-repo
+* working on unit tests
+* adding more tests
+* reducing tests to test only rv object
+* fixing unit tests
 * setting parallel=FALSE to not fail on windows machines
 * added unittests for shiny app
 
-Full set of changes: [`v0.1.9...c31fe19`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...c31fe19)
+Full set of changes: [`v0.1.9...5d05e69`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...5d05e69)
 
 ## v0.1.9 (2022-02-21)
 
