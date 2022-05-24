@@ -54,9 +54,20 @@ module_dashboard_server <-
     })
 
     observe({
+      if(isTRUE(rv$demo_usage)) {
+        shinyjs::showElement(id = "demo_instruction_panel")
+      } else {
+        shinyjs::hideElement(id = "demo_instruction_panel")
+      }
+    })
+
+
+    observe({
       req(rv$start)
 
       if (isTRUE(rv$start)) {
+        shinyjs::hideElement(id = "demo_instruction_panel")
+
         waiter::waiter_show(
           html = shiny::tagList(waiter::spin_timer(),
                                 "Starting to load the data ..."))
@@ -595,11 +606,15 @@ module_dashboard_ui <- function(id) {
     box(
       title = "Welcome to your Data-Quality-Analysis Dashboard",
       column(
-        6,
+        width = 6,
         verbatimTextOutput(ns("dash_instruction"))
       ),
       column(
         6,
+        wellPanel(h3(a(
+                    "\U279C Click here for demo usage instructions",
+                    href = "https://github.com/miracum/dqa-dqastats/wiki/DQAgui_intro",
+                    target = "_blank")), id = ns("demo_instruction_panel")),
         verbatimTextOutput(ns("dash_config"))
       ),
       width = 12

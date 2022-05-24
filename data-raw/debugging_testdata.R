@@ -36,5 +36,6 @@ launch_app(
   port = port,
   utils_path = utils_path,
   mdr_filename = mdr_filename,
-  logfile_dir = logfile_dir
+  logfile_dir = logfile_dir,
+  demo_usage = TRUE
 )

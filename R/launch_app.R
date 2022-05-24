@@ -54,7 +54,8 @@ launch_app <- function(port = 3838,
                        mdr_filename = "mdr_example_data.csv",
                        logfile_dir = tempdir(),
                        parallel = FALSE,
-                       ncores = 2) {
+                       ncores = 2,
+                       demo_usage = FALSE) {
 
   DIZtools::assign_to_R_env(key = "utils_path",
                             val = utils_path,
@@ -74,6 +75,10 @@ launch_app <- function(port = 3838,
 
   DIZtools::assign_to_R_env(key = "ncores",
                             val = ncores,
+                            pos = 1L)
+
+  DIZtools::assign_to_R_env(key = "demo_usage",
+                            val = demo_usage,
                             pos = 1L)
 
   options(shiny.port = port)

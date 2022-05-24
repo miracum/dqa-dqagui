@@ -25,7 +25,8 @@ shiny::shinyServer(function(input, output, session) {
         utilspath = DIZtools::clean_path_name(utils_path),
         current_date = format(Sys.Date(), "%d. %B %Y", tz = "CET"),
         parallel = parallel,
-        ncores = ncores
+        ncores = ncores,
+        demo_usage = demo_usage
     )
 
     shiny::observe({
