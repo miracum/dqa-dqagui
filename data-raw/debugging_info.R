@@ -8,7 +8,7 @@
 # install.packages("DQAstats")
 # install.packages("DQAgui")
 
-# options(shiny.trace = TRUE)
+options(shiny.trace = TRUE)
 options(shiny.fullstacktrace = TRUE)
 
 port = 3838
@@ -43,8 +43,8 @@ logfile_dir = "~/share/logfiles/"
 ##
 devtools::load_all()
 logfile_dir = tempdir()
-parallel = FALSE
-ncores = 4
+parallel = TRUE
+ncores = 8
 ## Lorenz:
 # utils_path = "/home/user/development/Rpackages/dqa/miracumdqa/inst/application/_utilities/"
 ## Jonathan:
@@ -69,7 +69,9 @@ launch_app(
   port = port,
   utils_path = utils_path,
   mdr_filename = mdr_filename,
-  logfile_dir = logfile_dir
+  logfile_dir = logfile_dir,
+  parallel = parallel,
+  ncores = ncores
 )
 
 # with environment variables

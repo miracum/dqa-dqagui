@@ -1,15 +1,19 @@
 # DQAgui NEWS
 
-## Unreleased (2022-04-26)
+## v0.2.0 (2022-05-20)
 
 #### New Features
 
+* added logo
+* showing 'no data available' in orange color for etl and conformance checks
 * added new time-constraint preset - last calendar year
 * added docker deployment
 * added more time-frame presets
 * adding config info to dashboard
 #### Fixes
 
+* fixed error when displaying values that violated conformance checks
+* fixed error that occured when no data was available for datetime variables for checking
 * displayname usage was broken
 * removed link to localhost due to failing r cmd check
 * added dot_helper due to failing r cmd check
@@ -17,11 +21,23 @@
 * wrong formatting of data restrictions in dq check
 * fixes missing system display if displayname was set [#44](https://gitlab.miracum.org/miracum/dqa/dqagui/issues/44)
 * sql statements to target system, if source=target
+#### Refactorings
+
+* adaption to new value conformance results formatting from dqastats
 #### Docs
 
 * added docker deployment infos to readme
 #### Others
 
+* updated news.md
+* preparing cran release v0.2.0
+* updated news.md
+* added logo to app title
+* updated news.md
+* updated devstuffs to get auto-changelog working again
+* merged
+* typo in gui
+* updated debugging script
 * set argument parallel=FALSE as default
 * updated news.md
 * updated news.md
@@ -35,10 +51,14 @@
 * fixed typo in dash-config verbatim
 * updated debugging script
 * added cran-comments to git-repo
+* working on unit tests
+* adding more tests
+* reducing tests to test only rv object
+* fixing unit tests
 * setting parallel=FALSE to not fail on windows machines
 * added unittests for shiny app
 
-Full set of changes: [`v0.1.9...3c03493`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...3c03493)
+Full set of changes: [`v0.1.9...v0.2.0`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...v0.2.0)
 
 ## v0.1.9 (2022-02-21)
 

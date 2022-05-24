@@ -11,13 +11,13 @@
 port = 3838
 
 
-# Sys.setenv("CSV_SOURCE_BASEPATH" = system.file("demo_data", package = "DQAstats"))
-# Sys.setenv("CSV_TARGET_BASEPATH" = system.file("demo_data", package = "DQAstats"))
+Sys.setenv("CSV_SOURCE_BASEPATH" = system.file("demo_data", package = "DQAstats"))
+Sys.setenv("CSV_TARGET_BASEPATH" = system.file("demo_data", package = "DQAstats"))
 
 
 # debugging default for Lorenz
-Sys.setenv("CSV_SOURCE_BASEPATH" = "~/development/Rpackages")
-Sys.setenv("CSV_TARGET_BASEPATH" = "~/development/Rpackages")
+#Sys.setenv("CSV_SOURCE_BASEPATH" = "~/development/Rpackages")
+#Sys.setenv("CSV_TARGET_BASEPATH" = "~/development/Rpackages")
 
 ## debugging testdata:
 ## ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓

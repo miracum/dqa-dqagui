@@ -15,4 +15,6 @@
 ^CRAN-RELEASE$
 ^CRAN-SUBMISSION$
 ^dqagui\.Rproj$
+^man/figures$
+^Rplots\.pdf$
 ^\.Rproj\.user$
