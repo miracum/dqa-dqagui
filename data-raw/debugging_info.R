@@ -1,3 +1,8 @@
+# remotes::install_git(url = "https://gitlab.miracum.org/miracum/misc/diztools", ref = "dev")
+# remotes::install_git(url = "https://gitlab.miracum.org/miracum/misc/dizutils", ref = "development")
+# remotes::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqastats", ref = "development")
+# remotes::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqagui", ref = "development")
+
 # install.packages("DIZtools")
 # install.packages("DIZutils")
 # install.packages("DQAstats")
@@ -11,19 +16,19 @@ output_dir = "output/"
 
 ## debugging the MIRACUM stuff (JM):
 ## ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-# utils_path = DIZtools::clean_path_name(system.file("application/_utilities",
-#                                                    package = "miRacumDQA"))
-# mdr_filename = "mdr.csv"
-# logfile_dir = "~/share/logfiles/"
+utils_path = DIZtools::clean_path_name(system.file("application/_utilities",
+                                                   package = "miRacumDQA"))
+mdr_filename = "mdr.csv"
+logfile_dir = "~/share/logfiles/"
 ##	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑
 
 
 ## debugging the MIRACUM stuff (LK):
 ## ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-utils_path = DIZtools::clean_path_name(system.file("application/_utilities",
-                                                   package = "miRacumDQA"))
-mdr_filename = "mdr.csv"
-logfile_dir <- tempdir()
+# utils_path = DIZtools::clean_path_name(system.file("application/_utilities",
+#                                                    package = "miRacumDQA"))
+# mdr_filename = "mdr.csv"
+# logfile_dir <- tempdir()
 ##	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑
 
 
@@ -54,8 +59,8 @@ ncores = 4
 DIZtools::setenv_file(
   paste0(
     "../",
-    list.files(path = "../", pattern = "^env_INTERNAL.*")
-    #list.files(path = "../", pattern = "dev.env")
+    # list.files(path = "../", pattern = "^env_INTERNAL.*")
+    list.files(path = "../", pattern = "dev.env")
   )
 )
 # shiny::shinyAppDir("inst/application/")
