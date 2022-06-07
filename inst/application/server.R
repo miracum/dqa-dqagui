@@ -31,6 +31,8 @@ shiny::shinyServer(function(input, output, session) {
 
     shiny::observe({
         if (is.null(rv$finished_onstart)) {
+
+
             # Clean old connections (e.g. after reloading the app):
             DIZtools::close_all_connections()
 
@@ -246,7 +248,7 @@ shiny::shinyServer(function(input, output, session) {
                         tabName = "tab_uniq_plausibility")
                 ),
                 shinydashboard::menuItem(
-                    text = "Completeness",
+                    text = "Completeness Checks",
                     tabName = "tab_completeness",
                     icon = icon("chart-line")
                 ),

@@ -614,7 +614,7 @@ module_dashboard_ui <- function(id) {
         wellPanel(h3(a(
                     "\U279C Click here for demo usage instructions",
                     href = "https://github.com/miracum/dqa-dqastats/wiki/DQAgui_intro",
-                    target = "_blank")), id = ns("demo_instruction_panel")),
+                    target = "_blank")), id = ns("demo_instruction_panel"), style="display: none;"),
         verbatimTextOutput(ns("dash_config"))
       ),
       width = 12

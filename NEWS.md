@@ -1,5 +1,18 @@
 # DQAgui NEWS
 
+## Unreleased (2022-06-07)
+
+#### New Features
+
+* added demo usage instructions
+#### Others
+
+* updated R version to R 4.2.0
+* updated image to R 4.2.0
+* updated new dev version
+
+Full set of changes: [`v0.2.0...8dd471b`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...8dd471b)
+
 ## v0.2.0 (2022-05-20)
 
 #### New Features
@@ -231,7 +244,7 @@ Full set of changes: [`v0.0.7...v0.1.0`](https://gitlab.miracum.org/miracum/dqa/
 
 Full set of changes: [`v0.0.6...v0.0.7`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.6...v0.0.7)
 
-## v0.0.6 (2020-01-30)
+## v0.0.6 (2020-01-29)
 
 
 Full set of changes: [`v0.0.4...v0.0.6`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.4...v0.0.6)
