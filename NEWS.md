@@ -1,17 +1,21 @@
 # DQAgui NEWS
 
-## Unreleased (2022-06-07)
+## Unreleased (2022-06-09)
 
 #### New Features
 
 * added demo usage instructions
+#### Fixes
+
+* fixes [#43](https://gitlab.miracum.org/miracum/dqa/dqagui/issues/43) and [#48](https://gitlab.miracum.org/miracum/dqa/dqagui/issues/48)
 #### Others
 
+* updated docker scripts
 * updated R version to R 4.2.0
 * updated image to R 4.2.0
 * updated new dev version
 
-Full set of changes: [`v0.2.0...8dd471b`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...8dd471b)
+Full set of changes: [`v0.2.0...da6bfd2`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...da6bfd2)
 
 ## v0.2.0 (2022-05-20)
 

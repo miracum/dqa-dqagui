@@ -441,7 +441,7 @@ module_dashboard_server <-
           show_failure_alert(
             paste0(
               "Executing the script to load all the data",
-              " from source and target system failed"
+              " from source and target database failed"
             )
           )
           rv$start <- NULL
@@ -555,9 +555,9 @@ module_dashboard_server <-
       })
       output$dash_config <- renderText({
         paste0(
-          "Source system name: ",
+          "Source database name: ",
           rv$source$system_name,
-          "\nTarget system name: ",
+          "\nTarget database name: ",
           rv$target$system_name,
           ifelse(
             isTRUE(rv$restricting_date$use_it),
@@ -632,7 +632,7 @@ module_dashboard_ui <- function(id) {
               "They compare for each variable the exact matching ",
               "of the number of distinct values, the number of ",
               "valid values, and the number of missing values ",
-              "between the source data system and the target data system."
+              "between the source database and the target database."
             )
           ),
           DT::dataTableOutput(ns("dash_quick_etlchecks")),
@@ -646,9 +646,9 @@ module_dashboard_ui <- function(id) {
           helpText(
             paste0(
               "Value conformance checks (verification) compare for ",
-              "each variable the values of each data system to ",
+              "each variable the values of each database to ",
               "predefined constraints. Those constraints can be ",
-              "defined for each variable and data system individually ",
+              "defined for each variable and database individually ",
               "in the metadata repository (MDR)."
             )
           ),
@@ -662,7 +662,7 @@ module_dashboard_ui <- function(id) {
       conditionalPanel(
         condition = "output['moduleDashboard-etl_results']",
         box(
-          title = "Target System Overview (Data Map)",
+          title = "Target Database Overview (Data Map)",
           uiOutput(ns("dash_datamap_target")),
           tags$hr(),
           actionButton(
@@ -673,7 +673,7 @@ module_dashboard_ui <- function(id) {
           width = 12
         ),
         box(
-          title = "Source System Overview",
+          title = "Source Database Overview",
           uiOutput(ns("dash_datamap_source")),
           width = 12
         )

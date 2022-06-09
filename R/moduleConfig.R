@@ -266,7 +266,7 @@ module_config_server <-
           rv$systems <- rv$systems[!is.na(get("source_system_name"))]
           DIZtools::feedback(
             print_this = paste0(
-              "Different systems found in the MDR: ",
+              "Different databases found in the MDR: ",
               paste(unique(rv$systems[["source_system_name"]]),
                     collapse = ", ")
             ),
@@ -527,7 +527,7 @@ module_config_server <-
                         suspendWhenHidden = FALSE)
           output$source_system_feedback_txt <-
             renderText({
-              "\U26A0 Please select a source system to load the data."
+              "\U26A0 Please select a source database to load the data."
             })
         }
         check_load_data_button(rv, session)
@@ -892,7 +892,7 @@ module_config_server <-
         # Show feedback-box in the UI:
         output$target_system_feedback_txt <-
           renderText({
-            feedback_txt(system = "The source system", type = "target")
+            feedback_txt(system = "The source database", type = "target")
           })
         # Feedback to the console:
         DIZtools::feedback(
@@ -1041,13 +1041,13 @@ module_config_server <-
           }
 
           DIZtools::feedback(
-            paste0("Source system is ", rv$source$system_name),
+            paste0("Source database is ", rv$source$system_name),
             findme = "1d61685355",
             logfile_dir = rv$log$logfile_dir,
             headless = rv$headless
           )
           DIZtools::feedback(
-            paste0("Target system is ", rv$target$system_name),
+            paste0("Target database is ", rv$target$system_name),
             findme = "eaf72ed747",
             logfile_dir = rv$log$logfile_dir,
             headless = rv$headless

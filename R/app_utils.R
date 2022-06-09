@@ -85,7 +85,7 @@ feedback_txt <- function(system, type) {
     tags$b(system),
     " will be used as ",
     DIZtools::firstup(type),
-    " system.",
+    " database.",
     "\n\n",
     "To change, simply select and save another one."
   )
@@ -204,7 +204,7 @@ validate_inputs <- function(rv, input, output, session) {
           DIZtools::feedback(
             print_this = paste0(
               source_target,
-              " system ",
+              " database ",
               rv[[source_target]]$system_name,
               " not yet implemented."
             ),
@@ -220,7 +220,7 @@ validate_inputs <- function(rv, input, output, session) {
     }
   } else {
     DIZtools::feedback(
-      print_this = "Either source or target system is not set.",
+      print_this = "Either source or target database is not set.",
       type = "Warning",
       findme = "4e9400f8c9",
       ui = T,
@@ -423,7 +423,7 @@ test_connection_button_clicked <-
         db_type,
         " as ",
         source_target,
-        " system ..."
+        " database ..."
       ),
       findme = "7218f2e0fb",
       logfile_dir = rv$log$logfile_dir,
