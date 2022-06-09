@@ -1,4 +1,5 @@
-FROM rocker/shiny-verse:4.2.0
+ARG IMAGE_TAG
+FROM rocker/shiny-verse:${IMAGE_TAG}
 
 ENV DEBIAN_FRONTEND=noninteractive \
     JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
@@ -111,8 +112,6 @@ RUN R -q -e "tinytex::tlmgr_update(self = TRUE)"
 ## Install miracumdqa:
 # RUN R -q -e "devtools::install_git(url = 'https://gitlab.miracum.org/miracum/dqa/miRacumdqa.git', ref = 'development')"
 
-
-
 RUN mkdir -p /data/output/logs && \
     chown -R ${USER_UID}:${USER_UID} /data
 
@@ -129,8 +128,7 @@ RUN mkdir -p /var/run/s6 && \
 # COPY ./NAMESPACE /dqastats/NAMESPACE
 
 # ## Install our R-Package(s):
-# RUN R -q -e "devtools::install('/dqastats', upgrade = 'always', quick = TRUE, quiet = TRUE)"
-
+# RUN R -q -e 'remotes::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqagui", ref = "development", upgrade = "always")'
 RUN R -q -e "install.packages('DQAgui')"
 
 # Add shiny app

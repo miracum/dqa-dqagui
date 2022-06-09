@@ -28,7 +28,7 @@ cd ..
 docker build \
     --progress=plain \
     --no-cache=${docker_build_no_cache} \
-    --build-arg CACHEBREAKER=blabla \
+    --build-arg IMAGE_TAG=${IMAGE_TAG} \
     -f docker/Dockerfile \
     -t $REGISTRY_PREFIX/$IMAGE_NAME \
     . 2>&1 | tee ./log_$IMAGE_NAME.log
