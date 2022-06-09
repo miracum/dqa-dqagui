@@ -28,14 +28,13 @@ cd ..
 docker build \
     --progress=plain \
     --no-cache=${docker_build_no_cache} \
-    --build-arg IMAGE_TAG=${IMAGE_TAG} \
     -f docker/Dockerfile \
     -t $REGISTRY_PREFIX/$IMAGE_NAME \
     . 2>&1 | tee ./log_$IMAGE_NAME.log
 cd docker
 printf "\n\nPushing $IMAGE_NAME image (latest)\n"
 # push new image as new 'latest':
-docker push "$REGISTRY_PREFIX/$IMAGE_NAME"
+# docker push "$REGISTRY_PREFIX/$IMAGE_NAME"
 # also tag it with the new tag:
 docker tag $REGISTRY_PREFIX/$IMAGE_NAME $REGISTRY_PREFIX/$IMAGE_NAME:$IMAGE_TAG
 # and also push this (tagged) image:

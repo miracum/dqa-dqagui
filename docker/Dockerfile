@@ -1,5 +1,4 @@
-ARG IMAGE_TAG
-FROM rocker/shiny-verse:${IMAGE_TAG}
+FROM rocker/shiny-verse:4.2.0
 
 ENV DEBIAN_FRONTEND=noninteractive \
     JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
@@ -128,8 +127,8 @@ RUN mkdir -p /var/run/s6 && \
 # COPY ./NAMESPACE /dqastats/NAMESPACE
 
 # ## Install our R-Package(s):
-# RUN R -q -e 'remotes::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqagui", ref = "development", upgrade = "always")'
-RUN R -q -e "install.packages('DQAgui')"
+RUN R -q -e 'remotes::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqagui", ref = "development", upgrade = "always")'
+# RUN R -q -e "install.packages('DQAgui')"
 
 # Add shiny app
 COPY ./docker/app.R /srv/shiny-server/
