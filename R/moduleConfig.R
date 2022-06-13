@@ -955,12 +955,18 @@ module_config_server <-
         })
 
         updateSelectInput(
-          session,
-          "config_sitename",
+          session = session,
+          inputId = "config_sitename",
           choices = rv$sitenames,
-          selected = ifelse(!is.null(rv$sitename),
-                            rv$sitename,
-                            character(0))
+          selected = ifelse(
+            test = !is.null(rv$sitename),
+            yes = rv$sitename,
+            no = ifelse(
+              test = isTRUE(rv$demo_usage),
+              yes = rv$sitenames[[1]],
+              no = character(0)
+            )
+          )
         )
       }
     })

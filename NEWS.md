@@ -13,6 +13,7 @@
 * switched from "data system" to "database" in wordings
 #### Others
 
+* added waiter to wait for report rendering finished and set preset for demo-mode in csv list
 * removed shinyapps deployment information
 * updated docker files
 * uncommented global stuff from shinyapps.io upload
@@ -21,7 +22,7 @@
 * updated image to R 4.2.0
 * updated new dev version
 
-Full set of changes: [`v0.2.0...031c365`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...031c365)
+Full set of changes: [`v0.2.0...b7a53a1`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...b7a53a1)
 
 ## v0.2.0 (2022-05-20)
 
