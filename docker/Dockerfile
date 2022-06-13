@@ -126,6 +126,8 @@ RUN mkdir -p /var/run/s6 && \
 # COPY ./DESCRIPTION /dqastats/DESCRIPTION
 # COPY ./NAMESPACE /dqastats/NAMESPACE
 
+ENV CACHEBREAKER=1
+
 # ## Install our R-Package(s):
 RUN R -q -e 'remotes::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqagui", ref = "development", upgrade = "always")'
 # RUN R -q -e "install.packages('DQAgui')"

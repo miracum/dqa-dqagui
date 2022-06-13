@@ -1,6 +1,6 @@
 # DQAgui NEWS
 
-## Unreleased (2022-06-09)
+## Unreleased (2022-06-13)
 
 #### New Features
 
@@ -8,14 +8,20 @@
 #### Fixes
 
 * fixes [#43](https://gitlab.miracum.org/miracum/dqa/dqagui/issues/43) and [#48](https://gitlab.miracum.org/miracum/dqa/dqagui/issues/48)
+#### Refactorings
+
+* switched from "data system" to "database" in wordings
 #### Others
 
+* removed shinyapps deployment information
+* updated docker files
+* uncommented global stuff from shinyapps.io upload
 * updated docker scripts
 * updated R version to R 4.2.0
 * updated image to R 4.2.0
 * updated new dev version
 
-Full set of changes: [`v0.2.0...da6bfd2`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...da6bfd2)
+Full set of changes: [`v0.2.0...031c365`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...031c365)
 
 ## v0.2.0 (2022-05-20)
 

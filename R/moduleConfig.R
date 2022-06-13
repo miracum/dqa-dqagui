@@ -363,12 +363,26 @@ module_config_server <-
             if (length(csv_system_names) > 0) {
               # Show buttons to prefill diff. systems presettings:
               # - Add a button/choice/etc. for each system:
-              shiny::updateSelectInput(session = session,
-                                inputId = "source_csv_presettings_list",
-                                choices = csv_system_names)
-              shiny::updateSelectInput(session = session,
-                                inputId = "target_csv_presettings_list",
-                                choices = csv_system_names)
+              shiny::updateSelectInput(
+                session = session,
+                inputId = "source_csv_presettings_list",
+                choices = csv_system_names,
+                selected = ifelse(
+                  test = isTRUE(rv$demo_usage),
+                  yes = csv_system_names[[1]],
+                  no = NULL
+                )
+              )
+              shiny::updateSelectInput(
+                session = session,
+                inputId = "target_csv_presettings_list",
+                choices = csv_system_names,
+                selected = ifelse(
+                  test = isTRUE(rv$demo_usage),
+                  yes = csv_system_names[[2]],
+                  no = NULL
+                )
+              )
             }
           }
           if (!("postgres" %in% tolower(rv$system_types))) {
