@@ -16,6 +16,7 @@
 * added documentation for demo_usage argument in launch_app; preparing next cran-release
 #### Others
 
+* updated lintr
 * added sitename presetting in demo mode
 * added waiter to wait for report rendering finished and set preset for demo-mode in csv list
 * removed shinyapps deployment information
@@ -25,8 +26,16 @@
 * updated R version to R 4.2.0
 * updated image to R 4.2.0
 * updated new dev version
+* modularizing unittests due to failing on gha (wip 6)
+* modularizing unittests due to failing on gha (wip 5)
+* modularizing unittests due to failing on gha (wip 4)
+* modularizing unittests due to failing on gha (wip 3)
+* modularizing unittests due to failing on gha (wip 2)
+* modularizing unittests due to failing on gha (wip)
+* modularizing unittests due to failing on gha
+* fixed linting errors and shiny-app unittests
 
-Full set of changes: [`v0.2.0...5eb08e8`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...5eb08e8)
+Full set of changes: [`v0.2.0...267a8b0`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...267a8b0)
 
 ## v0.2.0 (2022-05-20)
 
