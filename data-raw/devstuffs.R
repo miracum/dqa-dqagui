@@ -1,3 +1,4 @@
+# nolint start
 packagename <- "DQAgui"
 
 # remove existing description object
@@ -272,3 +273,5 @@ badger::badge_dependencies("DQAgui")
 #   white_around_sticker = FALSE,
 #   asp = 1
 # )
+
+# nolint end

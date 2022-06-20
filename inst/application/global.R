@@ -21,6 +21,8 @@
 options(kableExtra.auto_format = FALSE)
 options(knitr.table.format = "latex")
 
+# nolint start
+
 ## !!! ------------------------------------------------------------------
 ## Everything below here is only needed to deploy the app to shinyapps.io
 ## Please uncomment it in normal use!
@@ -61,3 +63,5 @@ options(knitr.table.format = "latex")
 # #   appName = "DQAgui-demo",
 # #   forceUpdate = TRUE
 # # )
+
+# nolint end

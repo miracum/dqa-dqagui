@@ -348,7 +348,7 @@ module_config_server <-
                            !is.na(get("source_system_name")),
                          unique(get("source_system_name"))]
             DIZtools::feedback(
-              csv_system_names,
+              paste0(csv_system_names, collapse = ", "),
               prefix = "csv_system_names: ",
               findme = "5a083a3d53",
               logfile_dir = rv$log$logfile_dir,
@@ -367,21 +367,21 @@ module_config_server <-
                 session = session,
                 inputId = "source_csv_presettings_list",
                 choices = csv_system_names,
-                selected = ifelse(
+                selected = unlist(ifelse(
                   test = isTRUE(rv$demo_usage),
                   yes = csv_system_names[[1]],
-                  no = NULL
-                )
+                  no = list(NULL)
+                ))
               )
               shiny::updateSelectInput(
                 session = session,
                 inputId = "target_csv_presettings_list",
                 choices = csv_system_names,
-                selected = ifelse(
+                selected = unlist(ifelse(
                   test = isTRUE(rv$demo_usage),
                   yes = csv_system_names[[2]],
-                  no = NULL
-                )
+                  no = list(NULL)
+                ))
               )
             }
           }
@@ -402,7 +402,7 @@ module_config_server <-
             )
             shiny::removeTab(inputId = "target_tabs",
                              target = system_types_mapping[["postgres"]])
-          } else{
+          } else {
             # Fill the tab with presettings
             # - filter for all system_names with
             #% system_type == postgres
@@ -457,7 +457,7 @@ module_config_server <-
             )
             shiny::removeTab(inputId = "target_tabs",
                              target = system_types_mapping[["oracle"]])
-          } else{
+          } else {
             # Fill the tab with presettings
             # - filter for all system_names with
             #% system_type == oracle
@@ -596,7 +596,7 @@ module_config_server <-
         updateTextInput(session = session,
                         inputId = "config_source_postgres_password",
                         value = config_stuff[["password"]])
-      } else{
+      } else {
         updateTextInput(session = session,
                         inputId = "config_source_postgres_dbname",
                         value = "")
@@ -669,7 +669,7 @@ module_config_server <-
         updateTextInput(session = session,
                         inputId = "config_source_oracle_sid",
                         value = config_stuff[["sid"]])
-      } else{
+      } else {
         updateTextInput(session = session,
                         inputId = "config_source_oracle_dbname",
                         value = "")
@@ -744,7 +744,7 @@ module_config_server <-
         updateTextInput(session = session,
                         inputId = "config_target_postgres_password",
                         value = config_stuff[["password"]])
-      } else{
+      } else {
         updateTextInput(session = session,
                         inputId = "config_target_postgres_dbname",
                         value = "")
@@ -817,7 +817,7 @@ module_config_server <-
         updateTextInput(session = session,
                         inputId = "config_target_oracle_sid",
                         value = config_stuff[["sid"]])
-      } else{
+      } else {
         updateTextInput(session = session,
                         inputId = "config_target_oracle_dbname",
                         value = "")
@@ -1009,22 +1009,39 @@ module_config_server <-
           # mdr is present:
         } else {
           # check if sitename is present
-          if (nchar(input_re()[["moduleConfig-config_sitename"]]) < 2 ||
-              any(grepl("\\s", input_re()[["moduleConfig-config_sitename"]]))) {
+          if (
+            nchar(input_re()[["moduleConfig-config_sitename"]]) < 2 ||
+            any(grepl("\\s", input_re()[["moduleConfig-config_sitename"]]))
+          ) {
+            msg <- paste0("There are no empty strings or spaces allowed in",
+            " the site name configuration.",
+            " Please select your site name."
+            )
+            DIZtools::feedback(
+              print_this = msg,
+              type = "Error",
+              ui = FALSE,
+              findme = "54362a3ab6",
+              logfile_dir = rv$log$logfile_dir
+            )
             # site name is missing:
             shiny::showModal(shiny::modalDialog(
               title = "The sitename is missing",
-              paste0(
-                "There are no empty strings or spaces allowed in",
-                " the site name configuration.",
-                " Please select your site name."
-              )
+              paste0(msg)
             ))
             error_tmp <- TRUE
           } else {
             # site name is present:
             rv$sitename <-
               input_re()[["moduleConfig-config_sitename"]]
+
+            DIZtools::feedback(
+              print_this = paste0("The site-name is: ", rv$sitename),
+              type = "Info",
+              ui = FALSE,
+              findme = "143f343ab6",
+              logfile_dir = rv$log$logfile_dir
+            )
           }
 
           # Check if at least one data element was selected for analyzation:
@@ -1102,6 +1119,8 @@ module_config_server <-
             ),
             paste0(tempdir(), "/_settings/global_settings.JSON")
           )
+        } else {
+          stop("An error occurred!")
         }
       }, error = function(cond) {
         DIZtools::feedback(

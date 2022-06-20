@@ -1,3 +1,5 @@
+# nolint start
+
 # remotes::install_git(url = "https://gitlab.miracum.org/miracum/misc/diztools", ref = "dev")
 # remotes::install_git(url = "https://gitlab.miracum.org/miracum/misc/dizutils", ref = "development")
 # remotes::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqastats", ref = "development")
@@ -11,8 +13,8 @@
 port = 3838
 
 
-Sys.setenv("CSV_SOURCE_BASEPATH" = system.file("demo_data", package = "DQAstats"))
-Sys.setenv("CSV_TARGET_BASEPATH" = system.file("demo_data", package = "DQAstats"))
+#Sys.setenv("CSV_SOURCE_BASEPATH" = system.file("demo_data", package = "DQAstats"))
+#Sys.setenv("CSV_TARGET_BASEPATH" = system.file("demo_data", package = "DQAstats"))
 
 
 # debugging default for Lorenz
@@ -39,3 +41,5 @@ launch_app(
   logfile_dir = logfile_dir,
   demo_usage = TRUE
 )
+
+# nolint end

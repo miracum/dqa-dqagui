@@ -54,7 +54,7 @@ module_dashboard_server <-
     })
 
     observe({
-      if(isTRUE(rv$demo_usage)) {
+      if (isTRUE(rv$demo_usage)) {
         shinyjs::showElement(id = "demo_instruction_panel")
       } else {
         shinyjs::hideElement(id = "demo_instruction_panel")
@@ -450,7 +450,7 @@ module_dashboard_server <-
           waiter::spin_timer(),
           "DQ Analysis finished. Rendering report now ..."
         ))
-        # waiter::waiter_hide()
+        #% waiter::waiter_hide()
         print_runtime(
           start_time = start_time,
           name = "module_dashboard_server -> rv$start",
@@ -617,8 +617,13 @@ module_dashboard_ui <- function(id) {
         6,
         wellPanel(h3(a(
                     "\U279C Click here for demo usage instructions",
-                    href = "https://github.com/miracum/dqa-dqastats/wiki/DQAgui_intro",
-                    target = "_blank")), id = ns("demo_instruction_panel"), style="display: none;"),
+                    href = paste0(
+                      "https://github.com/miracum/",
+                      "dqa-dqastats/wiki/DQAgui_intro"
+                    ),
+                    target = "_blank")),
+                  id = ns("demo_instruction_panel"),
+                  style = "display: none;"),
         verbatimTextOutput(ns("dash_config"))
       ),
       width = 12

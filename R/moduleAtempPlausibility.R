@@ -202,7 +202,7 @@ module_atemp_pl_server <- function(input, output, session, rv, input_re) {
               "n",
               "valids",
               "missings",
-              "distinct"), with = F]
+              "distinct"), with = FALSE]
             data.table::data.table(
               " " = c(
                 "n:",

@@ -1,3 +1,4 @@
+# nolint start
 # remotes::install_git(url = "https://gitlab.miracum.org/miracum/misc/diztools", ref = "dev")
 # remotes::install_git(url = "https://gitlab.miracum.org/miracum/misc/dizutils", ref = "development")
 # remotes::install_git(url = "https://gitlab.miracum.org/miracum/dqa/dqastats", ref = "development")
@@ -8,8 +9,8 @@
 # install.packages("DQAstats")
 # install.packages("DQAgui")
 
-# options(shiny.trace = TRUE)
-# options(shiny.fullstacktrace = TRUE)
+options(shiny.trace = TRUE)
+options(shiny.fullstacktrace = TRUE)
 
 port = 3838
 output_dir = "output/"
@@ -85,3 +86,5 @@ launch_app(
 #   utils_path = utils_path,
 #   mdr_filename = mdr_filename
 # )
+
+# nolint end

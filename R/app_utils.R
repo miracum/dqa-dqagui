@@ -146,7 +146,7 @@ validate_inputs <- function(rv, input, output, session) {
                 logfile_dir = rv$log$logfile_dir,
                 headless = rv$headless
               )
-            } else{
+            } else {
               DIZtools::feedback(
                 print_this = paste0("Some ",
                                     source_target,
@@ -210,7 +210,7 @@ validate_inputs <- function(rv, input, output, session) {
             ),
             type = "Error",
             findme = "d0f0bfa2f3",
-            ui = T,
+            ui = TRUE,
             logfile_dir = rv$log$logfile_dir,
             headless = rv$headless
           )
@@ -223,7 +223,7 @@ validate_inputs <- function(rv, input, output, session) {
       print_this = "Either source or target database is not set.",
       type = "Warning",
       findme = "4e9400f8c9",
-      ui = T,
+      ui = TRUE,
       logfile_dir = rv$log$logfile_dir,
       headless = rv$headless
     )
@@ -460,7 +460,7 @@ test_connection_button_clicked <-
 
     if (db_type == "oracle") {
       lib_path_tmp <- Sys.getenv("KDB_DRIVER")
-    } else{
+    } else {
       lib_path_tmp <- NULL
     }
 

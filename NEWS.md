@@ -11,6 +11,9 @@
 #### Refactorings
 
 * switched from "data system" to "database" in wordings
+#### Docs
+
+* added documentation for demo_usage argument in launch_app; preparing next cran-release
 #### Others
 
 * added sitename presetting in demo mode
@@ -23,7 +26,7 @@
 * updated image to R 4.2.0
 * updated new dev version
 
-Full set of changes: [`v0.2.0...8024a6c`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...8024a6c)
+Full set of changes: [`v0.2.0...5eb08e8`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...5eb08e8)
 
 ## v0.2.0 (2022-05-20)
 
