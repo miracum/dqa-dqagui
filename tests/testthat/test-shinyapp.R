@@ -58,6 +58,6 @@ test_that("DQAgui shiny app / launch_app() works", {
 
     val <- jsonlite::toJSON(output, auto_unbox = TRUE, pretty = TRUE)
 
-    expect_snapshot(val)
+    expect_snapshot_output(val)
   })
 })
