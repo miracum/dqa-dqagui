@@ -1,6 +1,6 @@
 Package: DQAgui
 Title: Graphical User Interface for Data Quality Assessment
-Version: 0.2.0.9005
+Version: 0.2.1
 Authors@R: c(
     person("Lorenz A.", "Kapsner", , "lorenz.kapsner@uk-erlangen.de", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0003-1866-860X")),
@@ -14,7 +14,7 @@ License: GPL-3
 URL: https://github.com/miracum/dqa-dqagui
 BugReports: https://github.com/miracum/dqa-dqagui/issues
 Encoding: UTF-8
-Date: 2022-06-13
+Date: 2022-06-20
 Imports: 
     data.table,
     daterangepicker,
@@ -37,6 +37,4 @@ Imports:
 Suggests: 
     lintr,
     testthat (>= 3.0.0)
-Remotes:  
-    url::https://gitlab.miracum.org/miracum/misc/dizutils/-/archive/development/dizutils-development.zip,
-    url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/development/dqastats-development.zip
+RoxygenNote: 7.2.0

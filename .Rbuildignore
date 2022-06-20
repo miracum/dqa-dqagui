@@ -6,6 +6,7 @@
 ^\.lintr$
 ^ci/*$
 ^NEWS\.md$
+^README\.md$
 ^logfile\.md$
 ^reconf\.sh$
 ^cran-comments\.md$

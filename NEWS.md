@@ -1,6 +1,6 @@
 # DQAgui NEWS
 
-## Unreleased (2022-06-13)
+## Unreleased (2022-06-20)
 
 #### New Features
 
@@ -13,6 +13,7 @@
 * switched from "data system" to "database" in wordings
 #### Others
 
+* added sitename presetting in demo mode
 * added waiter to wait for report rendering finished and set preset for demo-mode in csv list
 * removed shinyapps deployment information
 * updated docker files
@@ -22,7 +23,7 @@
 * updated image to R 4.2.0
 * updated new dev version
 
-Full set of changes: [`v0.2.0...b7a53a1`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...b7a53a1)
+Full set of changes: [`v0.2.0...8024a6c`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...8024a6c)
 
 ## v0.2.0 (2022-05-20)
 
@@ -255,7 +256,7 @@ Full set of changes: [`v0.0.7...v0.1.0`](https://gitlab.miracum.org/miracum/dqa/
 
 Full set of changes: [`v0.0.6...v0.0.7`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.6...v0.0.7)
 
-## v0.0.6 (2020-01-29)
+## v0.0.6 (2020-01-30)
 
 
 Full set of changes: [`v0.0.4...v0.0.6`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.4...v0.0.6)
