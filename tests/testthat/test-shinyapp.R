@@ -49,13 +49,15 @@ test_that("DQAgui shiny app / launch_app() works", {
     session$setInputs(`moduleConfig-dash_load_btn` = "click")
 
     # reactive values to list
-    output <<- shiny::reactiveValuesToList(rv)
+    output <- shiny::reactiveValuesToList(rv)
 
     # delete time-specific fields
     output$start_time <- NULL
-    output$endt_time <- NULL
+    output$end_time <- NULL
     output$duration <- NULL
 
-    expect_snapshot(output)
+    val <- jsonlite::toJSON(output, auto_unbox = TRUE, pretty = TRUE)
+
+    expect_snapshot(val)
   })
 })

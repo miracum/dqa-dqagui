@@ -1,1941 +1,2887 @@
 # DQAgui shiny app / launch_app() works
 
     Code
-      output
+      val
     Output
-      $sitename
-      [1] "DEMO"
-      
-      $keys_source
-      [1] "dqa_example_data_01.csv"
-      
-      $end_time
-      [1] "2022-06-20 13:46:59 CEST"
-      
-      $datamap
-      $datamap$source_data
-               variable  n valids missings distinct
-      1:      Person ID 23     23        0       16
-      2: Credit worthy? 23     23        0        2
-      
-      $datamap$target_data
-               variable  n valids missings distinct
-      1:      Person ID 23     23        0       16
-      2: Credit worthy? 23     23        0        2
-      
-      
-      $finished_onstart
-      [1] TRUE
-      
-      $affectedids_exported
-      [1] TRUE
-      
-      $ncores
-      [1] 2
-      
-      $aggregated_exported
-      [1] TRUE
-      
-      $pl
-      $pl$atemp_vars
-            designation     variable_name variable_type
-      1: Credit worthy? dqa_credit_worthy    enumerated
-                                                                                                                                                                                                                                                                                                                                     plausibility_relation
-      1: {"atemporal": {"dqa_bank_balance": {"name": "Pl.atemporal.Item01", "description": "Persons with a negative bank balance cannot be credit worthy", "filter": {"exampleCSV_source": "^(-)", "exampleCSV_target": "^(-)"}, "join_crit": "dqa_person_id", "constraints": {"value_set": {"exampleCSV_source": ["no"], "exampleCSV_target": ["no"]}}}}}
-      
-      $pl$uniq_vars
-         designation variable_name variable_type
-      1:   Person ID dqa_person_id        string
-                                                                                                                                                 plausibility_relation
-      1: {"uniqueness": {"dqa_name": {"name": "Pl.uniqueness.Item01","description": "The last name of a person must be identical in all entries for one person ID."}}}
-      
-      $pl$atemp_helper_vars
-      [1] "dqa_credit_worthy" "dqa_bank_balance"  "dqa_person_id"    
-      
-      $pl$atemp_possible
-      [1] TRUE
-      
-      $pl$uniq_helper_vars
-      [1] "dqa_person_id" "dqa_name"     
-      
-      $pl$uniq_possible
-      [1] TRUE
-      
-      
-      $datamap_email
-      [1] "your.name@mail.company.org"
-      
-      $headless
-      [1] FALSE
-      
-      $keys_target
-      [1] "dqa_example_data_02.csv"
-      
-      $dqa_assessment
-                   designation source_variable_name     variable_name variable_type               key       source_table_name
-       1:            Person ID            PERSON_ID     dqa_person_id        string     dqa.person_id dqa_example_data_01.csv
-       2:             Forename             FORENAME      dqa_forename        string      dqa.forename dqa_example_data_01.csv
-       3:                 Name                 NAME          dqa_name        string          dqa.name dqa_example_data_01.csv
-       4:         Age in years                  AGE     dqa_age_years       integer     dqa.age_years dqa_example_data_01.csv
-       5:            Birthdate            BIRTHDATE     dqa_birthdate      datetime     dqa.birthdate dqa_example_data_01.csv
-       6:                  Sex                  SEX           dqa_sex    enumerated           dqa.sex dqa_example_data_01.csv
-       7:               Income               INCOME        dqa_income       integer        dqa.income dqa_example_data_01.csv
-       8:                  Job                  JOB           dqa_job        string           dqa.job dqa_example_data_01.csv
-       9: Current bank balance         BANK-BALANCE  dqa_bank_balance       integer  dqa.bank_balance dqa_example_data_01.csv
-      10:       Credit worthy?        CREDIT-WORTHY dqa_credit_worthy    enumerated dqa.credit_worthy dqa_example_data_01.csv
-      11:     Amount of credit        CREDIT-AMOUNT dqa_credit_amount       integer dqa.credit_amount dqa_example_data_01.csv
-      12:      Date of contact         CONTACT-DATE  dqa_contact_date      datetime  dqa.contact_date dqa_example_data_01.csv
-      
-      $results_descriptive
-      $results_descriptive$`Age in years`
-      $results_descriptive$`Age in years`$description
-      $results_descriptive$`Age in years`$description$source_data
-      $results_descriptive$`Age in years`$description$source_data$name
-      [1] "Age in years"
-      
-      $results_descriptive$`Age in years`$description$source_data$internal_variable_name
-      [1] "dqa_age_years"
-      
-      $results_descriptive$`Age in years`$description$source_data$description
-      [1] "The age of the person at the time of contact."
-      
-      $results_descriptive$`Age in years`$description$source_data$var_name
-      [1] "AGE"
-      
-      $results_descriptive$`Age in years`$description$source_data$table_name
-      [1] "dqa_example_data_01.csv"
-      
-      $results_descriptive$`Age in years`$description$source_data$checks
-      $results_descriptive$`Age in years`$description$source_data$checks$var_type
-      [1] "integer"
-      
-      $results_descriptive$`Age in years`$description$source_data$checks$constraints
-      [1] "{\"range\":{\"min\":0,\"max\":110,\"unit\":\"a\"}} "
-      
-      
-      
-      $results_descriptive$`Age in years`$description$target_data
-      $results_descriptive$`Age in years`$description$target_data$var_name
-      [1] "AGE"
-      
-      $results_descriptive$`Age in years`$description$target_data$table_name
-      [1] "dqa_example_data_02.csv"
-      
-      $results_descriptive$`Age in years`$description$target_data$checks
-      $results_descriptive$`Age in years`$description$target_data$checks$var_type
-      [1] "integer"
-      
-      $results_descriptive$`Age in years`$description$target_data$checks$constraints
-      [1] "{\"range\":{\"min\":0,\"max\":110,\"unit\":\"a\"}} "
-      
-      
-      
-      
-      $results_descriptive$`Age in years`$counts
-      $results_descriptive$`Age in years`$counts$source_data
-      $results_descriptive$`Age in years`$counts$source_data$cnt
-              variable  n valids missings distinct      sourcesystem
-      1: dqa_age_years 23     23        0       21 exampleCSV_source
-      
-      $results_descriptive$`Age in years`$counts$source_data$type
-      [1] "integer"
-      
-      
-      $results_descriptive$`Age in years`$counts$target_data
-      $results_descriptive$`Age in years`$counts$target_data$cnt
-              variable  n valids missings distinct      sourcesystem
-      1: dqa_age_years 23     23        0       21 exampleCSV_target
-      
-      $results_descriptive$`Age in years`$counts$target_data$type
-      [1] "integer"
-      
-      
-      
-      $results_descriptive$`Age in years`$statistics
-      $results_descriptive$`Age in years`$statistics$source_data
-                        
-       1:     Mean    63
-       2:  Minimum    22
-       3:   Median    64
-       4:  Maximum    94
-       5:       SD 22.56
-       6:  Negativ     0
-       7:     Zero     0
-       8: Positive    23
-       9:    OutLo     0
-      10:    OutHi     0
-      11: Variance   509
-      12:    Range    72
-      
-      $results_descriptive$`Age in years`$statistics$target_data
-                          
-       1:     Mean   67.35
-       2:  Minimum      22
-       3:   Median      64
-       4:  Maximum     175
-       5:       SD   32.45
-       6:  Negativ       0
-       7:     Zero       0
-       8: Positive      23
-       9:    OutLo       0
-      10:    OutHi       1
-      11: Variance 1052.87
-      12:    Range     153
-      
-      
-      
-      $results_descriptive$`Amount of credit`
-      $results_descriptive$`Amount of credit`$description
-      $results_descriptive$`Amount of credit`$description$source_data
-      $results_descriptive$`Amount of credit`$description$source_data$name
-      [1] "Amount of credit"
-      
-      $results_descriptive$`Amount of credit`$description$source_data$internal_variable_name
-      [1] "dqa_credit_amount"
-      
-      $results_descriptive$`Amount of credit`$description$source_data$description
-      [1] "That's the amount of credit the person has used"
-      
-      $results_descriptive$`Amount of credit`$description$source_data$var_name
-      [1] "CREDIT-AMOUNT"
-      
-      $results_descriptive$`Amount of credit`$description$source_data$table_name
-      [1] "dqa_example_data_01.csv"
-      
-      $results_descriptive$`Amount of credit`$description$source_data$checks
-      $results_descriptive$`Amount of credit`$description$source_data$checks$var_type
-      [1] "integer"
-      
-      $results_descriptive$`Amount of credit`$description$source_data$checks$constraints
-      [1] "{\"range\":{\"min\":0,\"max\":\"Inf\",\"unit\":\"money\"}} "
-      
-      
-      
-      $results_descriptive$`Amount of credit`$description$target_data
-      $results_descriptive$`Amount of credit`$description$target_data$var_name
-      [1] "CREDIT-AMOUNT"
-      
-      $results_descriptive$`Amount of credit`$description$target_data$table_name
-      [1] "dqa_example_data_02.csv"
-      
-      $results_descriptive$`Amount of credit`$description$target_data$checks
-      $results_descriptive$`Amount of credit`$description$target_data$checks$var_type
-      [1] "integer"
-      
-      $results_descriptive$`Amount of credit`$description$target_data$checks$constraints
-      [1] "{\"range\":{\"min\":0,\"max\":\"Inf\",\"unit\":\"money\"}} "
-      
-      
-      
-      
-      $results_descriptive$`Amount of credit`$counts
-      $results_descriptive$`Amount of credit`$counts$source_data
-      $results_descriptive$`Amount of credit`$counts$source_data$cnt
-                  variable  n valids missings distinct      sourcesystem
-      1: dqa_credit_amount 23     10       13       10 exampleCSV_source
-      
-      $results_descriptive$`Amount of credit`$counts$source_data$type
-      [1] "integer"
-      
-      
-      $results_descriptive$`Amount of credit`$counts$target_data
-      $results_descriptive$`Amount of credit`$counts$target_data$cnt
-                  variable  n valids missings distinct      sourcesystem
-      1: dqa_credit_amount 23     10       13       10 exampleCSV_target
-      
-      $results_descriptive$`Amount of credit`$counts$target_data$type
-      [1] "integer"
-      
-      
-      
-      $results_descriptive$`Amount of credit`$statistics
-      $results_descriptive$`Amount of credit`$statistics$source_data
-                               
-       1:     Mean        39220
-       2:  Minimum        12200
-       3:   Median        33350
-       4:  Maximum        72800
-       5:       SD     21447.19
-       6:  Negativ            0
-       7:     Zero            0
-       8: Positive           10
-       9:    OutLo            0
-      10:    OutHi            0
-      11: Variance 459981777.78
-      12:    Range        60600
-      
-      $results_descriptive$`Amount of credit`$statistics$target_data
-                               
-       1:     Mean        39220
-       2:  Minimum        12200
-       3:   Median        33350
-       4:  Maximum        72800
-       5:       SD     21447.19
-       6:  Negativ            0
-       7:     Zero            0
-       8: Positive           10
-       9:    OutLo            0
-      10:    OutHi            0
-      11: Variance 459981777.78
-      12:    Range        60600
-      
-      
-      
-      $results_descriptive$Birthdate
-      $results_descriptive$Birthdate$description
-      $results_descriptive$Birthdate$description$source_data
-      $results_descriptive$Birthdate$description$source_data$name
-      [1] "Birthdate"
-      
-      $results_descriptive$Birthdate$description$source_data$internal_variable_name
-      [1] "dqa_birthdate"
-      
-      $results_descriptive$Birthdate$description$source_data$description
-      [1] "The date of birth written as dd.mm.yyyy"
-      
-      $results_descriptive$Birthdate$description$source_data$var_name
-      [1] "BIRTHDATE"
-      
-      $results_descriptive$Birthdate$description$source_data$table_name
-      [1] "dqa_example_data_01.csv"
-      
-      $results_descriptive$Birthdate$description$source_data$checks
-      $results_descriptive$Birthdate$description$source_data$checks$var_type
-      [1] "datetime"
-      
-      $results_descriptive$Birthdate$description$source_data$checks$constraints
-      [1] "{\"datetime\": {\"min\": \"1950-01-01\",\"max\": \"1989-12-31\", \"format\": \"%d.%m.%Y\"}}"
-      
-      
-      
-      $results_descriptive$Birthdate$description$target_data
-      $results_descriptive$Birthdate$description$target_data$var_name
-      [1] "BIRTHDATE"
-      
-      $results_descriptive$Birthdate$description$target_data$table_name
-      [1] "dqa_example_data_02.csv"
-      
-      $results_descriptive$Birthdate$description$target_data$checks
-      $results_descriptive$Birthdate$description$target_data$checks$var_type
-      [1] "datetime"
-      
-      $results_descriptive$Birthdate$description$target_data$checks$constraints
-      [1] "{\"datetime\": {\"min\": \"1950-01-01\",\"max\": \"1989-12-31\", \"format\": \"%d.%m.%Y\"}}"
-      
-      
-      
-      
-      $results_descriptive$Birthdate$counts
-      $results_descriptive$Birthdate$counts$source_data
-      $results_descriptive$Birthdate$counts$source_data$cnt
-              variable  n valids missings distinct      sourcesystem
-      1: dqa_birthdate 23     23        0       16 exampleCSV_source
-      
-      $results_descriptive$Birthdate$counts$source_data$type
-      [1] "datetime"
-      
-      
-      $results_descriptive$Birthdate$counts$target_data
-      $results_descriptive$Birthdate$counts$target_data$cnt
-              variable  n valids missings distinct      sourcesystem
-      1: dqa_birthdate 23     23        0       16 exampleCSV_target
-      
-      $results_descriptive$Birthdate$counts$target_data$type
-      [1] "datetime"
-      
-      
-      
-      $results_descriptive$Birthdate$statistics
-      $results_descriptive$Birthdate$statistics$source_data
-                          
-      1    Min. 1921-02-19
-      2 1st Qu. 1932-09-17
-      3  Median 1951-07-03
-      4    Mean 1950-09-25
-      5 3rd Qu. 1965-05-10
-      6    Max. 1990-05-26
-      
-      $results_descriptive$Birthdate$statistics$target_data
-                          
-      1    Min. 1921-02-19
-      2 1st Qu. 1932-09-17
-      3  Median 1951-07-03
-      4    Mean 1950-09-25
-      5 3rd Qu. 1965-05-10
-      6    Max. 1990-05-26
-      
-      
-      
-      $results_descriptive$`Credit worthy?`
-      $results_descriptive$`Credit worthy?`$description
-      $results_descriptive$`Credit worthy?`$description$source_data
-      $results_descriptive$`Credit worthy?`$description$source_data$name
-      [1] "Credit worthy?"
-      
-      $results_descriptive$`Credit worthy?`$description$source_data$internal_variable_name
-      [1] "dqa_credit_worthy"
-      
-      $results_descriptive$`Credit worthy?`$description$source_data$description
-      [1] "Indicates whether the person is creditworthy at the time of the contact"
-      
-      $results_descriptive$`Credit worthy?`$description$source_data$var_name
-      [1] "CREDIT-WORTHY"
-      
-      $results_descriptive$`Credit worthy?`$description$source_data$table_name
-      [1] "dqa_example_data_01.csv"
-      
-      $results_descriptive$`Credit worthy?`$description$source_data$checks
-      $results_descriptive$`Credit worthy?`$description$source_data$checks$var_type
-      [1] "enumerated"
-      
-      $results_descriptive$`Credit worthy?`$description$source_data$checks$constraints
-      [1] "{\"value_set\": [\"yes\", \"no\"]}"
-      
-      
-      
-      $results_descriptive$`Credit worthy?`$description$target_data
-      $results_descriptive$`Credit worthy?`$description$target_data$var_name
-      [1] "CREDIT-WORTHY"
-      
-      $results_descriptive$`Credit worthy?`$description$target_data$table_name
-      [1] "dqa_example_data_02.csv"
-      
-      $results_descriptive$`Credit worthy?`$description$target_data$checks
-      $results_descriptive$`Credit worthy?`$description$target_data$checks$var_type
-      [1] "enumerated"
-      
-      $results_descriptive$`Credit worthy?`$description$target_data$checks$constraints
-      [1] "{\"value_set\": [\"yes\", \"no\"]}"
-      
-      
-      
-      
-      $results_descriptive$`Credit worthy?`$counts
-      $results_descriptive$`Credit worthy?`$counts$source_data
-      $results_descriptive$`Credit worthy?`$counts$source_data$cnt
-                  variable  n valids missings distinct      sourcesystem
-      1: dqa_credit_worthy 23     23        0        2 exampleCSV_source
-      
-      $results_descriptive$`Credit worthy?`$counts$source_data$type
-      [1] "enumerated"
-      
-      
-      $results_descriptive$`Credit worthy?`$counts$target_data
-      $results_descriptive$`Credit worthy?`$counts$target_data$cnt
-                  variable  n valids missings distinct      sourcesystem
-      1: dqa_credit_worthy 23     23        0        2 exampleCSV_target
-      
-      $results_descriptive$`Credit worthy?`$counts$target_data$type
-      [1] "enumerated"
-      
-      
-      
-      $results_descriptive$`Credit worthy?`$statistics
-      $results_descriptive$`Credit worthy?`$statistics$source_data
-         dqa_credit_worthy Freq  % Valid
-      1:                no   13 56.52174
-      2:               yes   10 43.47826
-      
-      $results_descriptive$`Credit worthy?`$statistics$target_data
-         dqa_credit_worthy Freq  % Valid
-      1:                no   13 56.52174
-      2:               yes   10 43.47826
-      
-      
-      
-      $results_descriptive$`Current bank balance`
-      $results_descriptive$`Current bank balance`$description
-      $results_descriptive$`Current bank balance`$description$source_data
-      $results_descriptive$`Current bank balance`$description$source_data$name
-      [1] "Current bank balance"
-      
-      $results_descriptive$`Current bank balance`$description$source_data$internal_variable_name
-      [1] "dqa_bank_balance"
-      
-      $results_descriptive$`Current bank balance`$description$source_data$description
-      [1] "The bank-balance at the time of contact"
-      
-      $results_descriptive$`Current bank balance`$description$source_data$var_name
-      [1] "BANK-BALANCE"
-      
-      $results_descriptive$`Current bank balance`$description$source_data$table_name
-      [1] "dqa_example_data_01.csv"
-      
-      $results_descriptive$`Current bank balance`$description$source_data$checks
-      $results_descriptive$`Current bank balance`$description$source_data$checks$var_type
-      [1] "integer"
-      
-      $results_descriptive$`Current bank balance`$description$source_data$checks$constraints
-      [1] "{\"range\":{\"min\":\"-Inf\",\"max\":\"Inf\",\"unit\":\"money\"}} "
-      
-      
-      
-      $results_descriptive$`Current bank balance`$description$target_data
-      $results_descriptive$`Current bank balance`$description$target_data$var_name
-      [1] "BANK-BALANCE"
-      
-      $results_descriptive$`Current bank balance`$description$target_data$table_name
-      [1] "dqa_example_data_02.csv"
-      
-      $results_descriptive$`Current bank balance`$description$target_data$checks
-      $results_descriptive$`Current bank balance`$description$target_data$checks$var_type
-      [1] "integer"
-      
-      $results_descriptive$`Current bank balance`$description$target_data$checks$constraints
-      [1] "{\"range\":{\"min\":\"-Inf\",\"max\":\"Inf\",\"unit\":\"money\"}} "
-      
-      
-      
-      
-      $results_descriptive$`Current bank balance`$counts
-      $results_descriptive$`Current bank balance`$counts$source_data
-      $results_descriptive$`Current bank balance`$counts$source_data$cnt
-                 variable  n valids missings distinct      sourcesystem
-      1: dqa_bank_balance 23     23        0       22 exampleCSV_source
-      
-      $results_descriptive$`Current bank balance`$counts$source_data$type
-      [1] "integer"
-      
-      
-      $results_descriptive$`Current bank balance`$counts$target_data
-      $results_descriptive$`Current bank balance`$counts$target_data$cnt
-                 variable  n valids missings distinct      sourcesystem
-      1: dqa_bank_balance 23     23        0       22 exampleCSV_target
-      
-      $results_descriptive$`Current bank balance`$counts$target_data$type
-      [1] "integer"
-      
-      
-      
-      $results_descriptive$`Current bank balance`$statistics
-      $results_descriptive$`Current bank balance`$statistics$source_data
-                                
-       1:     Mean      35152.17
-       2:  Minimum        -34200
-       3:   Median         18800
-       4:  Maximum        124100
-       5:       SD      39516.63
-       6:  Negativ             2
-       7:     Zero             0
-       8: Positive            21
-       9:    OutLo             0
-      10:    OutHi             0
-      11: Variance 1561564426.88
-      12:    Range        158300
-      
-      $results_descriptive$`Current bank balance`$statistics$target_data
-                                
-       1:     Mean      26395.65
-       2:  Minimum        -64200
-       3:   Median         12800
-       4:  Maximum        124100
-       5:       SD       46097.8
-       6:  Negativ             4
-       7:     Zero             0
-       8: Positive            19
-       9:    OutLo             0
-      10:    OutHi             0
-      11: Variance 2125006798.42
-      12:    Range        188300
-      
-      
-      
-      $results_descriptive$`Date of contact`
-      $results_descriptive$`Date of contact`$description
-      $results_descriptive$`Date of contact`$description$source_data
-      $results_descriptive$`Date of contact`$description$source_data$name
-      [1] "Date of contact"
-      
-      $results_descriptive$`Date of contact`$description$source_data$internal_variable_name
-      [1] "dqa_contact_date"
-      
-      $results_descriptive$`Date of contact`$description$source_data$description
-      [1] "Date of contact"
-      
-      $results_descriptive$`Date of contact`$description$source_data$var_name
-      [1] "CONTACT-DATE"
-      
-      $results_descriptive$`Date of contact`$description$source_data$table_name
-      [1] "dqa_example_data_01.csv"
-      
-      $results_descriptive$`Date of contact`$description$source_data$checks
-      $results_descriptive$`Date of contact`$description$source_data$checks$var_type
-      [1] "datetime"
-      
-      $results_descriptive$`Date of contact`$description$source_data$checks$constraints
-      [1] "{\"datetime\": {\"min\": \"2012-01-01\",\"max\": \"2015-12-31\", \"format\": \"%d.%m.%Y\"}}"
-      
-      
-      
-      $results_descriptive$`Date of contact`$description$target_data
-      $results_descriptive$`Date of contact`$description$target_data$var_name
-      [1] "CONTACT-DATE"
-      
-      $results_descriptive$`Date of contact`$description$target_data$table_name
-      [1] "dqa_example_data_02.csv"
-      
-      $results_descriptive$`Date of contact`$description$target_data$checks
-      $results_descriptive$`Date of contact`$description$target_data$checks$var_type
-      [1] "datetime"
-      
-      $results_descriptive$`Date of contact`$description$target_data$checks$constraints
-      [1] "{\"datetime\": {\"min\": \"2012-01-01\",\"max\": \"2015-12-31\", \"format\": \"%d.%m.%Y\"}}"
-      
-      
-      
-      
-      $results_descriptive$`Date of contact`$counts
-      $results_descriptive$`Date of contact`$counts$source_data
-      $results_descriptive$`Date of contact`$counts$source_data$cnt
-                 variable  n valids missings distinct      sourcesystem
-      1: dqa_contact_date 23     23        0       23 exampleCSV_source
-      
-      $results_descriptive$`Date of contact`$counts$source_data$type
-      [1] "datetime"
-      
-      
-      $results_descriptive$`Date of contact`$counts$target_data
-      $results_descriptive$`Date of contact`$counts$target_data$cnt
-                 variable  n valids missings distinct      sourcesystem
-      1: dqa_contact_date 23     23        0       23 exampleCSV_target
-      
-      $results_descriptive$`Date of contact`$counts$target_data$type
-      [1] "datetime"
-      
-      
-      
-      $results_descriptive$`Date of contact`$statistics
-      $results_descriptive$`Date of contact`$statistics$source_data
-                          
-      1    Min. 2011-10-12
-      2 1st Qu. 2012-08-11
-      3  Median 2013-10-02
-      4    Mean 2013-10-28
-      5 3rd Qu. 2014-12-21
-      6    Max. 2015-12-20
-      
-      $results_descriptive$`Date of contact`$statistics$target_data
-                          
-      1    Min. 2011-10-12
-      2 1st Qu. 2012-08-11
-      3  Median 2013-10-02
-      4    Mean 2013-10-28
-      5 3rd Qu. 2014-12-21
-      6    Max. 2015-12-20
-      
-      
-      
-      $results_descriptive$Forename
-      $results_descriptive$Forename$description
-      $results_descriptive$Forename$description$source_data
-      $results_descriptive$Forename$description$source_data$name
-      [1] "Forename"
-      
-      $results_descriptive$Forename$description$source_data$internal_variable_name
-      [1] "dqa_forename"
-      
-      $results_descriptive$Forename$description$source_data$description
-      [1] "The Forename of the person."
-      
-      $results_descriptive$Forename$description$source_data$var_name
-      [1] "FORENAME"
-      
-      $results_descriptive$Forename$description$source_data$table_name
-      [1] "dqa_example_data_01.csv"
-      
-      $results_descriptive$Forename$description$source_data$checks
-      $results_descriptive$Forename$description$source_data$checks$var_type
-      [1] "string"
-      
-      $results_descriptive$Forename$description$source_data$checks$constraints
-      [1] NA
-      
-      
-      
-      $results_descriptive$Forename$description$target_data
-      $results_descriptive$Forename$description$target_data$var_name
-      [1] "FORENAME"
-      
-      $results_descriptive$Forename$description$target_data$table_name
-      [1] "dqa_example_data_02.csv"
-      
-      $results_descriptive$Forename$description$target_data$checks
-      $results_descriptive$Forename$description$target_data$checks$var_type
-      [1] "string"
-      
-      $results_descriptive$Forename$description$target_data$checks$constraints
-      [1] NA
-      
-      
-      
-      
-      $results_descriptive$Forename$counts
-      $results_descriptive$Forename$counts$source_data
-      $results_descriptive$Forename$counts$source_data$cnt
-             variable  n valids missings distinct      sourcesystem
-      1: dqa_forename 23     23        0       17 exampleCSV_source
-      
-      $results_descriptive$Forename$counts$source_data$type
-      [1] "string"
-      
-      
-      $results_descriptive$Forename$counts$target_data
-      $results_descriptive$Forename$counts$target_data$cnt
-             variable  n valids missings distinct      sourcesystem
-      1: dqa_forename 23     23        0       16 exampleCSV_target
-      
-      $results_descriptive$Forename$counts$target_data$type
-      [1] "string"
-      
-      
-      
-      $results_descriptive$Forename$statistics
-      $results_descriptive$Forename$statistics$source_data
-          dqa_forename Freq   % Valid
-       1:      Zenaida    3 13.043478
-       2:    Geraldine    2  8.695652
-       3:     Williams    2  8.695652
-       4:        Wayne    2  8.695652
-       5:      Dorothy    2  8.695652
-       6:     Lawrence    1  4.347826
-       7:        Janet    1  4.347826
-       8:       Martin    1  4.347826
-       9:     Georgina    1  4.347826
-      10:      Elliott    1  4.347826
-      11:     Gilberto    1  4.347826
-      12:        Annie    1  4.347826
-      13:        Karen    1  4.347826
-      14:         John    1  4.347826
-      15:        Susan    1  4.347826
-      16:       Elijah    1  4.347826
-      17:       Miriam    1  4.347826
-      
-      $results_descriptive$Forename$statistics$target_data
-          dqa_forename Freq   % Valid
-       1:    Geraldine    3 13.043478
-       2:      Zenaida    3 13.043478
-       3:     Williams    2  8.695652
-       4:        Wayne    2  8.695652
-       5:      Dorothy    2  8.695652
-       6:     Lawrence    1  4.347826
-       7:        Janet    1  4.347826
-       8:       Martin    1  4.347826
-       9:     Georgina    1  4.347826
-      10:      Elliott    1  4.347826
-      11:     Gilberto    1  4.347826
-      12:        Annie    1  4.347826
-      13:        Karen    1  4.347826
-      14:         John    1  4.347826
-      15:        Susan    1  4.347826
-      16:       Elijah    1  4.347826
-      
-      
-      
-      $results_descriptive$Income
-      $results_descriptive$Income$description
-      $results_descriptive$Income$description$source_data
-      $results_descriptive$Income$description$source_data$name
-      [1] "Income"
-      
-      $results_descriptive$Income$description$source_data$internal_variable_name
-      [1] "dqa_income"
-      
-      $results_descriptive$Income$description$source_data$description
-      [1] "The income of the person at the time of contact"
-      
-      $results_descriptive$Income$description$source_data$var_name
-      [1] "INCOME"
-      
-      $results_descriptive$Income$description$source_data$table_name
-      [1] "dqa_example_data_01.csv"
-      
-      $results_descriptive$Income$description$source_data$checks
-      $results_descriptive$Income$description$source_data$checks$var_type
-      [1] "integer"
-      
-      $results_descriptive$Income$description$source_data$checks$constraints
-      [1] "{\"range\":{\"min\":0,\"max\":\"Inf\",\"unit\":\"money\"}} "
-      
-      
-      
-      $results_descriptive$Income$description$target_data
-      $results_descriptive$Income$description$target_data$var_name
-      [1] "INCOME"
-      
-      $results_descriptive$Income$description$target_data$table_name
-      [1] "dqa_example_data_02.csv"
-      
-      $results_descriptive$Income$description$target_data$checks
-      $results_descriptive$Income$description$target_data$checks$var_type
-      [1] "integer"
-      
-      $results_descriptive$Income$description$target_data$checks$constraints
-      [1] "{\"range\":{\"min\":0,\"max\":\"Inf\",\"unit\":\"money\"}} "
-      
-      
-      
-      
-      $results_descriptive$Income$counts
-      $results_descriptive$Income$counts$source_data
-      $results_descriptive$Income$counts$source_data$cnt
-           variable  n valids missings distinct      sourcesystem
-      1: dqa_income 23     23        0       23 exampleCSV_source
-      
-      $results_descriptive$Income$counts$source_data$type
-      [1] "integer"
-      
-      
-      $results_descriptive$Income$counts$target_data
-      $results_descriptive$Income$counts$target_data$cnt
-           variable  n valids missings distinct      sourcesystem
-      1: dqa_income 23     23        0       23 exampleCSV_target
-      
-      $results_descriptive$Income$counts$target_data$type
-      [1] "integer"
-      
-      
-      
-      $results_descriptive$Income$statistics
-      $results_descriptive$Income$statistics$source_data
-                                
-       1:     Mean      68826.09
-       2:  Minimum          3000
-       3:   Median         59000
-       4:  Maximum        145000
-       5:       SD      46841.76
-       6:  Negativ             0
-       7:     Zero             0
-       8: Positive            23
-       9:    OutLo             0
-      10:    OutHi             0
-      11: Variance 2194150197.63
-      12:    Range        142000
-      
-      $results_descriptive$Income$statistics$target_data
-                                
-       1:     Mean       68391.3
-       2:  Minimum         -5000
-       3:   Median         59000
-       4:  Maximum        145000
-       5:       SD      47502.86
-       6:  Negativ             1
-       7:     Zero             0
-       8: Positive            22
-       9:    OutLo             0
-      10:    OutHi             0
-      11: Variance 2256521739.13
-      12:    Range        150000
-      
-      
-      
-      $results_descriptive$Job
-      $results_descriptive$Job$description
-      $results_descriptive$Job$description$source_data
-      $results_descriptive$Job$description$source_data$name
-      [1] "Job"
-      
-      $results_descriptive$Job$description$source_data$internal_variable_name
-      [1] "dqa_job"
-      
-      $results_descriptive$Job$description$source_data$description
-      [1] "The job of the person at the time of contact"
-      
-      $results_descriptive$Job$description$source_data$var_name
-      [1] "JOB"
-      
-      $results_descriptive$Job$description$source_data$table_name
-      [1] "dqa_example_data_01.csv"
-      
-      $results_descriptive$Job$description$source_data$checks
-      $results_descriptive$Job$description$source_data$checks$var_type
-      [1] "string"
-      
-      $results_descriptive$Job$description$source_data$checks$constraints
-      [1] NA
-      
-      
-      
-      $results_descriptive$Job$description$target_data
-      $results_descriptive$Job$description$target_data$var_name
-      [1] "JOB"
-      
-      $results_descriptive$Job$description$target_data$table_name
-      [1] "dqa_example_data_02.csv"
-      
-      $results_descriptive$Job$description$target_data$checks
-      $results_descriptive$Job$description$target_data$checks$var_type
-      [1] "string"
-      
-      $results_descriptive$Job$description$target_data$checks$constraints
-      [1] NA
-      
-      
-      
-      
-      $results_descriptive$Job$counts
-      $results_descriptive$Job$counts$source_data
-      $results_descriptive$Job$counts$source_data$cnt
-         variable  n valids missings distinct      sourcesystem
-      1:  dqa_job 23     23        0       15 exampleCSV_source
-      
-      $results_descriptive$Job$counts$source_data$type
-      [1] "string"
-      
-      
-      $results_descriptive$Job$counts$target_data
-      $results_descriptive$Job$counts$target_data$cnt
-         variable  n valids missings distinct      sourcesystem
-      1:  dqa_job 23     23        0       15 exampleCSV_target
-      
-      $results_descriptive$Job$counts$target_data$type
-      [1] "string"
-      
-      
-      
-      $results_descriptive$Job$statistics
-      $results_descriptive$Job$statistics$source_data
-               dqa_job Freq   % Valid
-       1: Bank manager    3 13.043478
-       2:     Magician    3 13.043478
-       3:      Student    2  8.695652
-       4:        Pilot    2  8.695652
-       5:       Lawyer    2  8.695652
-       6:       Singer    2  8.695652
-       7: Photographer    1  4.347826
-       8:       Farmer    1  4.347826
-       9:    Professor    1  4.347826
-      10:     Engineer    1  4.347826
-      11:   Researcher    1  4.347826
-      12:      Chemist    1  4.347826
-      13:     Gardener    1  4.347826
-      14: Psychologist    1  4.347826
-      15:     Comedian    1  4.347826
-      
-      $results_descriptive$Job$statistics$target_data
-               dqa_job Freq   % Valid
-       1: Bank manager    3 13.043478
-       2:     Magician    3 13.043478
-       3:      Student    2  8.695652
-       4:        Pilot    2  8.695652
-       5:       Lawyer    2  8.695652
-       6:       Singer    2  8.695652
-       7: Photographer    1  4.347826
-       8:       Farmer    1  4.347826
-       9:    Professor    1  4.347826
-      10:     Engineer    1  4.347826
-      11:   Researcher    1  4.347826
-      12:      Chemist    1  4.347826
-      13:     Gardener    1  4.347826
-      14: Psychologist    1  4.347826
-      15:     Comedian    1  4.347826
-      
-      
-      
-      $results_descriptive$Name
-      $results_descriptive$Name$description
-      $results_descriptive$Name$description$source_data
-      $results_descriptive$Name$description$source_data$name
-      [1] "Name"
-      
-      $results_descriptive$Name$description$source_data$internal_variable_name
-      [1] "dqa_name"
-      
-      $results_descriptive$Name$description$source_data$description
-      [1] "The Surname of the person."
-      
-      $results_descriptive$Name$description$source_data$var_name
-      [1] "NAME"
-      
-      $results_descriptive$Name$description$source_data$table_name
-      [1] "dqa_example_data_01.csv"
-      
-      $results_descriptive$Name$description$source_data$checks
-      $results_descriptive$Name$description$source_data$checks$var_type
-      [1] "string"
-      
-      $results_descriptive$Name$description$source_data$checks$constraints
-      [1] NA
-      
-      
-      
-      $results_descriptive$Name$description$target_data
-      $results_descriptive$Name$description$target_data$var_name
-      [1] "NAME"
-      
-      $results_descriptive$Name$description$target_data$table_name
-      [1] "dqa_example_data_02.csv"
-      
-      $results_descriptive$Name$description$target_data$checks
-      $results_descriptive$Name$description$target_data$checks$var_type
-      [1] "string"
-      
-      $results_descriptive$Name$description$target_data$checks$constraints
-      [1] NA
-      
-      
-      
-      
-      $results_descriptive$Name$counts
-      $results_descriptive$Name$counts$source_data
-      $results_descriptive$Name$counts$source_data$cnt
-         variable  n valids missings distinct      sourcesystem
-      1: dqa_name 23     23        0       16 exampleCSV_source
-      
-      $results_descriptive$Name$counts$source_data$type
-      [1] "string"
-      
-      
-      $results_descriptive$Name$counts$target_data
-      $results_descriptive$Name$counts$target_data$cnt
-         variable  n valids missings distinct      sourcesystem
-      1: dqa_name 23     23        0       16 exampleCSV_target
-      
-      $results_descriptive$Name$counts$target_data$type
-      [1] "string"
-      
-      
-      
-      $results_descriptive$Name$statistics
-      $results_descriptive$Name$statistics$source_data
-           dqa_name Freq   % Valid
-       1:   Jackson    3 13.043478
-       2:    Staggs    3 13.043478
-       3: Rodriguez    2  8.695652
-       4:   Burdett    2  8.695652
-       5:   Simpson    2  8.695652
-       6:   Daniels    1  4.347826
-       7:    Dardar    1  4.347826
-       8:     Jones    1  4.347826
-       9:      Cook    1  4.347826
-      10:    Eatmon    1  4.347826
-      11:    Kenney    1  4.347826
-      12:     Stock    1  4.347826
-      13:     Shuck    1  4.347826
-      14:    Malloy    1  4.347826
-      15:  Kirkland    1  4.347826
-      16:    Sutton    1  4.347826
-      
-      $results_descriptive$Name$statistics$target_data
-           dqa_name Freq   % Valid
-       1:   Jackson    3 13.043478
-       2:    Staggs    3 13.043478
-       3: Rodriguez    2  8.695652
-       4:   Burdett    2  8.695652
-       5:   Simpson    2  8.695652
-       6:   Daniels    1  4.347826
-       7:    Dardar    1  4.347826
-       8:     Jones    1  4.347826
-       9:      Cook    1  4.347826
-      10:    Eatmon    1  4.347826
-      11:    Kenney    1  4.347826
-      12:     Stock    1  4.347826
-      13:     Shuck    1  4.347826
-      14:    Malloy    1  4.347826
-      15:  Kirkland    1  4.347826
-      16:    Sutton    1  4.347826
-      
-      
-      
-      $results_descriptive$`Person ID`
-      $results_descriptive$`Person ID`$description
-      $results_descriptive$`Person ID`$description$source_data
-      $results_descriptive$`Person ID`$description$source_data$name
-      [1] "Person ID"
-      
-      $results_descriptive$`Person ID`$description$source_data$internal_variable_name
-      [1] "dqa_person_id"
-      
-      $results_descriptive$`Person ID`$description$source_data$description
-      [1] "Each person has its own person-id. It stays the same over the whole live of the person and does not change."
-      
-      $results_descriptive$`Person ID`$description$source_data$var_name
-      [1] "PERSON_ID"
-      
-      $results_descriptive$`Person ID`$description$source_data$table_name
-      [1] "dqa_example_data_01.csv"
-      
-      $results_descriptive$`Person ID`$description$source_data$checks
-      $results_descriptive$`Person ID`$description$source_data$checks$var_type
-      [1] "string"
-      
-      $results_descriptive$`Person ID`$description$source_data$checks$constraints
-      [1] NA
-      
-      
-      
-      $results_descriptive$`Person ID`$description$target_data
-      $results_descriptive$`Person ID`$description$target_data$var_name
-      [1] "PERSON_ID"
-      
-      $results_descriptive$`Person ID`$description$target_data$table_name
-      [1] "dqa_example_data_02.csv"
-      
-      $results_descriptive$`Person ID`$description$target_data$checks
-      $results_descriptive$`Person ID`$description$target_data$checks$var_type
-      [1] "string"
-      
-      $results_descriptive$`Person ID`$description$target_data$checks$constraints
-      [1] NA
-      
-      
-      
-      
-      $results_descriptive$`Person ID`$counts
-      $results_descriptive$`Person ID`$counts$source_data
-      $results_descriptive$`Person ID`$counts$source_data$cnt
-              variable  n valids missings distinct      sourcesystem
-      1: dqa_person_id 23     23        0       16 exampleCSV_source
-      
-      $results_descriptive$`Person ID`$counts$source_data$type
-      [1] "string"
-      
-      
-      $results_descriptive$`Person ID`$counts$target_data
-      $results_descriptive$`Person ID`$counts$target_data$cnt
-              variable  n valids missings distinct      sourcesystem
-      1: dqa_person_id 23     23        0       16 exampleCSV_target
-      
-      $results_descriptive$`Person ID`$counts$target_data$type
-      [1] "string"
-      
-      
-      
-      $results_descriptive$`Person ID`$statistics
-      $results_descriptive$`Person ID`$statistics$source_data
-          dqa_person_id Freq   % Valid
-       1:             1    3 13.043478
-       2:             7    3 13.043478
-       3:             5    2  8.695652
-       4:            11    2  8.695652
-       5:            15    2  8.695652
-       6:             2    1  4.347826
-       7:             3    1  4.347826
-       8:             4    1  4.347826
-       9:             6    1  4.347826
-      10:             8    1  4.347826
-      11:             9    1  4.347826
-      12:            10    1  4.347826
-      13:            12    1  4.347826
-      14:            13    1  4.347826
-      15:            14    1  4.347826
-      16:            16    1  4.347826
-      
-      $results_descriptive$`Person ID`$statistics$target_data
-          dqa_person_id Freq   % Valid
-       1:             1    3 13.043478
-       2:             7    3 13.043478
-       3:             5    2  8.695652
-       4:            11    2  8.695652
-       5:            15    2  8.695652
-       6:             2    1  4.347826
-       7:             3    1  4.347826
-       8:             4    1  4.347826
-       9:             6    1  4.347826
-      10:             8    1  4.347826
-      11:             9    1  4.347826
-      12:            10    1  4.347826
-      13:            12    1  4.347826
-      14:            13    1  4.347826
-      15:            14    1  4.347826
-      16:            16    1  4.347826
-      
-      
-      
-      $results_descriptive$Sex
-      $results_descriptive$Sex$description
-      $results_descriptive$Sex$description$source_data
-      $results_descriptive$Sex$description$source_data$name
-      [1] "Sex"
-      
-      $results_descriptive$Sex$description$source_data$internal_variable_name
-      [1] "dqa_sex"
-      
-      $results_descriptive$Sex$description$source_data$description
-      [1] "The sex of the person in one letter: m, f or x for unknown."
-      
-      $results_descriptive$Sex$description$source_data$var_name
-      [1] "SEX"
-      
-      $results_descriptive$Sex$description$source_data$table_name
-      [1] "dqa_example_data_01.csv"
-      
-      $results_descriptive$Sex$description$source_data$checks
-      $results_descriptive$Sex$description$source_data$checks$var_type
-      [1] "enumerated"
-      
-      $results_descriptive$Sex$description$source_data$checks$constraints
-      [1] "{\"value_set\":[\"m\", \"f\", \"x\"]} "
-      
-      
-      
-      $results_descriptive$Sex$description$target_data
-      $results_descriptive$Sex$description$target_data$var_name
-      [1] "SEX"
-      
-      $results_descriptive$Sex$description$target_data$table_name
-      [1] "dqa_example_data_02.csv"
-      
-      $results_descriptive$Sex$description$target_data$checks
-      $results_descriptive$Sex$description$target_data$checks$var_type
-      [1] "enumerated"
-      
-      $results_descriptive$Sex$description$target_data$checks$constraints
-      [1] "{\"value_set\":[\"male\", \"female\", \"unknown\"]} "
-      
-      
-      
-      
-      $results_descriptive$Sex$counts
-      $results_descriptive$Sex$counts$source_data
-      $results_descriptive$Sex$counts$source_data$cnt
-         variable  n valids missings distinct      sourcesystem
-      1:  dqa_sex 23     23        0        2 exampleCSV_source
-      
-      $results_descriptive$Sex$counts$source_data$type
-      [1] "enumerated"
-      
-      
-      $results_descriptive$Sex$counts$target_data
-      $results_descriptive$Sex$counts$target_data$cnt
-         variable  n valids missings distinct      sourcesystem
-      1:  dqa_sex 23     23        0        3 exampleCSV_target
-      
-      $results_descriptive$Sex$counts$target_data$type
-      [1] "enumerated"
-      
-      
-      
-      $results_descriptive$Sex$statistics
-      $results_descriptive$Sex$statistics$source_data
-         dqa_sex Freq  % Valid
-      1:       f   13 56.52174
-      2:       m   10 43.47826
-      
-      $results_descriptive$Sex$statistics$target_data
-         dqa_sex Freq   % Valid
-      1:  female   12 52.173913
-      2:    male   10 43.478261
-      3:     abc    1  4.347826
-      
-      
-      
-      
-      $data_plausibility
-      $data_plausibility$atemporal
-      $data_plausibility$atemporal$pl.atemporal.item01
-      $data_plausibility$atemporal$pl.atemporal.item01$source_data
-      $data_plausibility$atemporal$pl.atemporal.item01$source_data$name
-      [1] "Pl.atemporal.Item01"
-      
-      $data_plausibility$atemporal$pl.atemporal.item01$source_data$description
-      [1] "Persons with a negative bank balance cannot be credit worthy"
-      
-      $data_plausibility$atemporal$pl.atemporal.item01$source_data$var_dependent
-      [1] "dqa_credit_worthy"
-      
-      $data_plausibility$atemporal$pl.atemporal.item01$source_data$var_independent
-      [1] "dqa_bank_balance"
-      
-      $data_plausibility$atemporal$pl.atemporal.item01$source_data$filter
-      [1] "^(-)"
-      
-      $data_plausibility$atemporal$pl.atemporal.item01$source_data$join_crit
-      [1] "dqa_person_id"
-      
-      $data_plausibility$atemporal$pl.atemporal.item01$source_data$checks
-      $data_plausibility$atemporal$pl.atemporal.item01$source_data$checks$constraints
-      [1] "{\"value_set\":\"no\"}"
-      
-      
-      
-      $data_plausibility$atemporal$pl.atemporal.item01$target_data
-      $data_plausibility$atemporal$pl.atemporal.item01$target_data$name
-      [1] "Pl.atemporal.Item01"
-      
-      $data_plausibility$atemporal$pl.atemporal.item01$target_data$description
-      [1] "Persons with a negative bank balance cannot be credit worthy"
-      
-      $data_plausibility$atemporal$pl.atemporal.item01$target_data$var_dependent
-      [1] "dqa_credit_worthy"
-      
-      $data_plausibility$atemporal$pl.atemporal.item01$target_data$var_independent
-      [1] "dqa_bank_balance"
-      
-      $data_plausibility$atemporal$pl.atemporal.item01$target_data$filter
-      [1] "^(-)"
-      
-      $data_plausibility$atemporal$pl.atemporal.item01$target_data$join_crit
-      [1] "dqa_person_id"
-      
-      $data_plausibility$atemporal$pl.atemporal.item01$target_data$checks
-      $data_plausibility$atemporal$pl.atemporal.item01$target_data$checks$constraints
-      [1] "{\"value_set\":\"no\"}"
-      
-      
-      
-      
-      
-      
-      $results_plausibility_unique
-      $results_plausibility_unique$dqa_name
-      $results_plausibility_unique$dqa_name$description
-      [1] "The last name of a person must be identical in all entries for one person ID."
-      
-      $results_plausibility_unique$dqa_name$source_data
-      $results_plausibility_unique$dqa_name$source_data$message
-      [1] "No duplicate occurrences of dqa_person_id found in association with dqa_name."
-      
-      $results_plausibility_unique$dqa_name$source_data$error
-      [1] "FALSE"
-      
-      
-      $results_plausibility_unique$dqa_name$target_data
-      $results_plausibility_unique$dqa_name$target_data$message
-      [1] "No duplicate occurrences of dqa_person_id found in association with dqa_name."
-      
-      $results_plausibility_unique$dqa_name$target_data$error
-      [1] "FALSE"
-      
-      
-      
-      
-      $utilspath
-      [1] "/usr/local/lib/R/site-library/DQAstats/demo_data/utilities/"
-      
-      $current_date
-      [1] "20. June 2022"
-      
-      $checks
-      $checks$value_conformance
-                     Variable Check Source Data Check Target Data
-      1:         Age in years            passed            failed
-      2:     Amount of credit            passed            passed
-      3:            Birthdate            failed            failed
-      4:       Credit worthy?            passed            passed
-      5: Current bank balance            failed            failed
-      6:      Date of contact            failed            failed
-      7:               Income            passed            failed
-      8:                  Sex            passed            failed
-      9:  pl.atemporal.item01            passed            failed
-      
-      $checks$etl
-                      Variable Check Distincts Check Valids Check Missings
-       1:         Age in years          passed       passed         passed
-       2:     Amount of credit          passed       passed         passed
-       3:            Birthdate          passed       passed         passed
-       4:       Credit worthy?          passed       passed         passed
-       5: Current bank balance          passed       passed         passed
-       6:      Date of contact          passed       passed         passed
-       7:             Forename          failed       passed         passed
-       8:               Income          passed       passed         passed
-       9:                  Job          passed       passed         passed
-      10:                 Name          passed       passed         passed
-      11:            Person ID          passed       passed         passed
-      12:                  Sex          failed       passed         passed
-      
-      
-      $variable_list
-      $variable_list$`Age in years`
-      [1] "dqa_age_years"
-      
-      $variable_list$`Amount of credit`
-      [1] "dqa_credit_amount"
-      
-      $variable_list$Birthdate
-      [1] "dqa_birthdate"
-      
-      $variable_list$`Credit worthy?`
-      [1] "dqa_credit_worthy"
-      
-      $variable_list$`Current bank balance`
-      [1] "dqa_bank_balance"
-      
-      $variable_list$`Date of contact`
-      [1] "dqa_contact_date"
-      
-      $variable_list$Forename
-      [1] "dqa_forename"
-      
-      $variable_list$Income
-      [1] "dqa_income"
-      
-      $variable_list$Job
-      [1] "dqa_job"
-      
-      $variable_list$Name
-      [1] "dqa_name"
-      
-      $variable_list$`Person ID`
-      [1] "dqa_person_id"
-      
-      $variable_list$Sex
-      [1] "dqa_sex"
-      
-      
-      $sitenames
-      $sitenames$`Demo sitename`
-      [1] "DEMO"
-      
-      
-      $restricting_date
-      $restricting_date$use_it
-      [1] FALSE
-      
-      
-      $data_target
-      NULL
-      
-      $system_types
-      [1] "csv"
-      
-      $settings
-      $settings$exampleCSV_source
-      named list()
-      
-      $settings$exampleCSV_target
-      named list()
-      
-      
-      $mdr
-                   designation source_variable_name filter       source_table_name source_system_name source_system_type
-       1:            Person ID            PERSON_ID   <NA> dqa_example_data_01.csv  exampleCSV_source                csv
-       2:             Forename             FORENAME   <NA> dqa_example_data_01.csv  exampleCSV_source                csv
-       3:                 Name                 NAME   <NA> dqa_example_data_01.csv  exampleCSV_source                csv
-       4:         Age in years                  AGE   <NA> dqa_example_data_01.csv  exampleCSV_source                csv
-       5:            Birthdate            BIRTHDATE   <NA> dqa_example_data_01.csv  exampleCSV_source                csv
-       6:                  Sex                  SEX   <NA> dqa_example_data_01.csv  exampleCSV_source                csv
-       7:               Income               INCOME   <NA> dqa_example_data_01.csv  exampleCSV_source                csv
-       8:                  Job                  JOB   <NA> dqa_example_data_01.csv  exampleCSV_source                csv
-       9: Current bank balance         BANK-BALANCE   <NA> dqa_example_data_01.csv  exampleCSV_source                csv
-      10:       Credit worthy?        CREDIT-WORTHY   <NA> dqa_example_data_01.csv  exampleCSV_source                csv
-      11:     Amount of credit        CREDIT-AMOUNT   <NA> dqa_example_data_01.csv  exampleCSV_source                csv
-      12:      Date of contact         CONTACT-DATE   <NA> dqa_example_data_01.csv  exampleCSV_source                csv
-      13:            Person ID            PERSON_ID   <NA> dqa_example_data_02.csv  exampleCSV_target                csv
-      14:             Forename             FORENAME   <NA> dqa_example_data_02.csv  exampleCSV_target                csv
-      15:                 Name                 NAME   <NA> dqa_example_data_02.csv  exampleCSV_target                csv
-      16:         Age in years                  AGE   <NA> dqa_example_data_02.csv  exampleCSV_target                csv
-      17:            Birthdate            BIRTHDATE   <NA> dqa_example_data_02.csv  exampleCSV_target                csv
-      18:                  Sex                  SEX   <NA> dqa_example_data_02.csv  exampleCSV_target                csv
-      19:               Income               INCOME   <NA> dqa_example_data_02.csv  exampleCSV_target                csv
-      20:                  Job                  JOB   <NA> dqa_example_data_02.csv  exampleCSV_target                csv
-      21: Current bank balance         BANK-BALANCE   <NA> dqa_example_data_02.csv  exampleCSV_target                csv
-      22:       Credit worthy?        CREDIT-WORTHY   <NA> dqa_example_data_02.csv  exampleCSV_target                csv
-      23:     Amount of credit        CREDIT-AMOUNT   <NA> dqa_example_data_02.csv  exampleCSV_target                csv
-      24:      Date of contact         CONTACT-DATE   <NA> dqa_example_data_02.csv  exampleCSV_target                csv
-                   designation source_variable_name filter       source_table_name source_system_name source_system_type
-                        key     variable_name variable_type restricting_date_var
-       1:     dqa.person_id     dqa_person_id        string         CONTACT-DATE
-       2:      dqa.forename      dqa_forename        string         CONTACT-DATE
-       3:          dqa.name          dqa_name        string         CONTACT-DATE
-       4:     dqa.age_years     dqa_age_years       integer         CONTACT-DATE
-       5:     dqa.birthdate     dqa_birthdate      datetime         CONTACT-DATE
-       6:           dqa.sex           dqa_sex    enumerated         CONTACT-DATE
-       7:        dqa.income        dqa_income       integer         CONTACT-DATE
-       8:           dqa.job           dqa_job        string         CONTACT-DATE
-       9:  dqa.bank_balance  dqa_bank_balance       integer         CONTACT-DATE
-      10: dqa.credit_worthy dqa_credit_worthy    enumerated         CONTACT-DATE
-      11: dqa.credit_amount dqa_credit_amount       integer         CONTACT-DATE
-      12:  dqa.contact_date  dqa_contact_date      datetime         CONTACT-DATE
-      13:     dqa.person_id     dqa_person_id        string         CONTACT-DATE
-      14:      dqa.forename      dqa_forename        string         CONTACT-DATE
-      15:          dqa.name          dqa_name        string         CONTACT-DATE
-      16:     dqa.age_years     dqa_age_years       integer         CONTACT-DATE
-      17:     dqa.birthdate     dqa_birthdate      datetime         CONTACT-DATE
-      18:           dqa.sex           dqa_sex    enumerated         CONTACT-DATE
-      19:        dqa.income        dqa_income       integer         CONTACT-DATE
-      20:           dqa.job           dqa_job        string         CONTACT-DATE
-      21:  dqa.bank_balance  dqa_bank_balance       integer         CONTACT-DATE
-      22: dqa.credit_worthy dqa_credit_worthy    enumerated         CONTACT-DATE
-      23: dqa.credit_amount dqa_credit_amount       integer         CONTACT-DATE
-      24:  dqa.contact_date  dqa_contact_date      datetime         CONTACT-DATE
-                        key     variable_name variable_type restricting_date_var
-                                                                            constraints dqa_assessment
-       1:                                                                          <NA>              1
-       2:                                                                          <NA>              1
-       3:                                                                          <NA>              1
-       4:                                     {"range":{"min":0,"max":110,"unit":"a"}}               1
-       5: {"datetime": {"min": "1950-01-01","max": "1989-12-31", "format": "%d.%m.%Y"}}              1
-       6:                                                {"value_set":["m", "f", "x"]}               1
-       7:                               {"range":{"min":0,"max":"Inf","unit":"money"}}               1
-       8:                                                                          <NA>              1
-       9:                          {"range":{"min":"-Inf","max":"Inf","unit":"money"}}               1
-      10:                                                  {"value_set": ["yes", "no"]}              1
-      11:                               {"range":{"min":0,"max":"Inf","unit":"money"}}               1
-      12: {"datetime": {"min": "2012-01-01","max": "2015-12-31", "format": "%d.%m.%Y"}}              1
-      13:                                                                          <NA>              1
-      14:                                                                          <NA>              1
-      15:                                                                          <NA>              1
-      16:                                     {"range":{"min":0,"max":110,"unit":"a"}}               1
-      17: {"datetime": {"min": "1950-01-01","max": "1989-12-31", "format": "%d.%m.%Y"}}              1
-      18:                                  {"value_set":["male", "female", "unknown"]}               1
-      19:                               {"range":{"min":0,"max":"Inf","unit":"money"}}               1
-      20:                                                                          <NA>              1
-      21:                          {"range":{"min":"-Inf","max":"Inf","unit":"money"}}               1
-      22:                                                  {"value_set": ["yes", "no"]}              1
-      23:                               {"range":{"min":0,"max":"Inf","unit":"money"}}               1
-      24: {"datetime": {"min": "2012-01-01","max": "2015-12-31", "format": "%d.%m.%Y"}}              1
-                                                                            constraints dqa_assessment
-                                                                                                           definition data_map
-       1: Each person has its own person-id. It stays the same over the whole live of the person and does not change.        1
-       2:                                                                                 The Forename of the person.       NA
-       3:                                                                                  The Surname of the person.       NA
-       4:                                                               The age of the person at the time of contact.       NA
-       5:                                                                     The date of birth written as dd.mm.yyyy       NA
-       6:                                                 The sex of the person in one letter: m, f or x for unknown.       NA
-       7:                                                             The income of the person at the time of contact       NA
-       8:                                                                The job of the person at the time of contact       NA
-       9:                                                                     The bank-balance at the time of contact       NA
-      10:                                     Indicates whether the person is creditworthy at the time of the contact        1
-      11:                                                             That's the amount of credit the person has used       NA
-      12:                                                                                             Date of contact       NA
-      13:                                                                     (The definition is missing in the MDR.)        1
-      14:                                                                     (The definition is missing in the MDR.)       NA
-      15:                                                                     (The definition is missing in the MDR.)       NA
-      16:                                                                     (The definition is missing in the MDR.)       NA
-      17:                                                                     (The definition is missing in the MDR.)       NA
-      18:                                                                     (The definition is missing in the MDR.)       NA
-      19:                                                                     (The definition is missing in the MDR.)       NA
-      20:                                                                     (The definition is missing in the MDR.)       NA
-      21:                                                                     (The definition is missing in the MDR.)       NA
-      22:                                                                     (The definition is missing in the MDR.)        1
-      23:                                                                     (The definition is missing in the MDR.)       NA
-      24:                                                                     (The definition is missing in the MDR.)       NA
-                                                                                                           definition data_map
-                                                                                                                                                                                                                                                                                                                                      plausibility_relation
-       1:                                                                                                                                                                                     {"uniqueness": {"dqa_name": {"name": "Pl.uniqueness.Item01","description": "The last name of a person must be identical in all entries for one person ID."}}}
-       2:                                                                                                                                                                                                                                                                                                                                              <NA>
-       3:                                                                                                                                                                                                                                                                                                                                              <NA>
-       4:                                                                                                                                                                                                                                                                                                                                              <NA>
-       5:                                                                                                                                                                                                                                                                                                                                              <NA>
-       6:                                                                                                                                                                                                                                                                                                                                              <NA>
-       7:                                                                                                                                                                                                                                                                                                                                              <NA>
-       8:                                                                                                                                                                                                                                                                                                                                              <NA>
-       9:                                                                                                                                                                                                                                                                                                                                              <NA>
-      10: {"atemporal": {"dqa_bank_balance": {"name": "Pl.atemporal.Item01", "description": "Persons with a negative bank balance cannot be credit worthy", "filter": {"exampleCSV_source": "^(-)", "exampleCSV_target": "^(-)"}, "join_crit": "dqa_person_id", "constraints": {"value_set": {"exampleCSV_source": ["no"], "exampleCSV_target": ["no"]}}}}}
-      11:                                                                                                                                                                                                                                                                                                                                              <NA>
-      12:                                                                                                                                                                                                                                                                                                                                              <NA>
-      13:                                                                                                                                                                                                                                                                                                                                              <NA>
-      14:                                                                                                                                                                                                                                                                                                                                              <NA>
-      15:                                                                                                                                                                                                                                                                                                                                              <NA>
-      16:                                                                                                                                                                                                                                                                                                                                              <NA>
-      17:                                                                                                                                                                                                                                                                                                                                              <NA>
-      18:                                                                                                                                                                                                                                                                                                                                              <NA>
-      19:                                                                                                                                                                                                                                                                                                                                              <NA>
-      20:                                                                                                                                                                                                                                                                                                                                              <NA>
-      21:                                                                                                                                                                                                                                                                                                                                              <NA>
-      22:                                                                                                                                                                                                                                                                                                                                              <NA>
-      23:                                                                                                                                                                                                                                                                                                                                              <NA>
-      24:                                                                                                                                                                                                                                                                                                                                              <NA>
-                                                                                                                                                                                                                                                                                                                                      plausibility_relation
-      
-      $report_created
-      [1] TRUE
-      
-      $mdr_filename
-      [1] "mdr_example_data.csv"
-      
-      $getdata_source
-      [1] FALSE
-      
-      $conformance
-      $conformance$value_conformance
-      $conformance$value_conformance$`Age in years`
-      $conformance$value_conformance$`Age in years`$source_data
-      $conformance$value_conformance$`Age in years`$source_data$conformance_error
-      [1] FALSE
-      
-      $conformance$value_conformance$`Age in years`$source_data$conformance_results
-      [1] "No 'value conformance' issues found."
-      
-      
-      $conformance$value_conformance$`Age in years`$target_data
-      $conformance$value_conformance$`Age in years`$target_data$conformance_error
-      [1] TRUE
-      
-      $conformance$value_conformance$`Age in years`$target_data$conformance_results
-      [1] "Extrem values are not conform with constraints."
-      
-      
-      
-      $conformance$value_conformance$`Amount of credit`
-      $conformance$value_conformance$`Amount of credit`$source_data
-      $conformance$value_conformance$`Amount of credit`$source_data$conformance_error
-      [1] FALSE
-      
-      $conformance$value_conformance$`Amount of credit`$source_data$conformance_results
-      [1] "No 'value conformance' issues found."
-      
-      
-      $conformance$value_conformance$`Amount of credit`$target_data
-      $conformance$value_conformance$`Amount of credit`$target_data$conformance_error
-      [1] FALSE
-      
-      $conformance$value_conformance$`Amount of credit`$target_data$conformance_results
-      [1] "No 'value conformance' issues found."
-      
-      
-      
-      $conformance$value_conformance$Birthdate
-      $conformance$value_conformance$Birthdate$source_data
-      $conformance$value_conformance$Birthdate$source_data$conformance_error
-      [1] TRUE
-      
-      $conformance$value_conformance$Birthdate$source_data$conformance_results
-      [1] "Extrem values are not conform with constraints."
-      
-      $conformance$value_conformance$Birthdate$source_data$rule
-      $conformance$value_conformance$Birthdate$source_data$rule$min
-      [1] "1950-01-01"
-      
-      $conformance$value_conformance$Birthdate$source_data$rule$max
-      [1] "1989-12-31"
-      
-      $conformance$value_conformance$Birthdate$source_data$rule$format
-      [1] "%d.%m.%Y"
-      
-      
-      
-      $conformance$value_conformance$Birthdate$target_data
-      $conformance$value_conformance$Birthdate$target_data$conformance_error
-      [1] TRUE
-      
-      $conformance$value_conformance$Birthdate$target_data$conformance_results
-      [1] "Extrem values are not conform with constraints."
-      
-      $conformance$value_conformance$Birthdate$target_data$rule
-      $conformance$value_conformance$Birthdate$target_data$rule$min
-      [1] "1950-01-01"
-      
-      $conformance$value_conformance$Birthdate$target_data$rule$max
-      [1] "1989-12-31"
-      
-      $conformance$value_conformance$Birthdate$target_data$rule$format
-      [1] "%d.%m.%Y"
-      
-      
-      
-      
-      $conformance$value_conformance$`Credit worthy?`
-      $conformance$value_conformance$`Credit worthy?`$source_data
-      $conformance$value_conformance$`Credit worthy?`$source_data$conformance_error
-      [1] FALSE
-      
-      $conformance$value_conformance$`Credit worthy?`$source_data$conformance_results
-      [1] "No 'value conformance' issues found."
-      
-      
-      $conformance$value_conformance$`Credit worthy?`$target_data
-      $conformance$value_conformance$`Credit worthy?`$target_data$conformance_error
-      [1] FALSE
-      
-      $conformance$value_conformance$`Credit worthy?`$target_data$conformance_results
-      [1] "No 'value conformance' issues found."
-      
-      
-      
-      $conformance$value_conformance$`Current bank balance`
-      $conformance$value_conformance$`Current bank balance`$source_data
-      $conformance$value_conformance$`Current bank balance`$source_data$conformance_error
-      [1] TRUE
-      
-      $conformance$value_conformance$`Current bank balance`$source_data$conformance_results
-      [1] "Extrem values are not conform with constraints."
-      
-      
-      $conformance$value_conformance$`Current bank balance`$target_data
-      $conformance$value_conformance$`Current bank balance`$target_data$conformance_error
-      [1] TRUE
-      
-      $conformance$value_conformance$`Current bank balance`$target_data$conformance_results
-      [1] "Extrem values are not conform with constraints."
-      
-      
-      
-      $conformance$value_conformance$`Date of contact`
-      $conformance$value_conformance$`Date of contact`$source_data
-      $conformance$value_conformance$`Date of contact`$source_data$conformance_error
-      [1] TRUE
-      
-      $conformance$value_conformance$`Date of contact`$source_data$conformance_results
-      [1] "Extrem values are not conform with constraints."
-      
-      $conformance$value_conformance$`Date of contact`$source_data$rule
-      $conformance$value_conformance$`Date of contact`$source_data$rule$min
-      [1] "2012-01-01"
-      
-      $conformance$value_conformance$`Date of contact`$source_data$rule$max
-      [1] "2015-12-31"
-      
-      $conformance$value_conformance$`Date of contact`$source_data$rule$format
-      [1] "%d.%m.%Y"
-      
-      
-      
-      $conformance$value_conformance$`Date of contact`$target_data
-      $conformance$value_conformance$`Date of contact`$target_data$conformance_error
-      [1] TRUE
-      
-      $conformance$value_conformance$`Date of contact`$target_data$conformance_results
-      [1] "Extrem values are not conform with constraints."
-      
-      $conformance$value_conformance$`Date of contact`$target_data$rule
-      $conformance$value_conformance$`Date of contact`$target_data$rule$min
-      [1] "2012-01-01"
-      
-      $conformance$value_conformance$`Date of contact`$target_data$rule$max
-      [1] "2015-12-31"
-      
-      $conformance$value_conformance$`Date of contact`$target_data$rule$format
-      [1] "%d.%m.%Y"
-      
-      
-      
-      
-      $conformance$value_conformance$Income
-      $conformance$value_conformance$Income$source_data
-      $conformance$value_conformance$Income$source_data$conformance_error
-      [1] FALSE
-      
-      $conformance$value_conformance$Income$source_data$conformance_results
-      [1] "No 'value conformance' issues found."
-      
-      
-      $conformance$value_conformance$Income$target_data
-      $conformance$value_conformance$Income$target_data$conformance_error
-      [1] TRUE
-      
-      $conformance$value_conformance$Income$target_data$conformance_results
-      [1] "Extrem values are not conform with constraints."
-      
-      
-      
-      $conformance$value_conformance$Sex
-      $conformance$value_conformance$Sex$source_data
-      $conformance$value_conformance$Sex$source_data$conformance_error
-      [1] FALSE
-      
-      $conformance$value_conformance$Sex$source_data$conformance_results
-      [1] "No 'value conformance' issues found."
-      
-      
-      $conformance$value_conformance$Sex$target_data
-      $conformance$value_conformance$Sex$target_data$conformance_error
-      [1] TRUE
-      
-      $conformance$value_conformance$Sex$target_data$conformance_results
-      [1] "Levels that are not conform with the value set:  \nabc"
-      
-      
-      
-      $conformance$value_conformance$pl.atemporal.item01
-      $conformance$value_conformance$pl.atemporal.item01$source_data
-      $conformance$value_conformance$pl.atemporal.item01$source_data$conformance_error
-      [1] FALSE
-      
-      $conformance$value_conformance$pl.atemporal.item01$source_data$conformance_results
-      [1] "No 'value conformance' issues found."
-      
-      
-      $conformance$value_conformance$pl.atemporal.item01$target_data
-      $conformance$value_conformance$pl.atemporal.item01$target_data$conformance_error
-      [1] TRUE
-      
-      $conformance$value_conformance$pl.atemporal.item01$target_data$conformance_results
-      [1] "Levels that are not conform with the value set:  \nyes"
-      
-      $conformance$value_conformance$pl.atemporal.item01$target_data$affected_ids
-         dqa_bank_balance
-      1:           -36500
-      2:           -64200
-      
-      
-      
-      
-      
-      $displaynames
-         source_system_name       displayname
-      1:  exampleCSV_source exampleCSV_source
-      2:  exampleCSV_target exampleCSV_target
-      
-      $source
-      $source$system_name
-      [1] "exampleCSV_source"
-      
-      $source$system_type
-      [1] "csv"
-      
-      $source$settings
-      $source$settings$path
-      [1] "/usr/local/lib/R/site-library/DQAstats/demo_data"
-      
-      
-      $source$sql
-      [1] NA
-      
-      
-      $target
-      $target$system_name
-      [1] "exampleCSV_target"
-      
-      $target$system_type
-      [1] "csv"
-      
-      $target$settings
-      $target$settings$path
-      [1] "/usr/local/lib/R/site-library/DQAstats/demo_data"
-      
-      
-      $target$sql
-      [1] NA
-      
-      
-      $target_is_source
-      [1] FALSE
-      
-      $data_source
-      NULL
-      
-      $results_plausibility_atemporal
-      $results_plausibility_atemporal$pl.atemporal.item01
-      $results_plausibility_atemporal$pl.atemporal.item01$description
-      $results_plausibility_atemporal$pl.atemporal.item01$description$source_data
-      $results_plausibility_atemporal$pl.atemporal.item01$description$source_data$name
-      [1] "Pl.atemporal.Item01"
-      
-      $results_plausibility_atemporal$pl.atemporal.item01$description$source_data$description
-      [1] "Persons with a negative bank balance cannot be credit worthy"
-      
-      $results_plausibility_atemporal$pl.atemporal.item01$description$source_data$var_dependent
-      [1] "dqa_credit_worthy"
-      
-      $results_plausibility_atemporal$pl.atemporal.item01$description$source_data$var_independent
-      [1] "dqa_bank_balance"
-      
-      $results_plausibility_atemporal$pl.atemporal.item01$description$source_data$filter
-      [1] "^(-)"
-      
-      $results_plausibility_atemporal$pl.atemporal.item01$description$source_data$join_crit
-      [1] "dqa_person_id"
-      
-      $results_plausibility_atemporal$pl.atemporal.item01$description$source_data$checks
-      $results_plausibility_atemporal$pl.atemporal.item01$description$source_data$checks$constraints
-      [1] "{\"value_set\":\"no\"}"
-      
-      $results_plausibility_atemporal$pl.atemporal.item01$description$source_data$checks$var_type
-      [1] "enumerated"
-      
-      
-      
-      $results_plausibility_atemporal$pl.atemporal.item01$description$target_data
-      $results_plausibility_atemporal$pl.atemporal.item01$description$target_data$name
-      [1] "Pl.atemporal.Item01"
-      
-      $results_plausibility_atemporal$pl.atemporal.item01$description$target_data$var_dependent
-      [1] "dqa_credit_worthy"
-      
-      $results_plausibility_atemporal$pl.atemporal.item01$description$target_data$var_independent
-      [1] "dqa_bank_balance"
-      
-      $results_plausibility_atemporal$pl.atemporal.item01$description$target_data$filter
-      [1] "^(-)"
-      
-      $results_plausibility_atemporal$pl.atemporal.item01$description$target_data$join_crit
-      [1] "dqa_person_id"
-      
-      $results_plausibility_atemporal$pl.atemporal.item01$description$target_data$checks
-      $results_plausibility_atemporal$pl.atemporal.item01$description$target_data$checks$constraints
-      [1] "{\"value_set\":\"no\"}"
-      
-      $results_plausibility_atemporal$pl.atemporal.item01$description$target_data$checks$var_type
-      [1] "enumerated"
-      
-      
-      
-      
-      $results_plausibility_atemporal$pl.atemporal.item01$counts
-      $results_plausibility_atemporal$pl.atemporal.item01$counts$source_data
-      $results_plausibility_atemporal$pl.atemporal.item01$counts$source_data$cnt
-                  variable n valids missings distinct      sourcesystem
-      1: dqa_credit_worthy 2      2        0        1 exampleCSV_source
-      
-      $results_plausibility_atemporal$pl.atemporal.item01$counts$source_data$type
-      [1] "enumerated"
-      
-      
-      $results_plausibility_atemporal$pl.atemporal.item01$counts$target_data
-      $results_plausibility_atemporal$pl.atemporal.item01$counts$target_data$cnt
-                  variable n valids missings distinct      sourcesystem
-      1: dqa_credit_worthy 4      4        0        2 exampleCSV_target
-      
-      $results_plausibility_atemporal$pl.atemporal.item01$counts$target_data$type
-      [1] "enumerated"
-      
-      
-      
-      $results_plausibility_atemporal$pl.atemporal.item01$statistics
-      $results_plausibility_atemporal$pl.atemporal.item01$statistics$source_data
-         dqa_credit_worthy Freq % Valid
-      1:                no    2     100
-      
-      $results_plausibility_atemporal$pl.atemporal.item01$statistics$target_data
-         dqa_credit_worthy Freq % Valid
-      1:                no    2      50
-      2:               yes    2      50
-      
-      
-      
-      
-      $systems
-         source_system_name source_system_type
-      1:  exampleCSV_source                csv
-      2:  exampleCSV_target                csv
-      
-      $demo_usage
-      [1] FALSE
-      
-      $start
-      [1] TRUE
-      
-      $log
-      $log$logfile_dir
-      [1] "/tmp/Rtmp34oS8t/"
-      
-      $log$populated_old_logfiles_list
-      [1] TRUE
-      
-      
-      $completeness
-                      Variable Missings (source) Missings [%] (source) Missings (target) Missings [%] (target)
-       1:         Age in years                 0                     0                 0                     0
-       2:     Amount of credit                13                 56.52                13                 56.52
-       3:            Birthdate                 0                     0                 0                     0
-       4:       Credit worthy?                 0                     0                 0                     0
-       5: Current bank balance                 0                     0                 0                     0
-       6:      Date of contact                 0                     0                 0                     0
-       7:             Forename                 0                     0                 0                     0
-       8:               Income                 0                     0                 0                     0
-       9:                  Job                 0                     0                 0                     0
-      10:                 Name                 0                     0                 0                     0
-      11:            Person ID                 0                     0                 0                     0
-      12:                  Sex                 0                     0                 0                     0
-      
-      $parallel
-      [1] FALSE
-      
-      $create_report
-      [1] TRUE
-      
-      $pl_uniq_vars_filter
-      $pl_uniq_vars_filter$dqa_name
-      [1] "dqa_name"
-      
-      
-      $getdata_target
-      [1] FALSE
-      
-      $pl_atemp_vars_filter
-      $pl_atemp_vars_filter$Pl.atemporal.Item01
-      [1] "pl.atemporal.item01"
-      
-      
+      {
+        "sitename": "DEMO",
+        "keys_source": "dqa_example_data_01.csv",
+        "datamap": {
+          "source_data": [
+            {
+              "variable": "Person ID",
+              "n": "23",
+              "valids": "23",
+              "missings": "0",
+              "distinct": "16"
+            },
+            {
+              "variable": "Credit worthy?",
+              "n": "23",
+              "valids": "23",
+              "missings": "0",
+              "distinct": "2"
+            }
+          ],
+          "target_data": [
+            {
+              "variable": "Person ID",
+              "n": "23",
+              "valids": "23",
+              "missings": "0",
+              "distinct": "16"
+            },
+            {
+              "variable": "Credit worthy?",
+              "n": "23",
+              "valids": "23",
+              "missings": "0",
+              "distinct": "2"
+            }
+          ]
+        },
+        "finished_onstart": true,
+        "affectedids_exported": true,
+        "ncores": 2,
+        "aggregated_exported": true,
+        "pl": {
+          "atemp_vars": [
+            {
+              "designation": "Credit worthy?",
+              "variable_name": "dqa_credit_worthy",
+              "variable_type": "enumerated",
+              "plausibility_relation": "{\"atemporal\": {\"dqa_bank_balance\": {\"name\": \"Pl.atemporal.Item01\", \"description\": \"Persons with a negative bank balance cannot be credit worthy\", \"filter\": {\"exampleCSV_source\": \"^(-)\", \"exampleCSV_target\": \"^(-)\"}, \"join_crit\": \"dqa_person_id\", \"constraints\": {\"value_set\": {\"exampleCSV_source\": [\"no\"], \"exampleCSV_target\": [\"no\"]}}}}}"
+            }
+          ],
+          "uniq_vars": [
+            {
+              "designation": "Person ID",
+              "variable_name": "dqa_person_id",
+              "variable_type": "string",
+              "plausibility_relation": "{\"uniqueness\": {\"dqa_name\": {\"name\": \"Pl.uniqueness.Item01\",\"description\": \"The last name of a person must be identical in all entries for one person ID.\"}}}"
+            }
+          ],
+          "atemp_helper_vars": ["dqa_credit_worthy", "dqa_bank_balance", "dqa_person_id"],
+          "atemp_possible": true,
+          "uniq_helper_vars": ["dqa_person_id", "dqa_name"],
+          "uniq_possible": true
+        },
+        "datamap_email": "your.name@mail.company.org",
+        "headless": false,
+        "keys_target": "dqa_example_data_02.csv",
+        "dqa_assessment": [
+          {
+            "designation": "Person ID",
+            "source_variable_name": "PERSON_ID",
+            "variable_name": "dqa_person_id",
+            "variable_type": "string",
+            "key": "dqa.person_id",
+            "source_table_name": "dqa_example_data_01.csv"
+          },
+          {
+            "designation": "Forename",
+            "source_variable_name": "FORENAME",
+            "variable_name": "dqa_forename",
+            "variable_type": "string",
+            "key": "dqa.forename",
+            "source_table_name": "dqa_example_data_01.csv"
+          },
+          {
+            "designation": "Name",
+            "source_variable_name": "NAME",
+            "variable_name": "dqa_name",
+            "variable_type": "string",
+            "key": "dqa.name",
+            "source_table_name": "dqa_example_data_01.csv"
+          },
+          {
+            "designation": "Age in years",
+            "source_variable_name": "AGE",
+            "variable_name": "dqa_age_years",
+            "variable_type": "integer",
+            "key": "dqa.age_years",
+            "source_table_name": "dqa_example_data_01.csv"
+          },
+          {
+            "designation": "Birthdate",
+            "source_variable_name": "BIRTHDATE",
+            "variable_name": "dqa_birthdate",
+            "variable_type": "datetime",
+            "key": "dqa.birthdate",
+            "source_table_name": "dqa_example_data_01.csv"
+          },
+          {
+            "designation": "Sex",
+            "source_variable_name": "SEX",
+            "variable_name": "dqa_sex",
+            "variable_type": "enumerated",
+            "key": "dqa.sex",
+            "source_table_name": "dqa_example_data_01.csv"
+          },
+          {
+            "designation": "Income",
+            "source_variable_name": "INCOME",
+            "variable_name": "dqa_income",
+            "variable_type": "integer",
+            "key": "dqa.income",
+            "source_table_name": "dqa_example_data_01.csv"
+          },
+          {
+            "designation": "Job",
+            "source_variable_name": "JOB",
+            "variable_name": "dqa_job",
+            "variable_type": "string",
+            "key": "dqa.job",
+            "source_table_name": "dqa_example_data_01.csv"
+          },
+          {
+            "designation": "Current bank balance",
+            "source_variable_name": "BANK-BALANCE",
+            "variable_name": "dqa_bank_balance",
+            "variable_type": "integer",
+            "key": "dqa.bank_balance",
+            "source_table_name": "dqa_example_data_01.csv"
+          },
+          {
+            "designation": "Credit worthy?",
+            "source_variable_name": "CREDIT-WORTHY",
+            "variable_name": "dqa_credit_worthy",
+            "variable_type": "enumerated",
+            "key": "dqa.credit_worthy",
+            "source_table_name": "dqa_example_data_01.csv"
+          },
+          {
+            "designation": "Amount of credit",
+            "source_variable_name": "CREDIT-AMOUNT",
+            "variable_name": "dqa_credit_amount",
+            "variable_type": "integer",
+            "key": "dqa.credit_amount",
+            "source_table_name": "dqa_example_data_01.csv"
+          },
+          {
+            "designation": "Date of contact",
+            "source_variable_name": "CONTACT-DATE",
+            "variable_name": "dqa_contact_date",
+            "variable_type": "datetime",
+            "key": "dqa.contact_date",
+            "source_table_name": "dqa_example_data_01.csv"
+          }
+        ],
+        "results_descriptive": {
+          "Age in years": {
+            "description": {
+              "source_data": {
+                "name": "Age in years",
+                "internal_variable_name": "dqa_age_years",
+                "description": "The age of the person at the time of contact.",
+                "var_name": "AGE",
+                "table_name": "dqa_example_data_01.csv",
+                "checks": {
+                  "var_type": "integer",
+                  "constraints": "{\"range\":{\"min\":0,\"max\":110,\"unit\":\"a\"}} "
+                }
+              },
+              "target_data": {
+                "var_name": "AGE",
+                "table_name": "dqa_example_data_02.csv",
+                "checks": {
+                  "var_type": "integer",
+                  "constraints": "{\"range\":{\"min\":0,\"max\":110,\"unit\":\"a\"}} "
+                }
+              }
+            },
+            "counts": {
+              "source_data": {
+                "cnt": [
+                  {
+                    "variable": "dqa_age_years",
+                    "n": 23,
+                    "valids": 23,
+                    "missings": 0,
+                    "distinct": 21,
+                    "sourcesystem": "exampleCSV_source"
+                  }
+                ],
+                "type": "integer"
+              },
+              "target_data": {
+                "cnt": [
+                  {
+                    "variable": "dqa_age_years",
+                    "n": 23,
+                    "valids": 23,
+                    "missings": 0,
+                    "distinct": 21,
+                    "sourcesystem": "exampleCSV_target"
+                  }
+                ],
+                "type": "integer"
+              }
+            },
+            "statistics": {
+              "source_data": [
+                {
+                  " ": "Mean",
+                  " .1": "63"
+                },
+                {
+                  " ": "Minimum",
+                  " .1": "22"
+                },
+                {
+                  " ": "Median",
+                  " .1": "64"
+                },
+                {
+                  " ": "Maximum",
+                  " .1": "94"
+                },
+                {
+                  " ": "SD",
+                  " .1": "22.56"
+                },
+                {
+                  " ": "Negativ",
+                  " .1": "0"
+                },
+                {
+                  " ": "Zero",
+                  " .1": "0"
+                },
+                {
+                  " ": "Positive",
+                  " .1": "23"
+                },
+                {
+                  " ": "OutLo",
+                  " .1": "0"
+                },
+                {
+                  " ": "OutHi",
+                  " .1": "0"
+                },
+                {
+                  " ": "Variance",
+                  " .1": "509"
+                },
+                {
+                  " ": "Range",
+                  " .1": "72"
+                }
+              ],
+              "target_data": [
+                {
+                  " ": "Mean",
+                  " .1": "67.35"
+                },
+                {
+                  " ": "Minimum",
+                  " .1": "22"
+                },
+                {
+                  " ": "Median",
+                  " .1": "64"
+                },
+                {
+                  " ": "Maximum",
+                  " .1": "175"
+                },
+                {
+                  " ": "SD",
+                  " .1": "32.45"
+                },
+                {
+                  " ": "Negativ",
+                  " .1": "0"
+                },
+                {
+                  " ": "Zero",
+                  " .1": "0"
+                },
+                {
+                  " ": "Positive",
+                  " .1": "23"
+                },
+                {
+                  " ": "OutLo",
+                  " .1": "0"
+                },
+                {
+                  " ": "OutHi",
+                  " .1": "1"
+                },
+                {
+                  " ": "Variance",
+                  " .1": "1052.87"
+                },
+                {
+                  " ": "Range",
+                  " .1": "153"
+                }
+              ]
+            }
+          },
+          "Amount of credit": {
+            "description": {
+              "source_data": {
+                "name": "Amount of credit",
+                "internal_variable_name": "dqa_credit_amount",
+                "description": "That's the amount of credit the person has used",
+                "var_name": "CREDIT-AMOUNT",
+                "table_name": "dqa_example_data_01.csv",
+                "checks": {
+                  "var_type": "integer",
+                  "constraints": "{\"range\":{\"min\":0,\"max\":\"Inf\",\"unit\":\"money\"}} "
+                }
+              },
+              "target_data": {
+                "var_name": "CREDIT-AMOUNT",
+                "table_name": "dqa_example_data_02.csv",
+                "checks": {
+                  "var_type": "integer",
+                  "constraints": "{\"range\":{\"min\":0,\"max\":\"Inf\",\"unit\":\"money\"}} "
+                }
+              }
+            },
+            "counts": {
+              "source_data": {
+                "cnt": [
+                  {
+                    "variable": "dqa_credit_amount",
+                    "n": 23,
+                    "valids": 10,
+                    "missings": 13,
+                    "distinct": 10,
+                    "sourcesystem": "exampleCSV_source"
+                  }
+                ],
+                "type": "integer"
+              },
+              "target_data": {
+                "cnt": [
+                  {
+                    "variable": "dqa_credit_amount",
+                    "n": 23,
+                    "valids": 10,
+                    "missings": 13,
+                    "distinct": 10,
+                    "sourcesystem": "exampleCSV_target"
+                  }
+                ],
+                "type": "integer"
+              }
+            },
+            "statistics": {
+              "source_data": [
+                {
+                  " ": "Mean",
+                  " .1": "39220"
+                },
+                {
+                  " ": "Minimum",
+                  " .1": "12200"
+                },
+                {
+                  " ": "Median",
+                  " .1": "33350"
+                },
+                {
+                  " ": "Maximum",
+                  " .1": "72800"
+                },
+                {
+                  " ": "SD",
+                  " .1": "21447.19"
+                },
+                {
+                  " ": "Negativ",
+                  " .1": "0"
+                },
+                {
+                  " ": "Zero",
+                  " .1": "0"
+                },
+                {
+                  " ": "Positive",
+                  " .1": "10"
+                },
+                {
+                  " ": "OutLo",
+                  " .1": "0"
+                },
+                {
+                  " ": "OutHi",
+                  " .1": "0"
+                },
+                {
+                  " ": "Variance",
+                  " .1": "459981777.78"
+                },
+                {
+                  " ": "Range",
+                  " .1": "60600"
+                }
+              ],
+              "target_data": [
+                {
+                  " ": "Mean",
+                  " .1": "39220"
+                },
+                {
+                  " ": "Minimum",
+                  " .1": "12200"
+                },
+                {
+                  " ": "Median",
+                  " .1": "33350"
+                },
+                {
+                  " ": "Maximum",
+                  " .1": "72800"
+                },
+                {
+                  " ": "SD",
+                  " .1": "21447.19"
+                },
+                {
+                  " ": "Negativ",
+                  " .1": "0"
+                },
+                {
+                  " ": "Zero",
+                  " .1": "0"
+                },
+                {
+                  " ": "Positive",
+                  " .1": "10"
+                },
+                {
+                  " ": "OutLo",
+                  " .1": "0"
+                },
+                {
+                  " ": "OutHi",
+                  " .1": "0"
+                },
+                {
+                  " ": "Variance",
+                  " .1": "459981777.78"
+                },
+                {
+                  " ": "Range",
+                  " .1": "60600"
+                }
+              ]
+            }
+          },
+          "Birthdate": {
+            "description": {
+              "source_data": {
+                "name": "Birthdate",
+                "internal_variable_name": "dqa_birthdate",
+                "description": "The date of birth written as dd.mm.yyyy",
+                "var_name": "BIRTHDATE",
+                "table_name": "dqa_example_data_01.csv",
+                "checks": {
+                  "var_type": "datetime",
+                  "constraints": "{\"datetime\": {\"min\": \"1950-01-01\",\"max\": \"1989-12-31\", \"format\": \"%d.%m.%Y\"}}"
+                }
+              },
+              "target_data": {
+                "var_name": "BIRTHDATE",
+                "table_name": "dqa_example_data_02.csv",
+                "checks": {
+                  "var_type": "datetime",
+                  "constraints": "{\"datetime\": {\"min\": \"1950-01-01\",\"max\": \"1989-12-31\", \"format\": \"%d.%m.%Y\"}}"
+                }
+              }
+            },
+            "counts": {
+              "source_data": {
+                "cnt": [
+                  {
+                    "variable": "dqa_birthdate",
+                    "n": 23,
+                    "valids": 23,
+                    "missings": 0,
+                    "distinct": 16,
+                    "sourcesystem": "exampleCSV_source"
+                  }
+                ],
+                "type": "datetime"
+              },
+              "target_data": {
+                "cnt": [
+                  {
+                    "variable": "dqa_birthdate",
+                    "n": 23,
+                    "valids": 23,
+                    "missings": 0,
+                    "distinct": 16,
+                    "sourcesystem": "exampleCSV_target"
+                  }
+                ],
+                "type": "datetime"
+              }
+            },
+            "statistics": {
+              "source_data": [
+                {
+                  " ": "Min.",
+                  " .1": "1921-02-19"
+                },
+                {
+                  " ": "1st Qu.",
+                  " .1": "1932-09-17"
+                },
+                {
+                  " ": "Median",
+                  " .1": "1951-07-03"
+                },
+                {
+                  " ": "Mean",
+                  " .1": "1950-09-25"
+                },
+                {
+                  " ": "3rd Qu.",
+                  " .1": "1965-05-10"
+                },
+                {
+                  " ": "Max.",
+                  " .1": "1990-05-26"
+                }
+              ],
+              "target_data": [
+                {
+                  " ": "Min.",
+                  " .1": "1921-02-19"
+                },
+                {
+                  " ": "1st Qu.",
+                  " .1": "1932-09-17"
+                },
+                {
+                  " ": "Median",
+                  " .1": "1951-07-03"
+                },
+                {
+                  " ": "Mean",
+                  " .1": "1950-09-25"
+                },
+                {
+                  " ": "3rd Qu.",
+                  " .1": "1965-05-10"
+                },
+                {
+                  " ": "Max.",
+                  " .1": "1990-05-26"
+                }
+              ]
+            }
+          },
+          "Credit worthy?": {
+            "description": {
+              "source_data": {
+                "name": "Credit worthy?",
+                "internal_variable_name": "dqa_credit_worthy",
+                "description": "Indicates whether the person is creditworthy at the time of the contact",
+                "var_name": "CREDIT-WORTHY",
+                "table_name": "dqa_example_data_01.csv",
+                "checks": {
+                  "var_type": "enumerated",
+                  "constraints": "{\"value_set\": [\"yes\", \"no\"]}"
+                }
+              },
+              "target_data": {
+                "var_name": "CREDIT-WORTHY",
+                "table_name": "dqa_example_data_02.csv",
+                "checks": {
+                  "var_type": "enumerated",
+                  "constraints": "{\"value_set\": [\"yes\", \"no\"]}"
+                }
+              }
+            },
+            "counts": {
+              "source_data": {
+                "cnt": [
+                  {
+                    "variable": "dqa_credit_worthy",
+                    "n": 23,
+                    "valids": 23,
+                    "missings": 0,
+                    "distinct": 2,
+                    "sourcesystem": "exampleCSV_source"
+                  }
+                ],
+                "type": "enumerated"
+              },
+              "target_data": {
+                "cnt": [
+                  {
+                    "variable": "dqa_credit_worthy",
+                    "n": 23,
+                    "valids": 23,
+                    "missings": 0,
+                    "distinct": 2,
+                    "sourcesystem": "exampleCSV_target"
+                  }
+                ],
+                "type": "enumerated"
+              }
+            },
+            "statistics": {
+              "source_data": [
+                {
+                  "dqa_credit_worthy": "no",
+                  "Freq": 13,
+                  "% Valid": 56.5217
+                },
+                {
+                  "dqa_credit_worthy": "yes",
+                  "Freq": 10,
+                  "% Valid": 43.4783
+                }
+              ],
+              "target_data": [
+                {
+                  "dqa_credit_worthy": "no",
+                  "Freq": 13,
+                  "% Valid": 56.5217
+                },
+                {
+                  "dqa_credit_worthy": "yes",
+                  "Freq": 10,
+                  "% Valid": 43.4783
+                }
+              ]
+            }
+          },
+          "Current bank balance": {
+            "description": {
+              "source_data": {
+                "name": "Current bank balance",
+                "internal_variable_name": "dqa_bank_balance",
+                "description": "The bank-balance at the time of contact",
+                "var_name": "BANK-BALANCE",
+                "table_name": "dqa_example_data_01.csv",
+                "checks": {
+                  "var_type": "integer",
+                  "constraints": "{\"range\":{\"min\":\"-Inf\",\"max\":\"Inf\",\"unit\":\"money\"}} "
+                }
+              },
+              "target_data": {
+                "var_name": "BANK-BALANCE",
+                "table_name": "dqa_example_data_02.csv",
+                "checks": {
+                  "var_type": "integer",
+                  "constraints": "{\"range\":{\"min\":\"-Inf\",\"max\":\"Inf\",\"unit\":\"money\"}} "
+                }
+              }
+            },
+            "counts": {
+              "source_data": {
+                "cnt": [
+                  {
+                    "variable": "dqa_bank_balance",
+                    "n": 23,
+                    "valids": 23,
+                    "missings": 0,
+                    "distinct": 22,
+                    "sourcesystem": "exampleCSV_source"
+                  }
+                ],
+                "type": "integer"
+              },
+              "target_data": {
+                "cnt": [
+                  {
+                    "variable": "dqa_bank_balance",
+                    "n": 23,
+                    "valids": 23,
+                    "missings": 0,
+                    "distinct": 22,
+                    "sourcesystem": "exampleCSV_target"
+                  }
+                ],
+                "type": "integer"
+              }
+            },
+            "statistics": {
+              "source_data": [
+                {
+                  " ": "Mean",
+                  " .1": "35152.17"
+                },
+                {
+                  " ": "Minimum",
+                  " .1": "-34200"
+                },
+                {
+                  " ": "Median",
+                  " .1": "18800"
+                },
+                {
+                  " ": "Maximum",
+                  " .1": "124100"
+                },
+                {
+                  " ": "SD",
+                  " .1": "39516.63"
+                },
+                {
+                  " ": "Negativ",
+                  " .1": "2"
+                },
+                {
+                  " ": "Zero",
+                  " .1": "0"
+                },
+                {
+                  " ": "Positive",
+                  " .1": "21"
+                },
+                {
+                  " ": "OutLo",
+                  " .1": "0"
+                },
+                {
+                  " ": "OutHi",
+                  " .1": "0"
+                },
+                {
+                  " ": "Variance",
+                  " .1": "1561564426.88"
+                },
+                {
+                  " ": "Range",
+                  " .1": "158300"
+                }
+              ],
+              "target_data": [
+                {
+                  " ": "Mean",
+                  " .1": "26395.65"
+                },
+                {
+                  " ": "Minimum",
+                  " .1": "-64200"
+                },
+                {
+                  " ": "Median",
+                  " .1": "12800"
+                },
+                {
+                  " ": "Maximum",
+                  " .1": "124100"
+                },
+                {
+                  " ": "SD",
+                  " .1": "46097.8"
+                },
+                {
+                  " ": "Negativ",
+                  " .1": "4"
+                },
+                {
+                  " ": "Zero",
+                  " .1": "0"
+                },
+                {
+                  " ": "Positive",
+                  " .1": "19"
+                },
+                {
+                  " ": "OutLo",
+                  " .1": "0"
+                },
+                {
+                  " ": "OutHi",
+                  " .1": "0"
+                },
+                {
+                  " ": "Variance",
+                  " .1": "2125006798.42"
+                },
+                {
+                  " ": "Range",
+                  " .1": "188300"
+                }
+              ]
+            }
+          },
+          "Date of contact": {
+            "description": {
+              "source_data": {
+                "name": "Date of contact",
+                "internal_variable_name": "dqa_contact_date",
+                "description": "Date of contact",
+                "var_name": "CONTACT-DATE",
+                "table_name": "dqa_example_data_01.csv",
+                "checks": {
+                  "var_type": "datetime",
+                  "constraints": "{\"datetime\": {\"min\": \"2012-01-01\",\"max\": \"2015-12-31\", \"format\": \"%d.%m.%Y\"}}"
+                }
+              },
+              "target_data": {
+                "var_name": "CONTACT-DATE",
+                "table_name": "dqa_example_data_02.csv",
+                "checks": {
+                  "var_type": "datetime",
+                  "constraints": "{\"datetime\": {\"min\": \"2012-01-01\",\"max\": \"2015-12-31\", \"format\": \"%d.%m.%Y\"}}"
+                }
+              }
+            },
+            "counts": {
+              "source_data": {
+                "cnt": [
+                  {
+                    "variable": "dqa_contact_date",
+                    "n": 23,
+                    "valids": 23,
+                    "missings": 0,
+                    "distinct": 23,
+                    "sourcesystem": "exampleCSV_source"
+                  }
+                ],
+                "type": "datetime"
+              },
+              "target_data": {
+                "cnt": [
+                  {
+                    "variable": "dqa_contact_date",
+                    "n": 23,
+                    "valids": 23,
+                    "missings": 0,
+                    "distinct": 23,
+                    "sourcesystem": "exampleCSV_target"
+                  }
+                ],
+                "type": "datetime"
+              }
+            },
+            "statistics": {
+              "source_data": [
+                {
+                  " ": "Min.",
+                  " .1": "2011-10-12"
+                },
+                {
+                  " ": "1st Qu.",
+                  " .1": "2012-08-11"
+                },
+                {
+                  " ": "Median",
+                  " .1": "2013-10-02"
+                },
+                {
+                  " ": "Mean",
+                  " .1": "2013-10-28"
+                },
+                {
+                  " ": "3rd Qu.",
+                  " .1": "2014-12-21"
+                },
+                {
+                  " ": "Max.",
+                  " .1": "2015-12-20"
+                }
+              ],
+              "target_data": [
+                {
+                  " ": "Min.",
+                  " .1": "2011-10-12"
+                },
+                {
+                  " ": "1st Qu.",
+                  " .1": "2012-08-11"
+                },
+                {
+                  " ": "Median",
+                  " .1": "2013-10-02"
+                },
+                {
+                  " ": "Mean",
+                  " .1": "2013-10-28"
+                },
+                {
+                  " ": "3rd Qu.",
+                  " .1": "2014-12-21"
+                },
+                {
+                  " ": "Max.",
+                  " .1": "2015-12-20"
+                }
+              ]
+            }
+          },
+          "Forename": {
+            "description": {
+              "source_data": {
+                "name": "Forename",
+                "internal_variable_name": "dqa_forename",
+                "description": "The Forename of the person.",
+                "var_name": "FORENAME",
+                "table_name": "dqa_example_data_01.csv",
+                "checks": {
+                  "var_type": "string",
+                  "constraints": null
+                }
+              },
+              "target_data": {
+                "var_name": "FORENAME",
+                "table_name": "dqa_example_data_02.csv",
+                "checks": {
+                  "var_type": "string",
+                  "constraints": null
+                }
+              }
+            },
+            "counts": {
+              "source_data": {
+                "cnt": [
+                  {
+                    "variable": "dqa_forename",
+                    "n": 23,
+                    "valids": 23,
+                    "missings": 0,
+                    "distinct": 17,
+                    "sourcesystem": "exampleCSV_source"
+                  }
+                ],
+                "type": "string"
+              },
+              "target_data": {
+                "cnt": [
+                  {
+                    "variable": "dqa_forename",
+                    "n": 23,
+                    "valids": 23,
+                    "missings": 0,
+                    "distinct": 16,
+                    "sourcesystem": "exampleCSV_target"
+                  }
+                ],
+                "type": "string"
+              }
+            },
+            "statistics": {
+              "source_data": [
+                {
+                  "dqa_forename": "Zenaida",
+                  "Freq": 3,
+                  "% Valid": 13.0435
+                },
+                {
+                  "dqa_forename": "Geraldine",
+                  "Freq": 2,
+                  "% Valid": 8.6957
+                },
+                {
+                  "dqa_forename": "Williams",
+                  "Freq": 2,
+                  "% Valid": 8.6957
+                },
+                {
+                  "dqa_forename": "Wayne",
+                  "Freq": 2,
+                  "% Valid": 8.6957
+                },
+                {
+                  "dqa_forename": "Dorothy",
+                  "Freq": 2,
+                  "% Valid": 8.6957
+                },
+                {
+                  "dqa_forename": "Lawrence",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_forename": "Janet",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_forename": "Martin",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_forename": "Georgina",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_forename": "Elliott",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_forename": "Gilberto",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_forename": "Annie",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_forename": "Karen",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_forename": "John",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_forename": "Susan",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_forename": "Elijah",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_forename": "Miriam",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                }
+              ],
+              "target_data": [
+                {
+                  "dqa_forename": "Geraldine",
+                  "Freq": 3,
+                  "% Valid": 13.0435
+                },
+                {
+                  "dqa_forename": "Zenaida",
+                  "Freq": 3,
+                  "% Valid": 13.0435
+                },
+                {
+                  "dqa_forename": "Williams",
+                  "Freq": 2,
+                  "% Valid": 8.6957
+                },
+                {
+                  "dqa_forename": "Wayne",
+                  "Freq": 2,
+                  "% Valid": 8.6957
+                },
+                {
+                  "dqa_forename": "Dorothy",
+                  "Freq": 2,
+                  "% Valid": 8.6957
+                },
+                {
+                  "dqa_forename": "Lawrence",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_forename": "Janet",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_forename": "Martin",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_forename": "Georgina",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_forename": "Elliott",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_forename": "Gilberto",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_forename": "Annie",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_forename": "Karen",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_forename": "John",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_forename": "Susan",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_forename": "Elijah",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                }
+              ]
+            }
+          },
+          "Income": {
+            "description": {
+              "source_data": {
+                "name": "Income",
+                "internal_variable_name": "dqa_income",
+                "description": "The income of the person at the time of contact",
+                "var_name": "INCOME",
+                "table_name": "dqa_example_data_01.csv",
+                "checks": {
+                  "var_type": "integer",
+                  "constraints": "{\"range\":{\"min\":0,\"max\":\"Inf\",\"unit\":\"money\"}} "
+                }
+              },
+              "target_data": {
+                "var_name": "INCOME",
+                "table_name": "dqa_example_data_02.csv",
+                "checks": {
+                  "var_type": "integer",
+                  "constraints": "{\"range\":{\"min\":0,\"max\":\"Inf\",\"unit\":\"money\"}} "
+                }
+              }
+            },
+            "counts": {
+              "source_data": {
+                "cnt": [
+                  {
+                    "variable": "dqa_income",
+                    "n": 23,
+                    "valids": 23,
+                    "missings": 0,
+                    "distinct": 23,
+                    "sourcesystem": "exampleCSV_source"
+                  }
+                ],
+                "type": "integer"
+              },
+              "target_data": {
+                "cnt": [
+                  {
+                    "variable": "dqa_income",
+                    "n": 23,
+                    "valids": 23,
+                    "missings": 0,
+                    "distinct": 23,
+                    "sourcesystem": "exampleCSV_target"
+                  }
+                ],
+                "type": "integer"
+              }
+            },
+            "statistics": {
+              "source_data": [
+                {
+                  " ": "Mean",
+                  " .1": "68826.09"
+                },
+                {
+                  " ": "Minimum",
+                  " .1": "3000"
+                },
+                {
+                  " ": "Median",
+                  " .1": "59000"
+                },
+                {
+                  " ": "Maximum",
+                  " .1": "145000"
+                },
+                {
+                  " ": "SD",
+                  " .1": "46841.76"
+                },
+                {
+                  " ": "Negativ",
+                  " .1": "0"
+                },
+                {
+                  " ": "Zero",
+                  " .1": "0"
+                },
+                {
+                  " ": "Positive",
+                  " .1": "23"
+                },
+                {
+                  " ": "OutLo",
+                  " .1": "0"
+                },
+                {
+                  " ": "OutHi",
+                  " .1": "0"
+                },
+                {
+                  " ": "Variance",
+                  " .1": "2194150197.63"
+                },
+                {
+                  " ": "Range",
+                  " .1": "142000"
+                }
+              ],
+              "target_data": [
+                {
+                  " ": "Mean",
+                  " .1": "68391.3"
+                },
+                {
+                  " ": "Minimum",
+                  " .1": "-5000"
+                },
+                {
+                  " ": "Median",
+                  " .1": "59000"
+                },
+                {
+                  " ": "Maximum",
+                  " .1": "145000"
+                },
+                {
+                  " ": "SD",
+                  " .1": "47502.86"
+                },
+                {
+                  " ": "Negativ",
+                  " .1": "1"
+                },
+                {
+                  " ": "Zero",
+                  " .1": "0"
+                },
+                {
+                  " ": "Positive",
+                  " .1": "22"
+                },
+                {
+                  " ": "OutLo",
+                  " .1": "0"
+                },
+                {
+                  " ": "OutHi",
+                  " .1": "0"
+                },
+                {
+                  " ": "Variance",
+                  " .1": "2256521739.13"
+                },
+                {
+                  " ": "Range",
+                  " .1": "150000"
+                }
+              ]
+            }
+          },
+          "Job": {
+            "description": {
+              "source_data": {
+                "name": "Job",
+                "internal_variable_name": "dqa_job",
+                "description": "The job of the person at the time of contact",
+                "var_name": "JOB",
+                "table_name": "dqa_example_data_01.csv",
+                "checks": {
+                  "var_type": "string",
+                  "constraints": null
+                }
+              },
+              "target_data": {
+                "var_name": "JOB",
+                "table_name": "dqa_example_data_02.csv",
+                "checks": {
+                  "var_type": "string",
+                  "constraints": null
+                }
+              }
+            },
+            "counts": {
+              "source_data": {
+                "cnt": [
+                  {
+                    "variable": "dqa_job",
+                    "n": 23,
+                    "valids": 23,
+                    "missings": 0,
+                    "distinct": 15,
+                    "sourcesystem": "exampleCSV_source"
+                  }
+                ],
+                "type": "string"
+              },
+              "target_data": {
+                "cnt": [
+                  {
+                    "variable": "dqa_job",
+                    "n": 23,
+                    "valids": 23,
+                    "missings": 0,
+                    "distinct": 15,
+                    "sourcesystem": "exampleCSV_target"
+                  }
+                ],
+                "type": "string"
+              }
+            },
+            "statistics": {
+              "source_data": [
+                {
+                  "dqa_job": "Bank manager",
+                  "Freq": 3,
+                  "% Valid": 13.0435
+                },
+                {
+                  "dqa_job": "Magician",
+                  "Freq": 3,
+                  "% Valid": 13.0435
+                },
+                {
+                  "dqa_job": "Student",
+                  "Freq": 2,
+                  "% Valid": 8.6957
+                },
+                {
+                  "dqa_job": "Pilot",
+                  "Freq": 2,
+                  "% Valid": 8.6957
+                },
+                {
+                  "dqa_job": "Lawyer",
+                  "Freq": 2,
+                  "% Valid": 8.6957
+                },
+                {
+                  "dqa_job": "Singer",
+                  "Freq": 2,
+                  "% Valid": 8.6957
+                },
+                {
+                  "dqa_job": "Photographer",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_job": "Farmer",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_job": "Professor",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_job": "Engineer",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_job": "Researcher",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_job": "Chemist",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_job": "Gardener",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_job": "Psychologist",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_job": "Comedian",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                }
+              ],
+              "target_data": [
+                {
+                  "dqa_job": "Bank manager",
+                  "Freq": 3,
+                  "% Valid": 13.0435
+                },
+                {
+                  "dqa_job": "Magician",
+                  "Freq": 3,
+                  "% Valid": 13.0435
+                },
+                {
+                  "dqa_job": "Student",
+                  "Freq": 2,
+                  "% Valid": 8.6957
+                },
+                {
+                  "dqa_job": "Pilot",
+                  "Freq": 2,
+                  "% Valid": 8.6957
+                },
+                {
+                  "dqa_job": "Lawyer",
+                  "Freq": 2,
+                  "% Valid": 8.6957
+                },
+                {
+                  "dqa_job": "Singer",
+                  "Freq": 2,
+                  "% Valid": 8.6957
+                },
+                {
+                  "dqa_job": "Photographer",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_job": "Farmer",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_job": "Professor",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_job": "Engineer",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_job": "Researcher",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_job": "Chemist",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_job": "Gardener",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_job": "Psychologist",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_job": "Comedian",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                }
+              ]
+            }
+          },
+          "Name": {
+            "description": {
+              "source_data": {
+                "name": "Name",
+                "internal_variable_name": "dqa_name",
+                "description": "The Surname of the person.",
+                "var_name": "NAME",
+                "table_name": "dqa_example_data_01.csv",
+                "checks": {
+                  "var_type": "string",
+                  "constraints": null
+                }
+              },
+              "target_data": {
+                "var_name": "NAME",
+                "table_name": "dqa_example_data_02.csv",
+                "checks": {
+                  "var_type": "string",
+                  "constraints": null
+                }
+              }
+            },
+            "counts": {
+              "source_data": {
+                "cnt": [
+                  {
+                    "variable": "dqa_name",
+                    "n": 23,
+                    "valids": 23,
+                    "missings": 0,
+                    "distinct": 16,
+                    "sourcesystem": "exampleCSV_source"
+                  }
+                ],
+                "type": "string"
+              },
+              "target_data": {
+                "cnt": [
+                  {
+                    "variable": "dqa_name",
+                    "n": 23,
+                    "valids": 23,
+                    "missings": 0,
+                    "distinct": 16,
+                    "sourcesystem": "exampleCSV_target"
+                  }
+                ],
+                "type": "string"
+              }
+            },
+            "statistics": {
+              "source_data": [
+                {
+                  "dqa_name": "Jackson",
+                  "Freq": 3,
+                  "% Valid": 13.0435
+                },
+                {
+                  "dqa_name": "Staggs",
+                  "Freq": 3,
+                  "% Valid": 13.0435
+                },
+                {
+                  "dqa_name": "Rodriguez",
+                  "Freq": 2,
+                  "% Valid": 8.6957
+                },
+                {
+                  "dqa_name": "Burdett",
+                  "Freq": 2,
+                  "% Valid": 8.6957
+                },
+                {
+                  "dqa_name": "Simpson",
+                  "Freq": 2,
+                  "% Valid": 8.6957
+                },
+                {
+                  "dqa_name": "Daniels",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_name": "Dardar",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_name": "Jones",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_name": "Cook",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_name": "Eatmon",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_name": "Kenney",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_name": "Stock",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_name": "Shuck",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_name": "Malloy",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_name": "Kirkland",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_name": "Sutton",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                }
+              ],
+              "target_data": [
+                {
+                  "dqa_name": "Jackson",
+                  "Freq": 3,
+                  "% Valid": 13.0435
+                },
+                {
+                  "dqa_name": "Staggs",
+                  "Freq": 3,
+                  "% Valid": 13.0435
+                },
+                {
+                  "dqa_name": "Rodriguez",
+                  "Freq": 2,
+                  "% Valid": 8.6957
+                },
+                {
+                  "dqa_name": "Burdett",
+                  "Freq": 2,
+                  "% Valid": 8.6957
+                },
+                {
+                  "dqa_name": "Simpson",
+                  "Freq": 2,
+                  "% Valid": 8.6957
+                },
+                {
+                  "dqa_name": "Daniels",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_name": "Dardar",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_name": "Jones",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_name": "Cook",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_name": "Eatmon",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_name": "Kenney",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_name": "Stock",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_name": "Shuck",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_name": "Malloy",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_name": "Kirkland",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_name": "Sutton",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                }
+              ]
+            }
+          },
+          "Person ID": {
+            "description": {
+              "source_data": {
+                "name": "Person ID",
+                "internal_variable_name": "dqa_person_id",
+                "description": "Each person has its own person-id. It stays the same over the whole live of the person and does not change.",
+                "var_name": "PERSON_ID",
+                "table_name": "dqa_example_data_01.csv",
+                "checks": {
+                  "var_type": "string",
+                  "constraints": null
+                }
+              },
+              "target_data": {
+                "var_name": "PERSON_ID",
+                "table_name": "dqa_example_data_02.csv",
+                "checks": {
+                  "var_type": "string",
+                  "constraints": null
+                }
+              }
+            },
+            "counts": {
+              "source_data": {
+                "cnt": [
+                  {
+                    "variable": "dqa_person_id",
+                    "n": 23,
+                    "valids": 23,
+                    "missings": 0,
+                    "distinct": 16,
+                    "sourcesystem": "exampleCSV_source"
+                  }
+                ],
+                "type": "string"
+              },
+              "target_data": {
+                "cnt": [
+                  {
+                    "variable": "dqa_person_id",
+                    "n": 23,
+                    "valids": 23,
+                    "missings": 0,
+                    "distinct": 16,
+                    "sourcesystem": "exampleCSV_target"
+                  }
+                ],
+                "type": "string"
+              }
+            },
+            "statistics": {
+              "source_data": [
+                {
+                  "dqa_person_id": "1",
+                  "Freq": 3,
+                  "% Valid": 13.0435
+                },
+                {
+                  "dqa_person_id": "7",
+                  "Freq": 3,
+                  "% Valid": 13.0435
+                },
+                {
+                  "dqa_person_id": "5",
+                  "Freq": 2,
+                  "% Valid": 8.6957
+                },
+                {
+                  "dqa_person_id": "11",
+                  "Freq": 2,
+                  "% Valid": 8.6957
+                },
+                {
+                  "dqa_person_id": "15",
+                  "Freq": 2,
+                  "% Valid": 8.6957
+                },
+                {
+                  "dqa_person_id": "2",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_person_id": "3",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_person_id": "4",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_person_id": "6",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_person_id": "8",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_person_id": "9",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_person_id": "10",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_person_id": "12",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_person_id": "13",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_person_id": "14",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_person_id": "16",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                }
+              ],
+              "target_data": [
+                {
+                  "dqa_person_id": "1",
+                  "Freq": 3,
+                  "% Valid": 13.0435
+                },
+                {
+                  "dqa_person_id": "7",
+                  "Freq": 3,
+                  "% Valid": 13.0435
+                },
+                {
+                  "dqa_person_id": "5",
+                  "Freq": 2,
+                  "% Valid": 8.6957
+                },
+                {
+                  "dqa_person_id": "11",
+                  "Freq": 2,
+                  "% Valid": 8.6957
+                },
+                {
+                  "dqa_person_id": "15",
+                  "Freq": 2,
+                  "% Valid": 8.6957
+                },
+                {
+                  "dqa_person_id": "2",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_person_id": "3",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_person_id": "4",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_person_id": "6",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_person_id": "8",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_person_id": "9",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_person_id": "10",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_person_id": "12",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_person_id": "13",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_person_id": "14",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                },
+                {
+                  "dqa_person_id": "16",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                }
+              ]
+            }
+          },
+          "Sex": {
+            "description": {
+              "source_data": {
+                "name": "Sex",
+                "internal_variable_name": "dqa_sex",
+                "description": "The sex of the person in one letter: m, f or x for unknown.",
+                "var_name": "SEX",
+                "table_name": "dqa_example_data_01.csv",
+                "checks": {
+                  "var_type": "enumerated",
+                  "constraints": "{\"value_set\":[\"m\", \"f\", \"x\"]} "
+                }
+              },
+              "target_data": {
+                "var_name": "SEX",
+                "table_name": "dqa_example_data_02.csv",
+                "checks": {
+                  "var_type": "enumerated",
+                  "constraints": "{\"value_set\":[\"male\", \"female\", \"unknown\"]} "
+                }
+              }
+            },
+            "counts": {
+              "source_data": {
+                "cnt": [
+                  {
+                    "variable": "dqa_sex",
+                    "n": 23,
+                    "valids": 23,
+                    "missings": 0,
+                    "distinct": 2,
+                    "sourcesystem": "exampleCSV_source"
+                  }
+                ],
+                "type": "enumerated"
+              },
+              "target_data": {
+                "cnt": [
+                  {
+                    "variable": "dqa_sex",
+                    "n": 23,
+                    "valids": 23,
+                    "missings": 0,
+                    "distinct": 3,
+                    "sourcesystem": "exampleCSV_target"
+                  }
+                ],
+                "type": "enumerated"
+              }
+            },
+            "statistics": {
+              "source_data": [
+                {
+                  "dqa_sex": "f",
+                  "Freq": 13,
+                  "% Valid": 56.5217
+                },
+                {
+                  "dqa_sex": "m",
+                  "Freq": 10,
+                  "% Valid": 43.4783
+                }
+              ],
+              "target_data": [
+                {
+                  "dqa_sex": "female",
+                  "Freq": 12,
+                  "% Valid": 52.1739
+                },
+                {
+                  "dqa_sex": "male",
+                  "Freq": 10,
+                  "% Valid": 43.4783
+                },
+                {
+                  "dqa_sex": "abc",
+                  "Freq": 1,
+                  "% Valid": 4.3478
+                }
+              ]
+            }
+          }
+        },
+        "data_plausibility": {
+          "atemporal": {
+            "pl.atemporal.item01": {
+              "source_data": {
+                "name": "Pl.atemporal.Item01",
+                "description": "Persons with a negative bank balance cannot be credit worthy",
+                "var_dependent": "dqa_credit_worthy",
+                "var_independent": "dqa_bank_balance",
+                "filter": "^(-)",
+                "join_crit": "dqa_person_id",
+                "checks": {
+                  "constraints": "{\"value_set\":\"no\"}"
+                }
+              },
+              "target_data": {
+                "name": "Pl.atemporal.Item01",
+                "description": "Persons with a negative bank balance cannot be credit worthy",
+                "var_dependent": "dqa_credit_worthy",
+                "var_independent": "dqa_bank_balance",
+                "filter": "^(-)",
+                "join_crit": "dqa_person_id",
+                "checks": {
+                  "constraints": "{\"value_set\":\"no\"}"
+                }
+              }
+            }
+          }
+        },
+        "results_plausibility_unique": {
+          "dqa_name": {
+            "description": "The last name of a person must be identical in all entries for one person ID.",
+            "source_data": {
+              "message": "No duplicate occurrences of dqa_person_id found in association with dqa_name.",
+              "error": "FALSE"
+            },
+            "target_data": {
+              "message": "No duplicate occurrences of dqa_person_id found in association with dqa_name.",
+              "error": "FALSE"
+            }
+          }
+        },
+        "utilspath": "/usr/local/lib/R/site-library/DQAstats/demo_data/utilities/",
+        "current_date": "20. June 2022",
+        "checks": {
+          "value_conformance": [
+            {
+              "Variable": "Age in years",
+              "Check Source Data": "passed",
+              "Check Target Data": "failed"
+            },
+            {
+              "Variable": "Amount of credit",
+              "Check Source Data": "passed",
+              "Check Target Data": "passed"
+            },
+            {
+              "Variable": "Birthdate",
+              "Check Source Data": "failed",
+              "Check Target Data": "failed"
+            },
+            {
+              "Variable": "Credit worthy?",
+              "Check Source Data": "passed",
+              "Check Target Data": "passed"
+            },
+            {
+              "Variable": "Current bank balance",
+              "Check Source Data": "failed",
+              "Check Target Data": "failed"
+            },
+            {
+              "Variable": "Date of contact",
+              "Check Source Data": "failed",
+              "Check Target Data": "failed"
+            },
+            {
+              "Variable": "Income",
+              "Check Source Data": "passed",
+              "Check Target Data": "failed"
+            },
+            {
+              "Variable": "Sex",
+              "Check Source Data": "passed",
+              "Check Target Data": "failed"
+            },
+            {
+              "Variable": "pl.atemporal.item01",
+              "Check Source Data": "passed",
+              "Check Target Data": "failed"
+            }
+          ],
+          "etl": [
+            {
+              "Variable": "Age in years",
+              "Check Distincts": "passed",
+              "Check Valids": "passed",
+              "Check Missings": "passed"
+            },
+            {
+              "Variable": "Amount of credit",
+              "Check Distincts": "passed",
+              "Check Valids": "passed",
+              "Check Missings": "passed"
+            },
+            {
+              "Variable": "Birthdate",
+              "Check Distincts": "passed",
+              "Check Valids": "passed",
+              "Check Missings": "passed"
+            },
+            {
+              "Variable": "Credit worthy?",
+              "Check Distincts": "passed",
+              "Check Valids": "passed",
+              "Check Missings": "passed"
+            },
+            {
+              "Variable": "Current bank balance",
+              "Check Distincts": "passed",
+              "Check Valids": "passed",
+              "Check Missings": "passed"
+            },
+            {
+              "Variable": "Date of contact",
+              "Check Distincts": "passed",
+              "Check Valids": "passed",
+              "Check Missings": "passed"
+            },
+            {
+              "Variable": "Forename",
+              "Check Distincts": "failed",
+              "Check Valids": "passed",
+              "Check Missings": "passed"
+            },
+            {
+              "Variable": "Income",
+              "Check Distincts": "passed",
+              "Check Valids": "passed",
+              "Check Missings": "passed"
+            },
+            {
+              "Variable": "Job",
+              "Check Distincts": "passed",
+              "Check Valids": "passed",
+              "Check Missings": "passed"
+            },
+            {
+              "Variable": "Name",
+              "Check Distincts": "passed",
+              "Check Valids": "passed",
+              "Check Missings": "passed"
+            },
+            {
+              "Variable": "Person ID",
+              "Check Distincts": "passed",
+              "Check Valids": "passed",
+              "Check Missings": "passed"
+            },
+            {
+              "Variable": "Sex",
+              "Check Distincts": "failed",
+              "Check Valids": "passed",
+              "Check Missings": "passed"
+            }
+          ]
+        },
+        "variable_list": {
+          "Age in years": "dqa_age_years",
+          "Amount of credit": "dqa_credit_amount",
+          "Birthdate": "dqa_birthdate",
+          "Credit worthy?": "dqa_credit_worthy",
+          "Current bank balance": "dqa_bank_balance",
+          "Date of contact": "dqa_contact_date",
+          "Forename": "dqa_forename",
+          "Income": "dqa_income",
+          "Job": "dqa_job",
+          "Name": "dqa_name",
+          "Person ID": "dqa_person_id",
+          "Sex": "dqa_sex"
+        },
+        "sitenames": {
+          "Demo sitename": "DEMO"
+        },
+        "restricting_date": {
+          "use_it": false
+        },
+        "data_target": {},
+        "system_types": "csv",
+        "settings": {
+          "exampleCSV_source": {},
+          "exampleCSV_target": {}
+        },
+        "mdr": [
+          {
+            "designation": "Person ID",
+            "source_variable_name": "PERSON_ID",
+            "source_table_name": "dqa_example_data_01.csv",
+            "source_system_name": "exampleCSV_source",
+            "source_system_type": "csv",
+            "key": "dqa.person_id",
+            "variable_name": "dqa_person_id",
+            "variable_type": "string",
+            "restricting_date_var": "CONTACT-DATE",
+            "dqa_assessment": 1,
+            "definition": "Each person has its own person-id. It stays the same over the whole live of the person and does not change.",
+            "data_map": 1,
+            "plausibility_relation": "{\"uniqueness\": {\"dqa_name\": {\"name\": \"Pl.uniqueness.Item01\",\"description\": \"The last name of a person must be identical in all entries for one person ID.\"}}}"
+          },
+          {
+            "designation": "Forename",
+            "source_variable_name": "FORENAME",
+            "source_table_name": "dqa_example_data_01.csv",
+            "source_system_name": "exampleCSV_source",
+            "source_system_type": "csv",
+            "key": "dqa.forename",
+            "variable_name": "dqa_forename",
+            "variable_type": "string",
+            "restricting_date_var": "CONTACT-DATE",
+            "dqa_assessment": 1,
+            "definition": "The Forename of the person."
+          },
+          {
+            "designation": "Name",
+            "source_variable_name": "NAME",
+            "source_table_name": "dqa_example_data_01.csv",
+            "source_system_name": "exampleCSV_source",
+            "source_system_type": "csv",
+            "key": "dqa.name",
+            "variable_name": "dqa_name",
+            "variable_type": "string",
+            "restricting_date_var": "CONTACT-DATE",
+            "dqa_assessment": 1,
+            "definition": "The Surname of the person."
+          },
+          {
+            "designation": "Age in years",
+            "source_variable_name": "AGE",
+            "source_table_name": "dqa_example_data_01.csv",
+            "source_system_name": "exampleCSV_source",
+            "source_system_type": "csv",
+            "key": "dqa.age_years",
+            "variable_name": "dqa_age_years",
+            "variable_type": "integer",
+            "restricting_date_var": "CONTACT-DATE",
+            "constraints": "{\"range\":{\"min\":0,\"max\":110,\"unit\":\"a\"}} ",
+            "dqa_assessment": 1,
+            "definition": "The age of the person at the time of contact."
+          },
+          {
+            "designation": "Birthdate",
+            "source_variable_name": "BIRTHDATE",
+            "source_table_name": "dqa_example_data_01.csv",
+            "source_system_name": "exampleCSV_source",
+            "source_system_type": "csv",
+            "key": "dqa.birthdate",
+            "variable_name": "dqa_birthdate",
+            "variable_type": "datetime",
+            "restricting_date_var": "CONTACT-DATE",
+            "constraints": "{\"datetime\": {\"min\": \"1950-01-01\",\"max\": \"1989-12-31\", \"format\": \"%d.%m.%Y\"}}",
+            "dqa_assessment": 1,
+            "definition": "The date of birth written as dd.mm.yyyy"
+          },
+          {
+            "designation": "Sex",
+            "source_variable_name": "SEX",
+            "source_table_name": "dqa_example_data_01.csv",
+            "source_system_name": "exampleCSV_source",
+            "source_system_type": "csv",
+            "key": "dqa.sex",
+            "variable_name": "dqa_sex",
+            "variable_type": "enumerated",
+            "restricting_date_var": "CONTACT-DATE",
+            "constraints": "{\"value_set\":[\"m\", \"f\", \"x\"]} ",
+            "dqa_assessment": 1,
+            "definition": "The sex of the person in one letter: m, f or x for unknown."
+          },
+          {
+            "designation": "Income",
+            "source_variable_name": "INCOME",
+            "source_table_name": "dqa_example_data_01.csv",
+            "source_system_name": "exampleCSV_source",
+            "source_system_type": "csv",
+            "key": "dqa.income",
+            "variable_name": "dqa_income",
+            "variable_type": "integer",
+            "restricting_date_var": "CONTACT-DATE",
+            "constraints": "{\"range\":{\"min\":0,\"max\":\"Inf\",\"unit\":\"money\"}} ",
+            "dqa_assessment": 1,
+            "definition": "The income of the person at the time of contact"
+          },
+          {
+            "designation": "Job",
+            "source_variable_name": "JOB",
+            "source_table_name": "dqa_example_data_01.csv",
+            "source_system_name": "exampleCSV_source",
+            "source_system_type": "csv",
+            "key": "dqa.job",
+            "variable_name": "dqa_job",
+            "variable_type": "string",
+            "restricting_date_var": "CONTACT-DATE",
+            "dqa_assessment": 1,
+            "definition": "The job of the person at the time of contact"
+          },
+          {
+            "designation": "Current bank balance",
+            "source_variable_name": "BANK-BALANCE",
+            "source_table_name": "dqa_example_data_01.csv",
+            "source_system_name": "exampleCSV_source",
+            "source_system_type": "csv",
+            "key": "dqa.bank_balance",
+            "variable_name": "dqa_bank_balance",
+            "variable_type": "integer",
+            "restricting_date_var": "CONTACT-DATE",
+            "constraints": "{\"range\":{\"min\":\"-Inf\",\"max\":\"Inf\",\"unit\":\"money\"}} ",
+            "dqa_assessment": 1,
+            "definition": "The bank-balance at the time of contact"
+          },
+          {
+            "designation": "Credit worthy?",
+            "source_variable_name": "CREDIT-WORTHY",
+            "source_table_name": "dqa_example_data_01.csv",
+            "source_system_name": "exampleCSV_source",
+            "source_system_type": "csv",
+            "key": "dqa.credit_worthy",
+            "variable_name": "dqa_credit_worthy",
+            "variable_type": "enumerated",
+            "restricting_date_var": "CONTACT-DATE",
+            "constraints": "{\"value_set\": [\"yes\", \"no\"]}",
+            "dqa_assessment": 1,
+            "definition": "Indicates whether the person is creditworthy at the time of the contact",
+            "data_map": 1,
+            "plausibility_relation": "{\"atemporal\": {\"dqa_bank_balance\": {\"name\": \"Pl.atemporal.Item01\", \"description\": \"Persons with a negative bank balance cannot be credit worthy\", \"filter\": {\"exampleCSV_source\": \"^(-)\", \"exampleCSV_target\": \"^(-)\"}, \"join_crit\": \"dqa_person_id\", \"constraints\": {\"value_set\": {\"exampleCSV_source\": [\"no\"], \"exampleCSV_target\": [\"no\"]}}}}}"
+          },
+          {
+            "designation": "Amount of credit",
+            "source_variable_name": "CREDIT-AMOUNT",
+            "source_table_name": "dqa_example_data_01.csv",
+            "source_system_name": "exampleCSV_source",
+            "source_system_type": "csv",
+            "key": "dqa.credit_amount",
+            "variable_name": "dqa_credit_amount",
+            "variable_type": "integer",
+            "restricting_date_var": "CONTACT-DATE",
+            "constraints": "{\"range\":{\"min\":0,\"max\":\"Inf\",\"unit\":\"money\"}} ",
+            "dqa_assessment": 1,
+            "definition": "That's the amount of credit the person has used"
+          },
+          {
+            "designation": "Date of contact",
+            "source_variable_name": "CONTACT-DATE",
+            "source_table_name": "dqa_example_data_01.csv",
+            "source_system_name": "exampleCSV_source",
+            "source_system_type": "csv",
+            "key": "dqa.contact_date",
+            "variable_name": "dqa_contact_date",
+            "variable_type": "datetime",
+            "restricting_date_var": "CONTACT-DATE",
+            "constraints": "{\"datetime\": {\"min\": \"2012-01-01\",\"max\": \"2015-12-31\", \"format\": \"%d.%m.%Y\"}}",
+            "dqa_assessment": 1,
+            "definition": "Date of contact"
+          },
+          {
+            "designation": "Person ID",
+            "source_variable_name": "PERSON_ID",
+            "source_table_name": "dqa_example_data_02.csv",
+            "source_system_name": "exampleCSV_target",
+            "source_system_type": "csv",
+            "key": "dqa.person_id",
+            "variable_name": "dqa_person_id",
+            "variable_type": "string",
+            "restricting_date_var": "CONTACT-DATE",
+            "dqa_assessment": 1,
+            "definition": "(The definition is missing in the MDR.)",
+            "data_map": 1
+          },
+          {
+            "designation": "Forename",
+            "source_variable_name": "FORENAME",
+            "source_table_name": "dqa_example_data_02.csv",
+            "source_system_name": "exampleCSV_target",
+            "source_system_type": "csv",
+            "key": "dqa.forename",
+            "variable_name": "dqa_forename",
+            "variable_type": "string",
+            "restricting_date_var": "CONTACT-DATE",
+            "dqa_assessment": 1,
+            "definition": "(The definition is missing in the MDR.)"
+          },
+          {
+            "designation": "Name",
+            "source_variable_name": "NAME",
+            "source_table_name": "dqa_example_data_02.csv",
+            "source_system_name": "exampleCSV_target",
+            "source_system_type": "csv",
+            "key": "dqa.name",
+            "variable_name": "dqa_name",
+            "variable_type": "string",
+            "restricting_date_var": "CONTACT-DATE",
+            "dqa_assessment": 1,
+            "definition": "(The definition is missing in the MDR.)"
+          },
+          {
+            "designation": "Age in years",
+            "source_variable_name": "AGE",
+            "source_table_name": "dqa_example_data_02.csv",
+            "source_system_name": "exampleCSV_target",
+            "source_system_type": "csv",
+            "key": "dqa.age_years",
+            "variable_name": "dqa_age_years",
+            "variable_type": "integer",
+            "restricting_date_var": "CONTACT-DATE",
+            "constraints": "{\"range\":{\"min\":0,\"max\":110,\"unit\":\"a\"}} ",
+            "dqa_assessment": 1,
+            "definition": "(The definition is missing in the MDR.)"
+          },
+          {
+            "designation": "Birthdate",
+            "source_variable_name": "BIRTHDATE",
+            "source_table_name": "dqa_example_data_02.csv",
+            "source_system_name": "exampleCSV_target",
+            "source_system_type": "csv",
+            "key": "dqa.birthdate",
+            "variable_name": "dqa_birthdate",
+            "variable_type": "datetime",
+            "restricting_date_var": "CONTACT-DATE",
+            "constraints": "{\"datetime\": {\"min\": \"1950-01-01\",\"max\": \"1989-12-31\", \"format\": \"%d.%m.%Y\"}}",
+            "dqa_assessment": 1,
+            "definition": "(The definition is missing in the MDR.)"
+          },
+          {
+            "designation": "Sex",
+            "source_variable_name": "SEX",
+            "source_table_name": "dqa_example_data_02.csv",
+            "source_system_name": "exampleCSV_target",
+            "source_system_type": "csv",
+            "key": "dqa.sex",
+            "variable_name": "dqa_sex",
+            "variable_type": "enumerated",
+            "restricting_date_var": "CONTACT-DATE",
+            "constraints": "{\"value_set\":[\"male\", \"female\", \"unknown\"]} ",
+            "dqa_assessment": 1,
+            "definition": "(The definition is missing in the MDR.)"
+          },
+          {
+            "designation": "Income",
+            "source_variable_name": "INCOME",
+            "source_table_name": "dqa_example_data_02.csv",
+            "source_system_name": "exampleCSV_target",
+            "source_system_type": "csv",
+            "key": "dqa.income",
+            "variable_name": "dqa_income",
+            "variable_type": "integer",
+            "restricting_date_var": "CONTACT-DATE",
+            "constraints": "{\"range\":{\"min\":0,\"max\":\"Inf\",\"unit\":\"money\"}} ",
+            "dqa_assessment": 1,
+            "definition": "(The definition is missing in the MDR.)"
+          },
+          {
+            "designation": "Job",
+            "source_variable_name": "JOB",
+            "source_table_name": "dqa_example_data_02.csv",
+            "source_system_name": "exampleCSV_target",
+            "source_system_type": "csv",
+            "key": "dqa.job",
+            "variable_name": "dqa_job",
+            "variable_type": "string",
+            "restricting_date_var": "CONTACT-DATE",
+            "dqa_assessment": 1,
+            "definition": "(The definition is missing in the MDR.)"
+          },
+          {
+            "designation": "Current bank balance",
+            "source_variable_name": "BANK-BALANCE",
+            "source_table_name": "dqa_example_data_02.csv",
+            "source_system_name": "exampleCSV_target",
+            "source_system_type": "csv",
+            "key": "dqa.bank_balance",
+            "variable_name": "dqa_bank_balance",
+            "variable_type": "integer",
+            "restricting_date_var": "CONTACT-DATE",
+            "constraints": "{\"range\":{\"min\":\"-Inf\",\"max\":\"Inf\",\"unit\":\"money\"}} ",
+            "dqa_assessment": 1,
+            "definition": "(The definition is missing in the MDR.)"
+          },
+          {
+            "designation": "Credit worthy?",
+            "source_variable_name": "CREDIT-WORTHY",
+            "source_table_name": "dqa_example_data_02.csv",
+            "source_system_name": "exampleCSV_target",
+            "source_system_type": "csv",
+            "key": "dqa.credit_worthy",
+            "variable_name": "dqa_credit_worthy",
+            "variable_type": "enumerated",
+            "restricting_date_var": "CONTACT-DATE",
+            "constraints": "{\"value_set\": [\"yes\", \"no\"]}",
+            "dqa_assessment": 1,
+            "definition": "(The definition is missing in the MDR.)",
+            "data_map": 1
+          },
+          {
+            "designation": "Amount of credit",
+            "source_variable_name": "CREDIT-AMOUNT",
+            "source_table_name": "dqa_example_data_02.csv",
+            "source_system_name": "exampleCSV_target",
+            "source_system_type": "csv",
+            "key": "dqa.credit_amount",
+            "variable_name": "dqa_credit_amount",
+            "variable_type": "integer",
+            "restricting_date_var": "CONTACT-DATE",
+            "constraints": "{\"range\":{\"min\":0,\"max\":\"Inf\",\"unit\":\"money\"}} ",
+            "dqa_assessment": 1,
+            "definition": "(The definition is missing in the MDR.)"
+          },
+          {
+            "designation": "Date of contact",
+            "source_variable_name": "CONTACT-DATE",
+            "source_table_name": "dqa_example_data_02.csv",
+            "source_system_name": "exampleCSV_target",
+            "source_system_type": "csv",
+            "key": "dqa.contact_date",
+            "variable_name": "dqa_contact_date",
+            "variable_type": "datetime",
+            "restricting_date_var": "CONTACT-DATE",
+            "constraints": "{\"datetime\": {\"min\": \"2012-01-01\",\"max\": \"2015-12-31\", \"format\": \"%d.%m.%Y\"}}",
+            "dqa_assessment": 1,
+            "definition": "(The definition is missing in the MDR.)"
+          }
+        ],
+        "report_created": true,
+        "mdr_filename": "mdr_example_data.csv",
+        "getdata_source": false,
+        "conformance": {
+          "value_conformance": {
+            "Age in years": {
+              "source_data": {
+                "conformance_error": false,
+                "conformance_results": "No 'value conformance' issues found."
+              },
+              "target_data": {
+                "conformance_error": true,
+                "conformance_results": "Extrem values are not conform with constraints."
+              }
+            },
+            "Amount of credit": {
+              "source_data": {
+                "conformance_error": false,
+                "conformance_results": "No 'value conformance' issues found."
+              },
+              "target_data": {
+                "conformance_error": false,
+                "conformance_results": "No 'value conformance' issues found."
+              }
+            },
+            "Birthdate": {
+              "source_data": {
+                "conformance_error": true,
+                "conformance_results": "Extrem values are not conform with constraints.",
+                "rule": {
+                  "min": "1950-01-01",
+                  "max": "1989-12-31",
+                  "format": "%d.%m.%Y"
+                }
+              },
+              "target_data": {
+                "conformance_error": true,
+                "conformance_results": "Extrem values are not conform with constraints.",
+                "rule": {
+                  "min": "1950-01-01",
+                  "max": "1989-12-31",
+                  "format": "%d.%m.%Y"
+                }
+              }
+            },
+            "Credit worthy?": {
+              "source_data": {
+                "conformance_error": false,
+                "conformance_results": "No 'value conformance' issues found."
+              },
+              "target_data": {
+                "conformance_error": false,
+                "conformance_results": "No 'value conformance' issues found."
+              }
+            },
+            "Current bank balance": {
+              "source_data": {
+                "conformance_error": true,
+                "conformance_results": "Extrem values are not conform with constraints."
+              },
+              "target_data": {
+                "conformance_error": true,
+                "conformance_results": "Extrem values are not conform with constraints."
+              }
+            },
+            "Date of contact": {
+              "source_data": {
+                "conformance_error": true,
+                "conformance_results": "Extrem values are not conform with constraints.",
+                "rule": {
+                  "min": "2012-01-01",
+                  "max": "2015-12-31",
+                  "format": "%d.%m.%Y"
+                }
+              },
+              "target_data": {
+                "conformance_error": true,
+                "conformance_results": "Extrem values are not conform with constraints.",
+                "rule": {
+                  "min": "2012-01-01",
+                  "max": "2015-12-31",
+                  "format": "%d.%m.%Y"
+                }
+              }
+            },
+            "Income": {
+              "source_data": {
+                "conformance_error": false,
+                "conformance_results": "No 'value conformance' issues found."
+              },
+              "target_data": {
+                "conformance_error": true,
+                "conformance_results": "Extrem values are not conform with constraints."
+              }
+            },
+            "Sex": {
+              "source_data": {
+                "conformance_error": false,
+                "conformance_results": "No 'value conformance' issues found."
+              },
+              "target_data": {
+                "conformance_error": true,
+                "conformance_results": "Levels that are not conform with the value set:  \nabc"
+              }
+            },
+            "pl.atemporal.item01": {
+              "source_data": {
+                "conformance_error": false,
+                "conformance_results": "No 'value conformance' issues found."
+              },
+              "target_data": {
+                "conformance_error": true,
+                "conformance_results": "Levels that are not conform with the value set:  \nyes",
+                "affected_ids": [
+                  {
+                    "dqa_bank_balance": -36500
+                  },
+                  {
+                    "dqa_bank_balance": -64200
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "displaynames": [
+          {
+            "source_system_name": "exampleCSV_source",
+            "displayname": "exampleCSV_source"
+          },
+          {
+            "source_system_name": "exampleCSV_target",
+            "displayname": "exampleCSV_target"
+          }
+        ],
+        "source": {
+          "system_name": "exampleCSV_source",
+          "system_type": "csv",
+          "settings": {
+            "path": "/usr/local/lib/R/site-library/DQAstats/demo_data"
+          },
+          "sql": null
+        },
+        "target": {
+          "system_name": "exampleCSV_target",
+          "system_type": "csv",
+          "settings": {
+            "path": "/usr/local/lib/R/site-library/DQAstats/demo_data"
+          },
+          "sql": null
+        },
+        "target_is_source": false,
+        "data_source": {},
+        "results_plausibility_atemporal": {
+          "pl.atemporal.item01": {
+            "description": {
+              "source_data": {
+                "name": "Pl.atemporal.Item01",
+                "description": "Persons with a negative bank balance cannot be credit worthy",
+                "var_dependent": "dqa_credit_worthy",
+                "var_independent": "dqa_bank_balance",
+                "filter": "^(-)",
+                "join_crit": "dqa_person_id",
+                "checks": {
+                  "constraints": "{\"value_set\":\"no\"}",
+                  "var_type": "enumerated"
+                }
+              },
+              "target_data": {
+                "name": "Pl.atemporal.Item01",
+                "var_dependent": "dqa_credit_worthy",
+                "var_independent": "dqa_bank_balance",
+                "filter": "^(-)",
+                "join_crit": "dqa_person_id",
+                "checks": {
+                  "constraints": "{\"value_set\":\"no\"}",
+                  "var_type": "enumerated"
+                }
+              }
+            },
+            "counts": {
+              "source_data": {
+                "cnt": [
+                  {
+                    "variable": "dqa_credit_worthy",
+                    "n": 2,
+                    "valids": 2,
+                    "missings": 0,
+                    "distinct": 1,
+                    "sourcesystem": "exampleCSV_source"
+                  }
+                ],
+                "type": "enumerated"
+              },
+              "target_data": {
+                "cnt": [
+                  {
+                    "variable": "dqa_credit_worthy",
+                    "n": 4,
+                    "valids": 4,
+                    "missings": 0,
+                    "distinct": 2,
+                    "sourcesystem": "exampleCSV_target"
+                  }
+                ],
+                "type": "enumerated"
+              }
+            },
+            "statistics": {
+              "source_data": [
+                {
+                  "dqa_credit_worthy": "no",
+                  "Freq": 2,
+                  "% Valid": 100
+                }
+              ],
+              "target_data": [
+                {
+                  "dqa_credit_worthy": "no",
+                  "Freq": 2,
+                  "% Valid": 50
+                },
+                {
+                  "dqa_credit_worthy": "yes",
+                  "Freq": 2,
+                  "% Valid": 50
+                }
+              ]
+            }
+          }
+        },
+        "systems": [
+          {
+            "source_system_name": "exampleCSV_source",
+            "source_system_type": "csv"
+          },
+          {
+            "source_system_name": "exampleCSV_target",
+            "source_system_type": "csv"
+          }
+        ],
+        "demo_usage": false,
+        "start": true,
+        "log": {
+          "logfile_dir": "/tmp/Rtmp0Ai1Uj/",
+          "populated_old_logfiles_list": true
+        },
+        "completeness": [
+          {
+            "Variable": "Age in years",
+            "Missings (source)": "0",
+            "Missings [%] (source)": "0",
+            "Missings (target)": "0",
+            "Missings [%] (target)": "0"
+          },
+          {
+            "Variable": "Amount of credit",
+            "Missings (source)": "13",
+            "Missings [%] (source)": "56.52",
+            "Missings (target)": "13",
+            "Missings [%] (target)": "56.52"
+          },
+          {
+            "Variable": "Birthdate",
+            "Missings (source)": "0",
+            "Missings [%] (source)": "0",
+            "Missings (target)": "0",
+            "Missings [%] (target)": "0"
+          },
+          {
+            "Variable": "Credit worthy?",
+            "Missings (source)": "0",
+            "Missings [%] (source)": "0",
+            "Missings (target)": "0",
+            "Missings [%] (target)": "0"
+          },
+          {
+            "Variable": "Current bank balance",
+            "Missings (source)": "0",
+            "Missings [%] (source)": "0",
+            "Missings (target)": "0",
+            "Missings [%] (target)": "0"
+          },
+          {
+            "Variable": "Date of contact",
+            "Missings (source)": "0",
+            "Missings [%] (source)": "0",
+            "Missings (target)": "0",
+            "Missings [%] (target)": "0"
+          },
+          {
+            "Variable": "Forename",
+            "Missings (source)": "0",
+            "Missings [%] (source)": "0",
+            "Missings (target)": "0",
+            "Missings [%] (target)": "0"
+          },
+          {
+            "Variable": "Income",
+            "Missings (source)": "0",
+            "Missings [%] (source)": "0",
+            "Missings (target)": "0",
+            "Missings [%] (target)": "0"
+          },
+          {
+            "Variable": "Job",
+            "Missings (source)": "0",
+            "Missings [%] (source)": "0",
+            "Missings (target)": "0",
+            "Missings [%] (target)": "0"
+          },
+          {
+            "Variable": "Name",
+            "Missings (source)": "0",
+            "Missings [%] (source)": "0",
+            "Missings (target)": "0",
+            "Missings [%] (target)": "0"
+          },
+          {
+            "Variable": "Person ID",
+            "Missings (source)": "0",
+            "Missings [%] (source)": "0",
+            "Missings (target)": "0",
+            "Missings [%] (target)": "0"
+          },
+          {
+            "Variable": "Sex",
+            "Missings (source)": "0",
+            "Missings [%] (source)": "0",
+            "Missings (target)": "0",
+            "Missings [%] (target)": "0"
+          }
+        ],
+        "parallel": false,
+        "create_report": true,
+        "pl_uniq_vars_filter": {
+          "dqa_name": "dqa_name"
+        },
+        "getdata_target": false,
+        "pl_atemp_vars_filter": {
+          "Pl.atemporal.Item01": "pl.atemporal.item01"
+        }
+      }
 
