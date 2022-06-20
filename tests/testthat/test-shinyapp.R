@@ -56,6 +56,12 @@ test_that("DQAgui shiny app / launch_app() works", {
                         rv$dqa_assessment[["designation"]])
     session$setInputs(`moduleConfig-dash_load_btn` = "click")
 
-    expect_snapshot(rv)
+    expect_snapshot(rv, variant = "only_rv")
+    expect_snapshot(rv$results_plausibility_atemporal, variant = "atemporal")
+    expect_snapshot(rv$conformance$value_conformance, variant = "conformance")
+    expect_snapshot(rv$completeness, variant = "completeness")
+    expect_snapshot(rv$checks$value_conformance, variant = "check_conformance")
+    expect_snapshot(rv$checks$etl, variant = "check_etl")
+    expect_snapshot(rv$datamap, variant = "datamap")
   })
 })
