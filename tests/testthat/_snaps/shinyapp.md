@@ -1,7080 +1,1941 @@
 # DQAgui shiny app / launch_app() works
 
-    {
-      "type": "list",
-      "attributes": {
-        "names": {
-          "type": "character",
-          "attributes": {},
-          "value": ["sitename", "keys_source", "end_time", "datamap", "finished_onstart", "affectedids_exported", "ncores", "aggregated_exported", "pl", "datamap_email", "headless", "keys_target", "dqa_assessment", "results_descriptive", "data_plausibility", "results_plausibility_unique", "utilspath", "current_date", "checks", "variable_list", "sitenames", "restricting_date", "data_target", "system_types", "settings", "mdr", "report_created", "mdr_filename", "getdata_source", "conformance", "displaynames", "source", "target", "target_is_source", "data_source", "results_plausibility_atemporal", "systems", "demo_usage", "start", "log", "completeness", "parallel", "create_report", "pl_uniq_vars_filter", "getdata_target", "pl_atemp_vars_filter"]
-        }
-      },
-      "value": [
-        {
-          "type": "character",
-          "attributes": {},
-          "value": ["DEMO"]
-        },
-        {
-          "type": "character",
-          "attributes": {},
-          "value": ["dqa_example_data_01.csv"]
-        },
-        {
-          "type": "character",
-          "attributes": {},
-          "value": ["2022-06-20 13:31:15 CEST"]
-        },
-        {
-          "type": "list",
-          "attributes": {
-            "names": {
-              "type": "character",
-              "attributes": {},
-              "value": ["source_data", "target_data"]
-            }
-          },
-          "value": [
-            {
-              "type": "list",
-              "attributes": {
-                "names": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["variable", "n", "valids", "missings", "distinct"]
-                },
-                "row.names": {
-                  "type": "integer",
-                  "attributes": {},
-                  "value": [1, 2]
-                },
-                "class": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["data.table", "data.frame"]
-                },
-                ".internal.selfref": {
-                  "type": "externalptr",
-                  "attributes": {},
-                  "value": {}
-                }
-              },
-              "value": [
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["Person ID", "Credit worthy?"]
-                },
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["23", "23"]
-                },
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["23", "23"]
-                },
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["0", "0"]
-                },
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["16", "2"]
-                }
-              ]
-            },
-            {
-              "type": "list",
-              "attributes": {
-                "names": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["variable", "n", "valids", "missings", "distinct"]
-                },
-                "row.names": {
-                  "type": "integer",
-                  "attributes": {},
-                  "value": [1, 2]
-                },
-                "class": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["data.table", "data.frame"]
-                },
-                ".internal.selfref": {
-                  "type": "externalptr",
-                  "attributes": {},
-                  "value": {}
-                }
-              },
-              "value": [
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["Person ID", "Credit worthy?"]
-                },
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["23", "23"]
-                },
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["23", "23"]
-                },
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["0", "0"]
-                },
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["16", "2"]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "logical",
-          "attributes": {},
-          "value": [true]
-        },
-        {
-          "type": "logical",
-          "attributes": {},
-          "value": [true]
-        },
-        {
-          "type": "double",
-          "attributes": {},
-          "value": [2]
-        },
-        {
-          "type": "logical",
-          "attributes": {},
-          "value": [true]
-        },
-        {
-          "type": "list",
-          "attributes": {
-            "names": {
-              "type": "character",
-              "attributes": {},
-              "value": ["atemp_vars", "uniq_vars", "atemp_helper_vars", "atemp_possible", "uniq_helper_vars", "uniq_possible"]
-            }
-          },
-          "value": [
-            {
-              "type": "list",
-              "attributes": {
-                "row.names": {
-                  "type": "integer",
-                  "attributes": {},
-                  "value": [1]
-                },
-                ".internal.selfref": {
-                  "type": "externalptr",
-                  "attributes": {},
-                  "value": {}
-                },
-                "class": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["data.table", "data.frame"]
-                },
-                "names": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["designation", "variable_name", "variable_type", "plausibility_relation"]
-                }
-              },
-              "value": [
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["Credit worthy?"]
-                },
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["dqa_credit_worthy"]
-                },
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["enumerated"]
-                },
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["{\"atemporal\": {\"dqa_bank_balance\": {\"name\": \"Pl.atemporal.Item01\", \"description\": \"Persons with a negative bank balance cannot be credit worthy\", \"filter\": {\"exampleCSV_source\": \"^(-)\", \"exampleCSV_target\": \"^(-)\"}, \"join_crit\": \"dqa_person_id\", \"constraints\": {\"value_set\": {\"exampleCSV_source\": [\"no\"], \"exampleCSV_target\": [\"no\"]}}}}}"]
-                }
-              ]
-            },
-            {
-              "type": "list",
-              "attributes": {
-                "row.names": {
-                  "type": "integer",
-                  "attributes": {},
-                  "value": [1]
-                },
-                ".internal.selfref": {
-                  "type": "externalptr",
-                  "attributes": {},
-                  "value": {}
-                },
-                "class": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["data.table", "data.frame"]
-                },
-                "names": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["designation", "variable_name", "variable_type", "plausibility_relation"]
-                }
-              },
-              "value": [
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["Person ID"]
-                },
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["dqa_person_id"]
-                },
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["string"]
-                },
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["{\"uniqueness\": {\"dqa_name\": {\"name\": \"Pl.uniqueness.Item01\",\"description\": \"The last name of a person must be identical in all entries for one person ID.\"}}}"]
-                }
-              ]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["dqa_credit_worthy", "dqa_bank_balance", "dqa_person_id"]
-            },
-            {
-              "type": "logical",
-              "attributes": {},
-              "value": [true]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["dqa_person_id", "dqa_name"]
-            },
-            {
-              "type": "logical",
-              "attributes": {},
-              "value": [true]
-            }
-          ]
-        },
-        {
-          "type": "character",
-          "attributes": {},
-          "value": ["your.name@mail.company.org"]
-        },
-        {
-          "type": "logical",
-          "attributes": {},
-          "value": [false]
-        },
-        {
-          "type": "character",
-          "attributes": {},
-          "value": ["dqa_example_data_02.csv"]
-        },
-        {
-          "type": "list",
-          "attributes": {
-            "row.names": {
-              "type": "integer",
-              "attributes": {},
-              "value": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-            },
-            ".internal.selfref": {
-              "type": "externalptr",
-              "attributes": {},
-              "value": {}
-            },
-            "class": {
-              "type": "character",
-              "attributes": {},
-              "value": ["data.table", "data.frame"]
-            },
-            "names": {
-              "type": "character",
-              "attributes": {},
-              "value": ["designation", "source_variable_name", "variable_name", "variable_type", "key", "source_table_name"]
-            }
-          },
-          "value": [
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["Person ID", "Forename", "Name", "Age in years", "Birthdate", "Sex", "Income", "Job", "Current bank balance", "Credit worthy?", "Amount of credit", "Date of contact"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["PERSON_ID", "FORENAME", "NAME", "AGE", "BIRTHDATE", "SEX", "INCOME", "JOB", "BANK-BALANCE", "CREDIT-WORTHY", "CREDIT-AMOUNT", "CONTACT-DATE"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["dqa_person_id", "dqa_forename", "dqa_name", "dqa_age_years", "dqa_birthdate", "dqa_sex", "dqa_income", "dqa_job", "dqa_bank_balance", "dqa_credit_worthy", "dqa_credit_amount", "dqa_contact_date"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["string", "string", "string", "integer", "datetime", "enumerated", "integer", "string", "integer", "enumerated", "integer", "datetime"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["dqa.person_id", "dqa.forename", "dqa.name", "dqa.age_years", "dqa.birthdate", "dqa.sex", "dqa.income", "dqa.job", "dqa.bank_balance", "dqa.credit_worthy", "dqa.credit_amount", "dqa.contact_date"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["dqa_example_data_01.csv", "dqa_example_data_01.csv", "dqa_example_data_01.csv", "dqa_example_data_01.csv", "dqa_example_data_01.csv", "dqa_example_data_01.csv", "dqa_example_data_01.csv", "dqa_example_data_01.csv", "dqa_example_data_01.csv", "dqa_example_data_01.csv", "dqa_example_data_01.csv", "dqa_example_data_01.csv"]
-            }
-          ]
-        },
-        {
-          "type": "list",
-          "attributes": {
-            "names": {
-              "type": "character",
-              "attributes": {},
-              "value": ["Age in years", "Amount of credit", "Birthdate", "Credit worthy?", "Current bank balance", "Date of contact", "Forename", "Income", "Job", "Name", "Person ID", "Sex"]
-            }
-          },
-          "value": [
-            {
-              "type": "list",
-              "attributes": {
-                "names": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["description", "counts", "statistics"]
-                }
-              },
-              "value": [
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["name", "internal_variable_name", "description", "var_name", "table_name", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Age in years"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_age_years"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["The age of the person at the time of contact."]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["AGE"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_example_data_01.csv"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["var_type", "constraints"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["integer"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["{\"range\":{\"min\":0,\"max\":110,\"unit\":\"a\"}} "]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["var_name", "table_name", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["AGE"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_example_data_02.csv"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["var_type", "constraints"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["integer"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["{\"range\":{\"min\":0,\"max\":110,\"unit\":\"a\"}} "]
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["cnt", "type"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["variable", "n", "valids", "missings", "distinct", "sourcesystem"]
-                            },
-                            "row.names": {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["data.table", "data.frame"]
-                            },
-                            ".internal.selfref": {
-                              "type": "externalptr",
-                              "attributes": {},
-                              "value": {}
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["dqa_age_years"]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [0]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [21]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["exampleCSV_source"]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["integer"]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["cnt", "type"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["variable", "n", "valids", "missings", "distinct", "sourcesystem"]
-                            },
-                            "row.names": {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["data.table", "data.frame"]
-                            },
-                            ".internal.selfref": {
-                              "type": "externalptr",
-                              "attributes": {},
-                              "value": {}
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["dqa_age_years"]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [0]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [21]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["exampleCSV_target"]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["integer"]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": [" ", " "]
-                        },
-                        "row.names": {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-                        },
-                        "class": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["data.table", "data.frame"]
-                        },
-                        ".internal.selfref": {
-                          "type": "externalptr",
-                          "attributes": {},
-                          "value": {}
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Mean", "Minimum", "Median", "Maximum", "SD", "Negativ", "Zero", "Positive", "OutLo", "OutHi", "Variance", "Range"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["63", "22", "64", "94", "22.56", "0", "0", "23", "0", "0", "509", "72"]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": [" ", " "]
-                        },
-                        "row.names": {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-                        },
-                        "class": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["data.table", "data.frame"]
-                        },
-                        ".internal.selfref": {
-                          "type": "externalptr",
-                          "attributes": {},
-                          "value": {}
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Mean", "Minimum", "Median", "Maximum", "SD", "Negativ", "Zero", "Positive", "OutLo", "OutHi", "Variance", "Range"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["67.35", "22", "64", "175", "32.45", "0", "0", "23", "0", "1", "1052.87", "153"]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "list",
-              "attributes": {
-                "names": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["description", "counts", "statistics"]
-                }
-              },
-              "value": [
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["name", "internal_variable_name", "description", "var_name", "table_name", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Amount of credit"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_credit_amount"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["That's the amount of credit the person has used"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["CREDIT-AMOUNT"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_example_data_01.csv"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["var_type", "constraints"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["integer"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["{\"range\":{\"min\":0,\"max\":\"Inf\",\"unit\":\"money\"}} "]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["var_name", "table_name", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["CREDIT-AMOUNT"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_example_data_02.csv"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["var_type", "constraints"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["integer"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["{\"range\":{\"min\":0,\"max\":\"Inf\",\"unit\":\"money\"}} "]
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["cnt", "type"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["variable", "n", "valids", "missings", "distinct", "sourcesystem"]
-                            },
-                            "row.names": {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["data.table", "data.frame"]
-                            },
-                            ".internal.selfref": {
-                              "type": "externalptr",
-                              "attributes": {},
-                              "value": {}
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["dqa_credit_amount"]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [10]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [13]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [10]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["exampleCSV_source"]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["integer"]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["cnt", "type"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["variable", "n", "valids", "missings", "distinct", "sourcesystem"]
-                            },
-                            "row.names": {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["data.table", "data.frame"]
-                            },
-                            ".internal.selfref": {
-                              "type": "externalptr",
-                              "attributes": {},
-                              "value": {}
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["dqa_credit_amount"]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [10]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [13]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [10]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["exampleCSV_target"]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["integer"]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": [" ", " "]
-                        },
-                        "row.names": {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-                        },
-                        "class": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["data.table", "data.frame"]
-                        },
-                        ".internal.selfref": {
-                          "type": "externalptr",
-                          "attributes": {},
-                          "value": {}
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Mean", "Minimum", "Median", "Maximum", "SD", "Negativ", "Zero", "Positive", "OutLo", "OutHi", "Variance", "Range"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["39220", "12200", "33350", "72800", "21447.19", "0", "0", "10", "0", "0", "459981777.78", "60600"]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": [" ", " "]
-                        },
-                        "row.names": {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-                        },
-                        "class": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["data.table", "data.frame"]
-                        },
-                        ".internal.selfref": {
-                          "type": "externalptr",
-                          "attributes": {},
-                          "value": {}
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Mean", "Minimum", "Median", "Maximum", "SD", "Negativ", "Zero", "Positive", "OutLo", "OutHi", "Variance", "Range"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["39220", "12200", "33350", "72800", "21447.19", "0", "0", "10", "0", "0", "459981777.78", "60600"]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "list",
-              "attributes": {
-                "names": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["description", "counts", "statistics"]
-                }
-              },
-              "value": [
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["name", "internal_variable_name", "description", "var_name", "table_name", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Birthdate"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_birthdate"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["The date of birth written as dd.mm.yyyy"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["BIRTHDATE"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_example_data_01.csv"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["var_type", "constraints"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["datetime"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["{\"datetime\": {\"min\": \"1950-01-01\",\"max\": \"1989-12-31\", \"format\": \"%d.%m.%Y\"}}"]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["var_name", "table_name", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["BIRTHDATE"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_example_data_02.csv"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["var_type", "constraints"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["datetime"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["{\"datetime\": {\"min\": \"1950-01-01\",\"max\": \"1989-12-31\", \"format\": \"%d.%m.%Y\"}}"]
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["cnt", "type"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["variable", "n", "valids", "missings", "distinct", "sourcesystem"]
-                            },
-                            "row.names": {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["data.table", "data.frame"]
-                            },
-                            ".internal.selfref": {
-                              "type": "externalptr",
-                              "attributes": {},
-                              "value": {}
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["dqa_birthdate"]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [0]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [16]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["exampleCSV_source"]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["datetime"]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["cnt", "type"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["variable", "n", "valids", "missings", "distinct", "sourcesystem"]
-                            },
-                            "row.names": {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["data.table", "data.frame"]
-                            },
-                            ".internal.selfref": {
-                              "type": "externalptr",
-                              "attributes": {},
-                              "value": {}
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["dqa_birthdate"]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [0]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [16]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["exampleCSV_target"]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["datetime"]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": [" ", " "]
-                        },
-                        "row.names": {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [1, 2, 3, 4, 5, 6]
-                        },
-                        "class": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["data.frame"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "integer",
-                          "attributes": {
-                            "levels": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["Min.", "1st Qu.", "Median", "Mean", "3rd Qu.", "Max."]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["factor"]
-                            }
-                          },
-                          "value": [1, 2, 3, 4, 5, 6]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["1921-02-19", "1932-09-17", "1951-07-03", "1950-09-25", "1965-05-10", "1990-05-26"]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": [" ", " "]
-                        },
-                        "row.names": {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [1, 2, 3, 4, 5, 6]
-                        },
-                        "class": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["data.frame"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "integer",
-                          "attributes": {
-                            "levels": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["Min.", "1st Qu.", "Median", "Mean", "3rd Qu.", "Max."]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["factor"]
-                            }
-                          },
-                          "value": [1, 2, 3, 4, 5, 6]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["1921-02-19", "1932-09-17", "1951-07-03", "1950-09-25", "1965-05-10", "1990-05-26"]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "list",
-              "attributes": {
-                "names": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["description", "counts", "statistics"]
-                }
-              },
-              "value": [
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["name", "internal_variable_name", "description", "var_name", "table_name", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Credit worthy?"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_credit_worthy"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Indicates whether the person is creditworthy at the time of the contact"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["CREDIT-WORTHY"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_example_data_01.csv"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["var_type", "constraints"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["enumerated"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["{\"value_set\": [\"yes\", \"no\"]}"]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["var_name", "table_name", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["CREDIT-WORTHY"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_example_data_02.csv"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["var_type", "constraints"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["enumerated"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["{\"value_set\": [\"yes\", \"no\"]}"]
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["cnt", "type"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["variable", "n", "valids", "missings", "distinct", "sourcesystem"]
-                            },
-                            "row.names": {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["data.table", "data.frame"]
-                            },
-                            ".internal.selfref": {
-                              "type": "externalptr",
-                              "attributes": {},
-                              "value": {}
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["dqa_credit_worthy"]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [0]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [2]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["exampleCSV_source"]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["enumerated"]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["cnt", "type"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["variable", "n", "valids", "missings", "distinct", "sourcesystem"]
-                            },
-                            "row.names": {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["data.table", "data.frame"]
-                            },
-                            ".internal.selfref": {
-                              "type": "externalptr",
-                              "attributes": {},
-                              "value": {}
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["dqa_credit_worthy"]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [0]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [2]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["exampleCSV_target"]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["enumerated"]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "row.names": {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [1, 2]
-                        },
-                        "class": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["data.table", "data.frame"]
-                        },
-                        ".internal.selfref": {
-                          "type": "externalptr",
-                          "attributes": {},
-                          "value": {}
-                        },
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_credit_worthy", "Freq", "% Valid"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "integer",
-                          "attributes": {
-                            "levels": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["no", "yes"]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["factor"]
-                            }
-                          },
-                          "value": [1, 2]
-                        },
-                        {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [13, 10]
-                        },
-                        {
-                          "type": "double",
-                          "attributes": {},
-                          "value": [56.52173913, 43.47826087]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "row.names": {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [1, 2]
-                        },
-                        "class": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["data.table", "data.frame"]
-                        },
-                        ".internal.selfref": {
-                          "type": "externalptr",
-                          "attributes": {},
-                          "value": {}
-                        },
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_credit_worthy", "Freq", "% Valid"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "integer",
-                          "attributes": {
-                            "levels": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["no", "yes"]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["factor"]
-                            }
-                          },
-                          "value": [1, 2]
-                        },
-                        {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [13, 10]
-                        },
-                        {
-                          "type": "double",
-                          "attributes": {},
-                          "value": [56.52173913, 43.47826087]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "list",
-              "attributes": {
-                "names": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["description", "counts", "statistics"]
-                }
-              },
-              "value": [
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["name", "internal_variable_name", "description", "var_name", "table_name", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Current bank balance"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_bank_balance"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["The bank-balance at the time of contact"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["BANK-BALANCE"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_example_data_01.csv"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["var_type", "constraints"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["integer"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["{\"range\":{\"min\":\"-Inf\",\"max\":\"Inf\",\"unit\":\"money\"}} "]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["var_name", "table_name", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["BANK-BALANCE"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_example_data_02.csv"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["var_type", "constraints"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["integer"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["{\"range\":{\"min\":\"-Inf\",\"max\":\"Inf\",\"unit\":\"money\"}} "]
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["cnt", "type"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["variable", "n", "valids", "missings", "distinct", "sourcesystem"]
-                            },
-                            "row.names": {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["data.table", "data.frame"]
-                            },
-                            ".internal.selfref": {
-                              "type": "externalptr",
-                              "attributes": {},
-                              "value": {}
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["dqa_bank_balance"]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [0]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [22]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["exampleCSV_source"]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["integer"]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["cnt", "type"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["variable", "n", "valids", "missings", "distinct", "sourcesystem"]
-                            },
-                            "row.names": {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["data.table", "data.frame"]
-                            },
-                            ".internal.selfref": {
-                              "type": "externalptr",
-                              "attributes": {},
-                              "value": {}
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["dqa_bank_balance"]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [0]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [22]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["exampleCSV_target"]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["integer"]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": [" ", " "]
-                        },
-                        "row.names": {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-                        },
-                        "class": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["data.table", "data.frame"]
-                        },
-                        ".internal.selfref": {
-                          "type": "externalptr",
-                          "attributes": {},
-                          "value": {}
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Mean", "Minimum", "Median", "Maximum", "SD", "Negativ", "Zero", "Positive", "OutLo", "OutHi", "Variance", "Range"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["35152.17", "-34200", "18800", "124100", "39516.63", "2", "0", "21", "0", "0", "1561564426.88", "158300"]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": [" ", " "]
-                        },
-                        "row.names": {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-                        },
-                        "class": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["data.table", "data.frame"]
-                        },
-                        ".internal.selfref": {
-                          "type": "externalptr",
-                          "attributes": {},
-                          "value": {}
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Mean", "Minimum", "Median", "Maximum", "SD", "Negativ", "Zero", "Positive", "OutLo", "OutHi", "Variance", "Range"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["26395.65", "-64200", "12800", "124100", "46097.8", "4", "0", "19", "0", "0", "2125006798.42", "188300"]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "list",
-              "attributes": {
-                "names": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["description", "counts", "statistics"]
-                }
-              },
-              "value": [
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["name", "internal_variable_name", "description", "var_name", "table_name", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Date of contact"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_contact_date"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Date of contact"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["CONTACT-DATE"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_example_data_01.csv"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["var_type", "constraints"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["datetime"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["{\"datetime\": {\"min\": \"2012-01-01\",\"max\": \"2015-12-31\", \"format\": \"%d.%m.%Y\"}}"]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["var_name", "table_name", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["CONTACT-DATE"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_example_data_02.csv"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["var_type", "constraints"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["datetime"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["{\"datetime\": {\"min\": \"2012-01-01\",\"max\": \"2015-12-31\", \"format\": \"%d.%m.%Y\"}}"]
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["cnt", "type"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["variable", "n", "valids", "missings", "distinct", "sourcesystem"]
-                            },
-                            "row.names": {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["data.table", "data.frame"]
-                            },
-                            ".internal.selfref": {
-                              "type": "externalptr",
-                              "attributes": {},
-                              "value": {}
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["dqa_contact_date"]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [0]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["exampleCSV_source"]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["datetime"]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["cnt", "type"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["variable", "n", "valids", "missings", "distinct", "sourcesystem"]
-                            },
-                            "row.names": {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["data.table", "data.frame"]
-                            },
-                            ".internal.selfref": {
-                              "type": "externalptr",
-                              "attributes": {},
-                              "value": {}
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["dqa_contact_date"]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [0]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["exampleCSV_target"]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["datetime"]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": [" ", " "]
-                        },
-                        "row.names": {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [1, 2, 3, 4, 5, 6]
-                        },
-                        "class": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["data.frame"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "integer",
-                          "attributes": {
-                            "levels": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["Min.", "1st Qu.", "Median", "Mean", "3rd Qu.", "Max."]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["factor"]
-                            }
-                          },
-                          "value": [1, 2, 3, 4, 5, 6]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["2011-10-12", "2012-08-11", "2013-10-02", "2013-10-28", "2014-12-21", "2015-12-20"]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": [" ", " "]
-                        },
-                        "row.names": {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [1, 2, 3, 4, 5, 6]
-                        },
-                        "class": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["data.frame"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "integer",
-                          "attributes": {
-                            "levels": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["Min.", "1st Qu.", "Median", "Mean", "3rd Qu.", "Max."]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["factor"]
-                            }
-                          },
-                          "value": [1, 2, 3, 4, 5, 6]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["2011-10-12", "2012-08-11", "2013-10-02", "2013-10-28", "2014-12-21", "2015-12-20"]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "list",
-              "attributes": {
-                "names": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["description", "counts", "statistics"]
-                }
-              },
-              "value": [
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["name", "internal_variable_name", "description", "var_name", "table_name", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Forename"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_forename"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["The Forename of the person."]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["FORENAME"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_example_data_01.csv"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["var_type", "constraints"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["string"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": [null]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["var_name", "table_name", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["FORENAME"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_example_data_02.csv"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["var_type", "constraints"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["string"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": [null]
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["cnt", "type"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["variable", "n", "valids", "missings", "distinct", "sourcesystem"]
-                            },
-                            "row.names": {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["data.table", "data.frame"]
-                            },
-                            ".internal.selfref": {
-                              "type": "externalptr",
-                              "attributes": {},
-                              "value": {}
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["dqa_forename"]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [0]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [17]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["exampleCSV_source"]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["string"]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["cnt", "type"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["variable", "n", "valids", "missings", "distinct", "sourcesystem"]
-                            },
-                            "row.names": {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["data.table", "data.frame"]
-                            },
-                            ".internal.selfref": {
-                              "type": "externalptr",
-                              "attributes": {},
-                              "value": {}
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["dqa_forename"]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [0]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [16]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["exampleCSV_target"]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["string"]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "row.names": {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
-                        },
-                        "class": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["data.table", "data.frame"]
-                        },
-                        ".internal.selfref": {
-                          "type": "externalptr",
-                          "attributes": {},
-                          "value": {}
-                        },
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_forename", "Freq", "% Valid"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "integer",
-                          "attributes": {
-                            "levels": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["Annie", "Dorothy", "Elijah", "Elliott", "Georgina", "Geraldine", "Gilberto", "Janet", "John", "Karen", "Lawrence", "Martin", "Miriam", "Susan", "Wayne", "Williams", "Zenaida"]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["factor"]
-                            }
-                          },
-                          "value": [17, 6, 16, 15, 2, 11, 8, 12, 5, 4, 7, 1, 10, 9, 14, 3, 13]
-                        },
-                        {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [3, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-                        },
-                        {
-                          "type": "double",
-                          "attributes": {},
-                          "value": [13.04347826, 8.69565217, 8.69565217, 8.69565217, 8.69565217, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "row.names": {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-                        },
-                        "class": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["data.table", "data.frame"]
-                        },
-                        ".internal.selfref": {
-                          "type": "externalptr",
-                          "attributes": {},
-                          "value": {}
-                        },
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_forename", "Freq", "% Valid"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "integer",
-                          "attributes": {
-                            "levels": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["Annie", "Dorothy", "Elijah", "Elliott", "Georgina", "Geraldine", "Gilberto", "Janet", "John", "Karen", "Lawrence", "Martin", "Susan", "Wayne", "Williams", "Zenaida"]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["factor"]
-                            }
-                          },
-                          "value": [6, 16, 15, 14, 2, 11, 8, 12, 5, 4, 7, 1, 10, 9, 13, 3]
-                        },
-                        {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [3, 3, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-                        },
-                        {
-                          "type": "double",
-                          "attributes": {},
-                          "value": [13.04347826, 13.04347826, 8.69565217, 8.69565217, 8.69565217, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "list",
-              "attributes": {
-                "names": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["description", "counts", "statistics"]
-                }
-              },
-              "value": [
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["name", "internal_variable_name", "description", "var_name", "table_name", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Income"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_income"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["The income of the person at the time of contact"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["INCOME"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_example_data_01.csv"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["var_type", "constraints"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["integer"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["{\"range\":{\"min\":0,\"max\":\"Inf\",\"unit\":\"money\"}} "]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["var_name", "table_name", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["INCOME"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_example_data_02.csv"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["var_type", "constraints"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["integer"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["{\"range\":{\"min\":0,\"max\":\"Inf\",\"unit\":\"money\"}} "]
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["cnt", "type"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["variable", "n", "valids", "missings", "distinct", "sourcesystem"]
-                            },
-                            "row.names": {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["data.table", "data.frame"]
-                            },
-                            ".internal.selfref": {
-                              "type": "externalptr",
-                              "attributes": {},
-                              "value": {}
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["dqa_income"]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [0]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["exampleCSV_source"]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["integer"]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["cnt", "type"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["variable", "n", "valids", "missings", "distinct", "sourcesystem"]
-                            },
-                            "row.names": {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["data.table", "data.frame"]
-                            },
-                            ".internal.selfref": {
-                              "type": "externalptr",
-                              "attributes": {},
-                              "value": {}
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["dqa_income"]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [0]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["exampleCSV_target"]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["integer"]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": [" ", " "]
-                        },
-                        "row.names": {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-                        },
-                        "class": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["data.table", "data.frame"]
-                        },
-                        ".internal.selfref": {
-                          "type": "externalptr",
-                          "attributes": {},
-                          "value": {}
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Mean", "Minimum", "Median", "Maximum", "SD", "Negativ", "Zero", "Positive", "OutLo", "OutHi", "Variance", "Range"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["68826.09", "3000", "59000", "145000", "46841.76", "0", "0", "23", "0", "0", "2194150197.63", "142000"]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": [" ", " "]
-                        },
-                        "row.names": {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-                        },
-                        "class": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["data.table", "data.frame"]
-                        },
-                        ".internal.selfref": {
-                          "type": "externalptr",
-                          "attributes": {},
-                          "value": {}
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Mean", "Minimum", "Median", "Maximum", "SD", "Negativ", "Zero", "Positive", "OutLo", "OutHi", "Variance", "Range"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["68391.3", "-5000", "59000", "145000", "47502.86", "1", "0", "22", "0", "0", "2256521739.13", "150000"]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "list",
-              "attributes": {
-                "names": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["description", "counts", "statistics"]
-                }
-              },
-              "value": [
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["name", "internal_variable_name", "description", "var_name", "table_name", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Job"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_job"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["The job of the person at the time of contact"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["JOB"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_example_data_01.csv"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["var_type", "constraints"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["string"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": [null]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["var_name", "table_name", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["JOB"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_example_data_02.csv"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["var_type", "constraints"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["string"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": [null]
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["cnt", "type"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["variable", "n", "valids", "missings", "distinct", "sourcesystem"]
-                            },
-                            "row.names": {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["data.table", "data.frame"]
-                            },
-                            ".internal.selfref": {
-                              "type": "externalptr",
-                              "attributes": {},
-                              "value": {}
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["dqa_job"]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [0]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [15]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["exampleCSV_source"]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["string"]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["cnt", "type"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["variable", "n", "valids", "missings", "distinct", "sourcesystem"]
-                            },
-                            "row.names": {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["data.table", "data.frame"]
-                            },
-                            ".internal.selfref": {
-                              "type": "externalptr",
-                              "attributes": {},
-                              "value": {}
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["dqa_job"]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [0]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [15]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["exampleCSV_target"]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["string"]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "row.names": {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-                        },
-                        "class": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["data.table", "data.frame"]
-                        },
-                        ".internal.selfref": {
-                          "type": "externalptr",
-                          "attributes": {},
-                          "value": {}
-                        },
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_job", "Freq", "% Valid"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "integer",
-                          "attributes": {
-                            "levels": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["Bank manager", "Chemist", "Comedian", "Engineer", "Farmer", "Gardener", "Lawyer", "Magician", "Photographer", "Pilot", "Professor", "Psychologist", "Researcher", "Singer", "Student"]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["factor"]
-                            }
-                          },
-                          "value": [1, 8, 15, 10, 7, 14, 9, 5, 11, 4, 13, 2, 6, 12, 3]
-                        },
-                        {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-                        },
-                        {
-                          "type": "double",
-                          "attributes": {},
-                          "value": [13.04347826, 13.04347826, 8.69565217, 8.69565217, 8.69565217, 8.69565217, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "row.names": {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
-                        },
-                        "class": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["data.table", "data.frame"]
-                        },
-                        ".internal.selfref": {
-                          "type": "externalptr",
-                          "attributes": {},
-                          "value": {}
-                        },
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_job", "Freq", "% Valid"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "integer",
-                          "attributes": {
-                            "levels": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["Bank manager", "Chemist", "Comedian", "Engineer", "Farmer", "Gardener", "Lawyer", "Magician", "Photographer", "Pilot", "Professor", "Psychologist", "Researcher", "Singer", "Student"]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["factor"]
-                            }
-                          },
-                          "value": [1, 8, 15, 10, 7, 14, 9, 5, 11, 4, 13, 2, 6, 12, 3]
-                        },
-                        {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [3, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-                        },
-                        {
-                          "type": "double",
-                          "attributes": {},
-                          "value": [13.04347826, 13.04347826, 8.69565217, 8.69565217, 8.69565217, 8.69565217, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "list",
-              "attributes": {
-                "names": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["description", "counts", "statistics"]
-                }
-              },
-              "value": [
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["name", "internal_variable_name", "description", "var_name", "table_name", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Name"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_name"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["The Surname of the person."]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["NAME"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_example_data_01.csv"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["var_type", "constraints"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["string"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": [null]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["var_name", "table_name", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["NAME"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_example_data_02.csv"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["var_type", "constraints"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["string"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": [null]
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["cnt", "type"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["variable", "n", "valids", "missings", "distinct", "sourcesystem"]
-                            },
-                            "row.names": {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["data.table", "data.frame"]
-                            },
-                            ".internal.selfref": {
-                              "type": "externalptr",
-                              "attributes": {},
-                              "value": {}
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["dqa_name"]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [0]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [16]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["exampleCSV_source"]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["string"]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["cnt", "type"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["variable", "n", "valids", "missings", "distinct", "sourcesystem"]
-                            },
-                            "row.names": {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["data.table", "data.frame"]
-                            },
-                            ".internal.selfref": {
-                              "type": "externalptr",
-                              "attributes": {},
-                              "value": {}
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["dqa_name"]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [0]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [16]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["exampleCSV_target"]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["string"]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "row.names": {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-                        },
-                        "class": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["data.table", "data.frame"]
-                        },
-                        ".internal.selfref": {
-                          "type": "externalptr",
-                          "attributes": {},
-                          "value": {}
-                        },
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_name", "Freq", "% Valid"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "integer",
-                          "attributes": {
-                            "levels": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["Burdett", "Cook", "Daniels", "Dardar", "Eatmon", "Jackson", "Jones", "Kenney", "Kirkland", "Malloy", "Rodriguez", "Shuck", "Simpson", "Staggs", "Stock", "Sutton"]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["factor"]
-                            }
-                          },
-                          "value": [6, 14, 11, 1, 13, 3, 4, 7, 2, 5, 8, 15, 12, 10, 9, 16]
-                        },
-                        {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [3, 3, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-                        },
-                        {
-                          "type": "double",
-                          "attributes": {},
-                          "value": [13.04347826, 13.04347826, 8.69565217, 8.69565217, 8.69565217, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "row.names": {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-                        },
-                        "class": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["data.table", "data.frame"]
-                        },
-                        ".internal.selfref": {
-                          "type": "externalptr",
-                          "attributes": {},
-                          "value": {}
-                        },
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_name", "Freq", "% Valid"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "integer",
-                          "attributes": {
-                            "levels": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["Burdett", "Cook", "Daniels", "Dardar", "Eatmon", "Jackson", "Jones", "Kenney", "Kirkland", "Malloy", "Rodriguez", "Shuck", "Simpson", "Staggs", "Stock", "Sutton"]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["factor"]
-                            }
-                          },
-                          "value": [6, 14, 11, 1, 13, 3, 4, 7, 2, 5, 8, 15, 12, 10, 9, 16]
-                        },
-                        {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [3, 3, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-                        },
-                        {
-                          "type": "double",
-                          "attributes": {},
-                          "value": [13.04347826, 13.04347826, 8.69565217, 8.69565217, 8.69565217, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "list",
-              "attributes": {
-                "names": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["description", "counts", "statistics"]
-                }
-              },
-              "value": [
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["name", "internal_variable_name", "description", "var_name", "table_name", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Person ID"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_person_id"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Each person has its own person-id. It stays the same over the whole live of the person and does not change."]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["PERSON_ID"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_example_data_01.csv"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["var_type", "constraints"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["string"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": [null]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["var_name", "table_name", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["PERSON_ID"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_example_data_02.csv"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["var_type", "constraints"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["string"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": [null]
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["cnt", "type"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["variable", "n", "valids", "missings", "distinct", "sourcesystem"]
-                            },
-                            "row.names": {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["data.table", "data.frame"]
-                            },
-                            ".internal.selfref": {
-                              "type": "externalptr",
-                              "attributes": {},
-                              "value": {}
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["dqa_person_id"]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [0]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [16]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["exampleCSV_source"]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["string"]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["cnt", "type"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["variable", "n", "valids", "missings", "distinct", "sourcesystem"]
-                            },
-                            "row.names": {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["data.table", "data.frame"]
-                            },
-                            ".internal.selfref": {
-                              "type": "externalptr",
-                              "attributes": {},
-                              "value": {}
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["dqa_person_id"]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [0]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [16]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["exampleCSV_target"]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["string"]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "row.names": {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-                        },
-                        "class": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["data.table", "data.frame"]
-                        },
-                        ".internal.selfref": {
-                          "type": "externalptr",
-                          "attributes": {},
-                          "value": {}
-                        },
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_person_id", "Freq", "% Valid"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "integer",
-                          "attributes": {
-                            "levels": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["1", "10", "11", "12", "13", "14", "15", "16", "2", "3", "4", "5", "6", "7", "8", "9"]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["factor"]
-                            }
-                          },
-                          "value": [1, 14, 12, 3, 7, 9, 10, 11, 13, 15, 16, 2, 4, 5, 6, 8]
-                        },
-                        {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [3, 3, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-                        },
-                        {
-                          "type": "double",
-                          "attributes": {},
-                          "value": [13.04347826, 13.04347826, 8.69565217, 8.69565217, 8.69565217, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "row.names": {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-                        },
-                        "class": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["data.table", "data.frame"]
-                        },
-                        ".internal.selfref": {
-                          "type": "externalptr",
-                          "attributes": {},
-                          "value": {}
-                        },
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_person_id", "Freq", "% Valid"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "integer",
-                          "attributes": {
-                            "levels": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["1", "10", "11", "12", "13", "14", "15", "16", "2", "3", "4", "5", "6", "7", "8", "9"]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["factor"]
-                            }
-                          },
-                          "value": [1, 14, 12, 3, 7, 9, 10, 11, 13, 15, 16, 2, 4, 5, 6, 8]
-                        },
-                        {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [3, 3, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-                        },
-                        {
-                          "type": "double",
-                          "attributes": {},
-                          "value": [13.04347826, 13.04347826, 8.69565217, 8.69565217, 8.69565217, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609, 4.34782609]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "list",
-              "attributes": {
-                "names": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["description", "counts", "statistics"]
-                }
-              },
-              "value": [
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["name", "internal_variable_name", "description", "var_name", "table_name", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Sex"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_sex"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["The sex of the person in one letter: m, f or x for unknown."]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["SEX"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_example_data_01.csv"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["var_type", "constraints"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["enumerated"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["{\"value_set\":[\"m\", \"f\", \"x\"]} "]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["var_name", "table_name", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["SEX"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_example_data_02.csv"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["var_type", "constraints"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["enumerated"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["{\"value_set\":[\"male\", \"female\", \"unknown\"]} "]
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["cnt", "type"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["variable", "n", "valids", "missings", "distinct", "sourcesystem"]
-                            },
-                            "row.names": {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["data.table", "data.frame"]
-                            },
-                            ".internal.selfref": {
-                              "type": "externalptr",
-                              "attributes": {},
-                              "value": {}
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["dqa_sex"]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [0]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [2]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["exampleCSV_source"]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["enumerated"]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["cnt", "type"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["variable", "n", "valids", "missings", "distinct", "sourcesystem"]
-                            },
-                            "row.names": {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["data.table", "data.frame"]
-                            },
-                            ".internal.selfref": {
-                              "type": "externalptr",
-                              "attributes": {},
-                              "value": {}
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["dqa_sex"]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [23]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [0]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [3]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["exampleCSV_target"]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["enumerated"]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "row.names": {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [1, 2]
-                        },
-                        "class": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["data.table", "data.frame"]
-                        },
-                        ".internal.selfref": {
-                          "type": "externalptr",
-                          "attributes": {},
-                          "value": {}
-                        },
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_sex", "Freq", "% Valid"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "integer",
-                          "attributes": {
-                            "levels": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["f", "m"]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["factor"]
-                            }
-                          },
-                          "value": [1, 2]
-                        },
-                        {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [13, 10]
-                        },
-                        {
-                          "type": "double",
-                          "attributes": {},
-                          "value": [56.52173913, 43.47826087]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "row.names": {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [1, 2, 3]
-                        },
-                        "class": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["data.table", "data.frame"]
-                        },
-                        ".internal.selfref": {
-                          "type": "externalptr",
-                          "attributes": {},
-                          "value": {}
-                        },
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_sex", "Freq", "% Valid"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "integer",
-                          "attributes": {
-                            "levels": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["abc", "female", "male"]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["factor"]
-                            }
-                          },
-                          "value": [2, 3, 1]
-                        },
-                        {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [12, 10, 1]
-                        },
-                        {
-                          "type": "double",
-                          "attributes": {},
-                          "value": [52.17391304, 43.47826087, 4.34782609]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "list",
-          "attributes": {
-            "names": {
-              "type": "character",
-              "attributes": {},
-              "value": ["atemporal"]
-            }
-          },
-          "value": [
-            {
-              "type": "list",
-              "attributes": {
-                "names": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["pl.atemporal.item01"]
-                }
-              },
-              "value": [
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["name", "description", "var_dependent", "var_independent", "filter", "join_crit", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Pl.atemporal.Item01"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Persons with a negative bank balance cannot be credit worthy"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_credit_worthy"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_bank_balance"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["^(-)"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_person_id"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["constraints"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["{\"value_set\":\"no\"}"]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["name", "description", "var_dependent", "var_independent", "filter", "join_crit", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Pl.atemporal.Item01"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Persons with a negative bank balance cannot be credit worthy"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_credit_worthy"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_bank_balance"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["^(-)"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_person_id"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["constraints"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["{\"value_set\":\"no\"}"]
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "list",
-          "attributes": {
-            "names": {
-              "type": "character",
-              "attributes": {},
-              "value": ["dqa_name"]
-            }
-          },
-          "value": [
-            {
-              "type": "list",
-              "attributes": {
-                "names": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["description", "source_data", "target_data"]
-                }
-              },
-              "value": [
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["The last name of a person must be identical in all entries for one person ID."]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["message", "error"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["No duplicate occurrences of dqa_person_id found in association with dqa_name."]
-                    },
-                    {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["FALSE"]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["message", "error"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["No duplicate occurrences of dqa_person_id found in association with dqa_name."]
-                    },
-                    {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["FALSE"]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "character",
-          "attributes": {},
-          "value": ["/usr/local/lib/R/site-library/DQAstats/demo_data/utilities/"]
-        },
-        {
-          "type": "character",
-          "attributes": {},
-          "value": ["20. June 2022"]
-        },
-        {
-          "type": "list",
-          "attributes": {
-            "names": {
-              "type": "character",
-              "attributes": {},
-              "value": ["value_conformance", "etl"]
-            }
-          },
-          "value": [
-            {
-              "type": "list",
-              "attributes": {
-                "names": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["Variable", "Check Source Data", "Check Target Data"]
-                },
-                "row.names": {
-                  "type": "integer",
-                  "attributes": {},
-                  "value": [1, 2, 3, 4, 5, 6, 7, 8, 9]
-                },
-                "class": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["data.table", "data.frame"]
-                },
-                ".internal.selfref": {
-                  "type": "externalptr",
-                  "attributes": {},
-                  "value": {}
-                }
-              },
-              "value": [
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["Age in years", "Amount of credit", "Birthdate", "Credit worthy?", "Current bank balance", "Date of contact", "Income", "Sex", "pl.atemporal.item01"]
-                },
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["passed", "passed", "failed", "passed", "failed", "failed", "passed", "passed", "passed"]
-                },
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["failed", "passed", "failed", "passed", "failed", "failed", "failed", "failed", "failed"]
-                }
-              ]
-            },
-            {
-              "type": "list",
-              "attributes": {
-                "names": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["Variable", "Check Distincts", "Check Valids", "Check Missings"]
-                },
-                "row.names": {
-                  "type": "integer",
-                  "attributes": {},
-                  "value": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-                },
-                "class": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["data.table", "data.frame"]
-                },
-                ".internal.selfref": {
-                  "type": "externalptr",
-                  "attributes": {},
-                  "value": {}
-                }
-              },
-              "value": [
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["Age in years", "Amount of credit", "Birthdate", "Credit worthy?", "Current bank balance", "Date of contact", "Forename", "Income", "Job", "Name", "Person ID", "Sex"]
-                },
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["passed", "passed", "passed", "passed", "passed", "passed", "failed", "passed", "passed", "passed", "passed", "failed"]
-                },
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["passed", "passed", "passed", "passed", "passed", "passed", "passed", "passed", "passed", "passed", "passed", "passed"]
-                },
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["passed", "passed", "passed", "passed", "passed", "passed", "passed", "passed", "passed", "passed", "passed", "passed"]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "list",
-          "attributes": {
-            "names": {
-              "type": "character",
-              "attributes": {},
-              "value": ["Age in years", "Amount of credit", "Birthdate", "Credit worthy?", "Current bank balance", "Date of contact", "Forename", "Income", "Job", "Name", "Person ID", "Sex"]
-            }
-          },
-          "value": [
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["dqa_age_years"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["dqa_credit_amount"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["dqa_birthdate"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["dqa_credit_worthy"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["dqa_bank_balance"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["dqa_contact_date"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["dqa_forename"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["dqa_income"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["dqa_job"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["dqa_name"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["dqa_person_id"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["dqa_sex"]
-            }
-          ]
-        },
-        {
-          "type": "list",
-          "attributes": {
-            "names": {
-              "type": "character",
-              "attributes": {},
-              "value": ["Demo sitename"]
-            }
-          },
-          "value": [
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["DEMO"]
-            }
-          ]
-        },
-        {
-          "type": "list",
-          "attributes": {
-            "names": {
-              "type": "character",
-              "attributes": {},
-              "value": ["use_it"]
-            }
-          },
-          "value": [
-            {
-              "type": "logical",
-              "attributes": {},
-              "value": [false]
-            }
-          ]
-        },
-        {
-          "type": "NULL"
-        },
-        {
-          "type": "character",
-          "attributes": {},
-          "value": ["csv"]
-        },
-        {
-          "type": "list",
-          "attributes": {
-            "names": {
-              "type": "character",
-              "attributes": {},
-              "value": ["exampleCSV_source", "exampleCSV_target"]
-            }
-          },
-          "value": [
-            {
-              "type": "list",
-              "attributes": {
-                "names": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": []
-                }
-              },
-              "value": []
-            },
-            {
-              "type": "list",
-              "attributes": {
-                "names": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": []
-                }
-              },
-              "value": []
-            }
-          ]
-        },
-        {
-          "type": "list",
-          "attributes": {
-            "row.names": {
-              "type": "integer",
-              "attributes": {},
-              "value": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]
-            },
-            ".internal.selfref": {
-              "type": "externalptr",
-              "attributes": {},
-              "value": {}
-            },
-            "class": {
-              "type": "character",
-              "attributes": {},
-              "value": ["data.table", "data.frame"]
-            },
-            "names": {
-              "type": "character",
-              "attributes": {},
-              "value": ["designation", "source_variable_name", "filter", "source_table_name", "source_system_name", "source_system_type", "key", "variable_name", "variable_type", "restricting_date_var", "constraints", "dqa_assessment", "definition", "data_map", "plausibility_relation"]
-            }
-          },
-          "value": [
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["Person ID", "Forename", "Name", "Age in years", "Birthdate", "Sex", "Income", "Job", "Current bank balance", "Credit worthy?", "Amount of credit", "Date of contact", "Person ID", "Forename", "Name", "Age in years", "Birthdate", "Sex", "Income", "Job", "Current bank balance", "Credit worthy?", "Amount of credit", "Date of contact"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["PERSON_ID", "FORENAME", "NAME", "AGE", "BIRTHDATE", "SEX", "INCOME", "JOB", "BANK-BALANCE", "CREDIT-WORTHY", "CREDIT-AMOUNT", "CONTACT-DATE", "PERSON_ID", "FORENAME", "NAME", "AGE", "BIRTHDATE", "SEX", "INCOME", "JOB", "BANK-BALANCE", "CREDIT-WORTHY", "CREDIT-AMOUNT", "CONTACT-DATE"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["dqa_example_data_01.csv", "dqa_example_data_01.csv", "dqa_example_data_01.csv", "dqa_example_data_01.csv", "dqa_example_data_01.csv", "dqa_example_data_01.csv", "dqa_example_data_01.csv", "dqa_example_data_01.csv", "dqa_example_data_01.csv", "dqa_example_data_01.csv", "dqa_example_data_01.csv", "dqa_example_data_01.csv", "dqa_example_data_02.csv", "dqa_example_data_02.csv", "dqa_example_data_02.csv", "dqa_example_data_02.csv", "dqa_example_data_02.csv", "dqa_example_data_02.csv", "dqa_example_data_02.csv", "dqa_example_data_02.csv", "dqa_example_data_02.csv", "dqa_example_data_02.csv", "dqa_example_data_02.csv", "dqa_example_data_02.csv"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["exampleCSV_source", "exampleCSV_source", "exampleCSV_source", "exampleCSV_source", "exampleCSV_source", "exampleCSV_source", "exampleCSV_source", "exampleCSV_source", "exampleCSV_source", "exampleCSV_source", "exampleCSV_source", "exampleCSV_source", "exampleCSV_target", "exampleCSV_target", "exampleCSV_target", "exampleCSV_target", "exampleCSV_target", "exampleCSV_target", "exampleCSV_target", "exampleCSV_target", "exampleCSV_target", "exampleCSV_target", "exampleCSV_target", "exampleCSV_target"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["csv", "csv", "csv", "csv", "csv", "csv", "csv", "csv", "csv", "csv", "csv", "csv", "csv", "csv", "csv", "csv", "csv", "csv", "csv", "csv", "csv", "csv", "csv", "csv"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["dqa.person_id", "dqa.forename", "dqa.name", "dqa.age_years", "dqa.birthdate", "dqa.sex", "dqa.income", "dqa.job", "dqa.bank_balance", "dqa.credit_worthy", "dqa.credit_amount", "dqa.contact_date", "dqa.person_id", "dqa.forename", "dqa.name", "dqa.age_years", "dqa.birthdate", "dqa.sex", "dqa.income", "dqa.job", "dqa.bank_balance", "dqa.credit_worthy", "dqa.credit_amount", "dqa.contact_date"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["dqa_person_id", "dqa_forename", "dqa_name", "dqa_age_years", "dqa_birthdate", "dqa_sex", "dqa_income", "dqa_job", "dqa_bank_balance", "dqa_credit_worthy", "dqa_credit_amount", "dqa_contact_date", "dqa_person_id", "dqa_forename", "dqa_name", "dqa_age_years", "dqa_birthdate", "dqa_sex", "dqa_income", "dqa_job", "dqa_bank_balance", "dqa_credit_worthy", "dqa_credit_amount", "dqa_contact_date"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["string", "string", "string", "integer", "datetime", "enumerated", "integer", "string", "integer", "enumerated", "integer", "datetime", "string", "string", "string", "integer", "datetime", "enumerated", "integer", "string", "integer", "enumerated", "integer", "datetime"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["CONTACT-DATE", "CONTACT-DATE", "CONTACT-DATE", "CONTACT-DATE", "CONTACT-DATE", "CONTACT-DATE", "CONTACT-DATE", "CONTACT-DATE", "CONTACT-DATE", "CONTACT-DATE", "CONTACT-DATE", "CONTACT-DATE", "CONTACT-DATE", "CONTACT-DATE", "CONTACT-DATE", "CONTACT-DATE", "CONTACT-DATE", "CONTACT-DATE", "CONTACT-DATE", "CONTACT-DATE", "CONTACT-DATE", "CONTACT-DATE", "CONTACT-DATE", "CONTACT-DATE"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": [null, null, null, "{\"range\":{\"min\":0,\"max\":110,\"unit\":\"a\"}} ", "{\"datetime\": {\"min\": \"1950-01-01\",\"max\": \"1989-12-31\", \"format\": \"%d.%m.%Y\"}}", "{\"value_set\":[\"m\", \"f\", \"x\"]} ", "{\"range\":{\"min\":0,\"max\":\"Inf\",\"unit\":\"money\"}} ", null, "{\"range\":{\"min\":\"-Inf\",\"max\":\"Inf\",\"unit\":\"money\"}} ", "{\"value_set\": [\"yes\", \"no\"]}", "{\"range\":{\"min\":0,\"max\":\"Inf\",\"unit\":\"money\"}} ", "{\"datetime\": {\"min\": \"2012-01-01\",\"max\": \"2015-12-31\", \"format\": \"%d.%m.%Y\"}}", null, null, null, "{\"range\":{\"min\":0,\"max\":110,\"unit\":\"a\"}} ", "{\"datetime\": {\"min\": \"1950-01-01\",\"max\": \"1989-12-31\", \"format\": \"%d.%m.%Y\"}}", "{\"value_set\":[\"male\", \"female\", \"unknown\"]} ", "{\"range\":{\"min\":0,\"max\":\"Inf\",\"unit\":\"money\"}} ", null, "{\"range\":{\"min\":\"-Inf\",\"max\":\"Inf\",\"unit\":\"money\"}} ", "{\"value_set\": [\"yes\", \"no\"]}", "{\"range\":{\"min\":0,\"max\":\"Inf\",\"unit\":\"money\"}} ", "{\"datetime\": {\"min\": \"2012-01-01\",\"max\": \"2015-12-31\", \"format\": \"%d.%m.%Y\"}}"]
-            },
-            {
-              "type": "integer",
-              "attributes": {},
-              "value": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["Each person has its own person-id. It stays the same over the whole live of the person and does not change.", "The Forename of the person.", "The Surname of the person.", "The age of the person at the time of contact.", "The date of birth written as dd.mm.yyyy", "The sex of the person in one letter: m, f or x for unknown.", "The income of the person at the time of contact", "The job of the person at the time of contact", "The bank-balance at the time of contact", "Indicates whether the person is creditworthy at the time of the contact", "That's the amount of credit the person has used", "Date of contact", "(The definition is missing in the MDR.)", "(The definition is missing in the MDR.)", "(The definition is missing in the MDR.)", "(The definition is missing in the MDR.)", "(The definition is missing in the MDR.)", "(The definition is missing in the MDR.)", "(The definition is missing in the MDR.)", "(The definition is missing in the MDR.)", "(The definition is missing in the MDR.)", "(The definition is missing in the MDR.)", "(The definition is missing in the MDR.)", "(The definition is missing in the MDR.)"]
-            },
-            {
-              "type": "integer",
-              "attributes": {},
-              "value": [1, "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", 1, "NA", "NA", 1, "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA", 1, "NA", "NA"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["{\"uniqueness\": {\"dqa_name\": {\"name\": \"Pl.uniqueness.Item01\",\"description\": \"The last name of a person must be identical in all entries for one person ID.\"}}}", null, null, null, null, null, null, null, null, "{\"atemporal\": {\"dqa_bank_balance\": {\"name\": \"Pl.atemporal.Item01\", \"description\": \"Persons with a negative bank balance cannot be credit worthy\", \"filter\": {\"exampleCSV_source\": \"^(-)\", \"exampleCSV_target\": \"^(-)\"}, \"join_crit\": \"dqa_person_id\", \"constraints\": {\"value_set\": {\"exampleCSV_source\": [\"no\"], \"exampleCSV_target\": [\"no\"]}}}}}", null, null, null, null, null, null, null, null, null, null, null, null, null, null]
-            }
-          ]
-        },
-        {
-          "type": "logical",
-          "attributes": {},
-          "value": [true]
-        },
-        {
-          "type": "character",
-          "attributes": {},
-          "value": ["mdr_example_data.csv"]
-        },
-        {
-          "type": "logical",
-          "attributes": {},
-          "value": [false]
-        },
-        {
-          "type": "list",
-          "attributes": {
-            "names": {
-              "type": "character",
-              "attributes": {},
-              "value": ["value_conformance"]
-            }
-          },
-          "value": [
-            {
-              "type": "list",
-              "attributes": {
-                "names": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["Age in years", "Amount of credit", "Birthdate", "Credit worthy?", "Current bank balance", "Date of contact", "Income", "Sex", "pl.atemporal.item01"]
-                }
-              },
-              "value": [
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["conformance_error", "conformance_results"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "logical",
-                          "attributes": {},
-                          "value": [false]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["No 'value conformance' issues found."]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["conformance_error", "conformance_results"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "logical",
-                          "attributes": {},
-                          "value": [true]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Extrem values are not conform with constraints."]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["conformance_error", "conformance_results"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "logical",
-                          "attributes": {},
-                          "value": [false]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["No 'value conformance' issues found."]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["conformance_error", "conformance_results"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "logical",
-                          "attributes": {},
-                          "value": [false]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["No 'value conformance' issues found."]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["conformance_error", "conformance_results", "rule"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "logical",
-                          "attributes": {},
-                          "value": [true]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Extrem values are not conform with constraints."]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["min", "max", "format"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["1950-01-01"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["1989-12-31"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["%d.%m.%Y"]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["conformance_error", "conformance_results", "rule"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "logical",
-                          "attributes": {},
-                          "value": [true]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Extrem values are not conform with constraints."]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["min", "max", "format"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["1950-01-01"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["1989-12-31"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["%d.%m.%Y"]
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["conformance_error", "conformance_results"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "logical",
-                          "attributes": {},
-                          "value": [false]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["No 'value conformance' issues found."]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["conformance_error", "conformance_results"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "logical",
-                          "attributes": {},
-                          "value": [false]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["No 'value conformance' issues found."]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["conformance_error", "conformance_results"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "logical",
-                          "attributes": {},
-                          "value": [true]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Extrem values are not conform with constraints."]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["conformance_error", "conformance_results"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "logical",
-                          "attributes": {},
-                          "value": [true]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Extrem values are not conform with constraints."]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["conformance_error", "conformance_results", "rule"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "logical",
-                          "attributes": {},
-                          "value": [true]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Extrem values are not conform with constraints."]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["min", "max", "format"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["2012-01-01"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["2015-12-31"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["%d.%m.%Y"]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["conformance_error", "conformance_results", "rule"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "logical",
-                          "attributes": {},
-                          "value": [true]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Extrem values are not conform with constraints."]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["min", "max", "format"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["2012-01-01"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["2015-12-31"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["%d.%m.%Y"]
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["conformance_error", "conformance_results"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "logical",
-                          "attributes": {},
-                          "value": [false]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["No 'value conformance' issues found."]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["conformance_error", "conformance_results"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "logical",
-                          "attributes": {},
-                          "value": [true]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Extrem values are not conform with constraints."]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["conformance_error", "conformance_results"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "logical",
-                          "attributes": {},
-                          "value": [false]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["No 'value conformance' issues found."]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["conformance_error", "conformance_results"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "logical",
-                          "attributes": {},
-                          "value": [true]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Levels that are not conform with the value set:  \nabc"]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["conformance_error", "conformance_results"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "logical",
-                          "attributes": {},
-                          "value": [false]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["No 'value conformance' issues found."]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["conformance_error", "conformance_results", "affected_ids"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "logical",
-                          "attributes": {},
-                          "value": [true]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Levels that are not conform with the value set:  \nyes"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "row.names": {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1, 2]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["data.table", "data.frame"]
-                            },
-                            ".internal.selfref": {
-                              "type": "externalptr",
-                              "attributes": {},
-                              "value": {}
-                            },
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["dqa_bank_balance"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "double",
-                              "attributes": {},
-                              "value": [-36500, -64200]
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "list",
-          "attributes": {
-            "names": {
-              "type": "character",
-              "attributes": {},
-              "value": ["source_system_name", "displayname"]
-            },
-            "row.names": {
-              "type": "integer",
-              "attributes": {},
-              "value": [1, 2]
-            },
-            "class": {
-              "type": "character",
-              "attributes": {},
-              "value": ["data.table", "data.frame"]
-            },
-            ".internal.selfref": {
-              "type": "externalptr",
-              "attributes": {},
-              "value": {}
-            }
-          },
-          "value": [
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["exampleCSV_source", "exampleCSV_target"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["exampleCSV_source", "exampleCSV_target"]
-            }
-          ]
-        },
-        {
-          "type": "list",
-          "attributes": {
-            "names": {
-              "type": "character",
-              "attributes": {},
-              "value": ["system_name", "system_type", "settings", "sql"]
-            }
-          },
-          "value": [
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["exampleCSV_source"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["csv"]
-            },
-            {
-              "type": "list",
-              "attributes": {
-                "names": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["path"]
-                }
-              },
-              "value": [
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["/usr/local/lib/R/site-library/DQAstats/demo_data"]
-                }
-              ]
-            },
-            {
-              "type": "logical",
-              "attributes": {},
-              "value": [null]
-            }
-          ]
-        },
-        {
-          "type": "list",
-          "attributes": {
-            "names": {
-              "type": "character",
-              "attributes": {},
-              "value": ["system_name", "system_type", "settings", "sql"]
-            }
-          },
-          "value": [
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["exampleCSV_target"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["csv"]
-            },
-            {
-              "type": "list",
-              "attributes": {
-                "names": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["path"]
-                }
-              },
-              "value": [
-                {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["/usr/local/lib/R/site-library/DQAstats/demo_data"]
-                }
-              ]
-            },
-            {
-              "type": "logical",
-              "attributes": {},
-              "value": [null]
-            }
-          ]
-        },
-        {
-          "type": "logical",
-          "attributes": {},
-          "value": [false]
-        },
-        {
-          "type": "NULL"
-        },
-        {
-          "type": "list",
-          "attributes": {
-            "names": {
-              "type": "character",
-              "attributes": {},
-              "value": ["pl.atemporal.item01"]
-            }
-          },
-          "value": [
-            {
-              "type": "list",
-              "attributes": {
-                "names": {
-                  "type": "character",
-                  "attributes": {},
-                  "value": ["description", "counts", "statistics"]
-                }
-              },
-              "value": [
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["name", "description", "var_dependent", "var_independent", "filter", "join_crit", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Pl.atemporal.Item01"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Persons with a negative bank balance cannot be credit worthy"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_credit_worthy"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_bank_balance"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["^(-)"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_person_id"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["constraints", "var_type"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["{\"value_set\":\"no\"}"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["enumerated"]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["name", "var_dependent", "var_independent", "filter", "join_crit", "checks"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["Pl.atemporal.Item01"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_credit_worthy"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_bank_balance"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["^(-)"]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_person_id"]
-                        },
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["constraints", "var_type"]
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["{\"value_set\":\"no\"}"]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["enumerated"]
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["cnt", "type"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["variable", "n", "valids", "missings", "distinct", "sourcesystem"]
-                            },
-                            "row.names": {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["data.table", "data.frame"]
-                            },
-                            ".internal.selfref": {
-                              "type": "externalptr",
-                              "attributes": {},
-                              "value": {}
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["dqa_credit_worthy"]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [2]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [2]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [0]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["exampleCSV_source"]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["enumerated"]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["cnt", "type"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "list",
-                          "attributes": {
-                            "names": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["variable", "n", "valids", "missings", "distinct", "sourcesystem"]
-                            },
-                            "row.names": {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [1]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["data.table", "data.frame"]
-                            },
-                            ".internal.selfref": {
-                              "type": "externalptr",
-                              "attributes": {},
-                              "value": {}
-                            }
-                          },
-                          "value": [
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["dqa_credit_worthy"]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [4]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [4]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [0]
-                            },
-                            {
-                              "type": "integer",
-                              "attributes": {},
-                              "value": [2]
-                            },
-                            {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["exampleCSV_target"]
-                            }
-                          ]
-                        },
-                        {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["enumerated"]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "type": "list",
-                  "attributes": {
-                    "names": {
-                      "type": "character",
-                      "attributes": {},
-                      "value": ["source_data", "target_data"]
-                    }
-                  },
-                  "value": [
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "row.names": {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [1]
-                        },
-                        "class": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["data.table", "data.frame"]
-                        },
-                        ".internal.selfref": {
-                          "type": "externalptr",
-                          "attributes": {},
-                          "value": {}
-                        },
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_credit_worthy", "Freq", "% Valid"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "integer",
-                          "attributes": {
-                            "levels": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["no"]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["factor"]
-                            }
-                          },
-                          "value": [1]
-                        },
-                        {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [2]
-                        },
-                        {
-                          "type": "double",
-                          "attributes": {},
-                          "value": [100]
-                        }
-                      ]
-                    },
-                    {
-                      "type": "list",
-                      "attributes": {
-                        "row.names": {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [1, 2]
-                        },
-                        "class": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["data.table", "data.frame"]
-                        },
-                        ".internal.selfref": {
-                          "type": "externalptr",
-                          "attributes": {},
-                          "value": {}
-                        },
-                        "names": {
-                          "type": "character",
-                          "attributes": {},
-                          "value": ["dqa_credit_worthy", "Freq", "% Valid"]
-                        }
-                      },
-                      "value": [
-                        {
-                          "type": "integer",
-                          "attributes": {
-                            "levels": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["no", "yes"]
-                            },
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["factor"]
-                            }
-                          },
-                          "value": [1, 2]
-                        },
-                        {
-                          "type": "integer",
-                          "attributes": {},
-                          "value": [2, 2]
-                        },
-                        {
-                          "type": "double",
-                          "attributes": {},
-                          "value": [50, 50]
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "list",
-          "attributes": {
-            "row.names": {
-              "type": "integer",
-              "attributes": {},
-              "value": [1, 2]
-            },
-            ".internal.selfref": {
-              "type": "externalptr",
-              "attributes": {},
-              "value": {}
-            },
-            "class": {
-              "type": "character",
-              "attributes": {},
-              "value": ["data.table", "data.frame"]
-            },
-            "names": {
-              "type": "character",
-              "attributes": {},
-              "value": ["source_system_name", "source_system_type"]
-            }
-          },
-          "value": [
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["exampleCSV_source", "exampleCSV_target"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["csv", "csv"]
-            }
-          ]
-        },
-        {
-          "type": "logical",
-          "attributes": {},
-          "value": [false]
-        },
-        {
-          "type": "logical",
-          "attributes": {},
-          "value": [true]
-        },
-        {
-          "type": "list",
-          "attributes": {
-            "names": {
-              "type": "character",
-              "attributes": {},
-              "value": ["logfile_dir", "populated_old_logfiles_list"]
-            }
-          },
-          "value": [
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["/tmp/Rtmp34oS8t/"]
-            },
-            {
-              "type": "logical",
-              "attributes": {},
-              "value": [true]
-            }
-          ]
-        },
-        {
-          "type": "list",
-          "attributes": {
-            "names": {
-              "type": "character",
-              "attributes": {},
-              "value": ["Variable", "Missings (source)", "Missings [%] (source)", "Missings (target)", "Missings [%] (target)"]
-            },
-            "row.names": {
-              "type": "integer",
-              "attributes": {},
-              "value": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
-            },
-            "class": {
-              "type": "character",
-              "attributes": {},
-              "value": ["data.table", "data.frame"]
-            },
-            ".internal.selfref": {
-              "type": "externalptr",
-              "attributes": {},
-              "value": {}
-            }
-          },
-          "value": [
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["Age in years", "Amount of credit", "Birthdate", "Credit worthy?", "Current bank balance", "Date of contact", "Forename", "Income", "Job", "Name", "Person ID", "Sex"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["0", "13", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["0", "56.52", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["0", "13", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"]
-            },
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["0", "56.52", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0"]
-            }
-          ]
-        },
-        {
-          "type": "logical",
-          "attributes": {},
-          "value": [false]
-        },
-        {
-          "type": "logical",
-          "attributes": {},
-          "value": [true]
-        },
-        {
-          "type": "list",
-          "attributes": {
-            "names": {
-              "type": "character",
-              "attributes": {},
-              "value": ["dqa_name"]
-            }
-          },
-          "value": [
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["dqa_name"]
-            }
-          ]
-        },
-        {
-          "type": "logical",
-          "attributes": {},
-          "value": [false]
-        },
-        {
-          "type": "list",
-          "attributes": {
-            "names": {
-              "type": "character",
-              "attributes": {},
-              "value": ["Pl.atemporal.Item01"]
-            }
-          },
-          "value": [
-            {
-              "type": "character",
-              "attributes": {},
-              "value": ["pl.atemporal.item01"]
-            }
-          ]
-        }
-      ]
-    }
+    Code
+      output
+    Output
+      $sitename
+      [1] "DEMO"
+      
+      $keys_source
+      [1] "dqa_example_data_01.csv"
+      
+      $end_time
+      [1] "2022-06-20 13:46:59 CEST"
+      
+      $datamap
+      $datamap$source_data
+               variable  n valids missings distinct
+      1:      Person ID 23     23        0       16
+      2: Credit worthy? 23     23        0        2
+      
+      $datamap$target_data
+               variable  n valids missings distinct
+      1:      Person ID 23     23        0       16
+      2: Credit worthy? 23     23        0        2
+      
+      
+      $finished_onstart
+      [1] TRUE
+      
+      $affectedids_exported
+      [1] TRUE
+      
+      $ncores
+      [1] 2
+      
+      $aggregated_exported
+      [1] TRUE
+      
+      $pl
+      $pl$atemp_vars
+            designation     variable_name variable_type
+      1: Credit worthy? dqa_credit_worthy    enumerated
+                                                                                                                                                                                                                                                                                                                                     plausibility_relation
+      1: {"atemporal": {"dqa_bank_balance": {"name": "Pl.atemporal.Item01", "description": "Persons with a negative bank balance cannot be credit worthy", "filter": {"exampleCSV_source": "^(-)", "exampleCSV_target": "^(-)"}, "join_crit": "dqa_person_id", "constraints": {"value_set": {"exampleCSV_source": ["no"], "exampleCSV_target": ["no"]}}}}}
+      
+      $pl$uniq_vars
+         designation variable_name variable_type
+      1:   Person ID dqa_person_id        string
+                                                                                                                                                 plausibility_relation
+      1: {"uniqueness": {"dqa_name": {"name": "Pl.uniqueness.Item01","description": "The last name of a person must be identical in all entries for one person ID."}}}
+      
+      $pl$atemp_helper_vars
+      [1] "dqa_credit_worthy" "dqa_bank_balance"  "dqa_person_id"    
+      
+      $pl$atemp_possible
+      [1] TRUE
+      
+      $pl$uniq_helper_vars
+      [1] "dqa_person_id" "dqa_name"     
+      
+      $pl$uniq_possible
+      [1] TRUE
+      
+      
+      $datamap_email
+      [1] "your.name@mail.company.org"
+      
+      $headless
+      [1] FALSE
+      
+      $keys_target
+      [1] "dqa_example_data_02.csv"
+      
+      $dqa_assessment
+                   designation source_variable_name     variable_name variable_type               key       source_table_name
+       1:            Person ID            PERSON_ID     dqa_person_id        string     dqa.person_id dqa_example_data_01.csv
+       2:             Forename             FORENAME      dqa_forename        string      dqa.forename dqa_example_data_01.csv
+       3:                 Name                 NAME          dqa_name        string          dqa.name dqa_example_data_01.csv
+       4:         Age in years                  AGE     dqa_age_years       integer     dqa.age_years dqa_example_data_01.csv
+       5:            Birthdate            BIRTHDATE     dqa_birthdate      datetime     dqa.birthdate dqa_example_data_01.csv
+       6:                  Sex                  SEX           dqa_sex    enumerated           dqa.sex dqa_example_data_01.csv
+       7:               Income               INCOME        dqa_income       integer        dqa.income dqa_example_data_01.csv
+       8:                  Job                  JOB           dqa_job        string           dqa.job dqa_example_data_01.csv
+       9: Current bank balance         BANK-BALANCE  dqa_bank_balance       integer  dqa.bank_balance dqa_example_data_01.csv
+      10:       Credit worthy?        CREDIT-WORTHY dqa_credit_worthy    enumerated dqa.credit_worthy dqa_example_data_01.csv
+      11:     Amount of credit        CREDIT-AMOUNT dqa_credit_amount       integer dqa.credit_amount dqa_example_data_01.csv
+      12:      Date of contact         CONTACT-DATE  dqa_contact_date      datetime  dqa.contact_date dqa_example_data_01.csv
+      
+      $results_descriptive
+      $results_descriptive$`Age in years`
+      $results_descriptive$`Age in years`$description
+      $results_descriptive$`Age in years`$description$source_data
+      $results_descriptive$`Age in years`$description$source_data$name
+      [1] "Age in years"
+      
+      $results_descriptive$`Age in years`$description$source_data$internal_variable_name
+      [1] "dqa_age_years"
+      
+      $results_descriptive$`Age in years`$description$source_data$description
+      [1] "The age of the person at the time of contact."
+      
+      $results_descriptive$`Age in years`$description$source_data$var_name
+      [1] "AGE"
+      
+      $results_descriptive$`Age in years`$description$source_data$table_name
+      [1] "dqa_example_data_01.csv"
+      
+      $results_descriptive$`Age in years`$description$source_data$checks
+      $results_descriptive$`Age in years`$description$source_data$checks$var_type
+      [1] "integer"
+      
+      $results_descriptive$`Age in years`$description$source_data$checks$constraints
+      [1] "{\"range\":{\"min\":0,\"max\":110,\"unit\":\"a\"}} "
+      
+      
+      
+      $results_descriptive$`Age in years`$description$target_data
+      $results_descriptive$`Age in years`$description$target_data$var_name
+      [1] "AGE"
+      
+      $results_descriptive$`Age in years`$description$target_data$table_name
+      [1] "dqa_example_data_02.csv"
+      
+      $results_descriptive$`Age in years`$description$target_data$checks
+      $results_descriptive$`Age in years`$description$target_data$checks$var_type
+      [1] "integer"
+      
+      $results_descriptive$`Age in years`$description$target_data$checks$constraints
+      [1] "{\"range\":{\"min\":0,\"max\":110,\"unit\":\"a\"}} "
+      
+      
+      
+      
+      $results_descriptive$`Age in years`$counts
+      $results_descriptive$`Age in years`$counts$source_data
+      $results_descriptive$`Age in years`$counts$source_data$cnt
+              variable  n valids missings distinct      sourcesystem
+      1: dqa_age_years 23     23        0       21 exampleCSV_source
+      
+      $results_descriptive$`Age in years`$counts$source_data$type
+      [1] "integer"
+      
+      
+      $results_descriptive$`Age in years`$counts$target_data
+      $results_descriptive$`Age in years`$counts$target_data$cnt
+              variable  n valids missings distinct      sourcesystem
+      1: dqa_age_years 23     23        0       21 exampleCSV_target
+      
+      $results_descriptive$`Age in years`$counts$target_data$type
+      [1] "integer"
+      
+      
+      
+      $results_descriptive$`Age in years`$statistics
+      $results_descriptive$`Age in years`$statistics$source_data
+                        
+       1:     Mean    63
+       2:  Minimum    22
+       3:   Median    64
+       4:  Maximum    94
+       5:       SD 22.56
+       6:  Negativ     0
+       7:     Zero     0
+       8: Positive    23
+       9:    OutLo     0
+      10:    OutHi     0
+      11: Variance   509
+      12:    Range    72
+      
+      $results_descriptive$`Age in years`$statistics$target_data
+                          
+       1:     Mean   67.35
+       2:  Minimum      22
+       3:   Median      64
+       4:  Maximum     175
+       5:       SD   32.45
+       6:  Negativ       0
+       7:     Zero       0
+       8: Positive      23
+       9:    OutLo       0
+      10:    OutHi       1
+      11: Variance 1052.87
+      12:    Range     153
+      
+      
+      
+      $results_descriptive$`Amount of credit`
+      $results_descriptive$`Amount of credit`$description
+      $results_descriptive$`Amount of credit`$description$source_data
+      $results_descriptive$`Amount of credit`$description$source_data$name
+      [1] "Amount of credit"
+      
+      $results_descriptive$`Amount of credit`$description$source_data$internal_variable_name
+      [1] "dqa_credit_amount"
+      
+      $results_descriptive$`Amount of credit`$description$source_data$description
+      [1] "That's the amount of credit the person has used"
+      
+      $results_descriptive$`Amount of credit`$description$source_data$var_name
+      [1] "CREDIT-AMOUNT"
+      
+      $results_descriptive$`Amount of credit`$description$source_data$table_name
+      [1] "dqa_example_data_01.csv"
+      
+      $results_descriptive$`Amount of credit`$description$source_data$checks
+      $results_descriptive$`Amount of credit`$description$source_data$checks$var_type
+      [1] "integer"
+      
+      $results_descriptive$`Amount of credit`$description$source_data$checks$constraints
+      [1] "{\"range\":{\"min\":0,\"max\":\"Inf\",\"unit\":\"money\"}} "
+      
+      
+      
+      $results_descriptive$`Amount of credit`$description$target_data
+      $results_descriptive$`Amount of credit`$description$target_data$var_name
+      [1] "CREDIT-AMOUNT"
+      
+      $results_descriptive$`Amount of credit`$description$target_data$table_name
+      [1] "dqa_example_data_02.csv"
+      
+      $results_descriptive$`Amount of credit`$description$target_data$checks
+      $results_descriptive$`Amount of credit`$description$target_data$checks$var_type
+      [1] "integer"
+      
+      $results_descriptive$`Amount of credit`$description$target_data$checks$constraints
+      [1] "{\"range\":{\"min\":0,\"max\":\"Inf\",\"unit\":\"money\"}} "
+      
+      
+      
+      
+      $results_descriptive$`Amount of credit`$counts
+      $results_descriptive$`Amount of credit`$counts$source_data
+      $results_descriptive$`Amount of credit`$counts$source_data$cnt
+                  variable  n valids missings distinct      sourcesystem
+      1: dqa_credit_amount 23     10       13       10 exampleCSV_source
+      
+      $results_descriptive$`Amount of credit`$counts$source_data$type
+      [1] "integer"
+      
+      
+      $results_descriptive$`Amount of credit`$counts$target_data
+      $results_descriptive$`Amount of credit`$counts$target_data$cnt
+                  variable  n valids missings distinct      sourcesystem
+      1: dqa_credit_amount 23     10       13       10 exampleCSV_target
+      
+      $results_descriptive$`Amount of credit`$counts$target_data$type
+      [1] "integer"
+      
+      
+      
+      $results_descriptive$`Amount of credit`$statistics
+      $results_descriptive$`Amount of credit`$statistics$source_data
+                               
+       1:     Mean        39220
+       2:  Minimum        12200
+       3:   Median        33350
+       4:  Maximum        72800
+       5:       SD     21447.19
+       6:  Negativ            0
+       7:     Zero            0
+       8: Positive           10
+       9:    OutLo            0
+      10:    OutHi            0
+      11: Variance 459981777.78
+      12:    Range        60600
+      
+      $results_descriptive$`Amount of credit`$statistics$target_data
+                               
+       1:     Mean        39220
+       2:  Minimum        12200
+       3:   Median        33350
+       4:  Maximum        72800
+       5:       SD     21447.19
+       6:  Negativ            0
+       7:     Zero            0
+       8: Positive           10
+       9:    OutLo            0
+      10:    OutHi            0
+      11: Variance 459981777.78
+      12:    Range        60600
+      
+      
+      
+      $results_descriptive$Birthdate
+      $results_descriptive$Birthdate$description
+      $results_descriptive$Birthdate$description$source_data
+      $results_descriptive$Birthdate$description$source_data$name
+      [1] "Birthdate"
+      
+      $results_descriptive$Birthdate$description$source_data$internal_variable_name
+      [1] "dqa_birthdate"
+      
+      $results_descriptive$Birthdate$description$source_data$description
+      [1] "The date of birth written as dd.mm.yyyy"
+      
+      $results_descriptive$Birthdate$description$source_data$var_name
+      [1] "BIRTHDATE"
+      
+      $results_descriptive$Birthdate$description$source_data$table_name
+      [1] "dqa_example_data_01.csv"
+      
+      $results_descriptive$Birthdate$description$source_data$checks
+      $results_descriptive$Birthdate$description$source_data$checks$var_type
+      [1] "datetime"
+      
+      $results_descriptive$Birthdate$description$source_data$checks$constraints
+      [1] "{\"datetime\": {\"min\": \"1950-01-01\",\"max\": \"1989-12-31\", \"format\": \"%d.%m.%Y\"}}"
+      
+      
+      
+      $results_descriptive$Birthdate$description$target_data
+      $results_descriptive$Birthdate$description$target_data$var_name
+      [1] "BIRTHDATE"
+      
+      $results_descriptive$Birthdate$description$target_data$table_name
+      [1] "dqa_example_data_02.csv"
+      
+      $results_descriptive$Birthdate$description$target_data$checks
+      $results_descriptive$Birthdate$description$target_data$checks$var_type
+      [1] "datetime"
+      
+      $results_descriptive$Birthdate$description$target_data$checks$constraints
+      [1] "{\"datetime\": {\"min\": \"1950-01-01\",\"max\": \"1989-12-31\", \"format\": \"%d.%m.%Y\"}}"
+      
+      
+      
+      
+      $results_descriptive$Birthdate$counts
+      $results_descriptive$Birthdate$counts$source_data
+      $results_descriptive$Birthdate$counts$source_data$cnt
+              variable  n valids missings distinct      sourcesystem
+      1: dqa_birthdate 23     23        0       16 exampleCSV_source
+      
+      $results_descriptive$Birthdate$counts$source_data$type
+      [1] "datetime"
+      
+      
+      $results_descriptive$Birthdate$counts$target_data
+      $results_descriptive$Birthdate$counts$target_data$cnt
+              variable  n valids missings distinct      sourcesystem
+      1: dqa_birthdate 23     23        0       16 exampleCSV_target
+      
+      $results_descriptive$Birthdate$counts$target_data$type
+      [1] "datetime"
+      
+      
+      
+      $results_descriptive$Birthdate$statistics
+      $results_descriptive$Birthdate$statistics$source_data
+                          
+      1    Min. 1921-02-19
+      2 1st Qu. 1932-09-17
+      3  Median 1951-07-03
+      4    Mean 1950-09-25
+      5 3rd Qu. 1965-05-10
+      6    Max. 1990-05-26
+      
+      $results_descriptive$Birthdate$statistics$target_data
+                          
+      1    Min. 1921-02-19
+      2 1st Qu. 1932-09-17
+      3  Median 1951-07-03
+      4    Mean 1950-09-25
+      5 3rd Qu. 1965-05-10
+      6    Max. 1990-05-26
+      
+      
+      
+      $results_descriptive$`Credit worthy?`
+      $results_descriptive$`Credit worthy?`$description
+      $results_descriptive$`Credit worthy?`$description$source_data
+      $results_descriptive$`Credit worthy?`$description$source_data$name
+      [1] "Credit worthy?"
+      
+      $results_descriptive$`Credit worthy?`$description$source_data$internal_variable_name
+      [1] "dqa_credit_worthy"
+      
+      $results_descriptive$`Credit worthy?`$description$source_data$description
+      [1] "Indicates whether the person is creditworthy at the time of the contact"
+      
+      $results_descriptive$`Credit worthy?`$description$source_data$var_name
+      [1] "CREDIT-WORTHY"
+      
+      $results_descriptive$`Credit worthy?`$description$source_data$table_name
+      [1] "dqa_example_data_01.csv"
+      
+      $results_descriptive$`Credit worthy?`$description$source_data$checks
+      $results_descriptive$`Credit worthy?`$description$source_data$checks$var_type
+      [1] "enumerated"
+      
+      $results_descriptive$`Credit worthy?`$description$source_data$checks$constraints
+      [1] "{\"value_set\": [\"yes\", \"no\"]}"
+      
+      
+      
+      $results_descriptive$`Credit worthy?`$description$target_data
+      $results_descriptive$`Credit worthy?`$description$target_data$var_name
+      [1] "CREDIT-WORTHY"
+      
+      $results_descriptive$`Credit worthy?`$description$target_data$table_name
+      [1] "dqa_example_data_02.csv"
+      
+      $results_descriptive$`Credit worthy?`$description$target_data$checks
+      $results_descriptive$`Credit worthy?`$description$target_data$checks$var_type
+      [1] "enumerated"
+      
+      $results_descriptive$`Credit worthy?`$description$target_data$checks$constraints
+      [1] "{\"value_set\": [\"yes\", \"no\"]}"
+      
+      
+      
+      
+      $results_descriptive$`Credit worthy?`$counts
+      $results_descriptive$`Credit worthy?`$counts$source_data
+      $results_descriptive$`Credit worthy?`$counts$source_data$cnt
+                  variable  n valids missings distinct      sourcesystem
+      1: dqa_credit_worthy 23     23        0        2 exampleCSV_source
+      
+      $results_descriptive$`Credit worthy?`$counts$source_data$type
+      [1] "enumerated"
+      
+      
+      $results_descriptive$`Credit worthy?`$counts$target_data
+      $results_descriptive$`Credit worthy?`$counts$target_data$cnt
+                  variable  n valids missings distinct      sourcesystem
+      1: dqa_credit_worthy 23     23        0        2 exampleCSV_target
+      
+      $results_descriptive$`Credit worthy?`$counts$target_data$type
+      [1] "enumerated"
+      
+      
+      
+      $results_descriptive$`Credit worthy?`$statistics
+      $results_descriptive$`Credit worthy?`$statistics$source_data
+         dqa_credit_worthy Freq  % Valid
+      1:                no   13 56.52174
+      2:               yes   10 43.47826
+      
+      $results_descriptive$`Credit worthy?`$statistics$target_data
+         dqa_credit_worthy Freq  % Valid
+      1:                no   13 56.52174
+      2:               yes   10 43.47826
+      
+      
+      
+      $results_descriptive$`Current bank balance`
+      $results_descriptive$`Current bank balance`$description
+      $results_descriptive$`Current bank balance`$description$source_data
+      $results_descriptive$`Current bank balance`$description$source_data$name
+      [1] "Current bank balance"
+      
+      $results_descriptive$`Current bank balance`$description$source_data$internal_variable_name
+      [1] "dqa_bank_balance"
+      
+      $results_descriptive$`Current bank balance`$description$source_data$description
+      [1] "The bank-balance at the time of contact"
+      
+      $results_descriptive$`Current bank balance`$description$source_data$var_name
+      [1] "BANK-BALANCE"
+      
+      $results_descriptive$`Current bank balance`$description$source_data$table_name
+      [1] "dqa_example_data_01.csv"
+      
+      $results_descriptive$`Current bank balance`$description$source_data$checks
+      $results_descriptive$`Current bank balance`$description$source_data$checks$var_type
+      [1] "integer"
+      
+      $results_descriptive$`Current bank balance`$description$source_data$checks$constraints
+      [1] "{\"range\":{\"min\":\"-Inf\",\"max\":\"Inf\",\"unit\":\"money\"}} "
+      
+      
+      
+      $results_descriptive$`Current bank balance`$description$target_data
+      $results_descriptive$`Current bank balance`$description$target_data$var_name
+      [1] "BANK-BALANCE"
+      
+      $results_descriptive$`Current bank balance`$description$target_data$table_name
+      [1] "dqa_example_data_02.csv"
+      
+      $results_descriptive$`Current bank balance`$description$target_data$checks
+      $results_descriptive$`Current bank balance`$description$target_data$checks$var_type
+      [1] "integer"
+      
+      $results_descriptive$`Current bank balance`$description$target_data$checks$constraints
+      [1] "{\"range\":{\"min\":\"-Inf\",\"max\":\"Inf\",\"unit\":\"money\"}} "
+      
+      
+      
+      
+      $results_descriptive$`Current bank balance`$counts
+      $results_descriptive$`Current bank balance`$counts$source_data
+      $results_descriptive$`Current bank balance`$counts$source_data$cnt
+                 variable  n valids missings distinct      sourcesystem
+      1: dqa_bank_balance 23     23        0       22 exampleCSV_source
+      
+      $results_descriptive$`Current bank balance`$counts$source_data$type
+      [1] "integer"
+      
+      
+      $results_descriptive$`Current bank balance`$counts$target_data
+      $results_descriptive$`Current bank balance`$counts$target_data$cnt
+                 variable  n valids missings distinct      sourcesystem
+      1: dqa_bank_balance 23     23        0       22 exampleCSV_target
+      
+      $results_descriptive$`Current bank balance`$counts$target_data$type
+      [1] "integer"
+      
+      
+      
+      $results_descriptive$`Current bank balance`$statistics
+      $results_descriptive$`Current bank balance`$statistics$source_data
+                                
+       1:     Mean      35152.17
+       2:  Minimum        -34200
+       3:   Median         18800
+       4:  Maximum        124100
+       5:       SD      39516.63
+       6:  Negativ             2
+       7:     Zero             0
+       8: Positive            21
+       9:    OutLo             0
+      10:    OutHi             0
+      11: Variance 1561564426.88
+      12:    Range        158300
+      
+      $results_descriptive$`Current bank balance`$statistics$target_data
+                                
+       1:     Mean      26395.65
+       2:  Minimum        -64200
+       3:   Median         12800
+       4:  Maximum        124100
+       5:       SD       46097.8
+       6:  Negativ             4
+       7:     Zero             0
+       8: Positive            19
+       9:    OutLo             0
+      10:    OutHi             0
+      11: Variance 2125006798.42
+      12:    Range        188300
+      
+      
+      
+      $results_descriptive$`Date of contact`
+      $results_descriptive$`Date of contact`$description
+      $results_descriptive$`Date of contact`$description$source_data
+      $results_descriptive$`Date of contact`$description$source_data$name
+      [1] "Date of contact"
+      
+      $results_descriptive$`Date of contact`$description$source_data$internal_variable_name
+      [1] "dqa_contact_date"
+      
+      $results_descriptive$`Date of contact`$description$source_data$description
+      [1] "Date of contact"
+      
+      $results_descriptive$`Date of contact`$description$source_data$var_name
+      [1] "CONTACT-DATE"
+      
+      $results_descriptive$`Date of contact`$description$source_data$table_name
+      [1] "dqa_example_data_01.csv"
+      
+      $results_descriptive$`Date of contact`$description$source_data$checks
+      $results_descriptive$`Date of contact`$description$source_data$checks$var_type
+      [1] "datetime"
+      
+      $results_descriptive$`Date of contact`$description$source_data$checks$constraints
+      [1] "{\"datetime\": {\"min\": \"2012-01-01\",\"max\": \"2015-12-31\", \"format\": \"%d.%m.%Y\"}}"
+      
+      
+      
+      $results_descriptive$`Date of contact`$description$target_data
+      $results_descriptive$`Date of contact`$description$target_data$var_name
+      [1] "CONTACT-DATE"
+      
+      $results_descriptive$`Date of contact`$description$target_data$table_name
+      [1] "dqa_example_data_02.csv"
+      
+      $results_descriptive$`Date of contact`$description$target_data$checks
+      $results_descriptive$`Date of contact`$description$target_data$checks$var_type
+      [1] "datetime"
+      
+      $results_descriptive$`Date of contact`$description$target_data$checks$constraints
+      [1] "{\"datetime\": {\"min\": \"2012-01-01\",\"max\": \"2015-12-31\", \"format\": \"%d.%m.%Y\"}}"
+      
+      
+      
+      
+      $results_descriptive$`Date of contact`$counts
+      $results_descriptive$`Date of contact`$counts$source_data
+      $results_descriptive$`Date of contact`$counts$source_data$cnt
+                 variable  n valids missings distinct      sourcesystem
+      1: dqa_contact_date 23     23        0       23 exampleCSV_source
+      
+      $results_descriptive$`Date of contact`$counts$source_data$type
+      [1] "datetime"
+      
+      
+      $results_descriptive$`Date of contact`$counts$target_data
+      $results_descriptive$`Date of contact`$counts$target_data$cnt
+                 variable  n valids missings distinct      sourcesystem
+      1: dqa_contact_date 23     23        0       23 exampleCSV_target
+      
+      $results_descriptive$`Date of contact`$counts$target_data$type
+      [1] "datetime"
+      
+      
+      
+      $results_descriptive$`Date of contact`$statistics
+      $results_descriptive$`Date of contact`$statistics$source_data
+                          
+      1    Min. 2011-10-12
+      2 1st Qu. 2012-08-11
+      3  Median 2013-10-02
+      4    Mean 2013-10-28
+      5 3rd Qu. 2014-12-21
+      6    Max. 2015-12-20
+      
+      $results_descriptive$`Date of contact`$statistics$target_data
+                          
+      1    Min. 2011-10-12
+      2 1st Qu. 2012-08-11
+      3  Median 2013-10-02
+      4    Mean 2013-10-28
+      5 3rd Qu. 2014-12-21
+      6    Max. 2015-12-20
+      
+      
+      
+      $results_descriptive$Forename
+      $results_descriptive$Forename$description
+      $results_descriptive$Forename$description$source_data
+      $results_descriptive$Forename$description$source_data$name
+      [1] "Forename"
+      
+      $results_descriptive$Forename$description$source_data$internal_variable_name
+      [1] "dqa_forename"
+      
+      $results_descriptive$Forename$description$source_data$description
+      [1] "The Forename of the person."
+      
+      $results_descriptive$Forename$description$source_data$var_name
+      [1] "FORENAME"
+      
+      $results_descriptive$Forename$description$source_data$table_name
+      [1] "dqa_example_data_01.csv"
+      
+      $results_descriptive$Forename$description$source_data$checks
+      $results_descriptive$Forename$description$source_data$checks$var_type
+      [1] "string"
+      
+      $results_descriptive$Forename$description$source_data$checks$constraints
+      [1] NA
+      
+      
+      
+      $results_descriptive$Forename$description$target_data
+      $results_descriptive$Forename$description$target_data$var_name
+      [1] "FORENAME"
+      
+      $results_descriptive$Forename$description$target_data$table_name
+      [1] "dqa_example_data_02.csv"
+      
+      $results_descriptive$Forename$description$target_data$checks
+      $results_descriptive$Forename$description$target_data$checks$var_type
+      [1] "string"
+      
+      $results_descriptive$Forename$description$target_data$checks$constraints
+      [1] NA
+      
+      
+      
+      
+      $results_descriptive$Forename$counts
+      $results_descriptive$Forename$counts$source_data
+      $results_descriptive$Forename$counts$source_data$cnt
+             variable  n valids missings distinct      sourcesystem
+      1: dqa_forename 23     23        0       17 exampleCSV_source
+      
+      $results_descriptive$Forename$counts$source_data$type
+      [1] "string"
+      
+      
+      $results_descriptive$Forename$counts$target_data
+      $results_descriptive$Forename$counts$target_data$cnt
+             variable  n valids missings distinct      sourcesystem
+      1: dqa_forename 23     23        0       16 exampleCSV_target
+      
+      $results_descriptive$Forename$counts$target_data$type
+      [1] "string"
+      
+      
+      
+      $results_descriptive$Forename$statistics
+      $results_descriptive$Forename$statistics$source_data
+          dqa_forename Freq   % Valid
+       1:      Zenaida    3 13.043478
+       2:    Geraldine    2  8.695652
+       3:     Williams    2  8.695652
+       4:        Wayne    2  8.695652
+       5:      Dorothy    2  8.695652
+       6:     Lawrence    1  4.347826
+       7:        Janet    1  4.347826
+       8:       Martin    1  4.347826
+       9:     Georgina    1  4.347826
+      10:      Elliott    1  4.347826
+      11:     Gilberto    1  4.347826
+      12:        Annie    1  4.347826
+      13:        Karen    1  4.347826
+      14:         John    1  4.347826
+      15:        Susan    1  4.347826
+      16:       Elijah    1  4.347826
+      17:       Miriam    1  4.347826
+      
+      $results_descriptive$Forename$statistics$target_data
+          dqa_forename Freq   % Valid
+       1:    Geraldine    3 13.043478
+       2:      Zenaida    3 13.043478
+       3:     Williams    2  8.695652
+       4:        Wayne    2  8.695652
+       5:      Dorothy    2  8.695652
+       6:     Lawrence    1  4.347826
+       7:        Janet    1  4.347826
+       8:       Martin    1  4.347826
+       9:     Georgina    1  4.347826
+      10:      Elliott    1  4.347826
+      11:     Gilberto    1  4.347826
+      12:        Annie    1  4.347826
+      13:        Karen    1  4.347826
+      14:         John    1  4.347826
+      15:        Susan    1  4.347826
+      16:       Elijah    1  4.347826
+      
+      
+      
+      $results_descriptive$Income
+      $results_descriptive$Income$description
+      $results_descriptive$Income$description$source_data
+      $results_descriptive$Income$description$source_data$name
+      [1] "Income"
+      
+      $results_descriptive$Income$description$source_data$internal_variable_name
+      [1] "dqa_income"
+      
+      $results_descriptive$Income$description$source_data$description
+      [1] "The income of the person at the time of contact"
+      
+      $results_descriptive$Income$description$source_data$var_name
+      [1] "INCOME"
+      
+      $results_descriptive$Income$description$source_data$table_name
+      [1] "dqa_example_data_01.csv"
+      
+      $results_descriptive$Income$description$source_data$checks
+      $results_descriptive$Income$description$source_data$checks$var_type
+      [1] "integer"
+      
+      $results_descriptive$Income$description$source_data$checks$constraints
+      [1] "{\"range\":{\"min\":0,\"max\":\"Inf\",\"unit\":\"money\"}} "
+      
+      
+      
+      $results_descriptive$Income$description$target_data
+      $results_descriptive$Income$description$target_data$var_name
+      [1] "INCOME"
+      
+      $results_descriptive$Income$description$target_data$table_name
+      [1] "dqa_example_data_02.csv"
+      
+      $results_descriptive$Income$description$target_data$checks
+      $results_descriptive$Income$description$target_data$checks$var_type
+      [1] "integer"
+      
+      $results_descriptive$Income$description$target_data$checks$constraints
+      [1] "{\"range\":{\"min\":0,\"max\":\"Inf\",\"unit\":\"money\"}} "
+      
+      
+      
+      
+      $results_descriptive$Income$counts
+      $results_descriptive$Income$counts$source_data
+      $results_descriptive$Income$counts$source_data$cnt
+           variable  n valids missings distinct      sourcesystem
+      1: dqa_income 23     23        0       23 exampleCSV_source
+      
+      $results_descriptive$Income$counts$source_data$type
+      [1] "integer"
+      
+      
+      $results_descriptive$Income$counts$target_data
+      $results_descriptive$Income$counts$target_data$cnt
+           variable  n valids missings distinct      sourcesystem
+      1: dqa_income 23     23        0       23 exampleCSV_target
+      
+      $results_descriptive$Income$counts$target_data$type
+      [1] "integer"
+      
+      
+      
+      $results_descriptive$Income$statistics
+      $results_descriptive$Income$statistics$source_data
+                                
+       1:     Mean      68826.09
+       2:  Minimum          3000
+       3:   Median         59000
+       4:  Maximum        145000
+       5:       SD      46841.76
+       6:  Negativ             0
+       7:     Zero             0
+       8: Positive            23
+       9:    OutLo             0
+      10:    OutHi             0
+      11: Variance 2194150197.63
+      12:    Range        142000
+      
+      $results_descriptive$Income$statistics$target_data
+                                
+       1:     Mean       68391.3
+       2:  Minimum         -5000
+       3:   Median         59000
+       4:  Maximum        145000
+       5:       SD      47502.86
+       6:  Negativ             1
+       7:     Zero             0
+       8: Positive            22
+       9:    OutLo             0
+      10:    OutHi             0
+      11: Variance 2256521739.13
+      12:    Range        150000
+      
+      
+      
+      $results_descriptive$Job
+      $results_descriptive$Job$description
+      $results_descriptive$Job$description$source_data
+      $results_descriptive$Job$description$source_data$name
+      [1] "Job"
+      
+      $results_descriptive$Job$description$source_data$internal_variable_name
+      [1] "dqa_job"
+      
+      $results_descriptive$Job$description$source_data$description
+      [1] "The job of the person at the time of contact"
+      
+      $results_descriptive$Job$description$source_data$var_name
+      [1] "JOB"
+      
+      $results_descriptive$Job$description$source_data$table_name
+      [1] "dqa_example_data_01.csv"
+      
+      $results_descriptive$Job$description$source_data$checks
+      $results_descriptive$Job$description$source_data$checks$var_type
+      [1] "string"
+      
+      $results_descriptive$Job$description$source_data$checks$constraints
+      [1] NA
+      
+      
+      
+      $results_descriptive$Job$description$target_data
+      $results_descriptive$Job$description$target_data$var_name
+      [1] "JOB"
+      
+      $results_descriptive$Job$description$target_data$table_name
+      [1] "dqa_example_data_02.csv"
+      
+      $results_descriptive$Job$description$target_data$checks
+      $results_descriptive$Job$description$target_data$checks$var_type
+      [1] "string"
+      
+      $results_descriptive$Job$description$target_data$checks$constraints
+      [1] NA
+      
+      
+      
+      
+      $results_descriptive$Job$counts
+      $results_descriptive$Job$counts$source_data
+      $results_descriptive$Job$counts$source_data$cnt
+         variable  n valids missings distinct      sourcesystem
+      1:  dqa_job 23     23        0       15 exampleCSV_source
+      
+      $results_descriptive$Job$counts$source_data$type
+      [1] "string"
+      
+      
+      $results_descriptive$Job$counts$target_data
+      $results_descriptive$Job$counts$target_data$cnt
+         variable  n valids missings distinct      sourcesystem
+      1:  dqa_job 23     23        0       15 exampleCSV_target
+      
+      $results_descriptive$Job$counts$target_data$type
+      [1] "string"
+      
+      
+      
+      $results_descriptive$Job$statistics
+      $results_descriptive$Job$statistics$source_data
+               dqa_job Freq   % Valid
+       1: Bank manager    3 13.043478
+       2:     Magician    3 13.043478
+       3:      Student    2  8.695652
+       4:        Pilot    2  8.695652
+       5:       Lawyer    2  8.695652
+       6:       Singer    2  8.695652
+       7: Photographer    1  4.347826
+       8:       Farmer    1  4.347826
+       9:    Professor    1  4.347826
+      10:     Engineer    1  4.347826
+      11:   Researcher    1  4.347826
+      12:      Chemist    1  4.347826
+      13:     Gardener    1  4.347826
+      14: Psychologist    1  4.347826
+      15:     Comedian    1  4.347826
+      
+      $results_descriptive$Job$statistics$target_data
+               dqa_job Freq   % Valid
+       1: Bank manager    3 13.043478
+       2:     Magician    3 13.043478
+       3:      Student    2  8.695652
+       4:        Pilot    2  8.695652
+       5:       Lawyer    2  8.695652
+       6:       Singer    2  8.695652
+       7: Photographer    1  4.347826
+       8:       Farmer    1  4.347826
+       9:    Professor    1  4.347826
+      10:     Engineer    1  4.347826
+      11:   Researcher    1  4.347826
+      12:      Chemist    1  4.347826
+      13:     Gardener    1  4.347826
+      14: Psychologist    1  4.347826
+      15:     Comedian    1  4.347826
+      
+      
+      
+      $results_descriptive$Name
+      $results_descriptive$Name$description
+      $results_descriptive$Name$description$source_data
+      $results_descriptive$Name$description$source_data$name
+      [1] "Name"
+      
+      $results_descriptive$Name$description$source_data$internal_variable_name
+      [1] "dqa_name"
+      
+      $results_descriptive$Name$description$source_data$description
+      [1] "The Surname of the person."
+      
+      $results_descriptive$Name$description$source_data$var_name
+      [1] "NAME"
+      
+      $results_descriptive$Name$description$source_data$table_name
+      [1] "dqa_example_data_01.csv"
+      
+      $results_descriptive$Name$description$source_data$checks
+      $results_descriptive$Name$description$source_data$checks$var_type
+      [1] "string"
+      
+      $results_descriptive$Name$description$source_data$checks$constraints
+      [1] NA
+      
+      
+      
+      $results_descriptive$Name$description$target_data
+      $results_descriptive$Name$description$target_data$var_name
+      [1] "NAME"
+      
+      $results_descriptive$Name$description$target_data$table_name
+      [1] "dqa_example_data_02.csv"
+      
+      $results_descriptive$Name$description$target_data$checks
+      $results_descriptive$Name$description$target_data$checks$var_type
+      [1] "string"
+      
+      $results_descriptive$Name$description$target_data$checks$constraints
+      [1] NA
+      
+      
+      
+      
+      $results_descriptive$Name$counts
+      $results_descriptive$Name$counts$source_data
+      $results_descriptive$Name$counts$source_data$cnt
+         variable  n valids missings distinct      sourcesystem
+      1: dqa_name 23     23        0       16 exampleCSV_source
+      
+      $results_descriptive$Name$counts$source_data$type
+      [1] "string"
+      
+      
+      $results_descriptive$Name$counts$target_data
+      $results_descriptive$Name$counts$target_data$cnt
+         variable  n valids missings distinct      sourcesystem
+      1: dqa_name 23     23        0       16 exampleCSV_target
+      
+      $results_descriptive$Name$counts$target_data$type
+      [1] "string"
+      
+      
+      
+      $results_descriptive$Name$statistics
+      $results_descriptive$Name$statistics$source_data
+           dqa_name Freq   % Valid
+       1:   Jackson    3 13.043478
+       2:    Staggs    3 13.043478
+       3: Rodriguez    2  8.695652
+       4:   Burdett    2  8.695652
+       5:   Simpson    2  8.695652
+       6:   Daniels    1  4.347826
+       7:    Dardar    1  4.347826
+       8:     Jones    1  4.347826
+       9:      Cook    1  4.347826
+      10:    Eatmon    1  4.347826
+      11:    Kenney    1  4.347826
+      12:     Stock    1  4.347826
+      13:     Shuck    1  4.347826
+      14:    Malloy    1  4.347826
+      15:  Kirkland    1  4.347826
+      16:    Sutton    1  4.347826
+      
+      $results_descriptive$Name$statistics$target_data
+           dqa_name Freq   % Valid
+       1:   Jackson    3 13.043478
+       2:    Staggs    3 13.043478
+       3: Rodriguez    2  8.695652
+       4:   Burdett    2  8.695652
+       5:   Simpson    2  8.695652
+       6:   Daniels    1  4.347826
+       7:    Dardar    1  4.347826
+       8:     Jones    1  4.347826
+       9:      Cook    1  4.347826
+      10:    Eatmon    1  4.347826
+      11:    Kenney    1  4.347826
+      12:     Stock    1  4.347826
+      13:     Shuck    1  4.347826
+      14:    Malloy    1  4.347826
+      15:  Kirkland    1  4.347826
+      16:    Sutton    1  4.347826
+      
+      
+      
+      $results_descriptive$`Person ID`
+      $results_descriptive$`Person ID`$description
+      $results_descriptive$`Person ID`$description$source_data
+      $results_descriptive$`Person ID`$description$source_data$name
+      [1] "Person ID"
+      
+      $results_descriptive$`Person ID`$description$source_data$internal_variable_name
+      [1] "dqa_person_id"
+      
+      $results_descriptive$`Person ID`$description$source_data$description
+      [1] "Each person has its own person-id. It stays the same over the whole live of the person and does not change."
+      
+      $results_descriptive$`Person ID`$description$source_data$var_name
+      [1] "PERSON_ID"
+      
+      $results_descriptive$`Person ID`$description$source_data$table_name
+      [1] "dqa_example_data_01.csv"
+      
+      $results_descriptive$`Person ID`$description$source_data$checks
+      $results_descriptive$`Person ID`$description$source_data$checks$var_type
+      [1] "string"
+      
+      $results_descriptive$`Person ID`$description$source_data$checks$constraints
+      [1] NA
+      
+      
+      
+      $results_descriptive$`Person ID`$description$target_data
+      $results_descriptive$`Person ID`$description$target_data$var_name
+      [1] "PERSON_ID"
+      
+      $results_descriptive$`Person ID`$description$target_data$table_name
+      [1] "dqa_example_data_02.csv"
+      
+      $results_descriptive$`Person ID`$description$target_data$checks
+      $results_descriptive$`Person ID`$description$target_data$checks$var_type
+      [1] "string"
+      
+      $results_descriptive$`Person ID`$description$target_data$checks$constraints
+      [1] NA
+      
+      
+      
+      
+      $results_descriptive$`Person ID`$counts
+      $results_descriptive$`Person ID`$counts$source_data
+      $results_descriptive$`Person ID`$counts$source_data$cnt
+              variable  n valids missings distinct      sourcesystem
+      1: dqa_person_id 23     23        0       16 exampleCSV_source
+      
+      $results_descriptive$`Person ID`$counts$source_data$type
+      [1] "string"
+      
+      
+      $results_descriptive$`Person ID`$counts$target_data
+      $results_descriptive$`Person ID`$counts$target_data$cnt
+              variable  n valids missings distinct      sourcesystem
+      1: dqa_person_id 23     23        0       16 exampleCSV_target
+      
+      $results_descriptive$`Person ID`$counts$target_data$type
+      [1] "string"
+      
+      
+      
+      $results_descriptive$`Person ID`$statistics
+      $results_descriptive$`Person ID`$statistics$source_data
+          dqa_person_id Freq   % Valid
+       1:             1    3 13.043478
+       2:             7    3 13.043478
+       3:             5    2  8.695652
+       4:            11    2  8.695652
+       5:            15    2  8.695652
+       6:             2    1  4.347826
+       7:             3    1  4.347826
+       8:             4    1  4.347826
+       9:             6    1  4.347826
+      10:             8    1  4.347826
+      11:             9    1  4.347826
+      12:            10    1  4.347826
+      13:            12    1  4.347826
+      14:            13    1  4.347826
+      15:            14    1  4.347826
+      16:            16    1  4.347826
+      
+      $results_descriptive$`Person ID`$statistics$target_data
+          dqa_person_id Freq   % Valid
+       1:             1    3 13.043478
+       2:             7    3 13.043478
+       3:             5    2  8.695652
+       4:            11    2  8.695652
+       5:            15    2  8.695652
+       6:             2    1  4.347826
+       7:             3    1  4.347826
+       8:             4    1  4.347826
+       9:             6    1  4.347826
+      10:             8    1  4.347826
+      11:             9    1  4.347826
+      12:            10    1  4.347826
+      13:            12    1  4.347826
+      14:            13    1  4.347826
+      15:            14    1  4.347826
+      16:            16    1  4.347826
+      
+      
+      
+      $results_descriptive$Sex
+      $results_descriptive$Sex$description
+      $results_descriptive$Sex$description$source_data
+      $results_descriptive$Sex$description$source_data$name
+      [1] "Sex"
+      
+      $results_descriptive$Sex$description$source_data$internal_variable_name
+      [1] "dqa_sex"
+      
+      $results_descriptive$Sex$description$source_data$description
+      [1] "The sex of the person in one letter: m, f or x for unknown."
+      
+      $results_descriptive$Sex$description$source_data$var_name
+      [1] "SEX"
+      
+      $results_descriptive$Sex$description$source_data$table_name
+      [1] "dqa_example_data_01.csv"
+      
+      $results_descriptive$Sex$description$source_data$checks
+      $results_descriptive$Sex$description$source_data$checks$var_type
+      [1] "enumerated"
+      
+      $results_descriptive$Sex$description$source_data$checks$constraints
+      [1] "{\"value_set\":[\"m\", \"f\", \"x\"]} "
+      
+      
+      
+      $results_descriptive$Sex$description$target_data
+      $results_descriptive$Sex$description$target_data$var_name
+      [1] "SEX"
+      
+      $results_descriptive$Sex$description$target_data$table_name
+      [1] "dqa_example_data_02.csv"
+      
+      $results_descriptive$Sex$description$target_data$checks
+      $results_descriptive$Sex$description$target_data$checks$var_type
+      [1] "enumerated"
+      
+      $results_descriptive$Sex$description$target_data$checks$constraints
+      [1] "{\"value_set\":[\"male\", \"female\", \"unknown\"]} "
+      
+      
+      
+      
+      $results_descriptive$Sex$counts
+      $results_descriptive$Sex$counts$source_data
+      $results_descriptive$Sex$counts$source_data$cnt
+         variable  n valids missings distinct      sourcesystem
+      1:  dqa_sex 23     23        0        2 exampleCSV_source
+      
+      $results_descriptive$Sex$counts$source_data$type
+      [1] "enumerated"
+      
+      
+      $results_descriptive$Sex$counts$target_data
+      $results_descriptive$Sex$counts$target_data$cnt
+         variable  n valids missings distinct      sourcesystem
+      1:  dqa_sex 23     23        0        3 exampleCSV_target
+      
+      $results_descriptive$Sex$counts$target_data$type
+      [1] "enumerated"
+      
+      
+      
+      $results_descriptive$Sex$statistics
+      $results_descriptive$Sex$statistics$source_data
+         dqa_sex Freq  % Valid
+      1:       f   13 56.52174
+      2:       m   10 43.47826
+      
+      $results_descriptive$Sex$statistics$target_data
+         dqa_sex Freq   % Valid
+      1:  female   12 52.173913
+      2:    male   10 43.478261
+      3:     abc    1  4.347826
+      
+      
+      
+      
+      $data_plausibility
+      $data_plausibility$atemporal
+      $data_plausibility$atemporal$pl.atemporal.item01
+      $data_plausibility$atemporal$pl.atemporal.item01$source_data
+      $data_plausibility$atemporal$pl.atemporal.item01$source_data$name
+      [1] "Pl.atemporal.Item01"
+      
+      $data_plausibility$atemporal$pl.atemporal.item01$source_data$description
+      [1] "Persons with a negative bank balance cannot be credit worthy"
+      
+      $data_plausibility$atemporal$pl.atemporal.item01$source_data$var_dependent
+      [1] "dqa_credit_worthy"
+      
+      $data_plausibility$atemporal$pl.atemporal.item01$source_data$var_independent
+      [1] "dqa_bank_balance"
+      
+      $data_plausibility$atemporal$pl.atemporal.item01$source_data$filter
+      [1] "^(-)"
+      
+      $data_plausibility$atemporal$pl.atemporal.item01$source_data$join_crit
+      [1] "dqa_person_id"
+      
+      $data_plausibility$atemporal$pl.atemporal.item01$source_data$checks
+      $data_plausibility$atemporal$pl.atemporal.item01$source_data$checks$constraints
+      [1] "{\"value_set\":\"no\"}"
+      
+      
+      
+      $data_plausibility$atemporal$pl.atemporal.item01$target_data
+      $data_plausibility$atemporal$pl.atemporal.item01$target_data$name
+      [1] "Pl.atemporal.Item01"
+      
+      $data_plausibility$atemporal$pl.atemporal.item01$target_data$description
+      [1] "Persons with a negative bank balance cannot be credit worthy"
+      
+      $data_plausibility$atemporal$pl.atemporal.item01$target_data$var_dependent
+      [1] "dqa_credit_worthy"
+      
+      $data_plausibility$atemporal$pl.atemporal.item01$target_data$var_independent
+      [1] "dqa_bank_balance"
+      
+      $data_plausibility$atemporal$pl.atemporal.item01$target_data$filter
+      [1] "^(-)"
+      
+      $data_plausibility$atemporal$pl.atemporal.item01$target_data$join_crit
+      [1] "dqa_person_id"
+      
+      $data_plausibility$atemporal$pl.atemporal.item01$target_data$checks
+      $data_plausibility$atemporal$pl.atemporal.item01$target_data$checks$constraints
+      [1] "{\"value_set\":\"no\"}"
+      
+      
+      
+      
+      
+      
+      $results_plausibility_unique
+      $results_plausibility_unique$dqa_name
+      $results_plausibility_unique$dqa_name$description
+      [1] "The last name of a person must be identical in all entries for one person ID."
+      
+      $results_plausibility_unique$dqa_name$source_data
+      $results_plausibility_unique$dqa_name$source_data$message
+      [1] "No duplicate occurrences of dqa_person_id found in association with dqa_name."
+      
+      $results_plausibility_unique$dqa_name$source_data$error
+      [1] "FALSE"
+      
+      
+      $results_plausibility_unique$dqa_name$target_data
+      $results_plausibility_unique$dqa_name$target_data$message
+      [1] "No duplicate occurrences of dqa_person_id found in association with dqa_name."
+      
+      $results_plausibility_unique$dqa_name$target_data$error
+      [1] "FALSE"
+      
+      
+      
+      
+      $utilspath
+      [1] "/usr/local/lib/R/site-library/DQAstats/demo_data/utilities/"
+      
+      $current_date
+      [1] "20. June 2022"
+      
+      $checks
+      $checks$value_conformance
+                     Variable Check Source Data Check Target Data
+      1:         Age in years            passed            failed
+      2:     Amount of credit            passed            passed
+      3:            Birthdate            failed            failed
+      4:       Credit worthy?            passed            passed
+      5: Current bank balance            failed            failed
+      6:      Date of contact            failed            failed
+      7:               Income            passed            failed
+      8:                  Sex            passed            failed
+      9:  pl.atemporal.item01            passed            failed
+      
+      $checks$etl
+                      Variable Check Distincts Check Valids Check Missings
+       1:         Age in years          passed       passed         passed
+       2:     Amount of credit          passed       passed         passed
+       3:            Birthdate          passed       passed         passed
+       4:       Credit worthy?          passed       passed         passed
+       5: Current bank balance          passed       passed         passed
+       6:      Date of contact          passed       passed         passed
+       7:             Forename          failed       passed         passed
+       8:               Income          passed       passed         passed
+       9:                  Job          passed       passed         passed
+      10:                 Name          passed       passed         passed
+      11:            Person ID          passed       passed         passed
+      12:                  Sex          failed       passed         passed
+      
+      
+      $variable_list
+      $variable_list$`Age in years`
+      [1] "dqa_age_years"
+      
+      $variable_list$`Amount of credit`
+      [1] "dqa_credit_amount"
+      
+      $variable_list$Birthdate
+      [1] "dqa_birthdate"
+      
+      $variable_list$`Credit worthy?`
+      [1] "dqa_credit_worthy"
+      
+      $variable_list$`Current bank balance`
+      [1] "dqa_bank_balance"
+      
+      $variable_list$`Date of contact`
+      [1] "dqa_contact_date"
+      
+      $variable_list$Forename
+      [1] "dqa_forename"
+      
+      $variable_list$Income
+      [1] "dqa_income"
+      
+      $variable_list$Job
+      [1] "dqa_job"
+      
+      $variable_list$Name
+      [1] "dqa_name"
+      
+      $variable_list$`Person ID`
+      [1] "dqa_person_id"
+      
+      $variable_list$Sex
+      [1] "dqa_sex"
+      
+      
+      $sitenames
+      $sitenames$`Demo sitename`
+      [1] "DEMO"
+      
+      
+      $restricting_date
+      $restricting_date$use_it
+      [1] FALSE
+      
+      
+      $data_target
+      NULL
+      
+      $system_types
+      [1] "csv"
+      
+      $settings
+      $settings$exampleCSV_source
+      named list()
+      
+      $settings$exampleCSV_target
+      named list()
+      
+      
+      $mdr
+                   designation source_variable_name filter       source_table_name source_system_name source_system_type
+       1:            Person ID            PERSON_ID   <NA> dqa_example_data_01.csv  exampleCSV_source                csv
+       2:             Forename             FORENAME   <NA> dqa_example_data_01.csv  exampleCSV_source                csv
+       3:                 Name                 NAME   <NA> dqa_example_data_01.csv  exampleCSV_source                csv
+       4:         Age in years                  AGE   <NA> dqa_example_data_01.csv  exampleCSV_source                csv
+       5:            Birthdate            BIRTHDATE   <NA> dqa_example_data_01.csv  exampleCSV_source                csv
+       6:                  Sex                  SEX   <NA> dqa_example_data_01.csv  exampleCSV_source                csv
+       7:               Income               INCOME   <NA> dqa_example_data_01.csv  exampleCSV_source                csv
+       8:                  Job                  JOB   <NA> dqa_example_data_01.csv  exampleCSV_source                csv
+       9: Current bank balance         BANK-BALANCE   <NA> dqa_example_data_01.csv  exampleCSV_source                csv
+      10:       Credit worthy?        CREDIT-WORTHY   <NA> dqa_example_data_01.csv  exampleCSV_source                csv
+      11:     Amount of credit        CREDIT-AMOUNT   <NA> dqa_example_data_01.csv  exampleCSV_source                csv
+      12:      Date of contact         CONTACT-DATE   <NA> dqa_example_data_01.csv  exampleCSV_source                csv
+      13:            Person ID            PERSON_ID   <NA> dqa_example_data_02.csv  exampleCSV_target                csv
+      14:             Forename             FORENAME   <NA> dqa_example_data_02.csv  exampleCSV_target                csv
+      15:                 Name                 NAME   <NA> dqa_example_data_02.csv  exampleCSV_target                csv
+      16:         Age in years                  AGE   <NA> dqa_example_data_02.csv  exampleCSV_target                csv
+      17:            Birthdate            BIRTHDATE   <NA> dqa_example_data_02.csv  exampleCSV_target                csv
+      18:                  Sex                  SEX   <NA> dqa_example_data_02.csv  exampleCSV_target                csv
+      19:               Income               INCOME   <NA> dqa_example_data_02.csv  exampleCSV_target                csv
+      20:                  Job                  JOB   <NA> dqa_example_data_02.csv  exampleCSV_target                csv
+      21: Current bank balance         BANK-BALANCE   <NA> dqa_example_data_02.csv  exampleCSV_target                csv
+      22:       Credit worthy?        CREDIT-WORTHY   <NA> dqa_example_data_02.csv  exampleCSV_target                csv
+      23:     Amount of credit        CREDIT-AMOUNT   <NA> dqa_example_data_02.csv  exampleCSV_target                csv
+      24:      Date of contact         CONTACT-DATE   <NA> dqa_example_data_02.csv  exampleCSV_target                csv
+                   designation source_variable_name filter       source_table_name source_system_name source_system_type
+                        key     variable_name variable_type restricting_date_var
+       1:     dqa.person_id     dqa_person_id        string         CONTACT-DATE
+       2:      dqa.forename      dqa_forename        string         CONTACT-DATE
+       3:          dqa.name          dqa_name        string         CONTACT-DATE
+       4:     dqa.age_years     dqa_age_years       integer         CONTACT-DATE
+       5:     dqa.birthdate     dqa_birthdate      datetime         CONTACT-DATE
+       6:           dqa.sex           dqa_sex    enumerated         CONTACT-DATE
+       7:        dqa.income        dqa_income       integer         CONTACT-DATE
+       8:           dqa.job           dqa_job        string         CONTACT-DATE
+       9:  dqa.bank_balance  dqa_bank_balance       integer         CONTACT-DATE
+      10: dqa.credit_worthy dqa_credit_worthy    enumerated         CONTACT-DATE
+      11: dqa.credit_amount dqa_credit_amount       integer         CONTACT-DATE
+      12:  dqa.contact_date  dqa_contact_date      datetime         CONTACT-DATE
+      13:     dqa.person_id     dqa_person_id        string         CONTACT-DATE
+      14:      dqa.forename      dqa_forename        string         CONTACT-DATE
+      15:          dqa.name          dqa_name        string         CONTACT-DATE
+      16:     dqa.age_years     dqa_age_years       integer         CONTACT-DATE
+      17:     dqa.birthdate     dqa_birthdate      datetime         CONTACT-DATE
+      18:           dqa.sex           dqa_sex    enumerated         CONTACT-DATE
+      19:        dqa.income        dqa_income       integer         CONTACT-DATE
+      20:           dqa.job           dqa_job        string         CONTACT-DATE
+      21:  dqa.bank_balance  dqa_bank_balance       integer         CONTACT-DATE
+      22: dqa.credit_worthy dqa_credit_worthy    enumerated         CONTACT-DATE
+      23: dqa.credit_amount dqa_credit_amount       integer         CONTACT-DATE
+      24:  dqa.contact_date  dqa_contact_date      datetime         CONTACT-DATE
+                        key     variable_name variable_type restricting_date_var
+                                                                            constraints dqa_assessment
+       1:                                                                          <NA>              1
+       2:                                                                          <NA>              1
+       3:                                                                          <NA>              1
+       4:                                     {"range":{"min":0,"max":110,"unit":"a"}}               1
+       5: {"datetime": {"min": "1950-01-01","max": "1989-12-31", "format": "%d.%m.%Y"}}              1
+       6:                                                {"value_set":["m", "f", "x"]}               1
+       7:                               {"range":{"min":0,"max":"Inf","unit":"money"}}               1
+       8:                                                                          <NA>              1
+       9:                          {"range":{"min":"-Inf","max":"Inf","unit":"money"}}               1
+      10:                                                  {"value_set": ["yes", "no"]}              1
+      11:                               {"range":{"min":0,"max":"Inf","unit":"money"}}               1
+      12: {"datetime": {"min": "2012-01-01","max": "2015-12-31", "format": "%d.%m.%Y"}}              1
+      13:                                                                          <NA>              1
+      14:                                                                          <NA>              1
+      15:                                                                          <NA>              1
+      16:                                     {"range":{"min":0,"max":110,"unit":"a"}}               1
+      17: {"datetime": {"min": "1950-01-01","max": "1989-12-31", "format": "%d.%m.%Y"}}              1
+      18:                                  {"value_set":["male", "female", "unknown"]}               1
+      19:                               {"range":{"min":0,"max":"Inf","unit":"money"}}               1
+      20:                                                                          <NA>              1
+      21:                          {"range":{"min":"-Inf","max":"Inf","unit":"money"}}               1
+      22:                                                  {"value_set": ["yes", "no"]}              1
+      23:                               {"range":{"min":0,"max":"Inf","unit":"money"}}               1
+      24: {"datetime": {"min": "2012-01-01","max": "2015-12-31", "format": "%d.%m.%Y"}}              1
+                                                                            constraints dqa_assessment
+                                                                                                           definition data_map
+       1: Each person has its own person-id. It stays the same over the whole live of the person and does not change.        1
+       2:                                                                                 The Forename of the person.       NA
+       3:                                                                                  The Surname of the person.       NA
+       4:                                                               The age of the person at the time of contact.       NA
+       5:                                                                     The date of birth written as dd.mm.yyyy       NA
+       6:                                                 The sex of the person in one letter: m, f or x for unknown.       NA
+       7:                                                             The income of the person at the time of contact       NA
+       8:                                                                The job of the person at the time of contact       NA
+       9:                                                                     The bank-balance at the time of contact       NA
+      10:                                     Indicates whether the person is creditworthy at the time of the contact        1
+      11:                                                             That's the amount of credit the person has used       NA
+      12:                                                                                             Date of contact       NA
+      13:                                                                     (The definition is missing in the MDR.)        1
+      14:                                                                     (The definition is missing in the MDR.)       NA
+      15:                                                                     (The definition is missing in the MDR.)       NA
+      16:                                                                     (The definition is missing in the MDR.)       NA
+      17:                                                                     (The definition is missing in the MDR.)       NA
+      18:                                                                     (The definition is missing in the MDR.)       NA
+      19:                                                                     (The definition is missing in the MDR.)       NA
+      20:                                                                     (The definition is missing in the MDR.)       NA
+      21:                                                                     (The definition is missing in the MDR.)       NA
+      22:                                                                     (The definition is missing in the MDR.)        1
+      23:                                                                     (The definition is missing in the MDR.)       NA
+      24:                                                                     (The definition is missing in the MDR.)       NA
+                                                                                                           definition data_map
+                                                                                                                                                                                                                                                                                                                                      plausibility_relation
+       1:                                                                                                                                                                                     {"uniqueness": {"dqa_name": {"name": "Pl.uniqueness.Item01","description": "The last name of a person must be identical in all entries for one person ID."}}}
+       2:                                                                                                                                                                                                                                                                                                                                              <NA>
+       3:                                                                                                                                                                                                                                                                                                                                              <NA>
+       4:                                                                                                                                                                                                                                                                                                                                              <NA>
+       5:                                                                                                                                                                                                                                                                                                                                              <NA>
+       6:                                                                                                                                                                                                                                                                                                                                              <NA>
+       7:                                                                                                                                                                                                                                                                                                                                              <NA>
+       8:                                                                                                                                                                                                                                                                                                                                              <NA>
+       9:                                                                                                                                                                                                                                                                                                                                              <NA>
+      10: {"atemporal": {"dqa_bank_balance": {"name": "Pl.atemporal.Item01", "description": "Persons with a negative bank balance cannot be credit worthy", "filter": {"exampleCSV_source": "^(-)", "exampleCSV_target": "^(-)"}, "join_crit": "dqa_person_id", "constraints": {"value_set": {"exampleCSV_source": ["no"], "exampleCSV_target": ["no"]}}}}}
+      11:                                                                                                                                                                                                                                                                                                                                              <NA>
+      12:                                                                                                                                                                                                                                                                                                                                              <NA>
+      13:                                                                                                                                                                                                                                                                                                                                              <NA>
+      14:                                                                                                                                                                                                                                                                                                                                              <NA>
+      15:                                                                                                                                                                                                                                                                                                                                              <NA>
+      16:                                                                                                                                                                                                                                                                                                                                              <NA>
+      17:                                                                                                                                                                                                                                                                                                                                              <NA>
+      18:                                                                                                                                                                                                                                                                                                                                              <NA>
+      19:                                                                                                                                                                                                                                                                                                                                              <NA>
+      20:                                                                                                                                                                                                                                                                                                                                              <NA>
+      21:                                                                                                                                                                                                                                                                                                                                              <NA>
+      22:                                                                                                                                                                                                                                                                                                                                              <NA>
+      23:                                                                                                                                                                                                                                                                                                                                              <NA>
+      24:                                                                                                                                                                                                                                                                                                                                              <NA>
+                                                                                                                                                                                                                                                                                                                                      plausibility_relation
+      
+      $report_created
+      [1] TRUE
+      
+      $mdr_filename
+      [1] "mdr_example_data.csv"
+      
+      $getdata_source
+      [1] FALSE
+      
+      $conformance
+      $conformance$value_conformance
+      $conformance$value_conformance$`Age in years`
+      $conformance$value_conformance$`Age in years`$source_data
+      $conformance$value_conformance$`Age in years`$source_data$conformance_error
+      [1] FALSE
+      
+      $conformance$value_conformance$`Age in years`$source_data$conformance_results
+      [1] "No 'value conformance' issues found."
+      
+      
+      $conformance$value_conformance$`Age in years`$target_data
+      $conformance$value_conformance$`Age in years`$target_data$conformance_error
+      [1] TRUE
+      
+      $conformance$value_conformance$`Age in years`$target_data$conformance_results
+      [1] "Extrem values are not conform with constraints."
+      
+      
+      
+      $conformance$value_conformance$`Amount of credit`
+      $conformance$value_conformance$`Amount of credit`$source_data
+      $conformance$value_conformance$`Amount of credit`$source_data$conformance_error
+      [1] FALSE
+      
+      $conformance$value_conformance$`Amount of credit`$source_data$conformance_results
+      [1] "No 'value conformance' issues found."
+      
+      
+      $conformance$value_conformance$`Amount of credit`$target_data
+      $conformance$value_conformance$`Amount of credit`$target_data$conformance_error
+      [1] FALSE
+      
+      $conformance$value_conformance$`Amount of credit`$target_data$conformance_results
+      [1] "No 'value conformance' issues found."
+      
+      
+      
+      $conformance$value_conformance$Birthdate
+      $conformance$value_conformance$Birthdate$source_data
+      $conformance$value_conformance$Birthdate$source_data$conformance_error
+      [1] TRUE
+      
+      $conformance$value_conformance$Birthdate$source_data$conformance_results
+      [1] "Extrem values are not conform with constraints."
+      
+      $conformance$value_conformance$Birthdate$source_data$rule
+      $conformance$value_conformance$Birthdate$source_data$rule$min
+      [1] "1950-01-01"
+      
+      $conformance$value_conformance$Birthdate$source_data$rule$max
+      [1] "1989-12-31"
+      
+      $conformance$value_conformance$Birthdate$source_data$rule$format
+      [1] "%d.%m.%Y"
+      
+      
+      
+      $conformance$value_conformance$Birthdate$target_data
+      $conformance$value_conformance$Birthdate$target_data$conformance_error
+      [1] TRUE
+      
+      $conformance$value_conformance$Birthdate$target_data$conformance_results
+      [1] "Extrem values are not conform with constraints."
+      
+      $conformance$value_conformance$Birthdate$target_data$rule
+      $conformance$value_conformance$Birthdate$target_data$rule$min
+      [1] "1950-01-01"
+      
+      $conformance$value_conformance$Birthdate$target_data$rule$max
+      [1] "1989-12-31"
+      
+      $conformance$value_conformance$Birthdate$target_data$rule$format
+      [1] "%d.%m.%Y"
+      
+      
+      
+      
+      $conformance$value_conformance$`Credit worthy?`
+      $conformance$value_conformance$`Credit worthy?`$source_data
+      $conformance$value_conformance$`Credit worthy?`$source_data$conformance_error
+      [1] FALSE
+      
+      $conformance$value_conformance$`Credit worthy?`$source_data$conformance_results
+      [1] "No 'value conformance' issues found."
+      
+      
+      $conformance$value_conformance$`Credit worthy?`$target_data
+      $conformance$value_conformance$`Credit worthy?`$target_data$conformance_error
+      [1] FALSE
+      
+      $conformance$value_conformance$`Credit worthy?`$target_data$conformance_results
+      [1] "No 'value conformance' issues found."
+      
+      
+      
+      $conformance$value_conformance$`Current bank balance`
+      $conformance$value_conformance$`Current bank balance`$source_data
+      $conformance$value_conformance$`Current bank balance`$source_data$conformance_error
+      [1] TRUE
+      
+      $conformance$value_conformance$`Current bank balance`$source_data$conformance_results
+      [1] "Extrem values are not conform with constraints."
+      
+      
+      $conformance$value_conformance$`Current bank balance`$target_data
+      $conformance$value_conformance$`Current bank balance`$target_data$conformance_error
+      [1] TRUE
+      
+      $conformance$value_conformance$`Current bank balance`$target_data$conformance_results
+      [1] "Extrem values are not conform with constraints."
+      
+      
+      
+      $conformance$value_conformance$`Date of contact`
+      $conformance$value_conformance$`Date of contact`$source_data
+      $conformance$value_conformance$`Date of contact`$source_data$conformance_error
+      [1] TRUE
+      
+      $conformance$value_conformance$`Date of contact`$source_data$conformance_results
+      [1] "Extrem values are not conform with constraints."
+      
+      $conformance$value_conformance$`Date of contact`$source_data$rule
+      $conformance$value_conformance$`Date of contact`$source_data$rule$min
+      [1] "2012-01-01"
+      
+      $conformance$value_conformance$`Date of contact`$source_data$rule$max
+      [1] "2015-12-31"
+      
+      $conformance$value_conformance$`Date of contact`$source_data$rule$format
+      [1] "%d.%m.%Y"
+      
+      
+      
+      $conformance$value_conformance$`Date of contact`$target_data
+      $conformance$value_conformance$`Date of contact`$target_data$conformance_error
+      [1] TRUE
+      
+      $conformance$value_conformance$`Date of contact`$target_data$conformance_results
+      [1] "Extrem values are not conform with constraints."
+      
+      $conformance$value_conformance$`Date of contact`$target_data$rule
+      $conformance$value_conformance$`Date of contact`$target_data$rule$min
+      [1] "2012-01-01"
+      
+      $conformance$value_conformance$`Date of contact`$target_data$rule$max
+      [1] "2015-12-31"
+      
+      $conformance$value_conformance$`Date of contact`$target_data$rule$format
+      [1] "%d.%m.%Y"
+      
+      
+      
+      
+      $conformance$value_conformance$Income
+      $conformance$value_conformance$Income$source_data
+      $conformance$value_conformance$Income$source_data$conformance_error
+      [1] FALSE
+      
+      $conformance$value_conformance$Income$source_data$conformance_results
+      [1] "No 'value conformance' issues found."
+      
+      
+      $conformance$value_conformance$Income$target_data
+      $conformance$value_conformance$Income$target_data$conformance_error
+      [1] TRUE
+      
+      $conformance$value_conformance$Income$target_data$conformance_results
+      [1] "Extrem values are not conform with constraints."
+      
+      
+      
+      $conformance$value_conformance$Sex
+      $conformance$value_conformance$Sex$source_data
+      $conformance$value_conformance$Sex$source_data$conformance_error
+      [1] FALSE
+      
+      $conformance$value_conformance$Sex$source_data$conformance_results
+      [1] "No 'value conformance' issues found."
+      
+      
+      $conformance$value_conformance$Sex$target_data
+      $conformance$value_conformance$Sex$target_data$conformance_error
+      [1] TRUE
+      
+      $conformance$value_conformance$Sex$target_data$conformance_results
+      [1] "Levels that are not conform with the value set:  \nabc"
+      
+      
+      
+      $conformance$value_conformance$pl.atemporal.item01
+      $conformance$value_conformance$pl.atemporal.item01$source_data
+      $conformance$value_conformance$pl.atemporal.item01$source_data$conformance_error
+      [1] FALSE
+      
+      $conformance$value_conformance$pl.atemporal.item01$source_data$conformance_results
+      [1] "No 'value conformance' issues found."
+      
+      
+      $conformance$value_conformance$pl.atemporal.item01$target_data
+      $conformance$value_conformance$pl.atemporal.item01$target_data$conformance_error
+      [1] TRUE
+      
+      $conformance$value_conformance$pl.atemporal.item01$target_data$conformance_results
+      [1] "Levels that are not conform with the value set:  \nyes"
+      
+      $conformance$value_conformance$pl.atemporal.item01$target_data$affected_ids
+         dqa_bank_balance
+      1:           -36500
+      2:           -64200
+      
+      
+      
+      
+      
+      $displaynames
+         source_system_name       displayname
+      1:  exampleCSV_source exampleCSV_source
+      2:  exampleCSV_target exampleCSV_target
+      
+      $source
+      $source$system_name
+      [1] "exampleCSV_source"
+      
+      $source$system_type
+      [1] "csv"
+      
+      $source$settings
+      $source$settings$path
+      [1] "/usr/local/lib/R/site-library/DQAstats/demo_data"
+      
+      
+      $source$sql
+      [1] NA
+      
+      
+      $target
+      $target$system_name
+      [1] "exampleCSV_target"
+      
+      $target$system_type
+      [1] "csv"
+      
+      $target$settings
+      $target$settings$path
+      [1] "/usr/local/lib/R/site-library/DQAstats/demo_data"
+      
+      
+      $target$sql
+      [1] NA
+      
+      
+      $target_is_source
+      [1] FALSE
+      
+      $data_source
+      NULL
+      
+      $results_plausibility_atemporal
+      $results_plausibility_atemporal$pl.atemporal.item01
+      $results_plausibility_atemporal$pl.atemporal.item01$description
+      $results_plausibility_atemporal$pl.atemporal.item01$description$source_data
+      $results_plausibility_atemporal$pl.atemporal.item01$description$source_data$name
+      [1] "Pl.atemporal.Item01"
+      
+      $results_plausibility_atemporal$pl.atemporal.item01$description$source_data$description
+      [1] "Persons with a negative bank balance cannot be credit worthy"
+      
+      $results_plausibility_atemporal$pl.atemporal.item01$description$source_data$var_dependent
+      [1] "dqa_credit_worthy"
+      
+      $results_plausibility_atemporal$pl.atemporal.item01$description$source_data$var_independent
+      [1] "dqa_bank_balance"
+      
+      $results_plausibility_atemporal$pl.atemporal.item01$description$source_data$filter
+      [1] "^(-)"
+      
+      $results_plausibility_atemporal$pl.atemporal.item01$description$source_data$join_crit
+      [1] "dqa_person_id"
+      
+      $results_plausibility_atemporal$pl.atemporal.item01$description$source_data$checks
+      $results_plausibility_atemporal$pl.atemporal.item01$description$source_data$checks$constraints
+      [1] "{\"value_set\":\"no\"}"
+      
+      $results_plausibility_atemporal$pl.atemporal.item01$description$source_data$checks$var_type
+      [1] "enumerated"
+      
+      
+      
+      $results_plausibility_atemporal$pl.atemporal.item01$description$target_data
+      $results_plausibility_atemporal$pl.atemporal.item01$description$target_data$name
+      [1] "Pl.atemporal.Item01"
+      
+      $results_plausibility_atemporal$pl.atemporal.item01$description$target_data$var_dependent
+      [1] "dqa_credit_worthy"
+      
+      $results_plausibility_atemporal$pl.atemporal.item01$description$target_data$var_independent
+      [1] "dqa_bank_balance"
+      
+      $results_plausibility_atemporal$pl.atemporal.item01$description$target_data$filter
+      [1] "^(-)"
+      
+      $results_plausibility_atemporal$pl.atemporal.item01$description$target_data$join_crit
+      [1] "dqa_person_id"
+      
+      $results_plausibility_atemporal$pl.atemporal.item01$description$target_data$checks
+      $results_plausibility_atemporal$pl.atemporal.item01$description$target_data$checks$constraints
+      [1] "{\"value_set\":\"no\"}"
+      
+      $results_plausibility_atemporal$pl.atemporal.item01$description$target_data$checks$var_type
+      [1] "enumerated"
+      
+      
+      
+      
+      $results_plausibility_atemporal$pl.atemporal.item01$counts
+      $results_plausibility_atemporal$pl.atemporal.item01$counts$source_data
+      $results_plausibility_atemporal$pl.atemporal.item01$counts$source_data$cnt
+                  variable n valids missings distinct      sourcesystem
+      1: dqa_credit_worthy 2      2        0        1 exampleCSV_source
+      
+      $results_plausibility_atemporal$pl.atemporal.item01$counts$source_data$type
+      [1] "enumerated"
+      
+      
+      $results_plausibility_atemporal$pl.atemporal.item01$counts$target_data
+      $results_plausibility_atemporal$pl.atemporal.item01$counts$target_data$cnt
+                  variable n valids missings distinct      sourcesystem
+      1: dqa_credit_worthy 4      4        0        2 exampleCSV_target
+      
+      $results_plausibility_atemporal$pl.atemporal.item01$counts$target_data$type
+      [1] "enumerated"
+      
+      
+      
+      $results_plausibility_atemporal$pl.atemporal.item01$statistics
+      $results_plausibility_atemporal$pl.atemporal.item01$statistics$source_data
+         dqa_credit_worthy Freq % Valid
+      1:                no    2     100
+      
+      $results_plausibility_atemporal$pl.atemporal.item01$statistics$target_data
+         dqa_credit_worthy Freq % Valid
+      1:                no    2      50
+      2:               yes    2      50
+      
+      
+      
+      
+      $systems
+         source_system_name source_system_type
+      1:  exampleCSV_source                csv
+      2:  exampleCSV_target                csv
+      
+      $demo_usage
+      [1] FALSE
+      
+      $start
+      [1] TRUE
+      
+      $log
+      $log$logfile_dir
+      [1] "/tmp/Rtmp34oS8t/"
+      
+      $log$populated_old_logfiles_list
+      [1] TRUE
+      
+      
+      $completeness
+                      Variable Missings (source) Missings [%] (source) Missings (target) Missings [%] (target)
+       1:         Age in years                 0                     0                 0                     0
+       2:     Amount of credit                13                 56.52                13                 56.52
+       3:            Birthdate                 0                     0                 0                     0
+       4:       Credit worthy?                 0                     0                 0                     0
+       5: Current bank balance                 0                     0                 0                     0
+       6:      Date of contact                 0                     0                 0                     0
+       7:             Forename                 0                     0                 0                     0
+       8:               Income                 0                     0                 0                     0
+       9:                  Job                 0                     0                 0                     0
+      10:                 Name                 0                     0                 0                     0
+      11:            Person ID                 0                     0                 0                     0
+      12:                  Sex                 0                     0                 0                     0
+      
+      $parallel
+      [1] FALSE
+      
+      $create_report
+      [1] TRUE
+      
+      $pl_uniq_vars_filter
+      $pl_uniq_vars_filter$dqa_name
+      [1] "dqa_name"
+      
+      
+      $getdata_target
+      [1] FALSE
+      
+      $pl_atemp_vars_filter
+      $pl_atemp_vars_filter$Pl.atemporal.Item01
+      [1] "pl.atemporal.item01"
+      
+      
 
----
