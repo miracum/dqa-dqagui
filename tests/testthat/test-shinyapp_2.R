@@ -15,9 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-# This file is for testing the applications in the inst/ directory.
-test_that("DQAgui shiny app / launch_app() works", {
+test_that("Results: plausibility, conformance, completeness, checks, datamap", {
   # Don't run these tests on the CRAN build servers
   skip_on_cran()
 
@@ -56,6 +54,12 @@ test_that("DQAgui shiny app / launch_app() works", {
                         rv$dqa_assessment[["designation"]])
     session$setInputs(`moduleConfig-dash_load_btn` = "click")
 
-    expect_snapshot(rv)
+    expect_snapshot(rv$results_descriptive)
+    expect_snapshot(rv$results_plausibility_atemporal)
+    expect_snapshot(rv$conformance$value_conformance)
+    expect_snapshot(rv$completeness)
+    expect_snapshot(rv$checks$value_conformance)
+    expect_snapshot(rv$checks$etl)
+    expect_snapshot(rv$datamap)
   })
 })
