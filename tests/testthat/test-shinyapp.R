@@ -56,8 +56,10 @@ test_that("DQAgui shiny app / launch_app() works", {
     output$end_time <- NULL
     output$duration <- NULL
 
-    val <- jsonlite::toJSON(output, auto_unbox = TRUE, pretty = TRUE)
-
-    expect_snapshot_output(val)
+    expect_snapshot_value(
+      x = output,
+      style = "json2",
+      ignore_function_env = TRUE
+    )
   })
 })
