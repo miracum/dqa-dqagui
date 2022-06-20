@@ -58,7 +58,7 @@ test_that("DQAgui shiny app / launch_app() works", {
 
     expect_snapshot_value(
       x = output,
-      style = "json2",
+      style = "serialize",
       ignore_function_env = TRUE
     )
   })

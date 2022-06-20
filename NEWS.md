@@ -26,6 +26,9 @@
 * updated R version to R 4.2.0
 * updated image to R 4.2.0
 * updated new dev version
+* modularizing unittests due to failing on gha (wip 11)
+* modularizing unittests due to failing on gha (wip 10)
+* modularizing unittests due to failing on gha (wip 9)
 * modularizing unittests due to failing on gha (wip 8)
 * modularizing unittests due to failing on gha (wip 7)
 * modularizing unittests due to failing on gha (wip 6)
@@ -37,7 +40,7 @@
 * modularizing unittests due to failing on gha
 * fixed linting errors and shiny-app unittests
 
-Full set of changes: [`v0.2.0...cf9399c`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...cf9399c)
+Full set of changes: [`v0.2.0...9713e2d`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...9713e2d)
 
 ## v0.2.0 (2022-05-20)
 
