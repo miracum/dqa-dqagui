@@ -57,8 +57,58 @@ test_that("DQAgui shiny app / launch_app() works", {
     output$duration <- NULL
 
     expect_snapshot_value(
-      x = output,
-      style = "serialize",
+      x = names(output),
+      style = "json2",
+      cran = FALSE,
+      tolerance = 10e-1,
+      ignore_function_env = TRUE
+    )
+
+    expect_snapshot_value(
+      x = output$results_plausibility_atemporal,
+      style = "json2",
+      cran = FALSE,
+      tolerance = 10e-1,
+      ignore_function_env = TRUE
+    )
+
+    expect_snapshot_value(
+      x = output$conformance$value_conformance,
+      style = "json2",
+      cran = FALSE,
+      tolerance = 10e-1,
+      ignore_function_env = TRUE
+    )
+
+    expect_snapshot_value(
+      x = output$completeness,
+      style = "json2",
+      cran = FALSE,
+      tolerance = 10e-1,
+      ignore_function_env = TRUE
+    )
+
+    expect_snapshot_value(
+      x = output$checks$value_conformance,
+      style = "json2",
+      cran = FALSE,
+      tolerance = 10e-1,
+      ignore_function_env = TRUE
+    )
+
+    expect_snapshot_value(
+      x = output$checks$etl,
+      style = "json2",
+      cran = FALSE,
+      tolerance = 10e-1,
+      ignore_function_env = TRUE
+    )
+
+    expect_snapshot_value(
+      x = output$datamap,
+      style = "json2",
+      cran = FALSE,
+      tolerance = 10e-1,
       ignore_function_env = TRUE
     )
   })
