@@ -12,6 +12,7 @@
 options(shiny.trace = TRUE)
 options(shiny.fullstacktrace = TRUE)
 
+
 port = 3838
 output_dir = "output/"
 
@@ -60,8 +61,8 @@ ncores = 8
 DIZtools::setenv_file(
   paste0(
     "../",
-    # list.files(path = "../", pattern = "^env_INTERNAL.*")
-    list.files(path = "../", pattern = "dev.env")
+    list.files(path = "../", pattern = "^env_INTERNAL.*")
+    #list.files(path = "../", pattern = "dev.env")
   )
 )
 # shiny::shinyAppDir("inst/application/")

@@ -465,14 +465,18 @@ test_connection_button_clicked <-
     }
 
     if (!is.null(rv[[source_target]]$settings)) {
+
+      # set new environment variables here
+      do.call(Sys.setenv, rv[[source_target]]$settings)
+
       rv[[source_target]]$db_con <- DIZutils::db_connection(
         ## db_name = rv[[source_target]]$settings$dbname,
         db_type = db_type,
+        system_name = input_system,
         headless = rv$headless,
         timeout = 2,
         logfile_dir = rv$log$logfile_dir,
-        from_env = FALSE,
-        settings = rv[[source_target]]$settings,
+        from_env = TRUE,
         lib_path = lib_path_tmp
       )
 

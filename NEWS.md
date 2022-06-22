@@ -10,6 +10,7 @@
 * fixes [#43](https://gitlab.miracum.org/miracum/dqa/dqagui/issues/43) and [#48](https://gitlab.miracum.org/miracum/dqa/dqagui/issues/48)
 #### Refactorings
 
+* removed demo-usage instruction panel and added link to help/instructions in the menu
 * switched from "data system" to "database" in wordings
 #### Docs
 
@@ -46,7 +47,7 @@
 * modularizing unittests due to failing on gha
 * fixed linting errors and shiny-app unittests
 
-Full set of changes: [`v0.2.0...a458aaa`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...a458aaa)
+Full set of changes: [`v0.2.0...541b537`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...541b537)
 
 ## v0.2.0 (2022-05-20)
 
