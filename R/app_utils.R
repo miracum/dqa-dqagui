@@ -466,8 +466,20 @@ test_connection_button_clicked <-
 
     if (!is.null(rv[[source_target]]$settings)) {
 
+      print(rv[[source_target]]$settings)
+
       # set new environment variables here
-      do.call(Sys.setenv, rv[[source_target]]$settings)
+      # https://stackoverflow.com/a/12533155
+      lapply(
+        X = names(rv[[source_target]]$settings),
+        FUN = function(envvar_names) {
+          args <- list(rv[[source_target]]$settings[[envvar_names]])
+          names(args) = paste0(
+            toupper(input_system), "_", toupper(envvar_names)
+          )
+          do.call(Sys.setenv, args)
+        }
+      )
 
       rv[[source_target]]$db_con <- DIZutils::db_connection(
         ## db_name = rv[[source_target]]$settings$dbname,
