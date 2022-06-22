@@ -7,6 +7,8 @@
 * added demo usage instructions
 #### Fixes
 
+* setting envvars before connecting to database [#2](https://gitlab.miracum.org/miracum/dqa/dqagui/issues/2)
+* setting envvars before connecting to database
 * fixes [#43](https://gitlab.miracum.org/miracum/dqa/dqagui/issues/43) and [#48](https://gitlab.miracum.org/miracum/dqa/dqagui/issues/48)
 #### Refactorings
 
@@ -47,7 +49,7 @@
 * modularizing unittests due to failing on gha
 * fixed linting errors and shiny-app unittests
 
-Full set of changes: [`v0.2.0...541b537`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...541b537)
+Full set of changes: [`v0.2.0...df7ea4a`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...df7ea4a)
 
 ## v0.2.0 (2022-05-20)
 

@@ -466,8 +466,6 @@ test_connection_button_clicked <-
 
     if (!is.null(rv[[source_target]]$settings)) {
 
-      print(rv[[source_target]]$settings)
-
       # set new environment variables here
       # https://stackoverflow.com/a/12533155
       lapply(
