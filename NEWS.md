@@ -1,6 +1,6 @@
 # DQAgui NEWS
 
-## Unreleased (2022-06-22)
+## Unreleased (2022-06-27)
 
 #### New Features
 
@@ -22,6 +22,7 @@
 * updated gha (wip 3)
 * updated gha (wip 2)
 * updated gha
+* removed unnecessary pring message
 * updated news.md; preparing new cran release
 * updated lintr
 * added sitename presetting in demo mode
@@ -49,7 +50,7 @@
 * modularizing unittests due to failing on gha
 * fixed linting errors and shiny-app unittests
 
-Full set of changes: [`v0.2.0...df7ea4a`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...df7ea4a)
+Full set of changes: [`v0.2.0...5c57f01`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...5c57f01)
 
 ## v0.2.0 (2022-05-20)
 

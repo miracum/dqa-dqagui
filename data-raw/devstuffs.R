@@ -80,8 +80,8 @@ usethis::use_package("shinyWidgets", type = "Imports")
 usethis::use_package("knitr", type = "Imports")
 usethis::use_package("jsonlite", type = "Imports")
 usethis::use_package("DIZtools", type = "Imports", min_version = "0.0.5")
-usethis::use_package("DIZutils", type = "Imports", min_version = "0.1.0")
-usethis::use_package("DQAstats", type = "Imports", min_version = "0.3.0")
+usethis::use_package("DIZutils", type = "Imports", min_version = "0.1.1")
+usethis::use_package("DQAstats", type = "Imports", min_version = "0.3.1")
 # For loading-animations:
 usethis::use_package("waiter", type = "Imports")
 
