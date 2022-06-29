@@ -287,11 +287,13 @@ module_config_server <-
                 system_name = x,
                 logfile_dir = rv$log$logfile_dir,
                 headless = rv$headless
+                ,ignore_presets = TRUE
               )
             },
             USE.NAMES = TRUE,
             simplify = FALSE
           )
+
 
           ## Create mapping for display names:
           rv$displaynames <- data.table::data.table(
@@ -309,6 +311,9 @@ module_config_server <-
               )
             ), use.names = TRUE)
           }
+
+          print("rv$displaynames:")
+          print(rv$displaynames)
 
 
           # - Different system-types:

@@ -7,6 +7,7 @@
 * added demo usage instructions
 #### Fixes
 
+* only showing waiter for report if there was no previous error
 * setting envvars before connecting to database [#2](https://gitlab.miracum.org/miracum/dqa/dqagui/issues/2)
 * setting envvars before connecting to database
 * fixes [#43](https://gitlab.miracum.org/miracum/dqa/dqagui/issues/43) and [#48](https://gitlab.miracum.org/miracum/dqa/dqagui/issues/48)
@@ -51,7 +52,7 @@
 * modularizing unittests due to failing on gha
 * fixed linting errors and shiny-app unittests
 
-Full set of changes: [`v0.2.0...2df0da1`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...2df0da1)
+Full set of changes: [`v0.2.0...b478a92`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...b478a92)
 
 ## v0.2.0 (2022-05-20)
 

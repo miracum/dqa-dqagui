@@ -21,6 +21,8 @@
 #' @param input Shiny server input object.
 #' @param target A boolean (default: TRUE).
 #' @param db_type (String) "postgres" or "oracle".
+#' @param displayname_gui (String) "i2b2 (Prod)"
+#' @inheritParams module_config_server
 #'
 #' @return This functions returns a data table of key-value pairs for the
 #'   database settings, which are parsed from the respective config tab
@@ -37,7 +39,12 @@
 #'
 #' @export
 #'
-get_db_settings <- function(input, target = TRUE, db_type) {
+get_db_settings <-
+  function(input,
+           target = TRUE,
+           db_type,
+           displayname_gui,
+           rv) {
   # create description of column selections
   vec <- c("dbname", "host", "port", "user", "password")
   source_target <- ifelse(target, "target", "source")
@@ -53,6 +60,29 @@ get_db_settings <- function(input, target = TRUE, db_type) {
 
   tab <- do.call(rbind, tab)
 
+  ## Add custom variables if existing:
+  custom_variables <- c("sqlmodify", "schema")
+  system_name <- rv$displaynames[get("displayname") == displayname_gui, get("source_system_name")]
+  for (i in seq_along(rv$settings[[system_name]])) {
+    if (is.list(rv$settings[[system_name]][[i]])) {
+      if (rv$settings[[system_name]][[i]][["displayname"]] == displayname_gui) {
+        new_stuff <- rv$settings[[system_name]][[i]][custom_variables]
+
+        ## Remove null elements:
+        new_stuff <- new_stuff[!sapply(X = new_stuff, FUN = is.null)]
+
+        if (length(new_stuff) > 0) {
+          tab <- data.table::rbindlist(list(tab, list(
+            keys = names(new_stuff),
+            value = unlist(new_stuff, use.names = FALSE)
+          )))
+        }
+        print("tab:")
+        print(tab)
+      }
+    }
+  }
+
   # if one column is selected multiple times
   if ("" %in% tab[, get("value")] ||
       any(tab[, grepl("\\s", get("value"))])) {
@@ -65,9 +95,13 @@ get_db_settings <- function(input, target = TRUE, db_type) {
     return(NULL)
 
   } else {
-    outlist <- lapply(stats::setNames(vec, vec), function(g) {
-      tab[get("keys") == g, get("value")]
-    })
+    outlist <-
+      lapply(stats::setNames(
+        object = tab[["keys"]],
+        nm = tab[["keys"]]
+      ), function(g) {
+        tab[get("keys") == g, get("value")]
+      })
     return(outlist)
   }
 }
@@ -446,17 +480,27 @@ test_connection_button_clicked <-
       target <- FALSE
     }
 
-    # If we don't assign (= copy) it (input$source_oracle_presettings_list)
-    # here, the value will stay reactive and change every time we
-    # select another system. But it should only change if
-    # we also successfully tested the connection:
+    ## If we don't assign (= copy) it (input$source_oracle_presettings_list)
+    ## here, the value will stay reactive and change every time we
+    ## select another system. But it should only change if
+    ## we also successfully tested the connection:
     system_name_tmp <-
       paste0(source_target, "_", db_type, "_presettings_list")
     input_system <- input[[system_name_tmp]]
 
-    rv[[source_target]]$settings <- DQAgui::get_db_settings(input = input,
-                                                            target = target,
-                                                            db_type = db_type)
+
+    ## Info:
+    ## `input_system` is e.g. "i2b2 (Prod)" = displayname
+    ## `db_type` is e.g. "postgres"
+
+    rv[[source_target]]$settings <-
+      DQAgui::get_db_settings(
+        input = input,
+        target = target,
+        db_type = db_type,
+        displayname = input_system,
+        rv = rv
+      )
 
     if (db_type == "oracle") {
       lib_path_tmp <- Sys.getenv("KDB_DRIVER")
@@ -466,6 +510,12 @@ test_connection_button_clicked <-
 
     if (!is.null(rv[[source_target]]$settings)) {
 
+      # print("rv$settings:")
+      # print(rv$settings)
+
+      print("rv[[source_target]]$settings:")
+      print(rv[[source_target]]$settings)
+
       # set new environment variables here
       # https://stackoverflow.com/a/12533155
       lapply(
@@ -473,16 +523,19 @@ test_connection_button_clicked <-
         FUN = function(envvar_names) {
           args <- list(rv[[source_target]]$settings[[envvar_names]])
           names(args) = paste0(
-            toupper(input_system), "_", toupper(envvar_names)
+            toupper(rv[[source_target]]$settings$dbname), "_", toupper(envvar_names)
           )
           do.call(Sys.setenv, args)
         }
       )
 
+      print("--- All Sys.env vars starting with 'I2B2':")
+      print(grep(pattern = "^(I2B2)(.)+", x = names(Sys.getenv()), value = TRUE))
+
       rv[[source_target]]$db_con <- DIZutils::db_connection(
         ## db_name = rv[[source_target]]$settings$dbname,
         db_type = db_type,
-        system_name = input_system,
+        system_name = rv[[source_target]]$settings$dbname,
         headless = rv$headless,
         timeout = 2,
         logfile_dir = rv$log$logfile_dir,
