@@ -7,6 +7,11 @@
 * added demo usage instructions
 #### Fixes
 
+* added 'nested'-field to list for multiple db instances
+* displayname to settings
+* unnamed list for multiple db instances
+* fixing population of settings, when multiple db instances defined
+* changed naming of prod-env-var-using to re-enable reloading
 * tried to fix handing over sql schema and sqlmodify
 * only showing waiter for report if there was no previous error
 * setting envvars before connecting to database [#2](https://gitlab.miracum.org/miracum/dqa/dqagui/issues/2)
@@ -24,6 +29,7 @@
 * updated gha (wip 3)
 * updated gha (wip 2)
 * updated gha
+* merged fix_settings_from_env to development
 * updated function manual
 * updated news.md and description
 * removed unnecessary pring message
@@ -54,7 +60,7 @@
 * modularizing unittests due to failing on gha
 * fixed linting errors and shiny-app unittests
 
-Full set of changes: [`v0.2.0...695a312`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...695a312)
+Full set of changes: [`v0.2.0...418d42b`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...418d42b)
 
 ## v0.2.0 (2022-05-20)
 
@@ -287,7 +293,7 @@ Full set of changes: [`v0.0.7...v0.1.0`](https://gitlab.miracum.org/miracum/dqa/
 
 Full set of changes: [`v0.0.6...v0.0.7`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.6...v0.0.7)
 
-## v0.0.6 (2020-01-29)
+## v0.0.6 (2020-01-30)
 
 
 Full set of changes: [`v0.0.4...v0.0.6`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.4...v0.0.6)
