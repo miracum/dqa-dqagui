@@ -7,6 +7,7 @@
 * added demo usage instructions
 #### Fixes
 
+* tried to fix handing over sql schema and sqlmodify
 * only showing waiter for report if there was no previous error
 * setting envvars before connecting to database [#2](https://gitlab.miracum.org/miracum/dqa/dqagui/issues/2)
 * setting envvars before connecting to database
@@ -23,6 +24,7 @@
 * updated gha (wip 3)
 * updated gha (wip 2)
 * updated gha
+* updated function manual
 * updated news.md and description
 * removed unnecessary pring message
 * updated news.md; preparing new cran release
@@ -52,7 +54,7 @@
 * modularizing unittests due to failing on gha
 * fixed linting errors and shiny-app unittests
 
-Full set of changes: [`v0.2.0...b478a92`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...b478a92)
+Full set of changes: [`v0.2.0...695a312`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...695a312)
 
 ## v0.2.0 (2022-05-20)
 

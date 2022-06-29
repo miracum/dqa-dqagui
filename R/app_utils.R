@@ -77,8 +77,6 @@ get_db_settings <-
             value = unlist(new_stuff, use.names = FALSE)
           )))
         }
-        print("tab:")
-        print(tab)
       }
     }
   }
@@ -509,13 +507,6 @@ test_connection_button_clicked <-
     }
 
     if (!is.null(rv[[source_target]]$settings)) {
-
-      # print("rv$settings:")
-      # print(rv$settings)
-
-      print("rv[[source_target]]$settings:")
-      print(rv[[source_target]]$settings)
-
       # set new environment variables here
       # https://stackoverflow.com/a/12533155
       lapply(
@@ -523,19 +514,16 @@ test_connection_button_clicked <-
         FUN = function(envvar_names) {
           args <- list(rv[[source_target]]$settings[[envvar_names]])
           names(args) = paste0(
-            toupper(rv[[source_target]]$settings$dbname), "_", toupper(envvar_names)
+            toupper(input_system), "_", toupper(envvar_names)
           )
           do.call(Sys.setenv, args)
         }
       )
 
-      print("--- All Sys.env vars starting with 'I2B2':")
-      print(grep(pattern = "^(I2B2)(.)+", x = names(Sys.getenv()), value = TRUE))
-
       rv[[source_target]]$db_con <- DIZutils::db_connection(
         ## db_name = rv[[source_target]]$settings$dbname,
         db_type = db_type,
-        system_name = rv[[source_target]]$settings$dbname,
+        system_name = input_system,
         headless = rv$headless,
         timeout = 2,
         logfile_dir = rv$log$logfile_dir,
