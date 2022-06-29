@@ -437,7 +437,7 @@ module_dashboard_server <-
           )
           rv$start <- NULL
         })
-        if(!isTRUE(rv$error)){
+        if (!isTRUE(rv$error)) {
           waiter::waiter_update(html = shiny::tagList(
             waiter::spin_timer(),
             "DQ Analysis finished. Rendering report ..."

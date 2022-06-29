@@ -62,7 +62,10 @@ get_db_settings <-
 
   ## Add custom variables if existing:
   custom_variables <- c("sqlmodify", "schema")
-  system_name <- rv$displaynames[get("displayname") == displayname_gui, get("source_system_name")]
+  system_name <- rv$displaynames[
+    get("displayname") == displayname_gui,
+    get("source_system_name")
+  ]
   for (i in seq_along(rv$settings[[system_name]])) {
     if (is.list(rv$settings[[system_name]][[i]])) {
       if (rv$settings[[system_name]][[i]][["displayname"]] == displayname_gui) {
@@ -513,7 +516,7 @@ test_connection_button_clicked <-
         X = names(rv[[source_target]]$settings),
         FUN = function(envvar_names) {
           args <- list(rv[[source_target]]$settings[[envvar_names]])
-          names(args) = paste0(
+          names(args) <- paste0(
             toupper(rv[[source_target]]$settings$dbname), "_",
             toupper(envvar_names)
           )

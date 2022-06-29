@@ -90,14 +90,8 @@
                       "value": [
                         {
                           "type": "character",
-                          "attributes": {
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["json"]
-                            }
-                          },
-                          "value": ["{\"value_set\":[\"no\"]}"]
+                          "attributes": {},
+                          "value": ["{\"value_set\":\"no\"}"]
                         },
                         {
                           "type": "character",
@@ -155,14 +149,8 @@
                       "value": [
                         {
                           "type": "character",
-                          "attributes": {
-                            "class": {
-                              "type": "character",
-                              "attributes": {},
-                              "value": ["json"]
-                            }
-                          },
-                          "value": ["{\"value_set\":[\"no\"]}"]
+                          "attributes": {},
+                          "value": ["{\"value_set\":\"no\"}"]
                         },
                         {
                           "type": "character",
