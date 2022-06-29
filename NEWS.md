@@ -1,6 +1,6 @@
 # DQAgui NEWS
 
-## Unreleased (2022-06-27)
+## Unreleased (2022-06-29)
 
 #### New Features
 
@@ -22,6 +22,7 @@
 * updated gha (wip 3)
 * updated gha (wip 2)
 * updated gha
+* updated news.md and description
 * removed unnecessary pring message
 * updated news.md; preparing new cran release
 * updated lintr
@@ -50,7 +51,7 @@
 * modularizing unittests due to failing on gha
 * fixed linting errors and shiny-app unittests
 
-Full set of changes: [`v0.2.0...5c57f01`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...5c57f01)
+Full set of changes: [`v0.2.0...2df0da1`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...2df0da1)
 
 ## v0.2.0 (2022-05-20)
 
@@ -283,7 +284,7 @@ Full set of changes: [`v0.0.7...v0.1.0`](https://gitlab.miracum.org/miracum/dqa/
 
 Full set of changes: [`v0.0.6...v0.0.7`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.6...v0.0.7)
 
-## v0.0.6 (2020-01-30)
+## v0.0.6 (2020-01-29)
 
 
 Full set of changes: [`v0.0.4...v0.0.6`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.4...v0.0.6)
