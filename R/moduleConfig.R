@@ -307,12 +307,7 @@ module_config_server <-
                     replacement = "",
                     x = subsystems
                   )
-                  sapply(
-                    X = subsystems,
-                    FUN = get_from_env,
-                    USE.NAMES = TRUE,
-                    simplify = FALSE
-                  )
+                  lapply(X = subsystems, FUN = get_from_env)
                 } else {
                   get_from_env(sys_name)
                 }
