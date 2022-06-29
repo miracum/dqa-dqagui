@@ -473,7 +473,8 @@ test_connection_button_clicked <-
         FUN = function(envvar_names) {
           args <- list(rv[[source_target]]$settings[[envvar_names]])
           names(args) = paste0(
-            toupper(input_system), "_", toupper(envvar_names)
+            toupper(rv[[source_target]]$settings$dbname), "_",
+            toupper(envvar_names)
           )
           do.call(Sys.setenv, args)
         }
@@ -482,7 +483,7 @@ test_connection_button_clicked <-
       rv[[source_target]]$db_con <- DIZutils::db_connection(
         ## db_name = rv[[source_target]]$settings$dbname,
         db_type = db_type,
-        system_name = input_system,
+        system_name = rv[[source_target]]$settings$dbname,
         headless = rv$headless,
         timeout = 2,
         logfile_dir = rv$log$logfile_dir,
@@ -777,4 +778,24 @@ render_quick_checks <- function(dat_table) {
                       c("passed", "failed", "no data available"),
                       c("lightgreen", "red", "orange"))) %>%
   return(out)
+}
+
+get_from_env <- function(sysname) {
+  env_field_list <- c("dbname", "host", "port", "user", "password",
+                      "sid", "path", "driver")
+
+  outlist <- sapply(
+    X = env_field_list,
+    function(field) {
+      do.call(Sys.getenv, list(
+        paste(toupper(sysname),
+               toupper(field),
+               sep = "_")
+      ))
+    },
+    simplify = FALSE,
+    USE.NAMES = TRUE
+  )
+
+  return(outlist[outlist != ""])
 }

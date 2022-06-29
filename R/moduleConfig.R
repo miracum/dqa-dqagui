@@ -281,17 +281,46 @@ module_config_server <-
                        unique(get("source_system_name"))]
 
           # FIXME remove settings reading in the future
+          settings_pattern <- paste0(
+            "^%s_(\\d+_)?DBNAME$"
+          )
+
           rv$settings <-
-            sapply(unique_systems, function(x) {
-              DIZutils::get_config_env(
-                system_name = x,
-                logfile_dir = rv$log$logfile_dir,
-                headless = rv$headless
-              )
+            sapply(
+              X = unique_systems,
+              FUN = function(sys_name) {
+                grep_res <- grepl(
+                  pattern = sprintf(settings_pattern, toupper(sys_name)),
+                  x = names(Sys.getenv())
+                )
+                if (sum(grep_res) > 1) {
+                  env_res <- names(Sys.getenv())[grep_res]
+                  include_pattern <- paste0(
+                    "^%s_(\\d+_)DBNAME$"
+                  )
+                  subsystems <- env_res[grepl(
+                    pattern = sprintf(include_pattern, toupper(sys_name)),
+                    x = env_res
+                  )]
+                  subsystems <- gsub(
+                    pattern = "_DBNAME$",
+                    replacement = "",
+                    x = subsystems
+                  )
+                  sapply(
+                    X = subsystems,
+                    FUN = get_from_env,
+                    USE.NAMES = TRUE,
+                    simplify = FALSE
+                  )
+                } else {
+                  get_from_env(sys_name)
+                }
             },
             USE.NAMES = TRUE,
             simplify = FALSE
           )
+          print(rv$settings)
 
           ## Create mapping for display names:
           rv$displaynames <- data.table::data.table(
