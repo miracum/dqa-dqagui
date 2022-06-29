@@ -307,15 +307,16 @@ module_config_server <-
                     replacement = "",
                     x = subsystems
                   )
-                  lapply(X = subsystems, FUN = get_from_env)
+                  ret <- lapply(X = subsystems, FUN = get_from_env)
+                  ret[["nested"]] <- TRUE
+                  return(ret)
                 } else {
-                  get_from_env(sys_name)
+                  return(get_from_env(sys_name))
                 }
             },
             USE.NAMES = TRUE,
             simplify = FALSE
           )
-          print(rv$settings)
 
           ## Create mapping for display names:
           rv$displaynames <- data.table::data.table(
