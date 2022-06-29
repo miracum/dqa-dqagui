@@ -782,7 +782,7 @@ render_quick_checks <- function(dat_table) {
 
 get_from_env <- function(sysname) {
   env_field_list <- c("dbname", "host", "port", "user", "password",
-                      "sid", "path", "driver")
+                      "sid", "path", "driver", "displayname")
 
   outlist <- sapply(
     X = env_field_list,
