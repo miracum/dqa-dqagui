@@ -336,10 +336,6 @@ module_config_server <-
             ), use.names = TRUE)
           }
 
-          print("rv$displaynames:")
-          print(rv$displaynames)
-
-
           # - Different system-types:
           rv$system_types <-
             rv$systems[!is.na(get("source_system_type")),
