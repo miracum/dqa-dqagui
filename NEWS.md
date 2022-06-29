@@ -1,12 +1,14 @@
 # DQAgui NEWS
 
-## Unreleased (2022-06-27)
+## Unreleased (2022-06-29)
 
 #### New Features
 
 * added demo usage instructions
 #### Fixes
 
+* tried to fix handing over sql schema and sqlmodify
+* only showing waiter for report if there was no previous error
 * setting envvars before connecting to database [#2](https://gitlab.miracum.org/miracum/dqa/dqagui/issues/2)
 * setting envvars before connecting to database
 * fixes [#43](https://gitlab.miracum.org/miracum/dqa/dqagui/issues/43) and [#48](https://gitlab.miracum.org/miracum/dqa/dqagui/issues/48)
@@ -22,6 +24,8 @@
 * updated gha (wip 3)
 * updated gha (wip 2)
 * updated gha
+* updated function manual
+* updated news.md and description
 * removed unnecessary pring message
 * updated news.md; preparing new cran release
 * updated lintr
@@ -50,7 +54,7 @@
 * modularizing unittests due to failing on gha
 * fixed linting errors and shiny-app unittests
 
-Full set of changes: [`v0.2.0...5c57f01`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...5c57f01)
+Full set of changes: [`v0.2.0...695a312`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...695a312)
 
 ## v0.2.0 (2022-05-20)
 
@@ -283,7 +287,7 @@ Full set of changes: [`v0.0.7...v0.1.0`](https://gitlab.miracum.org/miracum/dqa/
 
 Full set of changes: [`v0.0.6...v0.0.7`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.6...v0.0.7)
 
-## v0.0.6 (2020-01-30)
+## v0.0.6 (2020-01-29)
 
 
 Full set of changes: [`v0.0.4...v0.0.6`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.4...v0.0.6)

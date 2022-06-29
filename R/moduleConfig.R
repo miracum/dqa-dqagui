@@ -313,10 +313,11 @@ module_config_server <-
                 } else {
                   return(get_from_env(sys_name))
                 }
-            },
-            USE.NAMES = TRUE,
-            simplify = FALSE
-          )
+              },
+              USE.NAMES = TRUE,
+              simplify = FALSE
+            )
+
 
           ## Create mapping for display names:
           rv$displaynames <- data.table::data.table(
@@ -334,6 +335,9 @@ module_config_server <-
               )
             ), use.names = TRUE)
           }
+
+          print("rv$displaynames:")
+          print(rv$displaynames)
 
 
           # - Different system-types:
