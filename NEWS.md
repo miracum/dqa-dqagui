@@ -1,6 +1,6 @@
 # DQAgui NEWS
 
-## Unreleased (2022-06-29)
+## Unreleased (2022-06-30)
 
 #### New Features
 
@@ -29,6 +29,8 @@
 * updated gha (wip 3)
 * updated gha (wip 2)
 * updated gha
+* removed unwanted print message
+* updated metadata to prepare release v0.2.1
 * merged fix_settings_from_env to development
 * updated function manual
 * updated news.md and description
@@ -44,6 +46,7 @@
 * updated R version to R 4.2.0
 * updated image to R 4.2.0
 * updated new dev version
+* fixed linting errors and unit tests
 * modularizing unittests due to failing on gha (wip 13)
 * modularizing unittests due to failing on gha (wip 12)
 * modularizing unittests due to failing on gha (wip 11)
@@ -60,7 +63,7 @@
 * modularizing unittests due to failing on gha
 * fixed linting errors and shiny-app unittests
 
-Full set of changes: [`v0.2.0...418d42b`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...418d42b)
+Full set of changes: [`v0.2.0...24516f8`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...24516f8)
 
 ## v0.2.0 (2022-05-20)
 

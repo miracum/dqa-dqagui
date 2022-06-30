@@ -60,30 +60,6 @@ get_db_settings <-
 
   tab <- do.call(rbind, tab)
 
-  ## Add custom variables if existing:
-  custom_variables <- c("sqlmodify", "schema")
-  system_name <- rv$displaynames[
-    get("displayname") == displayname_gui,
-    get("source_system_name")
-  ]
-  for (i in seq_along(rv$settings[[system_name]])) {
-    if (is.list(rv$settings[[system_name]][[i]])) {
-      if (rv$settings[[system_name]][[i]][["displayname"]] == displayname_gui) {
-        new_stuff <- rv$settings[[system_name]][[i]][custom_variables]
-
-        ## Remove null elements:
-        new_stuff <- new_stuff[!sapply(X = new_stuff, FUN = is.null)]
-
-        if (length(new_stuff) > 0) {
-          tab <- data.table::rbindlist(list(tab, list(
-            keys = names(new_stuff),
-            value = unlist(new_stuff, use.names = FALSE)
-          )))
-        }
-      }
-    }
-  }
-
   # if one column is selected multiple times
   if ("" %in% tab[, get("value")] ||
       any(tab[, grepl("\\s", get("value"))])) {
