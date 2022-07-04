@@ -1,6 +1,6 @@
 # DQAgui NEWS
 
-## Unreleased (2022-06-30)
+## Unreleased (2022-07-04)
 
 #### New Features
 
@@ -19,6 +19,7 @@
 * fixes [#43](https://gitlab.miracum.org/miracum/dqa/dqagui/issues/43) and [#48](https://gitlab.miracum.org/miracum/dqa/dqagui/issues/48)
 #### Refactorings
 
+* refactoring gui_db_settings again; removed unnecessary 'schema' and 'sqlmodify'
 * removed demo-usage instruction panel and added link to help/instructions in the menu
 * switched from "data system" to "database" in wordings
 #### Docs
@@ -63,7 +64,7 @@
 * modularizing unittests due to failing on gha
 * fixed linting errors and shiny-app unittests
 
-Full set of changes: [`v0.2.0...24516f8`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...24516f8)
+Full set of changes: [`v0.2.0...ae1ebed`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...ae1ebed)
 
 ## v0.2.0 (2022-05-20)
 
