@@ -1,6 +1,7 @@
 # DQAgui <img src="man/figures/logo.png" align="right" width="120" />
 
 <!-- badges: start -->
+[![](https://img.shields.io/badge/doi-10.1186/s12911--022--01961--z-yellow.svg)](https://doi.org/10.1186/s12911-022-01961-z)
 [![CRAN Status Badge](https://www.r-pkg.org/badges/version-ago/DQAgui)](https://cran.r-project.org/package=DQAgui)
 [![CRAN Checks](https://cranchecks.info/badges/worst/DQAgui)](https://cran.r-project.org/web/checks/check_results_DQAgui.html)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/DQAgui?color=blue)](https://cran.r-project.org/package=DQAgui)
