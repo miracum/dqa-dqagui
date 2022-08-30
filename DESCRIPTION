@@ -1,6 +1,6 @@
 Package: DQAgui
 Title: Graphical User Interface for Data Quality Assessment
-Version: 0.2.1.9001
+Version: 0.2.1.9002
 Authors@R: c(
     person("Lorenz A.", "Kapsner", , "lorenz.kapsner@uk-erlangen.de", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0003-1866-860X")),
@@ -9,12 +9,13 @@ Authors@R: c(
     person("MIRACUM - Medical Informatics in Research and Care in University Medicine", role = "fnd"),
     person("Universitätsklinikum Erlangen", role = "cph")
   )
-Description: A graphical user interface (GUI) to the functions implemented in the R package 'DQAstats'.
+Description: A graphical user interface (GUI) to the functions implemented in the R package 'DQAstats'. . Publication: Mang et al. (2021)
+    <doi:10.1186/s12911-022-01961-z>.
 License: GPL-3
 URL: https://github.com/miracum/dqa-dqagui
 BugReports: https://github.com/miracum/dqa-dqagui/issues
 Encoding: UTF-8
-Date: 2022-07-04
+Date: 2022-08-30
 Imports: 
     data.table,
     daterangepicker,
@@ -40,4 +41,4 @@ Suggests:
 Remotes: 
     url::https://gitlab.miracum.org/miracum/misc/dizutils/-/archive/development/dizutils-development.zip,
     url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/development/dqastats-development.zip
-RoxygenNote: 7.2.0
+RoxygenNote: 7.2.1
