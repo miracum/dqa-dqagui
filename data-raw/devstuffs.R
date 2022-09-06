@@ -109,13 +109,21 @@ if (tools_tag == "cran") {
     upgrade = "always",
     quiet = TRUE
   )
+  # add_remotes <- paste0(
+  #   "url::https://gitlab.miracum.org/miracum/misc/diztools/-/archive/", tools_tag, "/diztools-", tools_tag, ".zip"
+  # )
+  # desc::desc_set_remotes(
+  #   add_remotes,
+  #   file = usethis::proj_get()
+  # )
   add_remotes <- paste0(
-    "url::https://gitlab.miracum.org/miracum/misc/diztools/-/archive/", tools_tag, "/diztools-", tools_tag, ".zip"
+    "github::miracum/misc-diztools@", tools_tag
   )
-  desc::desc_set_remotes(
-    add_remotes,
-    file = usethis::proj_get()
-  )
+  if (is.null(remotes_append_vector)) {
+    remotes_append_vector <- add_remotes
+  } else {
+    remotes_append_vector <- c(remotes_append_vector, add_remotes)
+  }
 }
 
 utils_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
@@ -128,8 +136,11 @@ if (utils_tag == "cran") {
     upgrade = "always",
     quiet = TRUE
   )
+  # add_remotes <- paste0(
+  #   "url::https://gitlab.miracum.org/miracum/misc/dizutils/-/archive/", utils_tag, "/dizutils-", utils_tag, ".zip"
+  # )
   add_remotes <- paste0(
-    "url::https://gitlab.miracum.org/miracum/misc/dizutils/-/archive/", utils_tag, "/dizutils-", utils_tag, ".zip"
+    "github::miracum/misc-dizutils@", utils_tag
   )
   if (is.null(remotes_append_vector)) {
     remotes_append_vector <- add_remotes
@@ -148,8 +159,11 @@ if (stats_tag == "cran") {
     upgrade = "always",
     quiet = TRUE
   )
+  # add_remotes <- paste0(
+  #   "url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/", stats_tag, "/dqastats-", stats_tag, ".zip"
+  # )
   add_remotes <- paste0(
-    "url::https://gitlab.miracum.org/miracum/dqa/dqastats/-/archive/", stats_tag, "/dqastats-", stats_tag, ".zip"
+    "github::miracum/dqa-dqastats@", stats_tag
   )
   if (is.null(remotes_append_vector)) {
     remotes_append_vector <- add_remotes

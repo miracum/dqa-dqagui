@@ -1,9 +1,13 @@
 # DQAgui NEWS
 
-## Unreleased (2022-08-30)
+## Unreleased (2022-09-06)
 
 #### CI
 
+-   updated gha
+    ([0589c11](https://gitlab.miracum.org/miracum/dqa/dqagui.git/tree/0589c119b7cff7a2c883b7ad020351455b1f741f))
+-   removed gitlab-ci in favor of github actions
+    ([b36616e](https://gitlab.miracum.org/miracum/dqa/dqagui.git/tree/b36616e81af033dfc5998e38b029a4ae4235865d))
 -   added deps for devtools
     ([4e0a090](https://gitlab.miracum.org/miracum/dqa/dqagui.git/tree/4e0a090dc28b63de85b9052b1aaa086e06dcd9a5))
 
@@ -14,6 +18,8 @@
 
 #### Other changes
 
+-   news.md now with autonewsmd package
+    ([7b8929c](https://gitlab.miracum.org/miracum/dqa/dqagui.git/tree/7b8929c3c87a1031ab8a7d8fb0266b17494fc44e))
 -   doi to package description
     ([02bdd45](https://gitlab.miracum.org/miracum/dqa/dqagui.git/tree/02bdd45aaff0e67eb1b0cb08adf05f7d15ab24d9))
 -   added doi-badge
@@ -22,7 +28,7 @@
     ([9b33b49](https://gitlab.miracum.org/miracum/dqa/dqagui.git/tree/9b33b490af9680aec6da656067f2cacb132a2ccc))
 
 Full set of changes:
-[`v0.2.1...02bdd45`](https://gitlab.miracum.org/miracum/dqa/dqagui.git/compare/v0.2.1...02bdd45)
+[`v0.2.1...0589c11`](https://gitlab.miracum.org/miracum/dqa/dqagui.git/compare/v0.2.1...0589c11)
 
 ## v0.2.1 (2022-07-04)
 
