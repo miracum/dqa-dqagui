@@ -29,7 +29,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.2.1.9002")
+my_desc$set_version("0.2.1.9003")
 # The title of your package
 my_desc$set(Title = "Graphical User Interface for Data Quality Assessment")
 # The description of your package
@@ -265,14 +265,14 @@ usethis::use_git_ignore("!/docker/show-log.sh")
 #   command = 'auto-changelog -u -t "DQAgui NEWS" --tag-prefix "v" -o "NEWS.md"'
 # )
 
-an <- autonewsmd::autonewsmd$new(repo_name = packagename)
-an$generate()
-an$write()
-
 badger::badge_cran_download("DQAgui", "grand-total", "blue")
 badger::badge_cran_download("DQAgui", "last-month", "blue")
 badger::badge_dependencies("DQAgui")
 badger::badge_doi("10.1186/s12911-022-01961-z", color = "yellow")
+
+an <- autonewsmd::autonewsmd$new(repo_name = packagename)
+an$generate()
+an$write()
 
 
 # imgurl <- path.expand("~/development/Rpackages/bg4.jpeg")
