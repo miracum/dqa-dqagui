@@ -1,6 +1,6 @@
 # DQAgui NEWS
 
-## Unreleased (2022-09-16)
+## Unreleased (2022-09-26)
 
 #### Refactorings
 
@@ -30,6 +30,8 @@
 #### Other changes
 
 -   updated news.md
+    ([6a62176](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/6a621762d4d70f62ad48bbc13e631d427ff892d2))
+-   updated news.md
     ([6688e2a](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/6688e2ae5bc10be6afdcf342fb6293b548a43018))
 -   news.md now with autonewsmd package
     ([7b8929c](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/7b8929c3c87a1031ab8a7d8fb0266b17494fc44e))
@@ -41,7 +43,7 @@
     ([9b33b49](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/9b33b490af9680aec6da656067f2cacb132a2ccc))
 
 Full set of changes:
-[`v0.2.1...8200909`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.1...8200909)
+[`v0.2.1...6a62176`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.1...6a62176)
 
 ## v0.2.1 (2022-07-04)
 
