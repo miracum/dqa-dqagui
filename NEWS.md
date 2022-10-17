@@ -4,6 +4,8 @@
 
 #### Refactorings
 
+-   adaptions to deprecation of export\_affected\_ids from dqastats
+    ([24139cf](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/24139cf917af91844923c9a86651650118165f4a))
 -   namespace imports to zzz.r
     ([8200909](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/82009092b3365053663d9c6c31f92c99ababcb41))
 -   returning list when retrieving mdr
@@ -43,7 +45,7 @@
     ([9b33b49](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/9b33b490af9680aec6da656067f2cacb132a2ccc))
 
 Full set of changes:
-[`v0.2.1...6a62176`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.1...6a62176)
+[`v0.2.1...24139cf`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.1...24139cf)
 
 ## v0.2.1 (2022-07-04)
 
