@@ -1,6 +1,6 @@
 # DQAgui NEWS
 
-## Unreleased (2022-10-17)
+## v0.2.2 (2023-01-23)
 
 #### Refactorings
 
@@ -31,6 +31,8 @@
 
 #### Other changes
 
+-   fixed cran errors url
+    ([8102e47](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/8102e47324889e58adb6d66c3d09471ebbc433f4))
 -   updated news.md
     ([364ed43](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/364ed43deb9d322c4c5d1b4e23c7b20d31337ed4))
 -   updated news.md
@@ -47,7 +49,7 @@
     ([9b33b49](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/9b33b490af9680aec6da656067f2cacb132a2ccc))
 
 Full set of changes:
-[`v0.2.1...364ed43`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.1...364ed43)
+[`v0.2.1...v0.2.2`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.1...v0.2.2)
 
 ## v0.2.1 (2022-07-04)
 
