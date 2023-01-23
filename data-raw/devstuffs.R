@@ -29,7 +29,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.2.1.9006")
+my_desc$set_version("0.2.2")
 # The title of your package
 my_desc$set(Title = "Graphical User Interface for Data Quality Assessment")
 # The description of your package
@@ -99,7 +99,7 @@ remotes_append_vector <- NULL
 
 # Development packages
 
-tools_tag <- "dev" # e.g. "v0.1.7", "dev" or "cran"
+tools_tag <- "cran" # e.g. "v0.1.7", "dev" or "cran"
 if (tools_tag == "cran") {
   install.packages("DIZtools")
 } else{
@@ -126,7 +126,7 @@ if (tools_tag == "cran") {
   }
 }
 
-utils_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
+utils_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
 if (utils_tag == "cran") {
   install.packages("DIZutils")
 } else{
@@ -149,7 +149,7 @@ if (utils_tag == "cran") {
   }
 }
 
-stats_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
+stats_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
 if (stats_tag == "cran") {
   install.packages("DQAstats")
 } else{
@@ -272,7 +272,7 @@ badger::badge_doi("10.1186/s12911-022-01961-z", color = "yellow")
 
 an <- autonewsmd::autonewsmd$new(repo_name = packagename)
 an$generate()
-an$write()
+an$write(force = TRUE)
 
 
 # imgurl <- path.expand("~/development/Rpackages/bg4.jpeg")
