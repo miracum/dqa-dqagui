@@ -1,4 +1,4 @@
-FROM rocker/shiny-verse:4.2.0
+FROM rocker/shiny-verse:4.3.1
 
 ENV DEBIAN_FRONTEND=noninteractive \
     JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
