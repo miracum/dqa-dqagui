@@ -1,10 +1,23 @@
+
 # DQAgui NEWS
+
+## Unreleased (2023-07-14)
+
+#### Other changes
+
+-   updated docker image
+    ([a20195c](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/a20195cbe1cfb684b4ed82abd658a794786be0f0))
+-   updated dev-version
+    ([7952feb](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/7952feb8ba39ccf58cfa87a58eb11e097df634c8))
+
+Full set of changes:
+[`v0.2.2...a20195c`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.2.2...a20195c)
 
 ## v0.2.2 (2023-01-23)
 
 #### Refactorings
 
--   adaptions to deprecation of export\_affected\_ids from dqastats
+-   adaptions to deprecation of export_affected_ids from dqastats
     ([24139cf](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/24139cf917af91844923c9a86651650118165f4a))
 -   namespace imports to zzz.r
     ([8200909](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/82009092b3365053663d9c6c31f92c99ababcb41))
@@ -49,7 +62,7 @@
     ([9b33b49](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/9b33b490af9680aec6da656067f2cacb132a2ccc))
 
 Full set of changes:
-[`v0.2.1...v0.2.2`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.1...v0.2.2)
+[`v0.2.1...v0.2.2`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.2.1...v0.2.2)
 
 ## v0.2.1 (2022-07-04)
 
@@ -74,17 +87,17 @@ Full set of changes:
     ([5b898e6](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/5b898e6ffa21f9902417610023cfdb2a1ad7663f))
 -   only showing waiter for report if there was no previous error
     ([b478a92](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/b478a92309111005b45034b8f291b7ee1d38fe59))
--   setting envvars before connecting to database \#2
+-   setting envvars before connecting to database #2
     ([df7ea4a](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/df7ea4a508c698b010bd9d0d00d6cbdede8c9e78))
 -   setting envvars before connecting to database
     ([b672bf5](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/b672bf57e9bd658507ce37e53978e7209c4786e8))
--   fixes \#43 and \#48
+-   fixes #43 and #48
     ([66cce54](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/66cce54c9cebe7859d4994e9270b4b575df3559a))
 
 #### Refactorings
 
--   refactoring gui\_db\_settings again; removed unnecessary ‘schema’
-    and ‘sqlmodify’
+-   refactoring gui_db_settings again; removed unnecessary ‘schema’ and
+    ‘sqlmodify’
     ([ae1ebed](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/ae1ebed279450ffb7b1a1fb70d03dcaf13eea0e3))
 -   removed demo-usage instruction panel and added link to
     help/instructions in the menu
@@ -138,8 +151,8 @@ Full set of changes:
 
 #### Docs
 
--   added documentation for demo\_usage argument in launch\_app;
-    preparing next cran-release
+-   added documentation for demo_usage argument in launch_app; preparing
+    next cran-release
     ([5eb08e8](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/5eb08e85c8d22d1c4e00f8b263a3d57992567eec))
 
 #### Other changes
@@ -150,7 +163,7 @@ Full set of changes:
     ([24516f8](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/24516f891099158fa8020797b7313804fdb66ad2))
 -   updated metadata to prepare release v0.2.1
     ([939faf7](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/939faf7b405bf524dce622d221f5d6bef01bb5e0))
--   merged fix\_settings\_from\_env to development
+-   merged fix_settings_from_env to development
     ([418d42b](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/418d42b1134921b24e679ffa97274e0113d30e7e))
 -   updated function manual
     ([695a312](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/695a3121284120cd039575ddd96d520cb0d03690))
@@ -183,7 +196,7 @@ Full set of changes:
     ([6c88c5b](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/6c88c5bfce7caa2cfd51fee7001ac17eb29e7bc0))
 
 Full set of changes:
-[`v0.2.0...v0.2.1`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.0...v0.2.1)
+[`v0.2.0...v0.2.1`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.2.0...v0.2.1)
 
 ## v0.2.0 (2022-05-20)
 
@@ -214,13 +227,13 @@ Full set of changes:
     ([ed3f455](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/ed3f455a982e568d81053f9fcde796dac86946b4))
 -   removed link to localhost due to failing r cmd check
     ([3fb88e8](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/3fb88e8b94ade08da986efd354aad99a4ecc2a5c))
--   added dot\_helper due to failing r cmd check
+-   added dot_helper due to failing r cmd check
     ([67a079d](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/67a079dd136f575aa7ba9e7c54ff672ec0bd1d4c))
 -   displaynames broke in some cases
     ([9884080](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/98840806b2c468b263192436fd2ee4b8c0d566c9))
 -   wrong formatting of data restrictions in dq check
     ([c89ffdf](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/c89ffdf474017c43a617958023fee51ae181b185))
--   fixes missing system display if displayname was set \#44
+-   fixes missing system display if displayname was set #44
     ([3faaf7e](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/3faaf7e12c20e8e6e24cb2ab15194df61c209868))
 -   sql statements to target system, if source=target
     ([58177c5](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/58177c57b4c3fd27b53f0dda72c5580418439f8b))
@@ -298,7 +311,7 @@ Full set of changes:
     ([f34ebe8](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/f34ebe8cec38c384c1caa1b433bf969cb955d489))
 
 Full set of changes:
-[`v0.1.9...v0.2.0`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.9...v0.2.0)
+[`v0.1.9...v0.2.0`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.1.9...v0.2.0)
 
 ## v0.1.9 (2022-02-21)
 
@@ -321,7 +334,7 @@ Full set of changes:
     ([076cd61](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/076cd61aca81a3e6e259b4f6e7151cd2df7d545b))
 
 Full set of changes:
-[`v0.1.8...v0.1.9`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.8...v0.1.9)
+[`v0.1.8...v0.1.9`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.1.8...v0.1.9)
 
 ## v0.1.8 (2022-02-21)
 
@@ -336,7 +349,7 @@ Full set of changes:
     ([d53af4f](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/d53af4fb1ce2828c50ac8c962851e7ed68338593))
 
 Full set of changes:
-[`v0.1.7...v0.1.8`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.7...v0.1.8)
+[`v0.1.7...v0.1.8`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.1.7...v0.1.8)
 
 ## v0.1.7 (2022-02-10)
 
@@ -352,7 +365,7 @@ Full set of changes:
     ([b904120](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/b904120686780a9be8fa82a7404926cf2c256cbe))
 -   merged development
     ([82ca1bc](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/82ca1bc14bdfe539fcda356ca025622c0340b51c))
--   env assignment for csv not works. Fixes \#42 (gitlab)
+-   env assignment for csv not works. Fixes #42 (gitlab)
     ([10561a5](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/10561a582f8442e46d154bd9b1894502a925a352))
 -   added storing of paths to env
     ([e8cf728](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/e8cf7286123616bdad1c4fa27fc0db2441c94dfb))
@@ -385,7 +398,7 @@ Full set of changes:
     ([fd1c2dd](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/fd1c2dd80d1b820512341a4df6fecede580709b9))
 -   updated package title
     ([8ab8940](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/8ab8940dc0d8a11bc38ec7c7387afadb7d21c79e))
--   incorporated spell\_check results
+-   incorporated spell_check results
     ([b29c022](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/b29c0225701f7bea01033598bf5d9a86f7294fc2))
 -   removed dep graphics
     ([2f2d872](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/2f2d8723aaa68890a5d2b3dc3df905243a48b088))
@@ -401,7 +414,7 @@ Full set of changes:
     ([7f50fe4](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/7f50fe424fbb48fee8c4d34061bafa86009df164))
 -   updated news.md
     ([6b5b959](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/6b5b959b14d903455af8bd6da34db4fd13879a1e))
--   updated parsing of value\_set according to new definition from
+-   updated parsing of value_set according to new definition from
     dqastats
     ([f343c5f](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/f343c5fc6f5ddf9f55a850f512474292c7619e5e))
 -   updated news.md
@@ -414,7 +427,7 @@ Full set of changes:
     ([49862c1](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/49862c19fbf1981d443f8ff6bba0284767216d55))
 
 Full set of changes:
-[`v0.1.6...v0.1.7`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.6...v0.1.7)
+[`v0.1.6...v0.1.7`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.1.6...v0.1.7)
 
 ## v0.1.6 (2021-07-01)
 
@@ -498,7 +511,7 @@ Full set of changes:
     ([786f874](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/786f874ab9eee776e26024306d5a9310de23faa9))
 
 Full set of changes:
-[`v0.1.5...v0.1.6`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.5...v0.1.6)
+[`v0.1.5...v0.1.6`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.1.5...v0.1.6)
 
 ## v0.1.5 (2021-02-19)
 
@@ -531,15 +544,15 @@ Full set of changes:
 
 -   run ci also for new tags
     ([775e90f](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/775e90f06c00e405e328e61344cdca9b31077a18))
--   updated ci for new harbor and base\_image
+-   updated ci for new harbor and base_image
     ([86c6f02](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/86c6f020201795a2f7c5a1ee3d519dabc6111369))
 -   simplified ci
     ([319c351](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/319c351f3a1001599e5c650d556a08bb2c34a7b5))
--   switched to dev-base\_image for more performance
+-   switched to dev-base_image for more performance
     ([f4c36c4](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/f4c36c48580f95127973494f9329891b9dc47ce5))
--   changed base\_image to speed up
+-   changed base_image to speed up
     ([0e19be0](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/0e19be08366741918225c2eb8d41eda5bd587c30))
--   changed base\_image to speed up
+-   changed base_image to speed up
     ([b4f6e5a](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/b4f6e5a0d6181169c9a9c9dbc2e1367a62b05095))
 
 #### Docs
@@ -555,74 +568,74 @@ Full set of changes:
     ([5049b4a](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/5049b4a249b321edcb8fe54218c5de055b4e2c1a))
 
 Full set of changes:
-[`v0.1.4...v0.1.5`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.4...v0.1.5)
+[`v0.1.4...v0.1.5`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.1.4...v0.1.5)
 
 ## v0.1.4 (2020-05-07)
 
 Full set of changes:
-[`v0.1.3...v0.1.4`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.3...v0.1.4)
+[`v0.1.3...v0.1.4`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.1.3...v0.1.4)
 
 ## v0.1.3 (2020-04-28)
 
 Full set of changes:
-[`v0.1.2...v0.1.3`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.2...v0.1.3)
+[`v0.1.2...v0.1.3`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.1.2...v0.1.3)
 
 ## v0.1.2 (2020-04-21)
 
 Full set of changes:
-[`v0.1.1...v0.1.2`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.1...v0.1.2)
+[`v0.1.1...v0.1.2`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.1.1...v0.1.2)
 
 ## v0.1.1 (2020-03-20)
 
 Full set of changes:
-[`v0.1.0...v0.1.1`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.1.0...v0.1.1)
+[`v0.1.0...v0.1.1`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.1.0...v0.1.1)
 
 ## v0.1.0 (2020-03-16)
 
 Full set of changes:
-[`v0.0.7...v0.1.0`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.7...v0.1.0)
+[`v0.0.7...v0.1.0`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.0.7...v0.1.0)
 
 ## v0.0.7 (2020-02-25)
 
 Full set of changes:
-[`v0.0.6...v0.0.7`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.6...v0.0.7)
+[`v0.0.6...v0.0.7`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.0.6...v0.0.7)
 
 ## v0.0.6 (2020-01-30)
 
 Full set of changes:
-[`v0.0.4...v0.0.6`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.4...v0.0.6)
+[`v0.0.4...v0.0.6`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.0.4...v0.0.6)
 
 ## v0.0.4 (2019-11-15)
 
 Full set of changes:
-[`v0.0.3...v0.0.4`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.3...v0.0.4)
+[`v0.0.3...v0.0.4`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.0.3...v0.0.4)
 
 ## v0.0.3 (2019-11-12)
 
 Full set of changes:
-[`v0.0.2...v0.0.3`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.2...v0.0.3)
+[`v0.0.2...v0.0.3`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.0.2...v0.0.3)
 
 ## v0.0.2 (2019-09-27)
 
 Full set of changes:
-[`v0.0.2.9000...v0.0.2`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.2.9000...v0.0.2)
+[`v0.0.2.9000...v0.0.2`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.0.2.9000...v0.0.2)
 
 ## v0.0.2.9000 (2019-08-30)
 
 Full set of changes:
-[`v0.0.1.9000...v0.0.2.9000`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.1.9000...v0.0.2.9000)
+[`v0.0.1.9000...v0.0.2.9000`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.0.1.9000...v0.0.2.9000)
 
 ## v0.0.1.9000 (2019-08-20)
 
 Full set of changes:
-[`v0.0.0.9003...v0.0.1.9000`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.0.9003...v0.0.1.9000)
+[`v0.0.0.9003...v0.0.1.9000`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.0.0.9003...v0.0.1.9000)
 
 ## v0.0.0.9003 (2019-08-14)
 
 Full set of changes:
-[`v0.0.0.9002...v0.0.0.9003`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.0.0.9002...v0.0.0.9003)
+[`v0.0.0.9002...v0.0.0.9003`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.0.0.9002...v0.0.0.9003)
 
 ## v0.0.0.9002 (2019-08-08)
 
 Full set of changes:
-[`3025380...v0.0.0.9002`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/3025380...v0.0.0.9002)
+[`3025380...v0.0.0.9002`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/3025380...v0.0.0.9002)

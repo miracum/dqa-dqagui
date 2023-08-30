@@ -12,7 +12,7 @@ my_desc$set_authors(c(
   person(
     "Lorenz A.",
     "Kapsner",
-    email = "lorenz.kapsner@uk-erlangen.de",
+    email = "lorenz.kapsner@gmail.com",
     role = c("cre", "aut"),
     comment = c(ORCID = "0000-0003-1866-860X")
   ),
@@ -29,14 +29,13 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.2.2.9001")
+my_desc$set_version("0.2.3")
 # The title of your package
 my_desc$set(Title = "Graphical User Interface for Data Quality Assessment")
 # The description of your package
 my_desc$set(Description = paste0(
   "A graphical user interface (GUI) to the functions implemented in the ",
-  "R package 'DQAstats'. . Publication: Mang et al. (2021)
-    <doi:10.1186/s12911-022-01961-z>.")
+  "R package 'DQAstats'. Publication: Mang et al. (2021) <doi:10.1186/s12911-022-01961-z>.")
 )
 # The description of your package
 my_desc$set("Date" = as.character(Sys.Date()))
@@ -99,7 +98,7 @@ remotes_append_vector <- NULL
 
 # Development packages
 
-tools_tag <- "dev" # e.g. "v0.1.7", "dev" or "cran"
+tools_tag <- "cran" # e.g. "v0.1.7", "dev" or "cran"
 if (tools_tag == "cran") {
   install.packages("DIZtools")
 } else{
@@ -126,7 +125,7 @@ if (tools_tag == "cran") {
   }
 }
 
-utils_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
+utils_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
 if (utils_tag == "cran") {
   install.packages("DIZutils")
 } else{
@@ -149,7 +148,7 @@ if (utils_tag == "cran") {
   }
 }
 
-stats_tag <- "development" # e.g. "v0.1.7", "development" or "cran"
+stats_tag <- "cran" # e.g. "v0.1.7", "development" or "cran"
 if (stats_tag == "cran") {
   install.packages("DQAstats")
 } else{
