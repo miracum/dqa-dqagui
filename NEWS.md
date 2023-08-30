@@ -1,17 +1,19 @@
 
 # DQAgui NEWS
 
-## Unreleased (2023-07-14)
+## v0.2.3 (2023-08-30)
 
 #### Other changes
 
+-   update to v0.2.3
+    ([ae29570](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/ae29570f4e3c348bc939bdfe69015614a72c39eb))
 -   updated docker image
     ([a20195c](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/a20195cbe1cfb684b4ed82abd658a794786be0f0))
 -   updated dev-version
     ([7952feb](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/7952feb8ba39ccf58cfa87a58eb11e097df634c8))
 
 Full set of changes:
-[`v0.2.2...a20195c`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.2.2...a20195c)
+[`v0.2.2...v0.2.3`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.2.2...v0.2.3)
 
 ## v0.2.2 (2023-01-23)
 
