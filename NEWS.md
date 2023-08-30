@@ -1,6 +1,13 @@
 
 # DQAgui NEWS
 
+## Unreleased (2023-08-30)
+
+#### Other changes
+
+-   updated news.md and cran-commetns
+    ([1562003](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/1562003e10995a56c53d09e7dc0d870cef41f4f7))
+
 ## v0.2.3 (2023-08-30)
 
 #### Other changes
