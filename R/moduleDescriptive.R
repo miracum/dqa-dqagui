@@ -77,7 +77,7 @@ module_descriptive_server <-
         output$descr_description <- renderText({
           d <- desc_out$source_data$description
           # https://community.rstudio.com/t/rendering-markdown-text/11588
-          out <- knitr::knit2html(text = d, fragment.only = TRUE)
+          out <- knitr::knit2html(text = d, template = FALSE, output = NULL)
           # output non-escaped HTML string
           shiny::HTML(out)
         })

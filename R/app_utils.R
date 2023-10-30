@@ -819,3 +819,21 @@ get_from_env <- function(sysname) {
 
   return(outlist[outlist != ""])
 }
+
+
+# render quick check tables
+render_difference_checks <- function(dat_table) {
+  out <-
+    DT::datatable(
+      dat_table,
+      options = list(
+        dom = "t",
+        scrollY = "30vh",
+        pageLength = nrow(dat_table)
+      ),
+      rownames = FALSE
+    )
+
+    return(out)
+}
+
