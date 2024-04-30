@@ -61,11 +61,11 @@ module_differences_server <-
       })
 
        output$source_database <- renderText({
-         paste0("Source Data (", rv$source$system_name, ")")
+         paste0("Source Data (", rv$source$system_name, ") ")
        })
 
        output$target_database <- renderText({
-         paste0("Target Data (", rv$target$system_name, ")")
+         paste0("Target Data (", rv$target$system_name, ") ")
        })
 
       # generate output tables
@@ -84,18 +84,18 @@ module_differences_server <-
 
 
         output$descr_description <- renderTable({
-          summary_out
+          head(summary_out, 50)
         })
 
         # render source statistics
         output$descr_selection_source_table <- renderTable({
-            source_out
+            head(source_out, 200)
           }
         )
 
         # render target statistics
         output$descr_selection_target_table <- renderTable({
-            target_out
+            head(target_out, 200)
         })
 
         # handling the download options
@@ -186,13 +186,14 @@ module_differences_ui <- function(id) {
         "If the available resources for a given TIMESTAMP",
         "differ, it is likely that a resource is missing in either the source",
         "or the target database. The following tables contain all resources",
-        "with differences in their TIMESTAMP count."
+        "with differences in their TIMESTAMP count (if too many, displayed ",
+        "items are limited for performance reasons)."
       ),
       box(
         width = 8,
         column(
           width = 6,
-          "The .pdf report contains only the first 25 lines ",
+          "The .pdf report contains only the first 30 lines ",
           "of the summary table. You can download the shown source or target",
           "result-table as .csv file. Or you can download all results ",
           "including some metadata as .rds file for further analysis in R."
