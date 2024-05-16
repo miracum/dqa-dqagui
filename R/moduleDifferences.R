@@ -52,7 +52,7 @@ module_differences_server <-
       output$descr_selection_uiout <- renderUI({
         selectInput(
           inputId = "moduleDifferences-var_select",
-          label = "Select variable",
+          label = "Select data item",
           choices = names(rv$time_compare_results),
           multiple = FALSE,
           selectize = FALSE,
@@ -122,7 +122,10 @@ module_differences_server <-
             paste("Diff-source-",sel_ob ,time , ".csv", sep = "")
           },
           content = function(file) {
-            write.csv(source_out, file, row.names = FALSE)
+            data.table::fwrite(
+              x = source_out,
+              file = file
+            )
           },
           contentType = "text/csv"
         )
@@ -133,7 +136,10 @@ module_differences_server <-
             paste("Diff-target-",sel_ob ,time , ".csv", sep = "")
           },
           content = function(file) {
-            write.csv(target_out, file, row.names = FALSE)
+            data.table::fwrite(
+              x = target_out,
+              file = file
+            )
           },
           contentType = "text/csv"
         )
@@ -171,7 +177,7 @@ module_differences_ui <- function(id) {
 
   tagList(
     fluidRow(
-         box(title = "Select variable",
+         box(title = "Select data item",
           uiOutput(ns("descr_selection_uiout")),
           width = 4),
 
