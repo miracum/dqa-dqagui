@@ -15,6 +15,7 @@
 !NAMESPACE
 !/R/
 !/README.md
+!/README.qmd
 !/tests/
 /.Rhistory
 !/*.Rproj
@@ -35,4 +36,3 @@
 !/docker/app.R
 !/docker/shiny-server.conf
 !/docker/show-log.sh
-.Rproj.user

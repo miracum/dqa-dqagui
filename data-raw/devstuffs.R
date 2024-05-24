@@ -194,6 +194,7 @@ usethis::use_build_ignore(".lintr")
 usethis::use_build_ignore("ci/*")
 usethis::use_build_ignore("NEWS.md")
 usethis::use_build_ignore("README.md")
+usethis::use_build_ignore("README.qmd")
 usethis::use_build_ignore("logfile.md")
 usethis::use_build_ignore("reconf.sh")
 usethis::use_build_ignore("cran-comments.md")
@@ -228,6 +229,7 @@ usethis::use_git_ignore("!/man/")
 usethis::use_git_ignore("!NAMESPACE")
 usethis::use_git_ignore("!/R/")
 usethis::use_git_ignore("!/README.md")
+usethis::use_git_ignore("!/README.qmd")
 usethis::use_git_ignore("!/tests/")
 usethis::use_git_ignore("/.Rhistory")
 usethis::use_git_ignore("!/*.Rproj")
@@ -250,6 +252,10 @@ usethis::use_git_ignore("!/docker/app.R")
 usethis::use_git_ignore("!/docker/shiny-server.conf")
 usethis::use_git_ignore("!/docker/show-log.sh")
 
+usethis::use_tidy_description()
+
+quarto::quarto_render(input = "README.qmd")
+
 
 # create NEWS.md using the python-package "auto-changelog" (must be installed)
 # https://www.conventionalcommits.org/en/v1.0.0/
@@ -264,10 +270,6 @@ usethis::use_git_ignore("!/docker/show-log.sh")
 #   command = 'auto-changelog -u -t "DQAgui NEWS" --tag-prefix "v" -o "NEWS.md"'
 # )
 
-badger::badge_cran_download("DQAgui", "grand-total", "blue")
-badger::badge_cran_download("DQAgui", "last-month", "blue")
-badger::badge_dependencies("DQAgui")
-badger::badge_doi("10.1186/s12911-022-01961-z", color = "yellow")
 
 an <- autonewsmd::autonewsmd$new(repo_name = packagename)
 an$generate()

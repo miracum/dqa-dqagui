@@ -1,6 +1,16 @@
 # DQAgui NEWS
 
-## Unreleased (2023-10-30)
+## Unreleased (2024-05-16)
+
+#### Bug fixes
+
+-   replace write.csv with fwrite from data.table
+    ([927f72a](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/927f72a6d2f43d4a6bd1ece6c96582423f9a78a8))
+
+#### CI
+
+-   fixing ci
+    ([8210403](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/821040353538db5b2da58d393a9169ec2f6310a1))
 
 #### Other changes
 
@@ -10,7 +20,7 @@
     ([1562003](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/1562003e10995a56c53d09e7dc0d870cef41f4f7))
 
 Full set of changes:
-[`v0.2.3...6a6793a`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.3...6a6793a)
+[`v0.2.3...927f72a`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.3...927f72a)
 
 ## v0.2.3 (2023-08-30)
 
