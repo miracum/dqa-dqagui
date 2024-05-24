@@ -1,6 +1,6 @@
 # DQAgui NEWS
 
-## Unreleased (2024-05-16)
+## Unreleased (2024-05-24)
 
 #### Bug fixes
 
@@ -14,13 +14,15 @@
 
 #### Other changes
 
+-   added automated gen of readme
+    ([3ad1e26](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/3ad1e26f475fe7c4cc21287a7ffde61a57c4c80d))
 -   updated dev-version
     ([2c89999](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/2c89999fe2946ce86b64cab669f37b61a58debde))
 -   updated news.md and cran-commetns
     ([1562003](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/1562003e10995a56c53d09e7dc0d870cef41f4f7))
 
 Full set of changes:
-[`v0.2.3...927f72a`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.3...927f72a)
+[`v0.2.3...3ad1e26`](https://gitlab.miracum.org/miracum/dqa/dqagui/compare/v0.2.3...3ad1e26)
 
 ## v0.2.3 (2023-08-30)
 
