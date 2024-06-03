@@ -555,7 +555,7 @@ module_dashboard_server <-
       outputOptions(output, "differences_results", suspendWhenHidden = FALSE)
 
       output$dash_quick_difference_checks <- DT::renderDataTable({
-        render_difference_checks(rv$checks$differences)
+        render_difference_checks(rv$checks$differences, rv$log$logfile_dir)
       })
     })
 
