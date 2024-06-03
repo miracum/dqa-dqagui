@@ -55,8 +55,8 @@ module_report_server <- function(input,
     req(rv$create_report)
 
     if (is.null(rv$report_created)) {
-      DQAstats::create_markdown(
-        rv = rv,
+      DQAstats::create_pdf_report(
+        rv = shiny::reactiveValuesToList(rv),
         utils_path = rv$utilspath,
         outdir = tempdir(),
         headless = rv$headless
