@@ -893,11 +893,7 @@ render_difference_checks <- function(dat_table) {
                  value = Math.abs(parseFloat(
                  data[4].match(/\\\\(([^)]+)\\\\)/)[1].replace('%', '')));}",
                  newRow)
-  newRow <- gsub("value=data\\[5\\];", "value; if (data[5] === \"no diff.\")
-                 { value = 0; } else {
-                 value = Math.abs(parseFloat(
-                 data[5].match(/\\\\(([^)]+)\\\\)/)[1].replace('%', '')));}",
-                 newRow)
+
 
   #write the modified rowCallback function in the out object
   out[["x"]][["options"]][["rowCallback"]][1] <- newRow
