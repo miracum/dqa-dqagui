@@ -12,7 +12,6 @@
 # options(shiny.trace = TRUE)
 options(shiny.fullstacktrace = TRUE)
 
-
 port = 3838
 output_dir = "output/"
 
