@@ -11,6 +11,8 @@
 
 #### Bug fixes
 
+-   adaptions to latest dqastats
+    ([32e8eef](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/32e8eefb2adaa08b88f91c9bf277f3c6ab696206))
 -   fixing small errors
     ([311ddd3](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/311ddd3417df46e81f2123cf57c1eb8041ddcc0a))
 -   there are only 4 columns..
@@ -33,7 +35,7 @@
     ([1562003](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/1562003e10995a56c53d09e7dc0d870cef41f4f7))
 
 Full set of changes:
-[`v0.2.3...311ddd3`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.2.3...311ddd3)
+[`v0.2.3...32e8eef`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.2.3...32e8eef)
 
 ## v0.2.3 (2023-08-30)
 
