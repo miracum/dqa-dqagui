@@ -56,7 +56,7 @@ module_report_server <- function(input,
 
     if (is.null(rv$report_created)) {
       DQAstats::create_pdf_report(
-        rv = as.list(rv),
+        rv = shiny::reactiveValuesToList(rv),
         utils_path = rv$utilspath,
         outdir = tempdir(),
         headless = rv$headless
