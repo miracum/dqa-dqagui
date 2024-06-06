@@ -34,6 +34,7 @@ Imports:
     shinyFiles,
     shinyjs,
     shinyWidgets,
+    utils,
     waiter
 Suggests: 
     lintr,

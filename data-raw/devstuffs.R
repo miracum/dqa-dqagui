@@ -75,6 +75,7 @@ my_desc$write(file = "DESCRIPTION")
 
 # Imports
 usethis::use_package("data.table", type = "Imports")
+usethis::use_package("utils", type = "Imports")
 usethis::use_package("magrittr", type = "Imports")
 # For date-restriction:
 usethis::use_package("daterangepicker", type = "Imports")

@@ -79,12 +79,12 @@ module_differences_server <-
 
 
         output$descr_description <- renderTable({
-          head(summary_out, 50)
+          utils::head(summary_out, 50)
         })
 
         # render source statistics
         output$descr_selection_source_table <- renderTable({
-            head(source_out, 200)
+          utils::head(source_out, 200)
           }
         )
 

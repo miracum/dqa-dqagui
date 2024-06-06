@@ -29,6 +29,11 @@
 -   fixing ci
     ([8210403](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/821040353538db5b2da58d393a9169ec2f6310a1))
 
+#### Docs
+
+-   updated man-files to comply with cran-checks
+    ([398c544](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/398c544ece0e368a4170006122638750b5a36b49))
+
 #### Other changes
 
 -   merged into development
@@ -47,7 +52,7 @@
     ([1562003](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/1562003e10995a56c53d09e7dc0d870cef41f4f7))
 
 Full set of changes:
-[`v0.2.3...8b57b1f`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.2.3...8b57b1f)
+[`v0.2.3...398c544`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.2.3...398c544)
 
 ## v0.2.3 (2023-08-30)
 
