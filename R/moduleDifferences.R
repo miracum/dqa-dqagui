@@ -90,7 +90,7 @@ module_differences_server <-
 
         # render target statistics
         output$descr_selection_target_table <- renderTable({
-            head(target_out, 200)
+          utils::head(target_out, 200)
         })
 
         # handling the download options
