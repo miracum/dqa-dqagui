@@ -2,7 +2,7 @@
 
 # DQAgui NEWS
 
-## Unreleased (2024-06-05)
+## Unreleased (2024-06-06)
 
 #### New features
 
@@ -17,6 +17,8 @@
     ([311ddd3](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/311ddd3417df46e81f2123cf57c1eb8041ddcc0a))
 -   there are only 4 columns..
     ([72c51bf](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/72c51bf041b6df0297c88d830bcd496c3f9e96ed))
+-   update to use create_pdf_report function from dqastats
+    ([00324cc](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/00324cc0dc885d2ff73898bc0246c4e24ea476ab))
 -   replace write.csv with fwrite from data.table
     ([927f72a](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/927f72a6d2f43d4a6bd1ece6c96582423f9a78a8))
 -   cutoff output if too many lines (to prevent freeze)
@@ -29,17 +31,23 @@
 
 #### Other changes
 
+-   merged into development
+    ([8b57b1f](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/8b57b1f9d3372ad3c30236c98dd9878dc4af9701))
 -   again reactivevaluestolist for report gen
     ([a1675a8](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/a1675a832e69df97e2695fd4955d31e47df1f6b8))
 -   enhancements to pdf download
     ([8de922f](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/8de922f3f9162942428e44e8973299fdb4eb115c))
+-   updated gitignore / rbuildignore
+    ([ff826cb](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/ff826cbdb11475cd2fcad9a35fde23324909bcd5))
+-   added automated gen of readme
+    ([3ad1e26](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/3ad1e26f475fe7c4cc21287a7ffde61a57c4c80d))
 -   updated dev-version
     ([2c89999](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/2c89999fe2946ce86b64cab669f37b61a58debde))
 -   updated news.md and cran-commetns
     ([1562003](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/1562003e10995a56c53d09e7dc0d870cef41f4f7))
 
 Full set of changes:
-[`v0.2.3...a1675a8`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.2.3...a1675a8)
+[`v0.2.3...8b57b1f`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.2.3...8b57b1f)
 
 ## v0.2.3 (2023-08-30)
 

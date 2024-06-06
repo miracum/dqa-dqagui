@@ -43,6 +43,13 @@ my_desc$set("Date" = as.character(Sys.Date()))
 my_desc$set("URL", "https://github.com/miracum/dqa-dqagui")
 my_desc$set("BugReports",
             "https://github.com/miracum/dqa-dqagui/issues")
+
+# Testthat stuff
+my_desc$set("Config/testthat/parallel" = "false")
+my_desc$set("Config/testthat/edition" = "3")
+# Roxygen
+my_desc$set("Roxygen" = "list(markdown = TRUE)")
+
 # License
 my_desc$set("License", "GPL-3")
 # Save everyting
