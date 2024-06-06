@@ -2,7 +2,7 @@
 
 # DQAgui NEWS
 
-## Unreleased (2024-06-03)
+## Unreleased (2024-06-05)
 
 #### New features
 
@@ -29,13 +29,17 @@
 
 #### Other changes
 
+-   again reactivevaluestolist for report gen
+    ([a1675a8](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/a1675a832e69df97e2695fd4955d31e47df1f6b8))
+-   enhancements to pdf download
+    ([8de922f](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/8de922f3f9162942428e44e8973299fdb4eb115c))
 -   updated dev-version
     ([2c89999](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/2c89999fe2946ce86b64cab669f37b61a58debde))
 -   updated news.md and cran-commetns
     ([1562003](https://gitlab.miracum.org/miracum/dqa/dqagui/tree/1562003e10995a56c53d09e7dc0d870cef41f4f7))
 
 Full set of changes:
-[`v0.2.3...32e8eef`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.2.3...32e8eef)
+[`v0.2.3...a1675a8`](https://gitlab.miracum.org/miracum/dqa/dqagui/-/compare/v0.2.3...a1675a8)
 
 ## v0.2.3 (2023-08-30)
 

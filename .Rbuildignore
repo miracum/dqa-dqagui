@@ -7,6 +7,7 @@
 ^ci/*$
 ^NEWS\.md$
 ^README\.md$
+^README\.qmd$
 ^logfile\.md$
 ^reconf\.sh$
 ^cran-comments\.md$

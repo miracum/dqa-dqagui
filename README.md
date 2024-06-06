@@ -1,19 +1,30 @@
+
+
 # DQAgui <img src="man/figures/logo.png" align="right" width="120" />
 
 <!-- badges: start -->
-[![](https://img.shields.io/badge/doi-10.1186/s12911--022--01961--z-yellow.svg)](https://doi.org/10.1186/s12911-022-01961-z)
-[![CRAN Status Badge](https://www.r-pkg.org/badges/version-ago/DQAgui)](https://cran.r-project.org/package=DQAgui)
-[![CRAN Checks](https://badges.cranchecks.info/worst/DQAgui.svg)](https://cran.r-project.org/web/checks/check_results_DQAgui.html)
+
+[![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![](https://www.r-pkg.org/badges/version/DQAgui)](https://cran.r-project.org/package=DQAgui)
+[![CRAN
+checks](https://badges.cranchecks.info/worst/DQAgui.svg)](https://cran.r-project.org/web/checks/check_results_DQAgui.html)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/DQAgui?color=blue)](https://cran.r-project.org/package=DQAgui)
 [![](http://cranlogs.r-pkg.org/badges/last-month/DQAgui?color=blue)](https://cran.r-project.org/package=DQAgui)
-[![Dependencies](https://tinyverse.netlify.com/badge/DQAgui)](https://cran.r-project.org/package=DQAgui)
-[![R CMD Check via {tic}](https://github.com/miracum/dqa-dqagui/workflows/R%20CMD%20Check%20via%20{tic}/badge.svg?branch=master)](https://github.com/miracum/dqa-dqagui/actions)
-[![linting](https://github.com/miracum/dqa-dqagui/workflows/lint/badge.svg?branch=master)](https://github.com/miracum/dqa-dqagui/actions)
-[![test-coverage](https://github.com/miracum/dqa-dqagui/workflows/test-coverage/badge.svg?branch=master)](https://github.com/miracum/dqa-dqagui/actions)
-[![codecov](https://codecov.io/gh/miracum/dqa-dqagui/branch/master/graph/badge.svg)](https://app.codecov.io/gh/miracum/dqa-dqagui)
+[![Dependencies](https://tinyverse.netlify.app/badge/DQAgui)](https://cran.r-project.org/package=DQAgui)
+[![R build
+status](https://github.com/miracum/dqa-dqagui/workflows/R%20CMD%20Check%20via%20%7Btic%7D/badge.svg)](https://github.com/miracum/dqa-dqagui/actions)
+[![R build
+status](https://github.com/miracum/dqa-dqagui/workflows/lint/badge.svg)](https://github.com/miracum/dqa-dqagui/actions)
+[![R build
+status](https://github.com/miracum/dqa-dqagui/workflows/test-coverage/badge.svg)](https://github.com/miracum/dqa-dqagui/actions)
+[![](https://codecov.io/gh/https://github.com/miracum/dqa-dqagui/branch/master/graph/badge.svg)](https://codecov.io/gh/https://github.com/miracum/dqa-dqagui)
+[![](https://img.shields.io/badge/doi-10.1186/s12911--022--01961--z-yellow.svg)](https://doi.org/10.1186/s12911-022-01961-z)
+
 <!-- badges: end -->
 
-This is the repository of the R package 'DQAgui'. It provides a graphical user interface to the functionalities implemented in [`DQAstats`](https://github.com/miracum/dqa-dqastats).
+This is the repository of the R package ‘DQAgui’. It provides a
+graphical user interface to the functionalities implemented in
+[`DQAstats`](https://github.com/miracum/dqa-dqastats).
 
 ## Installation
 
@@ -26,15 +37,19 @@ remotes::install_github("miracum/dqa-dqagui")
 
 ## Configuration
 
-The database connection can be configured using environment variables. These can be set using the base R command `Sys.setenv()`.
+The database connection can be configured using environment variables.
+These can be set using the base R command `Sys.setenv()`.
 
-A detailed description, which environment variables need to be set for the specific databases can be found [here](https://github.com/miracum/misc-dizutils#db_connection).
+A detailed description, which environment variables need to be set for
+the specific databases can be found
+[here](https://github.com/miracum/misc-dizutils#db_connection).
 
 ## Example
 
-This is a basic example to demonstrate how to perform the data quality assessment with `DQAgui`:
+This is a basic example to demonstrate how to perform the data quality
+assessment with `DQAgui`:
 
-```r
+``` r
 library(DQAgui)
 
 # define base paths for shinyFiles::shinyDirChoose
@@ -64,16 +79,20 @@ launch_app(
 )
 ```
 
-To open the shiny application in your web-browser, go to `localhost:3838`.
+To open the shiny application in your web-browser, go to
+`localhost:3838`.
 
 ## Demo Usage / Deployment Examples
 
-You can test the package without needing to install anything except [docker](https://docs.docker.com/get-docker/).
-:bulb: For further details, see the [Wiki](https://github.com/miracum/dqa-dqastats/wiki/Deployment#dqagui-browser-based-gui-version-of-the-dqa-tool).
+You can test the package without needing to install anything except
+[docker](https://docs.docker.com/get-docker/). :bulb: For further
+details, see the
+[Wiki](https://github.com/miracum/dqa-dqastats/wiki/Deployment#dqagui-browser-based-gui-version-of-the-dqa-tool).
 
 ## More Infos
 
 - about MIRACUM: <https://www.miracum.org/>
-- about the Medical Informatics Initiative: <https://www.medizininformatik-initiative.de/index.php/de>
+- about the Medical Informatics Initiative:
+  <https://www.medizininformatik-initiative.de/index.php/de>
 - about Shiny: <https://www.rstudio.com/products/shiny/>
 - RStudio and Shiny are trademarks of RStudio, Inc.
