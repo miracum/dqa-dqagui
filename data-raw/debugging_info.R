@@ -17,8 +17,11 @@ output_dir = "output/"
 
 ## debugging the MIRACUM stuff (JM):
 ## ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓ ↓
-utils_path = DIZtools::clean_path_name(system.file("application/_utilities",
-                                                   package = "miRacumDQA"))
+#utils_path = DIZtools::clean_path_name(system.file("application/_utilities",
+#                                                  package = "miRacumDQA"))
+
+utils_path = "~/git-local/miracumdqa/inst/application/_utilities/"
+
 mdr_filename = "mdr.csv"
 logfile_dir = "~/share/logfiles/"
 ##	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑	↑
@@ -75,6 +78,7 @@ launch_app(
   ncores = ncores
 )
 
+
 # with environment variables
 # Sys.setenv(
 #   I2B2_PASSWORD = "i2b2",
@@ -88,3 +92,4 @@ launch_app(
 # )
 
 # nolint end
+

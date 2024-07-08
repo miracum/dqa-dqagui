@@ -118,7 +118,6 @@ shiny::shinyServer(function(input, output, session) {
     # ########################
     # # tab_config
     # ########################
-
     shiny::callModule(module_config_server,
                       "moduleConfig",
                       rv,
@@ -162,6 +161,14 @@ shiny::shinyServer(function(input, output, session) {
             shinyjs::disable("moduleConfig-config_source_oracle_password")
             shinyjs::disable("moduleConfig-config_source_sid_password")
             shinyjs::disable("moduleConfig-source_oracle_test_connection")
+            #Neu hinzugefügt
+            shinyjs::disable("moduleConfig-source_presto_presettings_list")
+            shinyjs::disable("moduleConfig-config_source_presto_dbname")
+            shinyjs::disable("moduleConfig-config_source_presto_host")
+            shinyjs::disable("moduleConfig-config_source_presto_port")
+            shinyjs::disable("moduleConfig-config_source_presto_user")
+            shinyjs::disable("moduleConfig-config_source_presto_password")
+            shinyjs::disable("moduleConfig-source_presto_test_connection")
 
             shinyjs::disable("moduleConfig-config_targetdir_in")
             shinyjs::disable("moduleConfig-target_csv_presettings_list")
@@ -182,6 +189,14 @@ shiny::shinyServer(function(input, output, session) {
             shinyjs::disable("moduleConfig-config_target_oracle_password")
             shinyjs::disable("moduleConfig-config_target_sid_password")
             shinyjs::disable("moduleConfig-target_oracle_test_connection")
+            #Neu hinzugefügt
+            shinyjs::disable("moduleConfig-target_presto_presettings_list")
+            shinyjs::disable("moduleConfig-config_target_presto_dbname")
+            shinyjs::disable("moduleConfig-config_target_presto_host")
+            shinyjs::disable("moduleConfig-config_target_presto_port")
+            shinyjs::disable("moduleConfig-config_target_presto_user")
+            shinyjs::disable("moduleConfig-config_target_presto_password")
+            shinyjs::disable("moduleConfig-target_presto_test_connection")
 
 
             shinyjs::disable("moduleConfig-select_dqa_assessment_variables")

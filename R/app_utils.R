@@ -210,6 +210,15 @@ validate_inputs <- function(rv, input, output, session) {
             output = output,
             session = session
           )
+        } else if (rv[[source_target]]$system_type == "presto") {
+          error_tmp <- test_connection_button_clicked(
+            rv = rv,
+            source_target = source_target,
+            db_type = "presto",
+            input = input,
+            output = output,
+            session = session
+          )
         } else {
           ## This system name is not known/implemented here:
           DIZtools::feedback(
@@ -266,7 +275,7 @@ fix_sql_display <- function(text) {
 check_load_data_button <- function(rv, session) {
   debugging <- FALSE
   if (debugging) {
-    systems <- c("csv", "postgres", "oracle")
+    systems <- c("csv", "postgres", "oracle", "presto")
   } else {
     systems <- tolower(rv$system_types)
   }

@@ -219,6 +219,7 @@ module_dashboard_server <-
               system = rv$source,
               keys_to_test = rv$keys_source
             )
+            print("after data_loading")
             rv$data_source <- temp_dat$outdata
             rv$source$sql <- temp_dat$sql_statements
             rm(temp_dat)
@@ -268,12 +269,13 @@ module_dashboard_server <-
 
             # set flag that we have all data
             rv$getdata_target <- FALSE
-
+            print("line 272")
             # time-compare for differences
               waiter::waiter_update(html = shiny::tagList(
               waiter::spin_timer(),
               "Calculate differences ..."
             ))
+            
             rv$time_compare_results <- DQAstats::time_compare(
               rv = rv,
               logfile_dir = rv$log$logfile_dir,
@@ -327,7 +329,7 @@ module_dashboard_server <-
               DQAstats::descriptive_results(
                 rv = shiny::reactiveValuesToList(rv),
                 headless = rv$headless)
-
+            
             if (!is.null(rv$data_plausibility$atemporal)) {
               # calculate plausibilites
               rv$results_plausibility_atemporal <-
@@ -338,7 +340,7 @@ module_dashboard_server <-
                   headless = rv$headless
                 )
             }
-
+            
             if (nrow(rv$pl$uniq_vars) != 0 && rv$pl$uniq_possible) {
               rv$results_plausibility_unique <- DQAstats::uniq_plausi_results(
                 rv = shiny::reactiveValuesToList(rv),
@@ -347,7 +349,7 @@ module_dashboard_server <-
                 headless = rv$headless
               )
             }
-
+            
             # conformance
             rv$conformance$value_conformance <-
               DQAstats::value_conformance(
@@ -357,7 +359,7 @@ module_dashboard_server <-
                 logfile_dir = rv$log$logfile_dir,
                 headless = rv$headless
               )
-
+            
             waiter::waiter_update(
               html = shiny::tagList(waiter::spin_timer(),
               "Cleaning the result data ..."))
@@ -375,13 +377,12 @@ module_dashboard_server <-
             }
             invisible(gc())
 
-
             # reduce categorical variables to display max. 25 values
             rv$results_descriptive <-
               DQAstats::reduce_cat(data = rv$results_descriptive,
                                    levellimit = 25)
             invisible(gc())
-
+            
             if (!is.null(rv$results_plausibility_atemporal)) {
               add_value_conformance <- DQAstats::value_conformance(
                 rv = shiny::reactiveValuesToList(rv),
@@ -402,6 +403,7 @@ module_dashboard_server <-
               rv$data_target <- NULL
               invisible(gc())
             }
+            
             # completeness
             rv$completeness <-
               DQAstats::completeness(
@@ -409,7 +411,7 @@ module_dashboard_server <-
                 logfile_dir = rv$log$logfile_dir,
                 headless = rv$headless
               )
-
+            
             # generate datamap
             rv$datamap <- DQAstats::generate_datamap(
               results = rv$results_descriptive,
@@ -418,18 +420,18 @@ module_dashboard_server <-
               rv = rv,
               headless = rv$headless
             )
-
+           
             if (!is.null(rv$datamap)) {
               DIZtools::feedback(print_this = paste0(
                 "Datamap:", rv$datamap),
                 findme = "43404a3f38")
             }
-
+            
             # checks$value_conformance
             rv$checks$value_conformance <-
               DQAstats::value_conformance_checks(
                 results = rv$conformance$value_conformance)
-
+            
             # checks$etl
             rv$checks$etl <-
               DQAstats::etl_checks(results = rv$results_descriptive)
