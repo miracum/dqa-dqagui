@@ -219,7 +219,6 @@ module_dashboard_server <-
               system = rv$source,
               keys_to_test = rv$keys_source
             )
-            print("after data_loading")
             rv$data_source <- temp_dat$outdata
             rv$source$sql <- temp_dat$sql_statements
             rm(temp_dat)
@@ -269,7 +268,6 @@ module_dashboard_server <-
 
             # set flag that we have all data
             rv$getdata_target <- FALSE
-            print("line 272")
             # time-compare for differences
               waiter::waiter_update(html = shiny::tagList(
               waiter::spin_timer(),

@@ -210,11 +210,11 @@ validate_inputs <- function(rv, input, output, session) {
             output = output,
             session = session
           )
-        } else if (rv[[source_target]]$system_type == "presto") {
+        } else if (rv[[source_target]]$system_type == "trino") {
           error_tmp <- test_connection_button_clicked(
             rv = rv,
             source_target = source_target,
-            db_type = "presto",
+            db_type = "trino",
             input = input,
             output = output,
             session = session
@@ -275,7 +275,7 @@ fix_sql_display <- function(text) {
 check_load_data_button <- function(rv, session) {
   debugging <- FALSE
   if (debugging) {
-    systems <- c("csv", "postgres", "oracle", "presto")
+    systems <- c("csv", "postgres", "oracle", "trino")
   } else {
     systems <- tolower(rv$system_types)
   }
