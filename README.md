@@ -3,7 +3,6 @@
 # DQAgui <img src="man/figures/logo.png" align="right" width="120" />
 
 <!-- badges: start -->
-
 [![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![](https://www.r-pkg.org/badges/version/DQAgui)](https://cran.r-project.org/package=DQAgui)
 [![CRAN
@@ -17,7 +16,7 @@ status](https://github.com/miracum/dqa-dqagui/workflows/R%20CMD%20Check%20via%20
 status](https://github.com/miracum/dqa-dqagui/workflows/lint/badge.svg)](https://github.com/miracum/dqa-dqagui/actions)
 [![R build
 status](https://github.com/miracum/dqa-dqagui/workflows/test-coverage/badge.svg)](https://github.com/miracum/dqa-dqagui/actions)
-[![](https://codecov.io/gh/https://github.com/miracum/dqa-dqagui/branch/master/graph/badge.svg)](https://codecov.io/gh/https://github.com/miracum/dqa-dqagui)
+[![](https://codecov.io/gh/https://github.com/miracum/dqa-dqagui/branch/master/graph/badge.svg)](https://app.codecov.io/gh/https://github.com/miracum/dqa-dqagui)
 [![](https://img.shields.io/badge/doi-10.1186/s12911--022--01961--z-yellow.svg)](https://doi.org/10.1186/s12911-022-01961-z)
 
 <!-- badges: end -->

@@ -1,6 +1,6 @@
 # DQAgui - A graphical user interface (GUI) to the functions implemented in the
 # R package 'DQAstats'.
-# Copyright (C) 2019-2022 Universitätsklinikum Erlangen
+# Copyright (C) 2019-2024 Universitätsklinikum Erlangen
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -802,7 +802,7 @@ module_config_server <-
           "Loaded successfully.",
           "Filling presets to global rv-object and UI ..."
         ),
-        findme = "3231a6d49f", 
+        findme = "3231a6d49f",
         logfile_dir = rv$log$logfile_dir,
         headless = rv$headless
       )
@@ -1696,7 +1696,7 @@ module_config_ui <- function(id) {
                   icon = icon("database"),
                   style = "text-align:center;"
                 )
-              ), 
+              ),
               tabPanel(
                 # ATTENTION: If you change the title, you also have to change
                 # the

@@ -22,6 +22,7 @@ my_desc$set_authors(c(
     role = "aut",
     comment = c(ORCID = "0000-0003-0518-4710")
   ),
+  person("Helene Köster", role = "ctb"),
   person("MIRACUM - Medical Informatics in Research and Care in University Medicine", role = "fnd"),
   person("Universitätsklinikum Erlangen", role = "cph")
 ))
@@ -29,7 +30,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.2.4")
+my_desc$set_version("0.2.4.9001")
 # The title of your package
 my_desc$set(Title = "Graphical User Interface for Data Quality Assessment")
 # The description of your package
