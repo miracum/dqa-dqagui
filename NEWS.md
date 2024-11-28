@@ -2,15 +2,17 @@
 
 # DQAgui NEWS
 
-## Unreleased (2024-10-23)
+## Unreleased (2024-11-27)
 
 #### Other changes
 
+-   updated copyright statement and tests
+    ([c23b0e6](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqagui/tree/c23b0e63b2465b19172386e2b7d3f46efce69841))
 -   cleaning up
     ([c8e1492](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqagui/tree/c8e14928221281a171dd4bc5a017e63b0c08181b))
 
 Full set of changes:
-[`v0.2.4...c8e1492`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqagui/compare/v0.2.4...c8e1492)
+[`v0.2.4...c23b0e6`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqagui/compare/v0.2.4...c23b0e6)
 
 ## v0.2.4 (2024-06-06)
 
@@ -60,6 +62,12 @@ Full set of changes:
     ([ff826cb](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqagui/tree/ff826cbdb11475cd2fcad9a35fde23324909bcd5))
 -   added automated gen of readme
     ([3ad1e26](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqagui/tree/3ad1e26f475fe7c4cc21287a7ffde61a57c4c80d))
+-   fixing checkrd error on cran
+    ([2d8cc7d](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqagui/tree/2d8cc7d92166794e78bc4f5626ac830268a2d3a8))
+-   fixing documentation
+    ([31f3585](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqagui/tree/31f3585f9121554cc71f06510174a99c53aa9569))
+-   merge into time-compare
+    ([34e8d5e](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqagui/tree/34e8d5ece8eac000a3c1f38a697436fbb605e2c2))
 -   updated dev-version
     ([2c89999](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqagui/tree/2c89999fe2946ce86b64cab669f37b61a58debde))
 -   updated news.md and cran-commetns
