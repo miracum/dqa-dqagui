@@ -2,17 +2,26 @@
 
 # DQAgui NEWS
 
-## Unreleased (2024-11-27)
+## Unreleased (2024-11-29)
 
 #### Other changes
 
+-   removed warning from readme
+    ([221c333](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqagui/tree/221c3338388253cba2394e0c7bc87dcfbe97cbb3))
+
+## v0.2.5 (2024-11-28)
+
+#### Other changes
+
+-   updated desc and news.md for cran-update
+    ([d3f90ca](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqagui/tree/d3f90ca6517608852a807c84148cbd6c194181ad))
 -   updated copyright statement and tests
     ([c23b0e6](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqagui/tree/c23b0e63b2465b19172386e2b7d3f46efce69841))
 -   cleaning up
     ([c8e1492](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqagui/tree/c8e14928221281a171dd4bc5a017e63b0c08181b))
 
 Full set of changes:
-[`v0.2.4...c23b0e6`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqagui/compare/v0.2.4...c23b0e6)
+[`v0.2.4...v0.2.5`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqagui/compare/v0.2.4...v0.2.5)
 
 ## v0.2.4 (2024-06-06)
 

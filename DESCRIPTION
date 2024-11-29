@@ -1,7 +1,7 @@
 Package: DQAgui
 Title: Graphical User Interface for Data Quality Assessment
-Version: 0.2.5
-Date: 2024-11-28
+Version: 0.2.5.9001
+Date: 2024-11-29
 Authors@R: c(
     person("Lorenz A.", "Kapsner", , "lorenz.kapsner@gmail.com", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0003-1866-860X")),
