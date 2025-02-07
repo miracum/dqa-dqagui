@@ -19,7 +19,6 @@ library(DQAgui)
 launch_app(
   # utils_path = "/usr/local/lib/R/site-library/DQAstats/demo_data/utilities",
   logfile_dir = "/home/shiny/logs/",
-  parallel = TRUE,
   demo_usage = TRUE
 )
 

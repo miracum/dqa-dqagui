@@ -3,6 +3,12 @@
 # DQAgui <img src="man/figures/logo.png" align="right" width="120" />
 
 <!-- badges: start -->
+
+    Warning: `git_branch_default()` was deprecated in usethis 2.1.0.
+    ℹ Please use `git_default_branch()` instead.
+    ℹ The deprecated feature was likely used in the badger package.
+      Please report the issue at <https://github.com/GuangchuangYu/badger/issues>.
+
 [![](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![](https://www.r-pkg.org/badges/version/DQAgui)](https://cran.r-project.org/package=DQAgui)
 [![CRAN
@@ -73,8 +79,7 @@ launch_app(
   port = 3838,
   utils_path = utils_path,
   mdr_filename = mdr_filename,
-  logfile_dir = logfile_dir,
-  parallel = FALSE
+  logfile_dir = logfile_dir
 )
 ```
 

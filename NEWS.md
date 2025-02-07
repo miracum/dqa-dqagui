@@ -6,8 +6,13 @@
 
 #### Other changes
 
+-   updated dev-version
+    ([ded90ca](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqagui/tree/ded90cab301b42998ecf97dc3dbb27f510878be4))
 -   removed warning from readme
     ([221c333](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqagui/tree/221c3338388253cba2394e0c7bc87dcfbe97cbb3))
+
+Full set of changes:
+[`v0.2.5...ded90ca`](https://git.uk-erlangen.de/mik-diz/mik-diz-phd/DQA/dqagui/compare/v0.2.5...ded90ca)
 
 ## v0.2.5 (2024-11-28)
 

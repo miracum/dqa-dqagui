@@ -30,7 +30,7 @@ my_desc$set_authors(c(
 # Remove some author fields
 my_desc$del("Maintainer")
 # Set the version
-my_desc$set_version("0.2.5.9001")
+my_desc$set_version("0.2.6")
 # The title of your package
 my_desc$set(Title = "Graphical User Interface for Data Quality Assessment")
 # The description of your package
@@ -92,8 +92,8 @@ usethis::use_package("shinyWidgets", type = "Imports")
 usethis::use_package("knitr", type = "Imports")
 usethis::use_package("jsonlite", type = "Imports")
 usethis::use_package("DIZtools", type = "Imports", min_version = "1.0.1")
-usethis::use_package("DIZutils", type = "Imports", min_version = "0.1.2")
-usethis::use_package("DQAstats", type = "Imports", min_version = "0.3.5")
+usethis::use_package("DIZutils", type = "Imports", min_version = "0.1.3")
+usethis::use_package("DQAstats", type = "Imports", min_version = "0.3.7")
 # For loading-animations:
 usethis::use_package("waiter", type = "Imports")
 
